@@ -70,11 +70,14 @@ export class UserListComponent implements OnInit {
   checkPermission() {
     console.log(this.permissionType);
     if (JSON.parse(localStorage.getItem('userData')).role != 'MANAGER') {
-      if (
-        this.permissionType.includes('ADDNEWLOCATION') &
-        this.permissionType.includes('DELETELOCATION') &
+      console.log(
+        'per log',
+        this.permissionType.includes('ADDNEWLOCATION'),
+        this.permissionType.includes('DELETELOCATION'),
         this.permissionType.includes('EDITLOCATION')
-      ) {
+      );
+
+      if (this.permissionType.includes('EDITLOCATION') == false) {
         this.hideCSV = true;
         console.log('hide hide hide', this.hideCSV);
       }

@@ -819,11 +819,18 @@ export class appService {
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
-    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
-      let result = res;
-      console.log(result);
-      return result;
-    });
+    return this.httpClient.get(apiUrl, httpOptions).pipe(
+      map((res: Response) => {
+        // let result = res;
+        // console.log(result);
+        // return result;
+        let data = [];
+        data.push(this.mapper(res));
+        console.log('data', data);
+
+        return data[0];
+      })
+    );
   }
 
   getSearchCourse(regionID: string, val: string, location: string) {
@@ -874,11 +881,32 @@ export class appService {
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
-    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
-      let result = res;
-      console.log('staff journal app', result);
-      return result;
-    });
+    return this.httpClient.get(apiUrl, httpOptions).pipe(
+      map((res: Response) => {
+        let data = [];
+        data.push(this.courseMapper(res));
+        console.log('data', data);
+
+        return data[0];
+      })
+    );
+  }
+
+  courseMapper(res) {
+    var data = res;
+    let re = /original/gi;
+
+    for (let i = 0; i < data.courses.length; i++) {
+      if (
+        data.courses[i].teacher.profilePic !=
+        'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png'
+      )
+        data.courses[i].teacher.profilePic = data.courses[
+          i
+        ].teacher.profilePic.replace(re, 'l');
+      // console.log('modify data', data.courses[i].teacher.profilePic.replace(re, 'l'));
+    }
+    return data;
   }
 
   editProfile(regionId: string, id: string) {
@@ -920,11 +948,46 @@ export class appService {
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
-    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
-      let result = res;
-      console.log('res', res);
-      return result;
-    });
+    return this.httpClient.get(apiUrl, httpOptions).pipe(
+      map((res: Response) => {
+        let data = [];
+        data.push(this.journalMapper(res));
+        console.log('data', data);
+
+        return data[0];
+      })
+    );
+  }
+
+  journalMapper(res) {
+    var data = res;
+    let re = /original/gi;
+
+    for (let i = 0; i < data.journalList.length; i++) {
+      if (
+        data.journalList[i].sender.profilePic !=
+        'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png'
+      )
+        data.journalList[i].sender.profilePic = data.journalList[
+          i
+        ].sender.profilePic.replace(re, 'l');
+      console.log(
+        'modify data',
+        data.journalList[i].sender.profilePic.replace(re, 'l')
+      );
+      if (
+        data.journalList[i].student.profilePic !=
+        'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png'
+      )
+        data.journalList[i].student.profilePic = data.journalList[
+          i
+        ].student.profilePic.replace(re, 'l');
+      console.log(
+        'modify data',
+        data.journalList[i].student.profilePic.replace(re, 'l')
+      );
+    }
+    return data;
   }
 
   createLocation(
@@ -2197,9 +2260,68 @@ export class appService {
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
-    return this.httpClient.get(url, httpOptions).map((res: Response) => {
-      return res;
-    });
+    return this.httpClient.get(url, httpOptions).pipe(
+      map((res: Response) => {
+        let data = [];
+        data.push(this.assignMapper(res));
+        console.log('data', data);
+
+        return data[0];
+      })
+    );
+  }
+
+  assignMapper(res) {
+    var data = res;
+    let re = /original/gi;
+
+    for (let i = 0; i < data.CURRENT_DATE_LESSON_STAFF.length; i++) {
+      if (
+        data.CURRENT_DATE_LESSON_STAFF[i].profilePic !=
+        'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png'
+      )
+        data.CURRENT_DATE_LESSON_STAFF[
+          i
+        ].profilePic = data.CURRENT_DATE_LESSON_STAFF[i].profilePic.replace(
+          re,
+          'l'
+        );
+      console.log(
+        'modify data',
+        data.CURRENT_DATE_LESSON_STAFF[i].profilePic.replace(re, 'l')
+      );
+    }
+    for (let i = 0; i < data.CUSTOMER.length; i++) {
+      if (
+        data.CUSTOMER[i].profilePic !=
+        'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png'
+      )
+        data.CUSTOMER[i].profilePic = data.CUSTOMER[i].profilePic.replace(
+          re,
+          'l'
+        );
+      console.log('modify data', data.CUSTOMER[i].profilePic.replace(re, 'l'));
+    }
+    for (let i = 0; i < data.STAFF.length; i++) {
+      if (
+        data.STAFF[i].profilePic !=
+        'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png'
+      )
+        data.STAFF[i].profilePic = data.STAFF[i].profilePic.replace(re, 'l');
+      console.log('modify data', data.STAFF[i].profilePic.replace(re, 'l'));
+    }
+    for (let i = 0; i < data.TEACHER.length; i++) {
+      if (
+        data.TEACHER[i].profilePic !=
+        'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png'
+      )
+        data.TEACHER[i].profilePic = data.TEACHER[i].profilePic.replace(
+          re,
+          'l'
+        );
+      console.log('modify data', data.TEACHER[i].profilePic.replace(re, 'l'));
+    }
+    return data;
   }
 
   getAssessment(regionid, courseid, assessment) {
@@ -2418,10 +2540,15 @@ export class appService {
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
-    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
-      let result = res;
-      return result;
-    });
+    return this.httpClient.get(apiUrl, httpOptions).pipe(
+      map((res: Response) => {
+        let data = [];
+        data.push(this.mapper(res));
+        console.log('data', data);
+
+        return data[0];
+      })
+    );
   }
 
   getAllPermission(id: string) {
@@ -4256,10 +4383,52 @@ export class appService {
       })
     };
 
-    return this.httpClient.get(url, httpOptions).map((res: Response) => {
-      let result = res;
-      return result;
-    });
+    return this.httpClient.get(url, httpOptions).pipe(
+      map((res: Response) => {
+        let data = [];
+        data.push(this.todayMapper(res));
+        console.log('data', data);
+
+        return data[0];
+      })
+    );
+  }
+
+  todayMapper(res) {
+    var data = res;
+    let re = /original/gi;
+
+    for (let i = 0; i < data.courses.length; i++) {
+      if (
+        data.courses[i].teacher.profilePic !=
+        'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png'
+      )
+        data.courses[i].teacher.profilePic = data.courses[
+          i
+        ].teacher.profilePic.replace(re, 'l');
+      console.log(
+        'modify data',
+        data.courses[i].teacher.profilePic.replace(re, 'l')
+      );
+      for (let j = 0; j < data.courses[i].students.length; j++) {
+        if (
+          data.courses[i].students[j].userDetails.profilePic !=
+          'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png'
+        )
+          data.courses[i].students[j].userDetails.profilePic = data.courses[i]
+            .students[j].userDetails.profilePic
+            ? data.courses[i].students[j].userDetails.profilePic.replace(
+                re,
+                'l'
+              )
+            : 'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png';
+        console.log(
+          'modify data2',
+          data.courses[i].students[j].userDetails.profilePic
+        );
+      }
+    }
+    return data;
   }
 
   getTeachingHours(regionId, startDate, endDate) {
@@ -4855,9 +5024,15 @@ export class appService {
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
-    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
-      return res;
-    });
+    return this.httpClient.get(apiUrl, httpOptions).pipe(
+      map((res: Response) => {
+        let data = [];
+        data.push(this.mapper(res));
+        console.log('data', data);
+
+        return data[0];
+      })
+    );
   }
 
   getUsersForMastery(regionId, courseId, userMasteriesObj) {
