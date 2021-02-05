@@ -415,7 +415,7 @@ export class CoursecreateComponent implements OnInit {
           this.tempVar = 'lesson';
           this.tempValue = res.lessonCount;
         }
-        this.feesOptions = this.model.paymentPolicy.courseFeeOptions;
+        this.feesOptions = this.model.coursePlan.paymentPolicy.courseFeeOptions;
         if (this.feesOptions == undefined) {
           this.chooseFee = 'no';
         } else {
@@ -423,7 +423,7 @@ export class CoursecreateComponent implements OnInit {
         }
         var opt = this.chooseTax == true ? 'incl.tax' : 'excl.tax';
         this.selectedCFee = this.chooseFee.toString() + '-' + opt;
-        this.taxOptions = this.model.paymentPolicy.taxOptions;
+        this.taxOptions = this.model.coursePlan.paymentPolicy.taxOptions;
         // if (this.feesOptions != undefined && this.taxOptions == undefined) {
         //   console.log('feesOptions', this.feesOptions);
         //   var tempObj = {};
