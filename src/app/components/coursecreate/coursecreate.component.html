@@ -755,7 +755,11 @@
               <span *ngIf="!selectedTeacher" class=" caption-teacher dropD"
                 >Type teacher name</span
               >
-              <div class="d-flex" *ngIf="selectedTeacher">
+              <div
+                class="d-flex"
+                *ngIf="selectedTeacher"
+                style="pointer-events: none;"
+              >
                 <span class="img-wrap"
                   ><img
                     src="{{

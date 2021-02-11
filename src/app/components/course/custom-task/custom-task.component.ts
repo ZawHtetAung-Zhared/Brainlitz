@@ -352,6 +352,7 @@ export class CustomTaskComponent implements OnInit {
   }
 
   getTemplateLists(searchValue) {
+    console.log(this.selectStandard.standardId);
     this.loading2 = true;
     this._service
       .getTemplateLists(

@@ -167,6 +167,7 @@ export class UserDetailComponent implements OnInit {
   >;
 
   ngOnInit() {
+    localStorage.setItem('userType', 'customer');
     this.permissionSubscription = this._service.permissionList.subscribe(
       data => {
         this.permissionType = data;
@@ -802,7 +803,7 @@ export class UserDetailComponent implements OnInit {
       (res: any) => {
         console.log(res);
 
-        console.log(this.custDetail);
+        console.log(this.custDetail, this.transferFlag, '####');
         this.toastr.success('Successfully Enrolled.');
         console.log(this.selectedCourse);
         if (this.disableInvoice) {
@@ -838,7 +839,7 @@ export class UserDetailComponent implements OnInit {
         if (!this.transferFlag) this.showInvoice = true;
         this.showflexyCourse = false;
         this.showPayment = false;
-        this.invoiceID2 = res.body.invoice[0]._id;
+        this.invoiceID2 = res.body.invoice[0] ? res.body.invoice[0]._id : null;
         if (this.transferFlag) {
           this.showDetails(this.editId, 'class', 'user,courses');
           this.closeModal('close');
@@ -848,6 +849,7 @@ export class UserDetailComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.toastr.error(err.error.message);
       }
     );
   }
