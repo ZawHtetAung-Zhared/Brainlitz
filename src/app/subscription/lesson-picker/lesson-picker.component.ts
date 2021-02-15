@@ -1,4 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { appService } from '../../service/app.service';
 
 @Component({
   selector: 'app-lesson-picker',
@@ -7,6 +10,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class LessonPickerComponent implements OnInit {
   @Output() flag = new EventEmitter<any>();
+  @Input() selectedCourse;
 
   public enrollList: any = [];
 
@@ -287,12 +291,15 @@ export class LessonPickerComponent implements OnInit {
     }
   };
 
-  constructor() {}
+  constructor(
+    private _service: appService,
+    private _Activatedroute: ActivatedRoute,
+    public toastr: ToastrService
+  ) {}
 
   ngOnInit() {
     console.log('mock mock', this.mock);
-
-    this.countEnrolledLessons(this.mock);
+    this.getFlexi();
   }
 
   backClicked() {
@@ -315,5 +322,28 @@ export class LessonPickerComponent implements OnInit {
       this.enrollList.push(obj);
       console.log('list', this.enrollList);
     }
+  }
+
+  public flexyarr: any = [];
+  getFlexi() {
+    console.log('flexxxxxii', this.selectedCourse);
+
+    this._service
+      .getFlexi(
+        this.selectedCourse._id,
+        this.selectedCourse.teacher._id,
+        this.selectedCourse.lessonDuration.startDate,
+        this.selectedCourse.lessonDuration.endDate
+      )
+      .subscribe(
+        (res: any) => {
+          console.log('########', res);
+          this.flexyarr = res;
+          this.countEnrolledLessons(this.flexyarr);
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 }

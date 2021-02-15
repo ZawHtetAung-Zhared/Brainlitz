@@ -8,7 +8,7 @@
     <span>Back</span>
   </div>
   <div class="d-flex justify-content-between" style="margin-bottom: 40px;">
-    <div class="h2-strong text-c300">Play Haux Semi Plan</div>
+    <div class="h2-strong text-c300">{{ planInfo.subscription.name }}</div>
     <div>
       <button
         class="btn bg-b100 body-m text-s0"
@@ -27,10 +27,16 @@
   <div class="detail-info" style="margin-bottom: 32px;">
     <div style="width: 50%;">
       <div class="light-body-m text-c100">
-        <span class="h2-strong text-c300">5 </span>/ <b>50</b> lessons enrolled
+        <span class="h2-strong text-c300">{{
+          planInfo.subscribedLessonCount
+        }}</span
+        >/ <b>{{ planInfo.subscription.lessonCount }}</b> lessons enrolled
       </div>
       <div class="light-body-m text-c100">
-        Valid until <span class="h5-strong text-c300">25 May 2020</span>
+        Valid until
+        <span class="h5-strong text-c300">{{
+          planInfo.expireDate | date: 'dd LLL yyyy'
+        }}</span>
       </div>
     </div>
     <div style="width: 50%;">
@@ -41,14 +47,14 @@
         />Unpaid
       </div>
       <div class="h4-strong text-r100">
-        S$ 79.99
+        S$ {{ planInfo.invoice.courseFee.amount }}
         <span style="margin-left: 16px;" class="light-body-m text-b100 cursor"
           >View invoice</span
         >
       </div>
     </div>
   </div>
-  <div class="empty-lesson">
+  <div *ngIf="lessonList.length == 0" class="empty-lesson">
     <img
       style="margin-bottom: 24px;"
       src="../../../assets/img/empty_folder.png"
@@ -66,34 +72,36 @@
       Enroll lesson
     </button>
   </div>
-  <div class="subplan">
-    <div class="caption-u text-c100" style="width: 40%;">ENROLLED LESSON</div>
-    <div class="caption-u text-c100" style="width: 30%;">Teacher</div>
-    <div class="caption-u text-c100" style="width: 15%;">attendance</div>
-    <div class="caption-u text-c100" style="width: 15%;">location</div>
-  </div>
-  <div class="subscriptions">
-    <div style="width: 40%;">
-      <div class="h5-strong text-c300">
-        Mon, 3 Jan 2020
-        <div class="dot"></div>
-        <span class="light-body-m text-s70">1:30 PM - 2:30 PM</span>
+  <div *ngIf="lessonList.length > 0">
+    <div class="subplan">
+      <div class="caption-u text-c100" style="width: 40%;">ENROLLED LESSON</div>
+      <div class="caption-u text-c100" style="width: 30%;">Teacher</div>
+      <div class="caption-u text-c100" style="width: 15%;">attendance</div>
+      <div class="caption-u text-c100" style="width: 15%;">location</div>
+    </div>
+    <div class="subscriptions">
+      <div style="width: 40%;">
+        <div class="h5-strong text-c300">
+          Mon, 3 Jan 2020
+          <div class="dot"></div>
+          <span class="light-body-m text-s70">1:30 PM - 2:30 PM</span>
+        </div>
+        <div class="body-l text-b100">Math Werkz Subtraction 3</div>
       </div>
-      <div class="body-l text-b100">Math Werkz Subtraction 3</div>
-    </div>
-    <div style="width: 30%;" class="d-flex align-item-center">
-      <div class="profile">RF</div>
-      <div class="body-l text-b100" style="margin-left: 3.25px;">
-        Robert Fox
+      <div style="width: 30%;" class="d-flex align-item-center">
+        <div class="profile">RF</div>
+        <div class="body-l text-b100" style="margin-left: 3.25px;">
+          Robert Fox
+        </div>
       </div>
-    </div>
-    <div style="width: 15%;" class="body-m text-c100">
-      <div class="absent body-m text-s0">Absent</div>
-    </div>
-    <div class="d-flex" style="width: 15%;">
-      <img src="../../../assets/img/location_small.svg" />
-      <div class="light-body-m text-c100" style="margin-left: 12px;">
-        Naperville
+      <div style="width: 15%;" class="body-m text-c100">
+        <div class="absent body-m text-s0">Absent</div>
+      </div>
+      <div class="d-flex" style="width: 15%;">
+        <img src="../../../assets/img/location_small.svg" />
+        <div class="light-body-m text-c100" style="margin-left: 12px;">
+          Naperville
+        </div>
       </div>
     </div>
   </div>
@@ -152,7 +160,7 @@
         <div
           (click)="selectCourse(course)"
           class="course-list d-flex justify-content-between align-item-center cursor"
-          *ngFor="let course of mock.courses"
+          *ngFor="let course of todayCourse.courses"
           [ngClass]="{ 'bg-s20': selectedCourse == course }"
         >
           <div class="d-flex align-item-center" style="width: 50%;">
@@ -196,12 +204,18 @@
       </div>
     </div>
     <div *ngIf="lessonFlag" class="lesson-picker">
-      <app-lesson-picker (flag)="lessonbackClicked()"></app-lesson-picker>
+      <app-lesson-picker
+        (flag)="lessonbackClicked()"
+        [selectedCourse]="selectedCourse"
+      ></app-lesson-picker>
     </div>
   </div>
   <div class="enroll-footer d-flex justify-content-between align-item-center">
     <div class="light-body-m text-c100">
-      <span class="h2-strong text-c100">45</span> / 50 lessons left to enroll
+      <span class="h2-strong text-c100">{{
+        planInfo.subscribedLessonCount
+      }}</span>
+      / {{ planInfo.subscription.lessonCount }} lessons left to enroll
     </div>
     <div class="d-flex">
       <div
@@ -214,6 +228,7 @@
       <button
         class="btn enroll-btn bg-b100 body-m text-s0"
         (click)="continue()"
+        [disabled]="selectedCourse == null"
       >
         Continue
       </button>

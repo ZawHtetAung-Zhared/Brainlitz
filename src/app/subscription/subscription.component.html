@@ -5,7 +5,7 @@
       Subscribe new plan
     </button>
   </div>
-  <div class="sub-body" style="margin-top: 40px;">
+  <div *ngIf="!planFlag" class="sub-body" style="margin-top: 40px;">
     <img src="../../assets/img/empty_subscription.png" />
     <div class="h4-strong text-c100">No subscription yet.</div>
     <div
@@ -18,22 +18,25 @@
       Subscribe new plan
     </button>
   </div>
-  <div class="subplan">
+  <div *ngIf="planFlag" class="subplan">
     <div class="caption-u text-c100" style="width: 35%;">Subscribed plan</div>
     <div class="caption-u text-c100" style="width: 20%;">Expiry date</div>
     <div class="caption-u text-c100" style="width: 15%;">Payment</div>
     <div class="caption-u text-c100" style="width: 15%;">Subscribed date</div>
     <div class="caption-u text-c100" style="width: 15%;">actions</div>
   </div>
-  <div class="subscriptions">
+  <div class="subscriptions" *ngFor="let sub of subPlanList">
     <div style="width: 35%;">
-      <div class="body-m text-b100">Play Haux Semi Plan</div>
+      <div class="body-m text-b100">{{ sub.subscription.name }}</div>
       <div class="light-body-m text-c100">
-        <span class="h2-strong text-c300">5</span><b>/ 50</b> lessons enrolled
+        <span class="h2-strong text-c300">{{ sub.subscribedLessonCount }}</span
+        ><b>/ {{ sub.subscription.lessonCount }}</b> lessons enrolled
       </div>
     </div>
     <div style="width: 20%;">
-      <div class="h5-strong text-c300">25 Apr 2021</div>
+      <div class="h5-strong text-c300">
+        {{ sub.expireDate | date: 'dd LLL yyyy' }}
+      </div>
       <div class="light-body-m text-c100">120 days left</div>
     </div>
     <div style="width: 15%;">
@@ -43,9 +46,13 @@
           src="../../assets/img/arrow_head_red.svg"
         />Unpaid
       </div>
-      <div class="h4-strong text-r100">S$ 79.99</div>
+      <div class="h4-strong text-r100">
+        S$ {{ sub.invoice.courseFee.amount }}
+      </div>
     </div>
-    <div style="width: 15%;" class="body-m text-c100">5 Jan 2021</div>
+    <div style="width: 15%;" class="body-m text-c100">
+      {{ sub.createdDate | date: 'dd LLL yyyy' }}
+    </div>
     <div class="d-flex" style="width: 15%;">
       <div class="sub-action cursor">
         <img src="../../assets/img/sub_action_icon.svg" />
@@ -53,7 +60,7 @@
       <div
         class="sub-arrow cursor"
         style="margin-left: 40px;"
-        (click)="gotoDetail()"
+        (click)="gotoDetail(sub)"
       >
         <img src="../../assets/images/arrow-right.svg" />
       </div>
@@ -73,25 +80,27 @@
       />
     </div>
     <div class="d-flex card-container">
-      <div class="sub-cards">
-        <div class="h4-strong text-y200">Play Haux Quarter Plan</div>
+      <div class="sub-cards" *ngFor="let sub of subscriptionList">
+        <div class="h4-strong text-y200">{{ sub.name }}</div>
         <div style="margin-top: 8px;" class="light-body-m text-c100">
-          <span class="h2-strong text-c300">30</span> lessons
+          <span class="h2-strong text-c300">{{ sub.lessonCount }}</span> lessons
         </div>
         <div class="light-body-m text-c300">
-          Available for 90 days,
-          <span class="h5-strong text-c300">17 Mar 2020</span>
+          Available for {{ sub.duration }} days,
+          <span class="h5-strong text-c300">{{
+            sub.createdDate | date: 'dd LLL yyyy'
+          }}</span>
         </div>
         <div class="light-body-m text-c100" style="margin-top: 16px;">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget eleifend
-          nibh convallis lacus, nec molestie sagittis, aenean risus.
+          {{ sub.description }}
         </div>
         <button
           style="margin-top: 16px"
           class="btn sub-btn bg-b100 body-m text-s0"
+          (click)="subscribeNewPlan(sub._id)"
         >
           Subscribe<span style="position: absolute; right: 16px;"
-            >S$ 49.99</span
+            >S$ {{ sub.price }}</span
           >
         </button>
       </div>
@@ -106,4 +115,5 @@
 <app-subscription-detail
   *ngIf="subDetail"
   (flag)="backClicked()"
+  [planInfo]="subInfo"
 ></app-subscription-detail>

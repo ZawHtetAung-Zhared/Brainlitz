@@ -7,6 +7,9 @@ import {
   NgbCalendar,
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { appService } from '../../service/app.service';
 
 @Component({
   selector: 'app-subscription-detail',
@@ -15,9 +18,14 @@ import {
 })
 export class SubscriptionDetailComponent implements OnInit {
   @Output() flag = new EventEmitter<any>();
+  @Input() planInfo;
 
   public modalReference: any;
   public lessonFlag: boolean = false;
+  public todayCourse: any = [];
+  public regionID = localStorage.getItem('regionId');
+  public locationID = localStorage.getItem('locationId');
+  public todayDate: any;
 
   public mock: any = {
     date: {
@@ -336,17 +344,26 @@ export class SubscriptionDetailComponent implements OnInit {
       }
     ]
   };
-  public selectedCourse: any;
+  public selectedCourse: any = null;
 
-  constructor(private modalService: NgbModal) {}
+  constructor(
+    private modalService: NgbModal,
+    private _service: appService,
+    private _Activatedroute: ActivatedRoute,
+    public toastr: ToastrService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.todayDate = new Date();
+    this.getLessons();
+  }
 
   backClicked() {
     this.flag.emit();
   }
 
   enrollLesson(modal) {
+    this.getTodayLesson();
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass:
@@ -367,5 +384,40 @@ export class SubscriptionDetailComponent implements OnInit {
   selectCourse(obj) {
     this.selectedCourse = obj;
     console.log('selected', obj);
+  }
+
+  getTodayLesson() {
+    this._service
+      .gettodayLesson(this.regionID, this.locationID, this.todayDate)
+      .subscribe(
+        (res: any) => {
+          console.log(this.todayCourse);
+
+          this.todayCourse = res;
+          console.log('tday lessons', this.todayCourse);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+  public lessonList: any = [];
+  getLessons() {
+    this._service
+      .getLessonList(
+        this.regionID,
+        this._Activatedroute.snapshot.paramMap.get('userid'),
+        this.planInfo._id
+      )
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.lessonList = res;
+          console.log('subbed lessons', this.lessonList);
+        },
+        err => {
+          console.log(err);
+        }
+      );
   }
 }

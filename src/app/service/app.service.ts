@@ -5185,4 +5185,73 @@ export class appService {
   getLocationCache() {
     return this.locationCache;
   }
+
+  getSubscriptionList(regionId) {
+    let apiUrl = this.baseUrl + '/' + regionId + '/subscriptions';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  subscribeNewPlan(body, regionId, subId) {
+    let apiUrl =
+      this.baseUrl + '/' + regionId + '/subscriptions/' + subId + '/subscribe';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
+  }
+
+  getSubscribedPlans(regionId, userId) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/users/' +
+      userId +
+      '/subscriptions?skip=0&limit=30';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  getLessonList(regionId, userId, subId) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/users/' +
+      userId +
+      '/subscriptions/' +
+      subId +
+      '/lessons';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
 }
