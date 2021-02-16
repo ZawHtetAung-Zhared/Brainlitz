@@ -37,6 +37,7 @@ export class SubscriptionDetailComponent implements OnInit {
   public showCalendar: boolean = false;
   public dateModal: Date = new Date();
   public planFlag: boolean = false;
+  public searchVal: any = '';
 
   public mock: any = {
     date: {
@@ -448,7 +449,7 @@ export class SubscriptionDetailComponent implements OnInit {
 
   pickedLessons(obj) {
     console.log('count count', obj);
-    this.planInfo.subscribedLessonCount = obj.length;
+    // this.planInfo.subscribedLessonCount = obj.length;
     this.lessons = obj;
   }
 
@@ -542,5 +543,9 @@ export class SubscriptionDetailComponent implements OnInit {
   closeModal() {
     this.modalReference.close();
     this.getLessons();
+    this.lessonFlag = false;
+    this.word = null;
+    this.selectedPlanId = null;
+    this.searchVal = '';
   }
 }

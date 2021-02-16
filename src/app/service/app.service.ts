@@ -4398,7 +4398,7 @@ export class appService {
       url += '&courseName=' + word;
     }
     if (cid != null) {
-      url += '&oursePlanId=' + cid;
+      url += '&coursePlanId=' + cid;
     }
     const httpOptions = {
       headers: new HttpHeaders({
