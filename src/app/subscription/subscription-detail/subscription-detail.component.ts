@@ -420,4 +420,31 @@ export class SubscriptionDetailComponent implements OnInit {
         }
       );
   }
+  public lessons: any = [];
+
+  pickedLessons(obj) {
+    console.log('count count', obj);
+    this.planInfo.subscribedLessonCount = obj.length;
+    this.lessons = obj;
+  }
+
+  enrollSubLesson() {
+    var body = {
+      courseId: this.selectedCourse._id,
+      userId: this._Activatedroute.snapshot.paramMap.get('userid'),
+      userType: 'customer',
+      userSubscriptionId: this.planInfo._id,
+      lessons: this.lessons
+    };
+    this._service
+      .enrollSubLesson(body, this.regionID, this.locationID)
+      .subscribe(
+        (res: any) => {
+          console.log('******', res);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
 }

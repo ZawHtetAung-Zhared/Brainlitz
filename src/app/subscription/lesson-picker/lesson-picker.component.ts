@@ -10,6 +10,7 @@ import { appService } from '../../service/app.service';
 })
 export class LessonPickerComponent implements OnInit {
   @Output() flag = new EventEmitter<any>();
+  @Output() pickedLessons = new EventEmitter<any>();
   @Input() selectedCourse;
 
   public enrollList: any = [];
@@ -322,6 +323,7 @@ export class LessonPickerComponent implements OnInit {
       this.enrollList.push(obj);
       console.log('list', this.enrollList);
     }
+    this.pickedLessons.emit(this.enrollList);
   }
 
   public flexyarr: any = [];
@@ -331,7 +333,7 @@ export class LessonPickerComponent implements OnInit {
     this._service
       .getFlexi(
         this.selectedCourse._id,
-        this.selectedCourse.teacher._id,
+        this._Activatedroute.snapshot.paramMap.get('userid'),
         this.selectedCourse.lessonDuration.startDate,
         this.selectedCourse.lessonDuration.endDate
       )

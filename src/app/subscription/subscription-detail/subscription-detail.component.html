@@ -79,19 +79,23 @@
       <div class="caption-u text-c100" style="width: 15%;">attendance</div>
       <div class="caption-u text-c100" style="width: 15%;">location</div>
     </div>
-    <div class="subscriptions">
+    <div class="subscriptions" *ngFor="let lesson of lessonList">
       <div style="width: 40%;">
         <div class="h5-strong text-c300">
           Mon, 3 Jan 2020
           <div class="dot"></div>
           <span class="light-body-m text-s70">1:30 PM - 2:30 PM</span>
         </div>
-        <div class="body-l text-b100">Math Werkz Subtraction 3</div>
+        <div class="body-l text-b100">{{ lesson.course.name }}</div>
       </div>
       <div style="width: 30%;" class="d-flex align-item-center">
-        <div class="profile">RF</div>
+        <img
+          class="profile"
+          style="margin-right: 12px;"
+          src="{{ lesson.teacher.profilePic }}"
+        />
         <div class="body-l text-b100" style="margin-left: 3.25px;">
-          Robert Fox
+          {{ lesson.teacher.preferredName }}
         </div>
       </div>
       <div style="width: 15%;" class="body-m text-c100">
@@ -206,6 +210,7 @@
     <div *ngIf="lessonFlag" class="lesson-picker">
       <app-lesson-picker
         (flag)="lessonbackClicked()"
+        (pickedLessons)="pickedLessons($event)"
         [selectedCourse]="selectedCourse"
       ></app-lesson-picker>
     </div>
@@ -226,11 +231,20 @@
         Cancel
       </div>
       <button
+        *ngIf="!lessonFlag"
         class="btn enroll-btn bg-b100 body-m text-s0"
         (click)="continue()"
         [disabled]="selectedCourse == null"
       >
         Continue
+      </button>
+      <button
+        *ngIf="lessonFlag"
+        class="btn enroll-btn bg-b100 body-m text-s0"
+        (click)="enrollSubLesson()"
+        [disabled]="selectedCourse == null"
+      >
+        Confirm
       </button>
     </div>
   </div>

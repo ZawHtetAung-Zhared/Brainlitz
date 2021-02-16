@@ -11,7 +11,7 @@
   <div class="course-list d-flex justify-content-between align-item-center">
     <div class="d-flex align-item-center">
       <div>
-        <div class="body-l text-c300">Math Werkz Area and Perimeter 3</div>
+        <div class="body-l text-c300">{{ selectedCourse.name }}</div>
         <div class="light-body-m text-c100">
           8:30 AM - 9:00 AM
           <img src="../../../assets/img/location_small.svg" />
@@ -20,12 +20,16 @@
       </div>
     </div>
     <div class="avail-les light-body-m text-y300 d-flex align-item-center">
-      5 lessons available
+      {{ selectedCourse.availableLessons }} lessons available
     </div>
     <div class="d-flex align-item-center">
-      <div class="profile" style="margin-right: 12px;">CW</div>
+      <img
+        class="profile"
+        style="margin-right: 12px;"
+        src="{{ selectedCourse.teacher.profilePic }}"
+      />
       <div class="light-body-m text-c100" style="margin-left: 3.25px;">
-        Cameron Williamson
+        {{ selectedCourse.teacher.preferredName }}
       </div>
     </div>
   </div>
@@ -38,7 +42,7 @@
     <div
       (click)="selectLesson(lesson)"
       class="lesson-card body-m text-c300 cursor"
-      *ngFor="let lesson of mock.lessons"
+      *ngFor="let lesson of flexyarr.lessons"
       [ngClass]="{ selected: enrollList.includes(lesson) }"
     >
       {{ lesson.startDate | date: 'EEE, dd LLL yyyy' }}

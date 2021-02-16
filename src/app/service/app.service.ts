@@ -4440,10 +4440,10 @@ export class appService {
                 'l'
               )
             : 'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png';
-        console.log(
-          'modify data2',
-          data.courses[i].students[j].userDetails.profilePic
-        );
+        // console.log(
+        //   'modify data2',
+        //   data.courses[i].students[j].userDetails.profilePic
+        // );
       }
     }
     return data;
@@ -5253,5 +5253,21 @@ export class appService {
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       return res;
     });
+  }
+
+  enrollSubLesson(body, regionId, locID) {
+    let apiUrl =
+      this.baseUrl + '/' + regionId + '/timetable?locationId=/' + locID;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
   }
 }
