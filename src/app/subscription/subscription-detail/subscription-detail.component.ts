@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener
+} from '@angular/core';
 import {
   NgbModal,
   ModalDismissReasons,
@@ -10,6 +17,7 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { appService } from '../../service/app.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-subscription-detail',
@@ -26,6 +34,9 @@ export class SubscriptionDetailComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
   public locationID = localStorage.getItem('locationId');
   public todayDate: any;
+  public showCalendar: boolean = false;
+  public dateModal: Date = new Date();
+  public planFlag: boolean = false;
 
   public mock: any = {
     date: {
@@ -353,9 +364,16 @@ export class SubscriptionDetailComponent implements OnInit {
     public toastr: ToastrService
   ) {}
 
+  // @HostListener('document:click', ['$event']) clickout($event) {
+  //   if ($event.target.className != 'date') {
+  //     this.showCalendar = false;
+  //   }
+  // }
+
   ngOnInit() {
     this.todayDate = new Date();
     this.getLessons();
+    this.getCoursePlan();
   }
 
   backClicked() {
@@ -388,7 +406,13 @@ export class SubscriptionDetailComponent implements OnInit {
 
   getTodayLesson() {
     this._service
-      .gettodayLesson(this.regionID, this.locationID, this.todayDate)
+      .gettodayLesson(
+        this.regionID,
+        this.locationID,
+        this.todayDate,
+        this.word,
+        this.selectedPlanId
+      )
       .subscribe(
         (res: any) => {
           console.log(this.todayCourse);
@@ -441,10 +465,82 @@ export class SubscriptionDetailComponent implements OnInit {
       .subscribe(
         (res: any) => {
           console.log('******', res);
+          this.toastr.success('Successfully Enrolled!');
+          this.closeModal();
         },
         err => {
           console.log(err);
         }
       );
+  }
+
+  public todayModal: Date = new Date();
+  onDateSelect(event) {
+    let year = event.year;
+    let month = event.month <= 9 ? '0' + event.month : event.month;
+    let day = event.day <= 9 ? '0' + event.day : event.day;
+    let final = new Date(year + '-' + month + '-' + day);
+    var momentToday = moment(final).toDate();
+    console.log('####', momentToday);
+    this.todayModal = momentToday;
+    console.log('iso format', this.todayModal.toISOString());
+    this.todayDate = this.todayModal;
+    // this.calendarToggle();
+    this.getTodayLesson();
+  }
+
+  calendarToggle() {
+    this.showCalendar = !this.showCalendar;
+    console.log('calendarToggle', this.showCalendar);
+  }
+
+  stopEvent(e) {
+    e.stopPropagation();
+  }
+  public word: any;
+  searchCourse(val) {
+    if (val.length > 0) {
+      console.log(val);
+      this.word = val;
+    } else {
+      console.log('clear search');
+      this.word = '';
+    }
+  }
+
+  onEnter() {
+    this.getTodayLesson();
+    console.log('search search', this.word);
+  }
+
+  planToggle() {
+    this.planFlag = !this.planFlag;
+  }
+
+  public coursePlanList: any = [];
+  getCoursePlan() {
+    this._service
+      .getCourseplanCollection(this.regionID, this.locationID, null)
+      .subscribe(
+        (res: any) => {
+          console.log('plan plan', res);
+          this.coursePlanList = res;
+        },
+        err => {
+          console.log(err);
+          this.toastr.error('Get Course Plan Fail');
+        }
+      );
+  }
+  public selectedPlanId: any = null;
+  selectPlan(plan) {
+    this.selectedPlanId = plan._id;
+    console.log('selected plan', plan);
+    this.getTodayLesson();
+  }
+
+  closeModal() {
+    this.modalReference.close();
+    this.getLessons();
   }
 }

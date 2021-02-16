@@ -63,6 +63,7 @@ export class SubscriptionComponent implements OnInit {
     this._service.subscribeNewPlan(body, this.regionID, id).subscribe(
       (res: any) => {
         console.log('subscribe', res);
+        this.getSubPlans();
         this.toastr.success('Successfully subscribed!');
       },
       err => {

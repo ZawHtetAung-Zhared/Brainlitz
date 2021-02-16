@@ -4385,7 +4385,7 @@ export class appService {
   }
 
   // today lesson
-  gettodayLesson(regionId, locationid, date) {
+  gettodayLesson(regionId, locationid, date, word, cid) {
     let url =
       this.baseUrl +
       '/regions/' +
@@ -4394,6 +4394,12 @@ export class appService {
       locationid +
       '&date=' +
       date;
+    if (word != null) {
+      url += '&courseName=' + word;
+    }
+    if (cid != null) {
+      url += '&oursePlanId=' + cid;
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -4424,10 +4430,10 @@ export class appService {
         data.courses[i].teacher.profilePic = data.courses[
           i
         ].teacher.profilePic.replace(re, 'l');
-      console.log(
-        'modify data',
-        data.courses[i].teacher.profilePic.replace(re, 'l')
-      );
+      // console.log(
+      //   'modify data',
+      //   data.courses[i].teacher.profilePic.replace(re, 'l')
+      // );
       for (let j = 0; j < data.courses[i].students.length; j++) {
         if (
           data.courses[i].students[j].userDetails.profilePic !=

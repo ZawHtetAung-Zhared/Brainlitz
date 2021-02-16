@@ -129,11 +129,20 @@
     <div *ngIf="!lessonFlag">
       <div class="d-flex justify-content-between" style="margin-bottom: 48px;">
         <div
+          (click)="calendarToggle()"
           class="date body-m text-c300 justify-content-between"
           style="margin-right: 20px;"
         >
-          Wed, 31 Jan 2020
+          {{ todayModal | date: 'dd LLL yyyy' }}
           <img src="../../../assets/img/course-dp.png" />
+          <ngb-datepicker
+            (click)="stopEvent($event)"
+            *ngIf="showCalendar"
+            (ngModelChange)="onDateSelect($event)"
+            class="datePicker"
+            #dp
+            [(ngModel)]="dateModal"
+          ></ngb-datepicker>
         </div>
         <div class="simple-search input-group pd-zero">
           <input
@@ -141,20 +150,29 @@
             type="search"
             placeholder="Search courses to enroll ..."
             id="course-search"
-            (focus)="focusCourseSearch($event)"
             autocomplete="off"
             name="keyword"
             (input)="searchCourse($event.target.value)"
-            (keyup)="searchStart($event, 10, 0)"
             [(ngModel)]="searchVal"
+            (keyup.enter)="onEnter()"
           />
         </div>
         <div
+          (click)="planToggle()"
           class="plan-filter body-m text-c300 justify-content-between"
-          style="margin-left: 20px;"
+          style="margin-left: 20px;position: relative;"
         >
           All course plan
           <i class="fa fa-chevron-down dropdown-arrow"></i>
+          <div class="course-plan" *ngIf="planFlag">
+            <div
+              class="plan"
+              *ngFor="let plan of coursePlanList"
+              (click)="selectPlan(plan)"
+            >
+              {{ plan.name }}
+            </div>
+          </div>
         </div>
       </div>
       <div class="caption-u text-c100" style="margin-bottom: 16px;">
@@ -226,7 +244,7 @@
       <div
         class="enroll-cancel d-flex justify-content-center align-item-center cursor"
         style="margin-right: 20px;"
-        (click)="d()"
+        (click)="closeModal()"
       >
         Cancel
       </div>
