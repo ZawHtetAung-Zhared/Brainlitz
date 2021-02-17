@@ -940,7 +940,7 @@
               </div>
             </div>
             <div *ngIf="activeTab == 'subscription' && !tabLoading">
-              <app-subscription></app-subscription>
+              <app-subscription [custDetail]="custDetail"></app-subscription>
             </div>
             <div
               *ngIf="activeTab == 'achievements' && !tabLoading"

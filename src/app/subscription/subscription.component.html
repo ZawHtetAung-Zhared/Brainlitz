@@ -37,7 +37,9 @@
       <div class="h5-strong text-c300">
         {{ sub.expireDate | date: 'dd LLL yyyy' }}
       </div>
-      <div class="light-body-m text-c100">120 days left</div>
+      <div class="light-body-m text-c100">
+        {{ calculateDiff(sub) }} days left
+      </div>
     </div>
     <div style="width: 15%;">
       <div class="small text-r200 fat-arrow bg-r25">
@@ -116,4 +118,5 @@
   *ngIf="subDetail"
   (flag)="backClicked()"
   [planInfo]="subInfo"
+  [custDetail]="custDetail"
 ></app-subscription-detail>

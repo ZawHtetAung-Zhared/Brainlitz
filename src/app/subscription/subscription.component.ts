@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener
+} from '@angular/core';
 import { appService } from '../service/app.service';
 import {
   NgbModal,
@@ -10,6 +17,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-subscription',
@@ -17,6 +25,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./subscription.component.css']
 })
 export class SubscriptionComponent implements OnInit {
+  @Input() custDetail: any;
+
   public modalReference: any;
   public subDetail: boolean = false;
   public regionID = localStorage.getItem('regionId');
@@ -92,5 +102,13 @@ export class SubscriptionComponent implements OnInit {
           this.toastr.error(err.error.message);
         }
       );
+  }
+
+  calculateDiff(obj) {
+    var create = moment(obj.createdDate);
+    var expire = moment(obj.expireDate);
+    var diff = expire.diff(create, 'days');
+
+    return diff;
   }
 }

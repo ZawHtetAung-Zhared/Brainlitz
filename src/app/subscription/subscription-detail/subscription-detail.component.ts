@@ -27,6 +27,7 @@ import * as moment from 'moment';
 export class SubscriptionDetailComponent implements OnInit {
   @Output() flag = new EventEmitter<any>();
   @Input() planInfo;
+  @Input() custDetail;
 
   public modalReference: any;
   public lessonFlag: boolean = false;
@@ -372,6 +373,7 @@ export class SubscriptionDetailComponent implements OnInit {
   // }
 
   ngOnInit() {
+    console.log('cusdetail', this.custDetail);
     this.todayDate = new Date();
     this.getLessons();
     this.getCoursePlan();
@@ -534,8 +536,10 @@ export class SubscriptionDetailComponent implements OnInit {
       );
   }
   public selectedPlanId: any = null;
+  public selectedPlan: any = null;
   selectPlan(plan) {
     this.selectedPlanId = plan._id;
+    this.selectedPlan = plan;
     console.log('selected plan', plan);
     this.getTodayLesson();
   }
@@ -547,5 +551,12 @@ export class SubscriptionDetailComponent implements OnInit {
     this.word = null;
     this.selectedPlanId = null;
     this.searchVal = '';
+  }
+
+  removePlan(e) {
+    e.stopPropagation();
+    this.selectedPlan = null;
+    this.selectedPlanId = null;
+    this.getTodayLesson();
   }
 }

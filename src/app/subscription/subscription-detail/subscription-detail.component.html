@@ -82,9 +82,12 @@
     <div class="subscriptions" *ngFor="let lesson of lessonList">
       <div style="width: 40%;">
         <div class="h5-strong text-c300">
-          Mon, 3 Jan 2020
+          {{ lesson.lesson.startDate | utcDateAndDay }}
           <div class="dot"></div>
-          <span class="light-body-m text-s70">1:30 PM - 2:30 PM</span>
+          <span class="light-body-m text-s70"
+            >{{ lesson.lesson.startDate | utcTime }} -
+            {{ lesson.lesson.endDate | utcTime }}</span
+          >
         </div>
         <div class="body-l text-b100">{{ lesson.course.name }}</div>
       </div>
@@ -104,7 +107,7 @@
       <div class="d-flex" style="width: 15%;">
         <img src="../../../assets/img/location_small.svg" />
         <div class="light-body-m text-c100" style="margin-left: 12px;">
-          Naperville
+          {{ lesson.location.name }}
         </div>
       </div>
     </div>
@@ -115,8 +118,8 @@
     <div class="d-flex justify-content-between" style="margin-bottom: 40px;">
       <div class="h1-strong text-c300">Enroll lesson</div>
       <div class="light-body-m text-c300 enroll-profile">
-        <div class="profile"></div>
-        Statman Dave
+        <img class="profile" src="{{ custDetail.user.profilePic }}" />
+        {{ custDetail.user.preferredName }}
       </div>
       <img
         class="cursor"
@@ -159,10 +162,19 @@
         </div>
         <div
           (click)="planToggle()"
-          class="plan-filter body-m text-c300 justify-content-between"
+          class="plan-filter body-m text-c300 justify-content-between cursor"
           style="margin-left: 20px;position: relative;"
         >
-          All course plan
+          <span *ngIf="selectedPlan == null">All course plan</span>
+          <span *ngIf="selectedPlan != null">{{ selectedPlan.name }}</span>
+          <span
+            class="clear-plan"
+            *ngIf="selectedPlan != null"
+            (click)="removePlan($event)"
+            ><img
+              style="width: 5px; height: 5px;"
+              src="../../../assets/img/removeIcon.png"
+          /></span>
           <i class="fa fa-chevron-down dropdown-arrow"></i>
           <div class="course-plan" *ngIf="planFlag">
             <div
@@ -195,13 +207,17 @@
               ></div>
             </div>
             <div>
-              <div class="body-l text-c300">
+              <div
+                class="body-l text-c300"
+                style="max-width: 300px;overflow: auto;"
+              >
                 {{ course.name }}
               </div>
               <div class="light-body-m text-c100">
-                8:30 AM - 9:00 AM
+                {{ course.lessonDuration.startDate | utcTime }} -
+                {{ course.lessonDuration.endDate | utcTime }}
                 <img src="../../../assets/img/location_small.svg" />
-                <span>Austin</span>
+                <span>{{ course.location.name }}</span>
               </div>
             </div>
           </div>
@@ -209,7 +225,7 @@
             <div
               class="avail-les light-body-m text-y300 d-flex align-item-center"
             >
-              5 lessons available
+              {{ course.availableLessons }} lessons available
             </div>
           </div>
           <div class="d-flex align-item-center" style="width: 25%;">
@@ -218,7 +234,10 @@
               style="margin-right: 12px;"
               src="{{ course.teacher.profilePic }}"
             />
-            <div class="light-body-m text-c100" style="margin-left: 3.25px;">
+            <div
+              class="light-body-m text-c100"
+              style="margin-left: 3.25px; max-width: 150px;overflow: auto;"
+            >
               {{ course.teacher.preferredName }}
             </div>
           </div>
