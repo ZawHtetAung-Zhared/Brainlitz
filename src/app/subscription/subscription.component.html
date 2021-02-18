@@ -42,13 +42,28 @@
       </div>
     </div>
     <div style="width: 15%;">
-      <div class="small text-r200 fat-arrow bg-r25">
+      <div
+        *ngIf="sub.invoice.status == 'UNPAID'"
+        class="small text-r200 fat-arrow bg-r25"
+      >
         <img
           class="arrow-head"
           src="../../assets/img/arrow_head_red.svg"
         />Unpaid
       </div>
-      <div class="h4-strong text-r100">
+      <div
+        *ngIf="sub.invoice.status == 'PAID'"
+        class="small text-g200 fat-arrow bg-g25"
+      >
+        <img
+          class="arrow-head"
+          src="../../assets/img/arrow_head_green.svg"
+        />Paid
+      </div>
+      <div *ngIf="sub.invoice.status == 'UNPAID'" class="h4-strong text-r100">
+        S$ {{ sub.invoice.courseFee.amount }}
+      </div>
+      <div *ngIf="sub.invoice.status == 'PAID'" class="h4-strong text-g200">
         S$ {{ sub.invoice.courseFee.amount }}
       </div>
     </div>

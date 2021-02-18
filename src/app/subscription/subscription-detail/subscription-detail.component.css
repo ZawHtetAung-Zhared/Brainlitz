@@ -97,6 +97,28 @@
   align-items: center;
   justify-content: center;
 }
+.present {
+  width: 94px;
+  height: 32px;
+  background: #00a653;
+  border: 2px solid #ffffff;
+  border-radius: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.no-data {
+  width: 94px;
+  height: 32px;
+  background: #f2f3f5;
+  border: 2px solid #ffffff;
+  border-radius: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .lesson-container {
   padding: 32px;
   min-height: 600px;

@@ -40,11 +40,23 @@
       </div>
     </div>
     <div style="width: 50%;">
-      <div class="small text-r200 fat-arrow bg-r25">
+      <div
+        *ngIf="planInfo.invoice.status == 'UNPAID'"
+        class="small text-r200 fat-arrow bg-r25"
+      >
         <img
           class="arrow-head"
           src="../../assets/img/arrow_head_red.svg"
         />Unpaid
+      </div>
+      <div
+        *ngIf="planInfo.invoice.status == 'PAID'"
+        class="small text-r200 fat-arrow bg-r25"
+      >
+        <img
+          class="arrow-head"
+          src="../../assets/img/arrow_head_green.svg"
+        />Paid
       </div>
       <div class="h4-strong text-r100">
         S$ {{ planInfo.invoice.courseFee.amount }}
@@ -101,8 +113,26 @@
           {{ lesson.teacher.preferredName }}
         </div>
       </div>
-      <div style="width: 15%;" class="body-m text-c100">
+      <div
+        *ngIf="lesson.lesson.attendance == true"
+        style="width: 15%;"
+        class="body-m text-c100"
+      >
+        <div class="present body-m text-s0">Present</div>
+      </div>
+      <div
+        *ngIf="lesson.lesson.attendance == false"
+        style="width: 15%;"
+        class="body-m text-c100"
+      >
         <div class="absent body-m text-s0">Absent</div>
+      </div>
+      <div
+        *ngIf="lesson.lesson.attendance == null"
+        style="width: 15%;"
+        class="body-m text-c100"
+      >
+        <div class="no-data body-m text-s70">No Data</div>
       </div>
       <div class="d-flex" style="width: 15%;">
         <img src="../../../assets/img/location_small.svg" />
