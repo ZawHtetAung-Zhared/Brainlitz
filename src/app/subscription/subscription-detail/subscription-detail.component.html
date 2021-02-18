@@ -51,16 +51,24 @@
       </div>
       <div
         *ngIf="planInfo.invoice.status == 'PAID'"
-        class="small text-r200 fat-arrow bg-r25"
+        class="small text-g200 fat-arrow bg-g25"
       >
         <img
           class="arrow-head"
           src="../../assets/img/arrow_head_green.svg"
         />Paid
       </div>
-      <div class="h4-strong text-r100">
-        S$ {{ planInfo.invoice.courseFee.amount }}
-        <span style="margin-left: 16px;" class="light-body-m text-b100 cursor"
+      <div class="h4-strong">
+        <span class="text-r100" *ngIf="planInfo.invoice.status == 'UNPAID'"
+          >S$ {{ planInfo.invoice.courseFee.amount }}</span
+        >
+        <span class="text-g200" *ngIf="planInfo.invoice.status == 'PAID'"
+          >S$ {{ planInfo.invoice.courseFee.amount }}</span
+        >
+        <span
+          style="margin-left: 16px;"
+          class="light-body-m text-b100 cursor"
+          (click)="viewInvoice(classEnrollModal)"
           >View invoice</span
         >
       </div>
@@ -315,4 +323,13 @@
       </button>
     </div>
   </div>
+</ng-template>
+<ng-template #classEnrollModal let-c="close" let-d="dismiss">
+  <app-invoice
+    [custDetail]="custDetail"
+    [course]="invoiceSub"
+    [invoiceId]="invoiceID2"
+    (closed)="closeInvModal('closeInv')"
+    class="app-inv-wrap"
+  ></app-invoice>
 </ng-template>

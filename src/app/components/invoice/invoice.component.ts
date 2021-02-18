@@ -361,10 +361,16 @@ export class InvoiceComponent implements OnInit {
     this.invoiceCourse['fees'] = this.invoice.courseFee.fee;
     // if (invoice.courseId == course._id) {
 
-    this.invoiceCourse['name'] = this.invoice.courseDetails.name;
-    this.invoiceCourse['endDate'] = this.invoice.courseDetails.endDate;
+    this.invoiceCourse['name'] = this.invoice.courseDetails
+      ? this.invoice.courseDetails.name
+      : this.invoice.subscription.name;
+    this.invoiceCourse['endDate'] = this.invoice.courseDetails
+      ? this.invoice.courseDetails.endDate
+      : null;
     if (this.invoice.studentLessons.length == 0) {
-      this.invoiceCourse['startDate'] = this.invoice.courseDetails.startDate;
+      this.invoiceCourse['startDate'] = this.invoice.courseDetails
+        ? this.invoice.courseDetails.startDate
+        : null;
     } else {
       this.invoiceCourse[
         'startDate'

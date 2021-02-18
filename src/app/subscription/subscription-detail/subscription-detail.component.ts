@@ -244,4 +244,20 @@ export class SubscriptionDetailComponent implements OnInit {
     this.selectedPlanId = null;
     this.getTodayLesson();
   }
+  public invoiceSub: any = null;
+  public invoiceID2: any;
+  viewInvoice(modal) {
+    this.invoiceID2 = this.planInfo.invoiceId;
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl borderless modal-inv d-flex justify-content-center align-items-center'
+    });
+  }
+
+  closeInvModal(obj) {
+    console.log(obj);
+    this.closeModal();
+    this.refresh.emit();
+  }
 }
