@@ -13,9 +13,10 @@
       <div>
         <div class="body-l text-c300">{{ selectedCourse.name }}</div>
         <div class="light-body-m text-c100">
-          8:30 AM - 9:00 AM
+          {{ selectedCourse.lessonDuration.startDate | utcTime }} -
+          {{ selectedCourse.lessonDuration.endDate | utcTime }}
           <img src="../../../assets/img/location_small.svg" />
-          <span>Austin</span>
+          <span>{{ selectedCourse.location.name }}</span>
         </div>
       </div>
     </div>

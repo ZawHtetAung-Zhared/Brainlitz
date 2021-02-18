@@ -99,6 +99,7 @@
 }
 .lesson-container {
   padding: 32px;
+  min-height: 600px;
 }
 .enroll-profile {
   justify-content: center;

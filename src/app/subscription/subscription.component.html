@@ -117,6 +117,7 @@
 <app-subscription-detail
   *ngIf="subDetail"
   (flag)="backClicked()"
+  (refresh)="refresh()"
   [planInfo]="subInfo"
   [custDetail]="custDetail"
 ></app-subscription-detail>

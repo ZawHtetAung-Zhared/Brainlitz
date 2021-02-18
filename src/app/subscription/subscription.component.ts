@@ -111,4 +111,9 @@ export class SubscriptionComponent implements OnInit {
 
     return diff;
   }
+
+  refresh() {
+    this.subDetail = false;
+    this.getSubPlans();
+  }
 }
