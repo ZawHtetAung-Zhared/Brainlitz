@@ -109,6 +109,7 @@ export class SubscriptionDetailComponent implements OnInit {
         },
         err => {
           console.log(err);
+          this.toastr.error(err.error.message);
         }
       );
   }
@@ -128,6 +129,7 @@ export class SubscriptionDetailComponent implements OnInit {
         },
         err => {
           console.log(err);
+          this.toastr.error(err.error.message);
         }
       );
   }
@@ -158,6 +160,7 @@ export class SubscriptionDetailComponent implements OnInit {
         },
         err => {
           console.log(err);
+          this.toastr.error(err.error.message);
         }
       );
   }
