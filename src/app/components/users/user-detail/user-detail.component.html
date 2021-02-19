@@ -234,6 +234,13 @@
                 Makeup pass
               </button>
               <button
+                [ngClass]="{ 'active text-b100': activeTab == 'subscription' }"
+                class="btn tab-btn body-l"
+                (click)="clickTab('subscription')"
+              >
+                Subscription
+              </button>
+              <button
                 [ngClass]="{ 'active text-b100': activeTab == 'achievements' }"
                 class="btn tab-btn body-l"
                 (click)="clickTab('achievements')"
@@ -932,7 +939,9 @@
                 </content-loader>
               </div>
             </div>
-
+            <div *ngIf="activeTab == 'subscription' && !tabLoading">
+              <app-subscription [custDetail]="custDetail"></app-subscription>
+            </div>
             <div
               *ngIf="activeTab == 'achievements' && !tabLoading"
               class="pb-20"

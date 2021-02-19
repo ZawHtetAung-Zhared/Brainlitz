@@ -1,0 +1,290 @@
+.detail-container {
+  width: 100%;
+  height: 100%;
+  padding: 32px 40px;
+}
+.Export-btn {
+  width: 40px;
+  height: 40px;
+  margin-left: 16px;
+  background: #ffffff;
+  border: 1px solid #edeef0;
+  box-shadow: 1px 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.detail-info {
+  width: auto;
+  height: 92px;
+  background: #ffffff;
+  box-shadow: 2px 4px 32px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+}
+.fat-arrow {
+  border-radius: 0px 4px 4px 0px;
+  width: fit-content;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 6px;
+  position: relative;
+}
+.arrow-head {
+  position: absolute;
+  right: -7px;
+  transform: rotate(180deg);
+}
+.empty-lesson {
+  width: auto;
+  height: 354px;
+  background: #ffffff;
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+.subplan {
+  display: flex;
+  height: 48px;
+  background: #ffffff;
+  border-radius: 16px 16px 0px 0px;
+  align-items: center;
+  padding: 14px 24px;
+}
+.subscriptions {
+  width: auto;
+  height: 88px;
+  background: #ffffff;
+  box-shadow: 0px -1px 0px #e3e4e5;
+  display: flex;
+  padding: 14px 24px;
+  align-items: center;
+}
+.profile {
+  width: 40px;
+  height: 40px;
+  /* background: #ffdb26; */
+  border-radius: 100px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dot {
+  width: 4px;
+  height: 4px;
+  background: #e3e4e6;
+  margin: 0 8px;
+  display: inline-block;
+  border-radius: 50%;
+}
+.absent {
+  width: 94px;
+  height: 32px;
+  background: #e63c39;
+  border: 2px solid #ffffff;
+  border-radius: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.present {
+  width: 94px;
+  height: 32px;
+  background: #00a653;
+  border: 2px solid #ffffff;
+  border-radius: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.no-data {
+  width: 94px;
+  height: 32px;
+  background: #f2f3f5;
+  border: 2px solid #ffffff;
+  border-radius: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lesson-container {
+  padding: 32px;
+  min-height: 600px;
+}
+.enroll-profile {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  top: 20px;
+}
+.date {
+  position: relative;
+  height: 48px;
+  background: #ffffff;
+  box-shadow: 0px 0px 0px 1px #edeef0, 1px 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  width: 25%;
+  justify-content: space-between;
+  padding: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.simple-search {
+  padding-right: 6px;
+  background: #f2f3f5;
+  border-radius: 12px;
+  width: 50%;
+}
+.input-csearch {
+  background: #f2f3f5;
+  border-radius: 8px;
+  width: 60%;
+  text-align: left;
+}
+.course-search-input:focus {
+  box-shadow: none;
+}
+.course-search-input {
+  border: none;
+  background: url(../../../assets/img/search-ico@2x.png) no-repeat #f2f3f5;
+  background-size: 16px;
+  background-position-y: center;
+  background-position-x: 16px;
+  padding: 16px 16px 16px 40px !important;
+  font-size: 16px;
+  line-height: 20px;
+}
+.plan-filter {
+  height: 48px;
+  background: #ffffff;
+  box-shadow: 0px 0px 0px 1px #edeef0, 1px 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  width: 25%;
+  justify-content: space-between;
+  padding: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.course-list {
+  width: auto;
+  height: 88px;
+  box-shadow: 0px 1px 0px #e3e4e5;
+  padding: 16px;
+}
+.course-list:hover {
+  background: #f7f9fa;
+}
+.enroll-radio {
+  width: 20px;
+  height: 20px;
+  margin-right: 22px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #0065f2;
+}
+.radio-selected {
+  width: 12px;
+  height: 12px;
+  background: #0065f2;
+  border-radius: 50%;
+}
+.avail-les {
+  height: 32px;
+  width: fit-content;
+  background: #fff2b3;
+  border: 2px solid #ffffff;
+  border-radius: 24px;
+  padding: 4px 10px;
+}
+.enroll-footer {
+  width: 100%;
+  height: 72px;
+  background: #ffffff;
+  box-shadow: 0px -1px 0px #e3e4e5;
+  border-radius: 0px 0px 16px 16px;
+  position: fixed;
+  bottom: 0;
+  padding: 20px 32px;
+}
+.course-container {
+  max-height: 560px;
+  overflow: auto;
+  margin-bottom: 80px;
+}
+.enroll-cancel {
+  width: 130px;
+  height: 40px;
+  background: #f2f3f5;
+  border-radius: 8px;
+}
+.enroll-btn {
+  width: 130px;
+  height: 40px;
+}
+.lesson-picker {
+  height: 560px;
+  margin-bottom: 80px;
+}
+.datePicker {
+  position: absolute;
+  background: white;
+  top: 60px;
+  left: 0px;
+}
+.course-plan {
+  width: max-content;
+  height: 200px;
+  overflow: auto;
+  background: white;
+  position: absolute;
+  top: 60px;
+  right: 0px;
+  padding: 16px;
+  box-shadow: 0px 0px 0px 1px #edeef0, 1px 2px 16px rgb(0 0 0 / 8%);
+  border-radius: 8px;
+}
+.plan {
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.plan:hover {
+  background: #f7f9fa;
+}
+.clear-plan {
+  border: 1px solid black;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 30px;
+  cursor: pointer;
+}
+.app-inv-wrap {
+  height: 80vh;
+  overflow: auto;
+}

@@ -4385,7 +4385,7 @@ export class appService {
   }
 
   // today lesson
-  gettodayLesson(regionId, locationid, date) {
+  gettodayLesson(regionId, locationid, date, word, cid) {
     let url =
       this.baseUrl +
       '/regions/' +
@@ -4394,6 +4394,12 @@ export class appService {
       locationid +
       '&date=' +
       date;
+    if (word != null) {
+      url += '&courseName=' + word;
+    }
+    if (cid != null) {
+      url += '&coursePlanId=' + cid;
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -4424,10 +4430,10 @@ export class appService {
         data.courses[i].teacher.profilePic = data.courses[
           i
         ].teacher.profilePic.replace(re, 'l');
-      console.log(
-        'modify data',
-        data.courses[i].teacher.profilePic.replace(re, 'l')
-      );
+      // console.log(
+      //   'modify data',
+      //   data.courses[i].teacher.profilePic.replace(re, 'l')
+      // );
       for (let j = 0; j < data.courses[i].students.length; j++) {
         if (
           data.courses[i].students[j].userDetails.profilePic !=
@@ -4440,10 +4446,10 @@ export class appService {
                 'l'
               )
             : 'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png';
-        console.log(
-          'modify data2',
-          data.courses[i].students[j].userDetails.profilePic
-        );
+        // console.log(
+        //   'modify data2',
+        //   data.courses[i].students[j].userDetails.profilePic
+        // );
       }
     }
     return data;
@@ -5184,5 +5190,90 @@ export class appService {
   }
   getLocationCache() {
     return this.locationCache;
+  }
+
+  getSubscriptionList(regionId) {
+    let apiUrl = this.baseUrl + '/' + regionId + '/subscriptions';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  subscribeNewPlan(body, regionId, subId) {
+    let apiUrl =
+      this.baseUrl + '/' + regionId + '/subscriptions/' + subId + '/subscribe';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
+  }
+
+  getSubscribedPlans(regionId, userId) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/users/' +
+      userId +
+      '/subscriptions?skip=0&limit=30';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  getLessonList(regionId, userId, subId) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/users/' +
+      userId +
+      '/subscriptions/' +
+      subId +
+      '/lessons';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  enrollSubLesson(body, regionId, locID) {
+    let apiUrl =
+      this.baseUrl + '/' + regionId + '/timetable?locationId=/' + locID;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
   }
 }

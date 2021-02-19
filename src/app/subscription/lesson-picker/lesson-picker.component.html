@@ -1,0 +1,52 @@
+<div class="lesson-container">
+  <div
+    (click)="backClicked()"
+    class="body-l text-c300 cursor"
+    style="margin-bottom: 16px;"
+  >
+    <i class="fa fa-angle-left" style="font-size: 23px;"></i>
+    <span>Back</span>
+  </div>
+
+  <div class="course-list d-flex justify-content-between align-item-center">
+    <div class="d-flex align-item-center">
+      <div>
+        <div class="body-l text-c300">{{ selectedCourse.name }}</div>
+        <div class="light-body-m text-c100">
+          {{ selectedCourse.lessonDuration.startDate | utcTime }} -
+          {{ selectedCourse.lessonDuration.endDate | utcTime }}
+          <img src="../../../assets/img/location_small.svg" />
+          <span>{{ selectedCourse.location.name }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="avail-les light-body-m text-y300 d-flex align-item-center">
+      {{ selectedCourse.availableLessons }} lessons available
+    </div>
+    <div class="d-flex align-item-center">
+      <img
+        class="profile"
+        style="margin-right: 12px;"
+        src="{{ selectedCourse.teacher.profilePic }}"
+      />
+      <div class="light-body-m text-c100" style="margin-left: 3.25px;">
+        {{ selectedCourse.teacher.preferredName }}
+      </div>
+    </div>
+  </div>
+
+  <div class="caption-u text-c100" style="margin-top: 32px;">
+    Pick dates
+  </div>
+
+  <div class="lesson-card-container d-flex" style="margin-top: 16px;">
+    <div
+      (click)="selectLesson(lesson)"
+      class="lesson-card body-m text-c300 cursor"
+      *ngFor="let lesson of flexyarr.lessons"
+      [ngClass]="{ selected: enrollList.includes(lesson) }"
+    >
+      {{ lesson.startDate | date: 'EEE, dd LLL yyyy' }}
+    </div>
+  </div>
+</div>
