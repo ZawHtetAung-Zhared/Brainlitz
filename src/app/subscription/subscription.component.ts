@@ -106,9 +106,10 @@ export class SubscriptionComponent implements OnInit {
   }
 
   calculateDiff(obj) {
-    var create = moment(obj.createdDate);
+    // var create = moment(obj.createdDate);
+    var today = moment(new Date());
     var expire = moment(obj.expireDate);
-    var diff = expire.diff(create, 'days');
+    var diff = expire.diff(today, 'days');
 
     return diff;
   }

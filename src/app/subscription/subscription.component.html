@@ -38,7 +38,10 @@
         {{ sub.expireDate | date: 'dd LLL yyyy' }}
       </div>
       <div class="light-body-m text-c100">
-        {{ calculateDiff(sub) }} days left
+        <span *ngIf="calculateDiff(sub) >= 0"
+          >{{ calculateDiff(sub) }} days left</span
+        >
+        <span *ngIf="calculateDiff(sub) < 0">Expired</span>
       </div>
     </div>
     <div style="width: 15%;">
