@@ -367,6 +367,7 @@ export class InvoiceComponent implements OnInit {
     this.invoiceCourse['endDate'] = this.invoice.courseDetails
       ? this.invoice.courseDetails.endDate
       : null;
+    if (this.invoice.studentLessons == null) this.invoice.studentLessons = [];
     if (this.invoice.studentLessons.length == 0) {
       this.invoiceCourse['startDate'] = this.invoice.courseDetails
         ? this.invoice.courseDetails.startDate
