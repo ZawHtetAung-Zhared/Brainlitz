@@ -1,0 +1,317 @@
+<div *ngIf="!subDetail" class="sub-container">
+  <div class="sub-header d-flex justify-content-between">
+    <div class="h2-strong text-c300">Subscription</div>
+    <button class="btn bg-b100 body-m text-s0" (click)="newSubModal(subModal)">
+      Subscribe new plan
+    </button>
+  </div>
+  <div *ngIf="!planFlag" class="sub-body" style="margin-top: 40px;">
+    <img src="../../assets/img/empty_subscription.png" />
+    <div class="h4-strong text-c100">No subscription yet.</div>
+    <div
+      class="light-body-m text-c100"
+      style="margin-top: 8px; margin-bottom: 24px;"
+    >
+      Please subscribe a new plan to manage a subscription
+    </div>
+    <button class="btn bg-b100 body-m text-s0" (click)="newSubModal(subModal)">
+      Subscribe new plan
+    </button>
+  </div>
+  <div *ngIf="planFlag" class="subplan">
+    <div class="caption-u text-c100" style="width: 35%;">Subscribed plan</div>
+    <div class="caption-u text-c100" style="width: 20%;">Expiry date</div>
+    <div class="caption-u text-c100" style="width: 15%;">Payment</div>
+    <div class="caption-u text-c100" style="width: 15%;">Subscribed date</div>
+    <div class="caption-u text-c100" style="width: 15%;">actions</div>
+  </div>
+  <div class="subscriptions" *ngFor="let sub of subPlanList">
+    <div style="width: 35%;">
+      <div class="body-m text-b100">{{ sub.subscription.name }}</div>
+      <div class="light-body-m text-c100">
+        <span class="h2-strong text-c300">{{ sub.subscribedLessonCount }}</span
+        ><b>/ {{ sub.subscription.lessonCount }}</b> lessons enrolled
+      </div>
+    </div>
+    <div style="width: 20%;">
+      <div class="h5-strong text-c300">
+        {{ sub.expireDate | date: 'dd LLL yyyy' }}
+      </div>
+      <div class="light-body-m text-c100">
+        <span *ngIf="calculateDiff(sub) >= 0"
+          >{{ calculateDiff(sub) }} days left</span
+        >
+        <span *ngIf="calculateDiff(sub) < 0">Expired</span>
+      </div>
+    </div>
+    <div style="width: 15%;">
+      <div
+        *ngIf="sub.invoice.status == 'UNPAID'"
+        class="small text-r200 fat-arrow bg-r25"
+      >
+        <img
+          class="arrow-head"
+          src="../../assets/img/arrow_head_red.svg"
+        />Unpaid
+      </div>
+      <div
+        *ngIf="sub.invoice.status == 'PAID'"
+        class="small text-g200 fat-arrow bg-g25"
+      >
+        <img
+          class="arrow-head"
+          src="../../assets/img/arrow_head_green.svg"
+        />Paid
+      </div>
+      <div *ngIf="sub.invoice.status == 'UNPAID'" class="h4-strong text-r100">
+        S$ {{ sub.invoice.courseFee.amount }}
+      </div>
+      <div *ngIf="sub.invoice.status == 'PAID'" class="h4-strong text-g200">
+        S$ {{ sub.invoice.courseFee.amount }}
+      </div>
+    </div>
+    <div style="width: 15%;" class="body-m text-c100">
+      {{ sub.createdDate | date: 'dd LLL yyyy' }}
+    </div>
+    <div class="d-flex" style="width: 15%;">
+      <div
+        class="sub-action cursor"
+        (click)="openEnrollModal(enrollModal, sub)"
+      >
+        <img src="../../assets/img/sub_action_icon.svg" />
+      </div>
+      <div
+        class="sub-arrow cursor"
+        style="margin-left: 40px;"
+        (click)="gotoDetail(sub)"
+      >
+        <img src="../../assets/images/arrow-right.svg" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #subModal let-c="close" let-d="dismiss">
+  <div class="submodal-container">
+    <div class="d-flex justify-content-between" style="margin-bottom: 40px;">
+      <div class="h1-strong text-c300">Subscribe new plan</div>
+      <img
+        class="cursor"
+        (click)="d()"
+        style="width: 16px;height: 16px;"
+        src="../../../assets/img/removeIcon.png"
+      />
+    </div>
+    <div class="d-flex card-container">
+      <div class="sub-cards" *ngFor="let sub of subscriptionList">
+        <div class="h4-strong text-y200">{{ sub.name }}</div>
+        <div style="margin-top: 8px;" class="light-body-m text-c100">
+          <span class="h2-strong text-c300">{{ sub.lessonCount }}</span> lessons
+        </div>
+        <div class="light-body-m text-c300">
+          Available for {{ sub.duration }} days,
+          <span class="h5-strong text-c300">{{
+            sub.createdDate | date: 'dd LLL yyyy'
+          }}</span>
+        </div>
+        <div class="light-body-m text-c100" style="margin-top: 16px;">
+          {{ sub.description }}
+        </div>
+        <button
+          style="margin-top: 16px"
+          class="btn sub-btn bg-b100 body-m text-s0"
+          (click)="subscribeNewPlan(sub._id)"
+        >
+          Subscribe<span style="position: absolute; right: 16px;"
+            >S$ {{ sub.price }}</span
+          >
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="sub-footer">
+    <div class="close-btn cursor body-m text-c100" (click)="d()">
+      Close
+    </div>
+  </div>
+</ng-template>
+<app-subscription-detail
+  *ngIf="subDetail"
+  (flag)="backClicked()"
+  (refresh)="refresh()"
+  [planInfo]="subInfo"
+  [custDetail]="custDetail"
+></app-subscription-detail>
+<ng-template #enrollModal let-c="close" let-d="dismiss">
+  <div class="lesson-container">
+    <div class="d-flex justify-content-between" style="margin-bottom: 40px;">
+      <div class="h1-strong text-c300">Enroll lesson</div>
+      <div class="light-body-m text-c300 enroll-profile">
+        <img class="profile" src="{{ custDetail.user.profilePic }}" />
+        {{ custDetail.user.preferredName }}
+      </div>
+      <img
+        class="cursor"
+        (click)="closeModal()"
+        style="width: 16px;height: 16px;"
+        src="../../../assets/img/removeIcon.png"
+      />
+    </div>
+
+    <div *ngIf="!lessonFlag">
+      <div class="d-flex justify-content-between" style="margin-bottom: 48px;">
+        <div
+          (click)="calendarToggle()"
+          class="date body-m text-c300 justify-content-between"
+          style="margin-right: 20px;"
+        >
+          {{ todayModal | date: 'dd LLL yyyy' }}
+          <img src="../../../assets/img/course-dp.png" />
+          <ngb-datepicker
+            (click)="stopEvent($event)"
+            *ngIf="showCalendar"
+            (ngModelChange)="onDateSelect($event)"
+            class="datePicker"
+            #dp
+            [(ngModel)]="dateModal"
+          ></ngb-datepicker>
+        </div>
+        <div class="simple-search input-group pd-zero">
+          <input
+            class="form-control input-csearch course-search-input body-l"
+            type="search"
+            placeholder="Search courses to enroll ..."
+            id="course-search"
+            autocomplete="off"
+            name="keyword"
+            (input)="searchCourse($event.target.value)"
+            [(ngModel)]="searchVal"
+            (keyup.enter)="onEnter()"
+          />
+        </div>
+        <div
+          (click)="planToggle()"
+          class="plan-filter body-m text-c300 justify-content-between cursor"
+          style="margin-left: 20px;position: relative;"
+        >
+          <span *ngIf="selectedPlan == null">All course plan</span>
+          <span *ngIf="selectedPlan != null">{{ selectedPlan.name }}</span>
+          <span
+            class="clear-plan"
+            *ngIf="selectedPlan != null"
+            (click)="removePlan($event)"
+            ><img
+              style="width: 5px; height: 5px;"
+              src="../../../assets/img/removeIcon.png"
+          /></span>
+          <i class="fa fa-chevron-down dropdown-arrow"></i>
+          <div class="course-plan" *ngIf="coursePlanFlag">
+            <div
+              class="plan"
+              *ngFor="let plan of coursePlanList"
+              (click)="selectPlan(plan)"
+            >
+              {{ plan.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption-u text-c100" style="margin-bottom: 16px;">
+        today’s lessons
+      </div>
+      <div class="course-container">
+        <div
+          (click)="selectCourse(course)"
+          class="course-list d-flex justify-content-between align-item-center cursor"
+          *ngFor="let course of todayCourse.courses"
+          [ngClass]="{ 'bg-s20': selectedCourse == course }"
+        >
+          <div class="d-flex align-item-center" style="width: 50%;">
+            <div
+              class="enroll-radio d-flex justify-content-center align-item-center"
+            >
+              <div
+                *ngIf="selectedCourse == course"
+                class="radio-selected"
+              ></div>
+            </div>
+            <div>
+              <div
+                class="body-l text-c300"
+                style="max-width: 300px;overflow: auto;"
+              >
+                {{ course.name }}
+              </div>
+              <div class="light-body-m text-c100">
+                {{ course.lessonDuration.startDate | utcTime }} -
+                {{ course.lessonDuration.endDate | utcTime }}
+                <img src="../../../assets/img/location_small.svg" />
+                <span>{{ course.location.name }}</span>
+              </div>
+            </div>
+          </div>
+          <div style="width: 25%;">
+            <div
+              class="avail-les light-body-m text-y300 d-flex align-item-center"
+            >
+              {{ course.availableLessons }} lessons available
+            </div>
+          </div>
+          <div class="d-flex align-item-center" style="width: 25%;">
+            <img
+              class="profile"
+              style="margin-right: 12px;"
+              src="{{ course.teacher.profilePic }}"
+            />
+            <div
+              class="light-body-m text-c100"
+              style="margin-left: 3.25px; max-width: 150px;overflow: auto;"
+            >
+              {{ course.teacher.preferredName }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="lessonFlag" class="lesson-picker">
+      <app-lesson-picker
+        (flag)="lessonbackClicked()"
+        (pickedLessons)="pickedLessons($event)"
+        [selectedCourse]="selectedCourse"
+      ></app-lesson-picker>
+    </div>
+  </div>
+  <div class="enroll-footer d-flex justify-content-between align-item-center">
+    <div class="light-body-m text-c100">
+      <span class="h2-strong text-c100">{{
+        planInfo.subscribedLessonCount
+      }}</span>
+      / {{ planInfo.subscription.lessonCount }} lessons left to enroll
+    </div>
+    <div class="d-flex">
+      <div
+        class="enroll-cancel d-flex justify-content-center align-item-center cursor"
+        style="margin-right: 20px;"
+        (click)="closeModal()"
+      >
+        Cancel
+      </div>
+      <button
+        *ngIf="!lessonFlag"
+        class="btn enroll-btn bg-b100 body-m text-s0"
+        (click)="continue()"
+        [disabled]="selectedCourse == null"
+      >
+        Continue
+      </button>
+      <button
+        *ngIf="lessonFlag"
+        class="btn enroll-btn bg-b100 body-m text-s0"
+        (click)="enrollSubLesson()"
+        [disabled]="selectedCourse == null"
+      >
+        Confirm
+      </button>
+    </div>
+  </div>
+</ng-template>

@@ -143,7 +143,9 @@ export class InvoiceReportComponent implements OnInit {
   }
   openModal(invoice, classEnrollModal) {
     //this.blockUI.start('Loading');
-    this.selectedCourse = invoice.courseDetails;
+    this.selectedCourse = invoice.courseDetails
+      ? invoice.courseDetails
+      : invoice.subscription;
     this.selectedCourse.invoice = invoice;
     console.log(invoice);
     this.invoiceID2 = invoice._id;

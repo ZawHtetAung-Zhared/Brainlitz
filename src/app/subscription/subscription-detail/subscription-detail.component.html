@@ -1,0 +1,335 @@
+<div class="detail-container">
+  <div
+    (click)="backClicked()"
+    class="body-l text-c300 cursor"
+    style="margin-bottom: 16px;"
+  >
+    <i class="fa fa-angle-left" style="font-size: 23px;"></i>
+    <span>Back</span>
+  </div>
+  <div class="d-flex justify-content-between" style="margin-bottom: 40px;">
+    <div class="h2-strong text-c300">{{ planInfo.subscription.name }}</div>
+    <div>
+      <button
+        class="btn bg-b100 body-m text-s0"
+        (click)="enrollLesson(enrollModal)"
+      >
+        Enroll lesson
+      </button>
+      <button type="button" class="Export-btn" style="visibility: hidden;">
+        <img
+          src="assets/images/Customer_CSV.svg"
+          style="width: auto; height: auto;"
+        />
+      </button>
+    </div>
+  </div>
+  <div class="detail-info" style="margin-bottom: 32px;">
+    <div style="width: 50%;">
+      <div class="light-body-m text-c100">
+        <span class="h2-strong text-c300">{{
+          planInfo.subscribedLessonCount
+        }}</span
+        >/ <b>{{ planInfo.subscription.lessonCount }}</b> lessons enrolled
+      </div>
+      <div class="light-body-m text-c100">
+        Valid until
+        <span class="h5-strong text-c300">{{
+          planInfo.expireDate | date: 'dd LLL yyyy'
+        }}</span>
+      </div>
+    </div>
+    <div style="width: 50%;">
+      <div
+        *ngIf="planInfo.invoice.status == 'UNPAID'"
+        class="small text-r200 fat-arrow bg-r25"
+      >
+        <img
+          class="arrow-head"
+          src="../../assets/img/arrow_head_red.svg"
+        />Unpaid
+      </div>
+      <div
+        *ngIf="planInfo.invoice.status == 'PAID'"
+        class="small text-g200 fat-arrow bg-g25"
+      >
+        <img
+          class="arrow-head"
+          src="../../assets/img/arrow_head_green.svg"
+        />Paid
+      </div>
+      <div class="h4-strong">
+        <span class="text-r100" *ngIf="planInfo.invoice.status == 'UNPAID'"
+          >S$ {{ planInfo.invoice.courseFee.amount }}</span
+        >
+        <span class="text-g200" *ngIf="planInfo.invoice.status == 'PAID'"
+          >S$ {{ planInfo.invoice.courseFee.amount }}</span
+        >
+        <span
+          style="margin-left: 16px;"
+          class="light-body-m text-b100 cursor"
+          (click)="viewInvoice(classEnrollModal)"
+          >View invoice</span
+        >
+      </div>
+    </div>
+  </div>
+  <div *ngIf="lessonList.length == 0" class="empty-lesson">
+    <img
+      style="margin-bottom: 24px;"
+      src="../../../assets/img/empty_folder.png"
+    />
+    <div class="h4-strong text-c100" style="margin-bottom: 8px;">
+      No lessons yet.
+    </div>
+    <div class="light-body-m text-c100" style="margin-bottom: 24px;">
+      Please enroll new lessons to start
+    </div>
+    <button
+      class="btn bg-b100 body-m text-s0"
+      (click)="enrollLesson(enrollModal)"
+    >
+      Enroll lesson
+    </button>
+  </div>
+  <div *ngIf="lessonList.length > 0">
+    <div class="subplan">
+      <div class="caption-u text-c100" style="width: 40%;">ENROLLED LESSON</div>
+      <div class="caption-u text-c100" style="width: 30%;">Teacher</div>
+      <div class="caption-u text-c100" style="width: 15%;">attendance</div>
+      <div class="caption-u text-c100" style="width: 15%;">location</div>
+    </div>
+    <div class="subscriptions" *ngFor="let lesson of lessonList">
+      <div style="width: 40%;">
+        <div class="h5-strong text-c300">
+          {{ lesson.lesson.startDate | utcDateAndDay }}
+          <div class="dot"></div>
+          <span class="light-body-m text-s70"
+            >{{ lesson.lesson.startDate | utcTime }} -
+            {{ lesson.lesson.endDate | utcTime }}</span
+          >
+        </div>
+        <div class="body-l text-b100">{{ lesson.course.name }}</div>
+      </div>
+      <div style="width: 30%;" class="d-flex align-item-center">
+        <img
+          class="profile"
+          style="margin-right: 12px;"
+          src="{{ lesson.teacher.profilePic }}"
+        />
+        <div class="body-l text-b100" style="margin-left: 3.25px;">
+          {{ lesson.teacher.preferredName }}
+        </div>
+      </div>
+      <div
+        *ngIf="lesson.lesson.attendance == true"
+        style="width: 15%;"
+        class="body-m text-c100"
+      >
+        <div class="present body-m text-s0">Present</div>
+      </div>
+      <div
+        *ngIf="lesson.lesson.attendance == false"
+        style="width: 15%;"
+        class="body-m text-c100"
+      >
+        <div class="absent body-m text-s0">Absent</div>
+      </div>
+      <div
+        *ngIf="lesson.lesson.attendance == null"
+        style="width: 15%;"
+        class="body-m text-c100"
+      >
+        <div class="no-data body-m text-s70">No Data</div>
+      </div>
+      <div class="d-flex" style="width: 15%;">
+        <img src="../../../assets/img/location_small.svg" />
+        <div class="light-body-m text-c100" style="margin-left: 12px;">
+          {{ lesson.location.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #enrollModal let-c="close" let-d="dismiss">
+  <div class="lesson-container">
+    <div class="d-flex justify-content-between" style="margin-bottom: 40px;">
+      <div class="h1-strong text-c300">Enroll lesson</div>
+      <div class="light-body-m text-c300 enroll-profile">
+        <img class="profile" src="{{ custDetail.user.profilePic }}" />
+        {{ custDetail.user.preferredName }}
+      </div>
+      <img
+        class="cursor"
+        (click)="closeModal()"
+        style="width: 16px;height: 16px;"
+        src="../../../assets/img/removeIcon.png"
+      />
+    </div>
+
+    <div *ngIf="!lessonFlag">
+      <div class="d-flex justify-content-between" style="margin-bottom: 48px;">
+        <div
+          (click)="calendarToggle()"
+          class="date body-m text-c300 justify-content-between"
+          style="margin-right: 20px;"
+        >
+          {{ todayModal | date: 'dd LLL yyyy' }}
+          <img src="../../../assets/img/course-dp.png" />
+          <ngb-datepicker
+            (click)="stopEvent($event)"
+            *ngIf="showCalendar"
+            (ngModelChange)="onDateSelect($event)"
+            class="datePicker"
+            #dp
+            [(ngModel)]="dateModal"
+          ></ngb-datepicker>
+        </div>
+        <div class="simple-search input-group pd-zero">
+          <input
+            class="form-control input-csearch course-search-input body-l"
+            type="search"
+            placeholder="Search courses to enroll ..."
+            id="course-search"
+            autocomplete="off"
+            name="keyword"
+            (input)="searchCourse($event.target.value)"
+            [(ngModel)]="searchVal"
+            (keyup.enter)="onEnter()"
+          />
+        </div>
+        <div
+          (click)="planToggle()"
+          class="plan-filter body-m text-c300 justify-content-between cursor"
+          style="margin-left: 20px;position: relative;"
+        >
+          <span *ngIf="selectedPlan == null">All course plan</span>
+          <span *ngIf="selectedPlan != null">{{ selectedPlan.name }}</span>
+          <span
+            class="clear-plan"
+            *ngIf="selectedPlan != null"
+            (click)="removePlan($event)"
+            ><img
+              style="width: 5px; height: 5px;"
+              src="../../../assets/img/removeIcon.png"
+          /></span>
+          <i class="fa fa-chevron-down dropdown-arrow"></i>
+          <div class="course-plan" *ngIf="planFlag">
+            <div
+              class="plan"
+              *ngFor="let plan of coursePlanList"
+              (click)="selectPlan(plan)"
+            >
+              {{ plan.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="caption-u text-c100" style="margin-bottom: 16px;">
+        today’s lessons
+      </div>
+      <div class="course-container">
+        <div
+          (click)="selectCourse(course)"
+          class="course-list d-flex justify-content-between align-item-center cursor"
+          *ngFor="let course of todayCourse.courses"
+          [ngClass]="{ 'bg-s20': selectedCourse == course }"
+        >
+          <div class="d-flex align-item-center" style="width: 50%;">
+            <div
+              class="enroll-radio d-flex justify-content-center align-item-center"
+            >
+              <div
+                *ngIf="selectedCourse == course"
+                class="radio-selected"
+              ></div>
+            </div>
+            <div>
+              <div
+                class="body-l text-c300"
+                style="max-width: 300px;overflow: auto;"
+              >
+                {{ course.name }}
+              </div>
+              <div class="light-body-m text-c100">
+                {{ course.lessonDuration.startDate | utcTime }} -
+                {{ course.lessonDuration.endDate | utcTime }}
+                <img src="../../../assets/img/location_small.svg" />
+                <span>{{ course.location.name }}</span>
+              </div>
+            </div>
+          </div>
+          <div style="width: 25%;">
+            <div
+              class="avail-les light-body-m text-y300 d-flex align-item-center"
+            >
+              {{ course.availableLessons }} lessons available
+            </div>
+          </div>
+          <div class="d-flex align-item-center" style="width: 25%;">
+            <img
+              class="profile"
+              style="margin-right: 12px;"
+              src="{{ course.teacher.profilePic }}"
+            />
+            <div
+              class="light-body-m text-c100"
+              style="margin-left: 3.25px; max-width: 150px;overflow: auto;"
+            >
+              {{ course.teacher.preferredName }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="lessonFlag" class="lesson-picker">
+      <app-lesson-picker
+        (flag)="lessonbackClicked()"
+        (pickedLessons)="pickedLessons($event)"
+        [selectedCourse]="selectedCourse"
+      ></app-lesson-picker>
+    </div>
+  </div>
+  <div class="enroll-footer d-flex justify-content-between align-item-center">
+    <div class="light-body-m text-c100">
+      <span class="h2-strong text-c100">{{
+        planInfo.subscribedLessonCount
+      }}</span>
+      / {{ planInfo.subscription.lessonCount }} lessons left to enroll
+    </div>
+    <div class="d-flex">
+      <div
+        class="enroll-cancel d-flex justify-content-center align-item-center cursor"
+        style="margin-right: 20px;"
+        (click)="closeModal()"
+      >
+        Cancel
+      </div>
+      <button
+        *ngIf="!lessonFlag"
+        class="btn enroll-btn bg-b100 body-m text-s0"
+        (click)="continue()"
+        [disabled]="selectedCourse == null"
+      >
+        Continue
+      </button>
+      <button
+        *ngIf="lessonFlag"
+        class="btn enroll-btn bg-b100 body-m text-s0"
+        (click)="enrollSubLesson()"
+        [disabled]="selectedCourse == null"
+      >
+        Confirm
+      </button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #classEnrollModal let-c="close" let-d="dismiss">
+  <app-invoice
+    [custDetail]="custDetail"
+    [course]="invoiceSub"
+    [invoiceId]="invoiceID2"
+    (closed)="closeInvModal('closeInv')"
+    class="app-inv-wrap"
+  ></app-invoice>
+</ng-template>

@@ -74,7 +74,13 @@ export class TodayLessonsComponent implements OnInit {
 
   getTodayLesson() {
     this._service
-      .gettodayLesson(this.regionId, this.locationID, this.todayModal)
+      .gettodayLesson(
+        this.regionId,
+        this.locationID,
+        this.todayModal,
+        null,
+        null
+      )
       .subscribe(
         (res: any) => {
           console.log(this.todayCourse);
