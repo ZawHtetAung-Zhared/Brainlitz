@@ -381,6 +381,7 @@ export class InvoiceComponent implements OnInit {
     if (this.invoice.studentLessons != undefined) {
       this.invoiceCourse['lessonCount'] = this.invoice.studentLessons.length;
     }
+    console.log('zha testing', this.invoiceCourse);
 
     // }
     // }
