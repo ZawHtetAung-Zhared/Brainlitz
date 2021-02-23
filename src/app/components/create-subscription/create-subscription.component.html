@@ -1,0 +1,148 @@
+<div class="container">
+  <div *ngIf="!createFlag">
+    <div class="d-flex justify-content-between">
+      <div class="h1-strong text-c300">Subscription</div>
+      <button (click)="createToggle()" class="btn bg-b100 body-m text-s0">
+        Add new subscription
+      </button>
+    </div>
+    <div *ngIf="subscriptionList.length == 0" class="d-flex no-plan">
+      <img src="../../../assets/images/content_creation.png" />
+      <div class="h3-strong text-c300" style="margin-top: 32px">
+        No subscription plans yet.
+      </div>
+      <div class="light-body-m text-c100" style="margin-top: 8px">
+        Please add new subscription to start
+      </div>
+    </div>
+    <div *ngIf="subscriptionList.length > 0" class="sub-container">
+      <div class="sub-cards" *ngFor="let sub of subscriptionList">
+        <div class="h4-strong text-c100">{{ sub.name }}</div>
+        <div class="d-flex">
+          <div class="d-flex flex-column" style="margin-right: 72px;">
+            <div class="light-body-m text-c100">
+              <span class="h2-strong text-c300">{{ sub.lessonCount }}</span>
+              lessons
+            </div>
+            <div class="light-body-m text-c300">
+              Available for <b>{{ sub.duration }} days</b>
+            </div>
+          </div>
+          <div class="d-flex flex-column" style="margin-top: 4px;">
+            <div class="light-body-m text-c100">Price</div>
+            <div class="h3-strong text-c300">S$ {{ sub.price }}</div>
+          </div>
+        </div>
+        <div class="light-body-m text-c100">
+          {{ sub.description }}
+        </div>
+        <div
+          class="d-flex justify-content-between sub-footer"
+          style="margin-top: 16px;"
+        >
+          <div class="body-m text-b100">
+            View subscriber
+          </div>
+          <div class="d-flex">
+            <div
+              (click)="editSub(sub)"
+              class="body-m text-y200 cursor"
+              style="padding: 0px 8px;border-right: 1px solid #E3E4E6;"
+            >
+              Edit
+            </div>
+            <div class="body-m text-r100 cursor" style="padding: 0px 8px;">
+              Delete
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="create-plan" *ngIf="createFlag">
+    <div (click)="createToggle()" class="body-l text-c300 cursor">
+      <i class="fa fa-angle-left body-xl text-c200"></i> Subscription
+    </div>
+    <div class="h1-strong text-c300" style="margin-top: 16px;">
+      Create new subscription
+    </div>
+    <div style="margin-top: 40px;">
+      <div class="h4-strong text-c300">Subscription name</div>
+      <input
+        class="mt-8 input-field"
+        placeholder="Type subscription name"
+        type="text"
+        [(ngModel)]="subInfo.name"
+        style="width: 50%;"
+      />
+    </div>
+    <div class="mt-32">
+      <div class="h4-strong text-c300">Description</div>
+      <textarea
+        class="mt-8 input-field"
+        placeholder="Type description"
+        [(ngModel)]="subInfo.description"
+        style="width: 50%;"
+      ></textarea>
+    </div>
+    <div class="mt-32" class="d-flex">
+      <div style="margin-right: 32px;">
+        <div class="h4-strong text-c300">Lesson count</div>
+        <input
+          class="input-field"
+          placeholder="Type lesson count"
+          type="text"
+          [(ngModel)]="subInfo.lessonCount"
+        />
+      </div>
+      <div>
+        <div class="h4-strong text-c300">Validity</div>
+        <div class="d-flex">
+          <input
+            class="input-field validity"
+            type="text"
+            placeholder="0"
+            [(ngModel)]="subInfo.duration"
+          />
+          <div class="days h5-strong text-c100">days</div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-32">
+      <div class="h4-strong text-c300">Price</div>
+      <div class="d-flex mt-8">
+        <div class="dollar h5-strong text-c100">S$</div>
+        <input
+          class="input-field price"
+          type="text"
+          placeholder="0.00"
+          [(ngModel)]="subInfo.price"
+          style="width: 50%;"
+        />
+      </div>
+    </div>
+    <div class="d-flex" style="float: right;">
+      <button
+        (click)="createToggle()"
+        class="cancel-btn sub-btn h4-strong text-b100 cursor"
+        style="margin-right: 24px;"
+      >
+        Cancel
+      </button>
+      <button
+        *ngIf="!updateFlag"
+        class="btn bg-b100 body-m text-s0 sub-btn"
+        (click)="createSub()"
+      >
+        Create
+      </button>
+      <button
+        *ngIf="updateFlag"
+        class="btn bg-b100 body-m text-s0 sub-btn"
+        (click)="updateSub()"
+      >
+        Update
+      </button>
+    </div>
+  </div>
+</div>

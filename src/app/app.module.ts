@@ -170,6 +170,7 @@ import {
   SubscriptionDetailComponent,
   LessonPickerComponent
 } from './subscription/index';
+import { CreateSubscriptionComponent } from './components/create-subscription/create-subscription.component';
 
 @NgModule({
   declarations: [
@@ -291,7 +292,8 @@ import {
     SampleQuestionComponent,
     SubscriptionComponent,
     SubscriptionDetailComponent,
-    LessonPickerComponent
+    LessonPickerComponent,
+    CreateSubscriptionComponent
   ],
   imports: [
     ContentLoaderModule,
