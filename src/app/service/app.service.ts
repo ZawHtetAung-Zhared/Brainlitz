@@ -5276,4 +5276,34 @@ export class appService {
         return res;
       });
   }
+
+  createSubscription(body, regionId) {
+    let apiUrl = this.baseUrl + '/' + regionId + '/subscriptions';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
+  }
+
+  updateSubscription(body, regionId, subId) {
+    let apiUrl = this.baseUrl + '/' + regionId + '/subscriptions/' + subId;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .patch(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
+  }
 }
