@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { appService } from '../../service/app.service';
 import { ToastrService } from 'ngx-toastr';
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbDateAdapter,
+  NgbDatepickerConfig,
+  NgbCalendar,
+  NgbDateStruct
+} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-create-subscription',
@@ -16,9 +24,15 @@ export class CreateSubscriptionComponent implements OnInit {
     duration: '',
     price: ''
   };
+  public modalReference: any;
   public regionID = localStorage.getItem('regionId');
+  public checkboxFlag: any = {};
 
-  constructor(private _service: appService, public toastr: ToastrService) {}
+  constructor(
+    private _service: appService,
+    public toastr: ToastrService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit() {
     this.getSubs();
@@ -104,5 +118,18 @@ export class CreateSubscriptionComponent implements OnInit {
     };
     this.createFlag = false;
     this.updateFlag = false;
+  }
+  public selectedSub: any = null;
+  viewSubscribersModal(modal, sub) {
+    console.log('new modal', sub);
+    this.selectedSub = sub;
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass: 'modal-xl modal-inv'
+    });
+  }
+
+  closeModal() {
+    this.modalReference.close();
   }
 }

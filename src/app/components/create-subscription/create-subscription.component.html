@@ -40,20 +40,23 @@
           class="d-flex justify-content-between sub-footer"
           style="margin-top: 16px;"
         >
-          <div class="body-m text-b100">
+          <div
+            (click)="viewSubscribersModal(viewSubscribers, sub)"
+            class="body-m text-b100 cursor"
+          >
             View subscriber
           </div>
           <div class="d-flex">
             <div
               (click)="editSub(sub)"
               class="body-m text-y200 cursor"
-              style="padding: 0px 8px;border-right: 1px solid #E3E4E6;"
+              style="padding: 0px 8px"
             >
               Edit
             </div>
-            <div class="body-m text-r100 cursor" style="padding: 0px 8px;">
+            <!-- <div class="body-m text-r100 cursor" style="padding: 0px 8px;">
               Delete
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -66,26 +69,24 @@
     <div class="h1-strong text-c300" style="margin-top: 16px;">
       Create new subscription
     </div>
-    <div style="margin-top: 40px;">
+    <div style="margin-top: 40px;" style="max-width: 480px;">
       <div class="h4-strong text-c300">Subscription name</div>
       <input
         class="mt-8 input-field"
         placeholder="Type subscription name"
         type="text"
         [(ngModel)]="subInfo.name"
-        style="width: 50%;"
       />
     </div>
-    <div class="mt-32">
+    <div class="mt-32" style="max-width: 480px;">
       <div class="h4-strong text-c300">Description</div>
       <textarea
         class="mt-8 input-field"
         placeholder="Type description"
         [(ngModel)]="subInfo.description"
-        style="width: 50%;"
       ></textarea>
     </div>
-    <div class="mt-32" class="d-flex">
+    <div class="mt-32" class="d-flex" style="max-width: 480px;">
       <div style="margin-right: 32px;">
         <div class="h4-strong text-c300">Lesson count</div>
         <input
@@ -108,7 +109,7 @@
         </div>
       </div>
     </div>
-    <div class="mt-32">
+    <div class="mt-32" style="max-width: 480px;">
       <div class="h4-strong text-c300">Price</div>
       <div class="d-flex mt-8">
         <div class="dollar h5-strong text-c100">S$</div>
@@ -117,11 +118,10 @@
           type="text"
           placeholder="0.00"
           [(ngModel)]="subInfo.price"
-          style="width: 50%;"
         />
       </div>
     </div>
-    <div class="d-flex" style="float: right;">
+    <div class="d-flex" style="float: right; margin-top: 40px;">
       <button
         (click)="createToggle()"
         class="cancel-btn sub-btn h4-strong text-b100 cursor"
@@ -146,3 +146,84 @@
     </div>
   </div>
 </div>
+<ng-template #viewSubscribers let-c="close" let-d="dismiss">
+  <div class="viewSub-container">
+    <div class="d-flex justify-content-between">
+      <div class="d-flex flex-column">
+        <div class="body-l text-c100">{{ selectedSub.name }}'s</div>
+        <div class="h1-strong text-c300">Subscriber</div>
+      </div>
+      <div class="d-flex lesson">
+        <div class="d-flex flex-column">
+          <div class="light-body-m text-b100">
+            <span class="h3-strong text-b200">{{
+              selectedSub.lessonCount
+            }}</span>
+            lessons
+          </div>
+          <div class="small text-b100">
+            Available for <b>{{ selectedSub.duration }} days</b>
+          </div>
+        </div>
+        <div class="d-flex flex-column">
+          <div class="small text-b100">Price</div>
+          <div class="h4-strong text-b200">S$ {{ selectedSub.price }}</div>
+        </div>
+      </div>
+    </div>
+    <div style="min-height: 600px;">
+      <div style="margin-top: 40px;" class="d-flex sub-head align-item-center">
+        <div class="d-flex" style="width: 50%;">
+          <div class="hash caption-u text-s70">#</div>
+          <div class="caption-u text-c100">Customer</div>
+        </div>
+        <div style="width: 25%;" class="caption-u text-c100">
+          Subscribed date
+        </div>
+        <div style="width: 25%;" class="caption-u text-c100">
+          Expiry date
+        </div>
+      </div>
+
+      <div class="d-flex sub-body align-item-center">
+        <div class="d-flex align-item-center" style="width: 50%;">
+          <div class="hash">
+            <input
+              class="lesson-cb"
+              type="checkbox"
+              [(ngModel)]="checkboxFlag[i]"
+            />
+          </div>
+          <div class="d-flex align-item-center">
+            <img class="temp-icon" src="" />
+            <div class="body-m text-b100">Jerome Bell</div>
+          </div>
+        </div>
+        <div style="width: 25%;" class="light-body-m text-c300">
+          5 Jan 2021
+        </div>
+        <div style="width: 25%;" class="light-body-m text-c300">
+          25 Apr 2021
+        </div>
+      </div>
+    </div>
+    <div class="d-flex Viewsub-footer justify-content-between">
+      <div class="d-flex align-item-center cursor">
+        <input
+          class="lesson-cb"
+          type="checkbox"
+          [(ngModel)]="checkboxFlag[i]"
+        />
+        <div class="body-l text-c300" style="margin-left: 16px;">
+          Select All
+        </div>
+      </div>
+      <div>
+        <button class="btn bg-b100 body-m text-s0">Re-subscribe</button>
+        <button (click)="closeModal()" class="close-btn body-m text-c100">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
