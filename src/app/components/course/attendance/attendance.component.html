@@ -147,8 +147,27 @@
                 <div class="setting-list" (click)="rescheduleLesson()">
                   Reschedule
                 </div>
-                <div class="setting-list" (click)="cancelClass(content)">
-                  Cancel class
+                <div
+                  *ngIf="
+                    disableCancel == false &&
+                    reliefTeacher == null &&
+                    activeCourseInfo.CUSTOMER?.length > 0
+                  "
+                  class="setting-list"
+                  (click)="cancelClass(content)"
+                >
+                  Cancel lesson
+                </div>
+                <div
+                  *ngIf="
+                    activeCourseInfo.CUSTOMER?.length < 1 &&
+                    disableCancel == false &&
+                    reliefTeacher == null
+                  "
+                  class="setting-list"
+                  (click)="deleteLesson(lessonDelete)"
+                >
+                  Delete lesson
                 </div>
               </div>
             </div>

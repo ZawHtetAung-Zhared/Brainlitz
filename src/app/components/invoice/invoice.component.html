@@ -1441,7 +1441,8 @@
             <div class="body-m text-c100">
               {{ invoiceCourse.name }}
               <div>
-                <span>From: {{ invoiceCourse.startDate | utcDate }}</span
+                <span *ngIf="invoiceCourse.startDate"
+                  >From: {{ invoiceCourse.startDate | utcDate }}</span
                 ><span class="pl-3" *ngIf="invoiceCourse.endDate"
                   >To: {{ invoiceCourse.endDate | utcDate }}</span
                 ><span class="pl-3" *ngIf="invoiceCourse.lessonCount"
