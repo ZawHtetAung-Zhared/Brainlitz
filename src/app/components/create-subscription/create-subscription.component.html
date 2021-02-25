@@ -33,7 +33,7 @@
             <div class="h3-strong text-c300">S$ {{ sub.price }}</div>
           </div>
         </div>
-        <div class="light-body-m text-c100">
+        <div class="light-body-m text-c100 desc">
           {{ sub.description }}
         </div>
         <div
@@ -101,7 +101,7 @@
         <div class="d-flex">
           <input
             class="input-field validity"
-            type="text"
+            type="number"
             placeholder="0"
             [(ngModel)]="subInfo.duration"
           />
@@ -115,7 +115,7 @@
         <div class="dollar h5-strong text-c100">S$</div>
         <input
           class="input-field price"
-          type="text"
+          type="number"
           placeholder="0.00"
           [(ngModel)]="subInfo.price"
         />
@@ -185,7 +185,7 @@
         </div>
       </div>
 
-      <div class="d-flex sub-body align-item-center">
+      <div (click)="checkLesson()" class="d-flex sub-body align-item-center">
         <div class="d-flex align-item-center" style="width: 50%;">
           <div class="hash">
             <input
