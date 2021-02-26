@@ -171,7 +171,7 @@
         </div>
       </div>
     </div>
-    <div style="min-height: 600px;">
+    <div class="head-container">
       <div style="margin-top: 40px;" class="d-flex sub-head align-item-center">
         <div class="d-flex" style="width: 50%;">
           <div class="hash caption-u text-s70">#</div>
@@ -185,7 +185,14 @@
         </div>
       </div>
 
-      <div (click)="checkLesson()" class="d-flex sub-body align-item-center">
+      <div
+        [ngClass]="{
+          'checked-lesson': checkboxFlag[i] == true
+        }"
+        (click)="checkLesson(i)"
+        class="d-flex sub-body align-item-center"
+        *ngFor="let sub of subscriberList; let i = index"
+      >
         <div class="d-flex align-item-center" style="width: 50%;">
           <div class="hash">
             <input
@@ -195,31 +202,35 @@
             />
           </div>
           <div class="d-flex align-item-center">
-            <img class="temp-icon" src="" />
-            <div class="body-m text-b100">Jerome Bell</div>
+            <img class="temp-icon" src="{{ sub.userDetails.profilePic }}" />
+            <div class="body-m text-b100" style="margin-left: 3.25px;">
+              {{ sub.userDetails.preferredName }}
+            </div>
           </div>
         </div>
         <div style="width: 25%;" class="light-body-m text-c300">
-          5 Jan 2021
+          {{ sub.createdDate | date: 'dd LLL yyyy' }}
         </div>
         <div style="width: 25%;" class="light-body-m text-c300">
-          25 Apr 2021
+          {{ sub.expireDate | date: 'dd LLL yyyy' }}
         </div>
       </div>
     </div>
     <div class="d-flex Viewsub-footer justify-content-between">
       <div class="d-flex align-item-center cursor">
-        <input
-          class="lesson-cb"
-          type="checkbox"
-          [(ngModel)]="checkboxFlag[i]"
-        />
-        <div class="body-l text-c300" style="margin-left: 16px;">
+        <input class="lesson-cb" type="checkbox" [(ngModel)]="selectAllFlag" />
+        <div
+          class="body-l text-c300"
+          style="margin-left: 16px;"
+          (click)="selectAll()"
+        >
           Select All
         </div>
       </div>
       <div>
-        <button class="btn bg-b100 body-m text-s0">Re-subscribe</button>
+        <button (click)="resubscribe()" class="btn bg-b100 body-m text-s0">
+          Re-subscribe
+        </button>
         <button (click)="closeModal()" class="close-btn body-m text-c100">
           Close
         </button>

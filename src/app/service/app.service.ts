@@ -5306,4 +5306,23 @@ export class appService {
         return res;
       });
   }
+
+  getSubscriberList(regionId, subId) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/subscriptions/' +
+      subId +
+      '/subscribers';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
 }
