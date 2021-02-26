@@ -398,6 +398,7 @@ export class TodayLessonsComponent implements OnInit {
   }
   cancelMultiple(modal) {
     this.checkboxFlag = {};
+    this.selectAllFlag = false;
     console.log('new modal', modal);
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',

@@ -122,6 +122,10 @@ export class CreateSubscriptionComponent implements OnInit {
   public selectedSub: any = null;
   viewSubscribersModal(modal, sub) {
     console.log('new modal', sub);
+    this.checkboxFlag = {};
+    this.selectAllFlag = false;
+    this.subscriberList = [];
+    this.getSubscriberList(sub);
     this.selectedSub = sub;
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
@@ -131,5 +135,61 @@ export class CreateSubscriptionComponent implements OnInit {
 
   closeModal() {
     this.modalReference.close();
+  }
+  public subscriberList: any = [];
+  getSubscriberList(sub) {
+    this._service.getSubscriberList(this.regionID, sub._id).subscribe(
+      (res: any) => {
+        console.log('who sub??', res);
+        this.subscriberList = res;
+      },
+      err => {
+        console.log(err);
+        this.toastr.error(err.error.message);
+      }
+    );
+  }
+
+  checkLesson(i) {
+    console.log('~~~~~~', this.checkboxFlag);
+    if (this.checkboxFlag[i] != true) {
+      this.checkboxFlag[i] = true;
+    } else this.checkboxFlag[i] = false;
+  }
+  public selectAllFlag: boolean = false;
+  selectAll() {
+    this.selectAllFlag = !this.selectAllFlag;
+    for (var k = 0; k < this.subscriberList.length; k++) {
+      this.checkboxFlag[k] = this.selectAllFlag ? true : false;
+    }
+  }
+
+  resubscribe() {
+    var subId = '';
+    for (var k = 0; k < this.subscriberList.length; k++) {
+      if (this.checkboxFlag[k] == true) {
+        console.log('####', this.subscriberList[k]);
+        subId += this.subscriberList[k].userDetails._id + ',';
+      }
+    }
+    subId = subId.substring(0, subId.length - 1);
+    console.log('re re re', subId);
+    var body = {
+      userId: subId
+    };
+
+    this._service
+      .subscribeNewPlan(body, this.regionID, this.selectedSub._id)
+      .subscribe(
+        (res: any) => {
+          console.log('subscribe', res);
+          this.toastr.success('Successfully subscribed!');
+          this.modalReference.close();
+        },
+        err => {
+          console.log(err);
+          this.toastr.error(err.error.message);
+        }
+      );
   }
 }

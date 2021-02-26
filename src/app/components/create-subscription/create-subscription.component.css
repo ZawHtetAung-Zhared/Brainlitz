@@ -159,3 +159,11 @@
   overflow: auto;
   margin-top: 16px;
 }
+.checked-lesson {
+  background: #f2f3f5 !important;
+}
+.head-container {
+  overflow: auto;
+  height: 600px;
+  margin-bottom: 80px;
+}
