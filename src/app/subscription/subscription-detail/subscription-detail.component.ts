@@ -239,6 +239,10 @@ export class SubscriptionDetailComponent implements OnInit {
     this.word = null;
     this.selectedPlanId = null;
     this.searchVal = '';
+    this.selectedPlan = null;
+    this.dateModal = new Date();
+    this.todayModal = new Date();
+    this.todayDate = new Date();
   }
 
   removePlan(e) {

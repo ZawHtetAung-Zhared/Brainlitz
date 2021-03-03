@@ -34,6 +34,7 @@ export class SubscriptionComponent implements OnInit {
   public subscriptionList = [];
   public planFlag: boolean = false;
   public subPlanList = [];
+  public dateModal: Date = new Date();
 
   constructor(
     private modalService: NgbModal,
@@ -223,6 +224,10 @@ export class SubscriptionComponent implements OnInit {
     this.word = null;
     this.selectedPlanId = null;
     this.searchVal = '';
+    this.selectedPlan = null;
+    this.dateModal = new Date();
+    this.todayModal = new Date();
+    this.todayDate = new Date();
   }
 
   public word: any;
