@@ -249,7 +249,7 @@ export class InvoiceReportComponent implements OnInit {
           array[i].userDetails == null ||
           array[i].userDetails.preferredName == null
         ) {
-          invObj['name'] = array[i].user.email;
+          invObj['name'] = array[i].user ? array[i].user.email : '-';
         } else invObj['name'] = array[i].userDetails.preferredName;
         invObj['amount'] = array[i].total;
         if (
