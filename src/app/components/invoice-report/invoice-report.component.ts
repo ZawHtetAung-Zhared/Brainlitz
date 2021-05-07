@@ -307,7 +307,7 @@ export class InvoiceReportComponent implements OnInit {
             array[i].userDetails == null ||
             array[i].userDetails.preferredName == null
           )
-            invObj['name'] = array[i].user.email;
+            invObj['name'] = array[i].user ? array[i].user.email : '-';
           else invObj['name'] = array[i].userDetails.preferredName;
           if (payment.paymentMethodDetails == undefined) {
             invObj['method'] = '-';
