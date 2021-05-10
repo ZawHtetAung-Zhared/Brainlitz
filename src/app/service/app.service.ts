@@ -3348,7 +3348,7 @@ export class appService {
       regionId +
       '/invoices?status=' +
       status +
-      '&all=true';
+      '&all=true&exportinvoices=true';
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -4393,13 +4393,38 @@ export class appService {
       '/courses/today-lessons?locationId=' +
       locationid +
       '&date=' +
-      date;
+      date.toISOString();
     if (word != null) {
       url += '&courseName=' + word;
     }
     if (cid != null) {
       url += '&coursePlanId=' + cid;
     }
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+
+    return this.httpClient.get(url, httpOptions).pipe(
+      map((res: Response) => {
+        let data = [];
+        data.push(this.todayMapper(res));
+        console.log('data', data);
+
+        return data[0];
+      })
+    );
+  }
+
+  gettodayDatedLesson(regionId, locationid) {
+    let url =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/courses/today-lessons?locationId=' +
+      locationid;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
