@@ -68,7 +68,7 @@ export class TodayLessonsComponent implements OnInit {
 
   ngOnInit() {
     this.todayDate = new Date();
-    this.getTodayLesson();
+    this.getTodayDatedLesson();
     console.log('abcd', this.selectedDate.toISOString());
   }
 
@@ -92,6 +92,19 @@ export class TodayLessonsComponent implements OnInit {
           console.log(err);
         }
       );
+  }
+  getTodayDatedLesson() {
+    this._service.gettodayDatedLesson(this.regionId, this.locationID).subscribe(
+      (res: any) => {
+        console.log(this.todayCourse);
+
+        this.todayCourse = res;
+        console.log('tday lessons', this.todayCourse);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
   backToCourse() {
     // this._service.backCourse();
@@ -493,7 +506,8 @@ export class TodayLessonsComponent implements OnInit {
     this.todayModal = moment(today).toDate();
     this.dateModal = this.todayModal;
     this.todayDate = this.dateModal;
-    this.getTodayLesson();
+    // this.getTodayLesson();
+    this.getTodayDatedLesson();
   }
   stopEvent(e) {
     e.stopPropagation();
