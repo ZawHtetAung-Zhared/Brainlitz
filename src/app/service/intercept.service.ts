@@ -52,6 +52,7 @@ export class InterceptService implements HttpInterceptor {
           this.err_status = err.status;
           if (err instanceof HttpErrorResponse) {
             this.blockUI.stop();
+            this.toastr.error('Something went wrong');
             // redirect to log in page
             if (err.status === 401) {
               localStorage.clear();
@@ -76,7 +77,7 @@ export class InterceptService implements HttpInterceptor {
           } else {
             this.isOnline.subscribe(data => {
               if (data == true) {
-                this.blockUI.start('Loading...');
+                // this.blockUI.start('Loading...');
                 return errors.switchMap((x: any) => {
                   return Observable.of(x);
                 });
