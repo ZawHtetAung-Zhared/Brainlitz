@@ -155,7 +155,7 @@ export class UserListComponent implements OnInit {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
     var str = '';
     var row = '';
-    row = 'Student Id,Email,Preferred Name,Full Name,Guardian Email';
+    row = 'Student Id,Email,Preferred Name,Full Name,Guardian Email,userType';
     str += row + '\r\n';
     var invObj = {};
     var objArr = [];
@@ -177,6 +177,7 @@ export class UserListComponent implements OnInit {
       )
         invObj['guardianEmail'] = '';
       else invObj['guardianEmail'] = array[i].guardianEmail[0];
+      invObj['userType'] = array[i].userType;
       var line = '';
       for (var index in invObj) {
         if (line != '') line += ',';
