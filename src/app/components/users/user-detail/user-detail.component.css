@@ -3033,3 +3033,76 @@ p.grade-txt {
   bottom: -12px;
   right: 40px;
 }
+.rm-header {
+  background: #f7f9fa;
+  display: flex;
+
+  width: auto;
+  height: 48px;
+  align-items: center;
+  border-radius: 20px 20px 0 0;
+}
+.rm-lesson {
+  display: flex;
+  box-shadow: 0px -1px 0px #e3e4e5;
+  width: auto;
+  height: 64px;
+  align-items: center;
+}
+.rm-container {
+  height: 360px;
+  overflow: auto;
+  overflow-x: hidden;
+}
+.rm-count {
+  width: auto;
+  height: 24px;
+  background: #e8e9eb;
+  border-radius: 99px;
+}
+.rm-present {
+  width: max-content;
+  height: 32px;
+
+  background: #bfffda;
+  border-radius: 32px;
+}
+.rm-absent {
+  width: max-content;
+  height: 32px;
+
+  background: #ffe7e6;
+  border-radius: 32px;
+}
+.rm-cancel {
+  width: max-content;
+  height: 32px;
+
+  background: #fff2b3;
+  border-radius: 32px;
+}
+.rm-nodata {
+  width: max-content;
+  height: 32px;
+
+  background: #f2f3f5;
+  border-radius: 32px;
+}
+.rm-unavail {
+  width: max-content;
+  height: 32px;
+
+  background: #f7f9fa;
+  border-radius: 32px;
+}
+.rm-profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+}
+.rm-auto {
+  height: 24px;
+  width: auto;
+  background: #f2f3f5;
+  border-radius: 99px;
+}

@@ -2487,10 +2487,93 @@
     </div>
     <div class="modal-body lessons_body">
       <div class="d-flex flex-column">
-        <h3 class="h1-strong text-c300">Lesson</h3>
+        <h3 class="h1-strong text-c300">Remaining lesson</h3>
         <p class="pb-0 light-body-l text-c100">{{ lessonOfStudent.name }}</p>
       </div>
-      <p class="_lessons_left body-l text-c300">
+      <div class="rm-header caption-u text-c100">
+        <div class="d-flex" style="width: 40%;">
+          Date
+          <div class="rm-count text-c100 caption">
+            {{ lessonOfStudent.upComingLessonCountOfStudent }}
+            <span *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1"
+              >lessons left</span
+            ><span *ngIf="lessonOfStudent.upComingLessonCountOfStudent <= 1"
+              >lesson left</span
+            >
+          </div>
+        </div>
+        <div style="width: 30%;">Status</div>
+        <div style="width: 30%;">Teacher</div>
+      </div>
+      <div class="rm-container">
+        <div
+          class="rm-lesson"
+          *ngFor="let lesson of lessonOfStudent.lessonsOfStudent"
+        >
+          <div class="h5-strong text-c300" style="width: 40%;">
+            {{ lesson.startDate | remainingLessonDate
+            }}<span class="rm-auto" *ngIf="lesson.autoEnrolledLesson"
+              >Auto enrolled lesson</span
+            ><span *ngIf="lesson.makeup">Makeup lesson</span
+            ><span *ngIf="lesson.rescheduledLesson">Reschedued lesson</span>
+          </div>
+          <div style="width: 30%;" *ngIf="lesson.cancel == true">
+            <div class="rm-cancel text-y300 body-m">
+              <img src="../../../../assets/img/rm_cancel.png" />Cancelled
+            </div>
+          </div>
+          <div
+            style="width: 30%;"
+            *ngIf="lesson.attendance == true && lesson.cancel == false"
+          >
+            <div class="rm-present text-g200 body-m">
+              <img src="../../../../assets/img/rm_present.png" />Present
+            </div>
+          </div>
+          <div
+            style="width: 30%;"
+            *ngIf="lesson.attendance == false && lesson.cancel == false"
+          >
+            <div class="rm-absent text-r100 body-m">
+              <img src="../../../../assets/img/rm_absent.png" />Absent
+            </div>
+          </div>
+          <div
+            style="width: 30%;"
+            *ngIf="
+              lesson.attendance == null &&
+              !lesson.isUpcomingLesson &&
+              lesson.cancel == false
+            "
+          >
+            <div class="rm-nodata text-c100 body-m">
+              <img src="../../../../assets/img/rm_nodata.png" />No data
+            </div>
+          </div>
+          <div
+            style="width: 30%;"
+            *ngIf="
+              lesson.isUpcomingLesson &&
+              lesson.attendance == null &&
+              lesson.cancel == false
+            "
+          >
+            <div class="rm-unavail text-s70 body-m">
+              <img src="../../../../assets/img/rm_unavail.png" />Not avaliable
+            </div>
+          </div>
+          <div
+            class="d-flex align-items-center light-body-m text-c300"
+            style="width: 30%;"
+          >
+            <div>
+              <img class="rm-profile" src="{{ lesson.teacher?.profilePic }}" />
+            </div>
+            {{ lesson.teacher?.preferredName }}
+          </div>
+        </div>
+      </div>
+      <!-- <p class="_lessons_left body-l text-c300">
         {{ lessonOfStudent.upComingLessonCountOfStudent }}/{{
           lessonOfStudent.lessonsOfStudent.length
         }}
@@ -2506,8 +2589,8 @@
         >
           lesson left
         </span>
-      </p>
-      <div class="lesson_block_wrapper">
+      </p> -->
+      <!-- <div class="lesson_block_wrapper">
         <div
           class="lesson_block"
           [ngClass]="{
@@ -2628,7 +2711,7 @@
             >
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </ng-template>
 
