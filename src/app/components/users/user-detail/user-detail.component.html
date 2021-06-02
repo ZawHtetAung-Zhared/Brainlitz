@@ -2491,19 +2491,19 @@
         <p class="pb-0 light-body-l text-c100">{{ lessonOfStudent.name }}</p>
       </div>
       <div class="rm-header caption-u text-c100">
-        <div class="d-flex" style="width: 40%;">
+        <div class="d-flex align-items-center" style="width: 40%;">
           Date
           <div class="rm-count text-c100 caption">
             {{ lessonOfStudent.upComingLessonCountOfStudent }}
-            <span *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1"
-              >lessons left</span
-            ><span *ngIf="lessonOfStudent.upComingLessonCountOfStudent <= 1"
-              >lesson left</span
+            <span *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1">
+              lessons left</span
+            ><span *ngIf="lessonOfStudent.upComingLessonCountOfStudent <= 1">
+              lesson left</span
             >
           </div>
         </div>
-        <div style="width: 30%;">Status</div>
-        <div style="width: 30%;">Teacher</div>
+        <div class="d-flex align-items-center" style="width: 30%;">Status</div>
+        <div class="d-flex align-items-center" style="width: 30%;">Teacher</div>
       </div>
       <div class="rm-container">
         <div
@@ -2512,14 +2512,19 @@
         >
           <div class="h5-strong text-c300" style="width: 40%;">
             {{ lesson.startDate | remainingLessonDate
-            }}<span class="rm-auto" *ngIf="lesson.autoEnrolledLesson"
+            }}<span
+              class="rm-auto small text-c100"
+              *ngIf="lesson.autoEnrolledLesson"
               >Auto enrolled lesson</span
             ><span *ngIf="lesson.makeup">Makeup lesson</span
             ><span *ngIf="lesson.rescheduledLesson">Reschedued lesson</span>
           </div>
           <div style="width: 30%;" *ngIf="lesson.cancel == true">
             <div class="rm-cancel text-y300 body-m">
-              <img src="../../../../assets/img/rm_cancel.png" />Cancelled
+              <img
+                class="mr-6"
+                src="../../../../assets/img/rm_cancel.png"
+              />Cancelled
             </div>
           </div>
           <div
@@ -2527,7 +2532,10 @@
             *ngIf="lesson.attendance == true && lesson.cancel == false"
           >
             <div class="rm-present text-g200 body-m">
-              <img src="../../../../assets/img/rm_present.png" />Present
+              <img
+                class="mr-6"
+                src="../../../../assets/img/rm_present.png"
+              />Present
             </div>
           </div>
           <div
@@ -2535,7 +2543,10 @@
             *ngIf="lesson.attendance == false && lesson.cancel == false"
           >
             <div class="rm-absent text-r100 body-m">
-              <img src="../../../../assets/img/rm_absent.png" />Absent
+              <img
+                class="mr-6"
+                src="../../../../assets/img/rm_absent.png"
+              />Absent
             </div>
           </div>
           <div
@@ -2547,7 +2558,8 @@
             "
           >
             <div class="rm-nodata text-c100 body-m">
-              <img src="../../../../assets/img/rm_nodata.png" />No data
+              <img class="mr-6" src="../../../../assets/img/rm_nodata.png" />No
+              data
             </div>
           </div>
           <div
@@ -2559,7 +2571,10 @@
             "
           >
             <div class="rm-unavail text-s70 body-m">
-              <img src="../../../../assets/img/rm_unavail.png" />Not avaliable
+              <img
+                class="mr-6"
+                src="../../../../assets/img/rm_unavail.png"
+              />Not avaliable
             </div>
           </div>
           <div
@@ -2567,7 +2582,10 @@
             style="width: 30%;"
           >
             <div>
-              <img class="rm-profile" src="{{ lesson.teacher?.profilePic }}" />
+              <img
+                class="rm-profile mr-3"
+                src="{{ lesson.teacher?.profilePic }}"
+              />
             </div>
             {{ lesson.teacher?.preferredName }}
           </div>

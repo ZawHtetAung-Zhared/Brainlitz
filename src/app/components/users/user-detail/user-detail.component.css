@@ -3059,6 +3059,11 @@ p.grade-txt {
   height: 24px;
   background: #e8e9eb;
   border-radius: 99px;
+
+  display: flex;
+  align-items: center;
+  padding: 2px 10px;
+  margin-left: 12px;
 }
 .rm-present {
   width: max-content;
@@ -3095,6 +3100,15 @@ p.grade-txt {
   background: #f7f9fa;
   border-radius: 32px;
 }
+.rm-present,
+.rm-absent,
+.rm-cancel,
+.rm-nodata,
+.rm-unavail {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+}
 .rm-profile {
   width: 40px;
   height: 40px;
@@ -3105,4 +3119,16 @@ p.grade-txt {
   width: auto;
   background: #f2f3f5;
   border-radius: 99px;
+  margin-left: 8px;
+  padding: 2px 10px;
+}
+.rm-header > div,
+.rm-lesson > div {
+  padding-left: 24px;
+}
+.mr-6 {
+  margin-right: 6px;
+}
+.mr-3 {
+  margin-right: 3.25px;
 }
