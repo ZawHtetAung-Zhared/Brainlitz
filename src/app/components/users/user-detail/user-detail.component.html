@@ -2494,11 +2494,12 @@
         <div class="d-flex align-items-center" style="width: 40%;">
           Date
           <div class="rm-count text-c100 caption">
-            {{ lessonOfStudent.upComingLessonCountOfStudent }}
             <span *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1">
-              lessons left</span
+              {{ lessonOfStudent.upComingLessonCountOfStudent }} lessons
+              left</span
             ><span *ngIf="lessonOfStudent.upComingLessonCountOfStudent <= 1">
-              lesson left</span
+              {{ lessonOfStudent.upComingLessonCountOfStudent }} lesson
+              left</span
             >
           </div>
         </div>
@@ -2516,8 +2517,13 @@
               class="rm-auto small text-c100"
               *ngIf="lesson.autoEnrolledLesson"
               >Auto enrolled lesson</span
-            ><span *ngIf="lesson.makeup">Makeup lesson</span
-            ><span *ngIf="lesson.rescheduledLesson">Reschedued lesson</span>
+            ><span class="rm-auto small text-c100" *ngIf="lesson.makeup"
+              >Makeup lesson</span
+            ><span
+              class="rm-auto small text-c100"
+              *ngIf="lesson.rescheduledLesson"
+              >Reschedued lesson</span
+            >
           </div>
           <div style="width: 30%;" *ngIf="lesson.cancel == true">
             <div class="rm-cancel text-y300 body-m">
