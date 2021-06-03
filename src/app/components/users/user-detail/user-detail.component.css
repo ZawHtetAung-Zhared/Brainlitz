@@ -2523,12 +2523,14 @@ ngb-datepicker {
 }
 
 .cross_close {
-  background: url('../../../../assets/icons/cross_close.svg');
+  background: url('../../../../assets/img/rm_cross.png');
   background-position: center;
-  background-size: 16px 16px;
-  width: 16px;
-  height: 16px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
+  position: fixed;
+  right: 32px;
+  z-index: 9;
 }
 
 .lessons_body {
@@ -3050,9 +3052,10 @@ p.grade-txt {
   align-items: center;
 }
 .rm-container {
-  height: 360px;
-  overflow: auto;
-  overflow-x: hidden;
+  height: auto;
+  padding-bottom: 256px;
+  /* overflow: auto;
+  overflow-x: hidden; */
 }
 .rm-count {
   width: auto;
