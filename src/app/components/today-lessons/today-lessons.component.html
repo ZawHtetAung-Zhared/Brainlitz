@@ -142,7 +142,10 @@
                     </div>
                   </div>
                   <div>
-                    <p class="teacher-name pl-2 pt-2 body-m text-c300">
+                    <p
+                      class="teacher-name pl-2 pt-2 body-m text-c300"
+                      (click)="teacherDetail(tcourse.teacher._id)"
+                    >
                       {{ tcourse.teacher.fullName }}
                     </p>
                   </div>
@@ -191,16 +194,31 @@
                   class="d-flex student-list justify-content-between"
                   *ngFor="let student of tcourse.students; let j = index"
                 >
-                  <div class="d-flex libr">
+                  <div class="d-flex libr align-items-center">
                     <div class="mr-16 d-flex">
                       <div class="img-wrap align-self-center">
                         <img src="{{ student.userDetails.profilePic }}" />
                       </div>
                     </div>
 
-                    <p class="student-name mb-0 body-l text-c300">
+                    <p
+                      class="student-name mb-0 body-l text-c300"
+                      (click)="customerDetail(student.userDetails._id)"
+                    >
                       {{ student.userDetails.fullName }}
                     </p>
+                    <div
+                      *ngIf="student.todayLesson.makeup"
+                      class="attype text-c100 small align-items-center"
+                    >
+                      Makeup pass
+                    </div>
+                    <div
+                      *ngIf="student.todayLesson.rescheduledLesson"
+                      class="attype text-c100 small align-items-center"
+                    >
+                      Reschedued
+                    </div>
                   </div>
                   <!-- design changed on release/aot-enable -->
                   <div class="d-flex align-items-center">

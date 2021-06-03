@@ -512,4 +512,10 @@ export class TodayLessonsComponent implements OnInit {
   stopEvent(e) {
     e.stopPropagation();
   }
+  customerDetail(id) {
+    this._router.navigate(['/customer/customerdetail', id]);
+  }
+  teacherDetail(id) {
+    this._router.navigate(['/staff/staffdetail', id]);
+  }
 }
