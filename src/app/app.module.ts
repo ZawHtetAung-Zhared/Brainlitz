@@ -171,9 +171,11 @@ import {
   LessonPickerComponent
 } from './subscription/index';
 import { CreateSubscriptionComponent } from './components/create-subscription/create-subscription.component';
+import { BlockTemplateComponent } from './block-template.component';
 
 @NgModule({
   declarations: [
+    BlockTemplateComponent,
     AppComponent,
     LoginComponent,
     DashboardComponent,
@@ -335,7 +337,13 @@ import { CreateSubscriptionComponent } from './components/create-subscription/cr
     MediumEditorModule,
     CalendarModule.forRoot(),
     ImageCropperModule,
-    ColorPickerModule
+    ColorPickerModule,
+    BlockUIModule.forRoot({
+      template: BlockTemplateComponent
+    })
+  ],
+  entryComponents: [
+    BlockTemplateComponent // Make sure to add it to the entry components
   ],
   providers: [
     appService,
