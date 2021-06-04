@@ -11,6 +11,8 @@ import {
 } from '@angular/http';
 import { appService } from './service/app.service';
 import { DOCUMENT } from '@angular/platform-browser';
+import { BlockTemplateComponent } from './block-template.component';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 declare var LiveAgent: any;
 declare var $: any;
@@ -21,6 +23,8 @@ declare var $: any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  @BlockUI() blockUI: NgBlockUI;
+  blockTemplate = BlockTemplateComponent;
   title = 'app';
   public showSidebar: boolean = true;
   public showHeader: boolean = false;
