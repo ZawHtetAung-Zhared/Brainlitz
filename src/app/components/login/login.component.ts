@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   public slicePathName: any;
   public randomKey: any;
   public host: any;
-  public islogin: boolean = true;
+  public islogin: boolean = false;
   public noOrginExit: boolean = false;
   public appName: any;
   public redirectOption = localStorage.getItem('redirect');
