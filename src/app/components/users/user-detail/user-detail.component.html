@@ -2491,24 +2491,43 @@
           <h3 class="h1-strong text-c300">Remaining lesson</h3>
           <p class="pb-0 light-body-l text-c100">{{ lessonOfStudent.name }}</p>
         </div>
-        <div class="rm-header caption-u text-c100">
+        <div class="rm-header text-c100">
           <div class="d-flex align-items-center" style="width: 40%;">
-            Date
-            <div class="rm-count text-c100 caption">
-              <span *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1">
+            DATE
+            <div
+              *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1"
+              class="rm-count text-y300 small"
+            >
+              <span
+                class="d-flex align-items-center"
+                *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1"
+              >
+                <span class="text-y200 caption">Upcoming</span>
+                <div class="yellow-dot"></div>
                 {{ lessonOfStudent.upComingLessonCountOfStudent }} lessons
                 left</span
-              ><span *ngIf="lessonOfStudent.upComingLessonCountOfStudent <= 1">
+              ><span
+                class="d-flex align-items-center"
+                *ngIf="lessonOfStudent.upComingLessonCountOfStudent <= 1"
+              >
+                <span class="text-y200 caption">Upcoming</span>
+                <div class="yellow-dot"></div>
                 {{ lessonOfStudent.upComingLessonCountOfStudent }} lesson
                 left</span
               >
             </div>
+            <div
+              *ngIf="lessonOfStudent.upComingLessonCountOfStudent < 1"
+              class="rm-count-0 text-c100 caption"
+            >
+              Attended
+            </div>
           </div>
           <div class="d-flex align-items-center" style="width: 30%;">
-            Status
+            STATUS
           </div>
           <div class="d-flex align-items-center" style="width: 30%;">
-            Teacher
+            TEACHER
           </div>
         </div>
         <div class="rm-container">
