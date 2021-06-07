@@ -208,6 +208,12 @@
                       {{ student.userDetails.fullName }}
                     </p>
                     <div
+                      *ngIf="student.todayLesson.autoEnrolledLesson"
+                      class="attype text-c100 small align-items-center"
+                    >
+                      Auto enrolled
+                    </div>
+                    <div
                       *ngIf="student.todayLesson.makeup"
                       class="attype text-c100 small align-items-center"
                     >
