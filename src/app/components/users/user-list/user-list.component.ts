@@ -165,10 +165,11 @@ export class UserListComponent implements OnInit {
         invObj['email'] = array[i].email;
       else invObj['email'] = '';
       if (array[i].preferredName != undefined)
-        invObj['preferredName'] = '"' + array[i].preferredName + '"';
+        invObj['preferredName'] =
+          '"' + array[i].preferredName.replace(/"/g, '""') + '"';
       else invObj['preferredName'] = '';
       if (array[i].fullName != undefined)
-        invObj['fullName'] = '"' + array[i].fullName + '"';
+        invObj['fullName'] = '"' + array[i].fullName.replace(/"/g, '""') + '"';
       else invObj['fullName'] = '';
       if (
         array[i].guardianEmail == undefined ||
