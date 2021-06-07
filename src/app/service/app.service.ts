@@ -4324,8 +4324,7 @@ export class appService {
       userId +
       '/module-types/' +
       type +
-      '/achievements' +
-      '?includeEmptyApg=true';
+      '/achievements?includeEmptyApg=true';
 
     const httpOptions = {
       headers: new HttpHeaders({
