@@ -160,6 +160,28 @@ export class UserDetailComponent implements OnInit {
       this.isSticky = false;
     }
   }
+  public headerFixed: boolean = false;
+  @HostListener('document:wheel', ['$event.target'])
+  public onWheel(targetElement) {
+    var container = document.getElementById('rm-container');
+    var parent = document.getElementById('rm-parent');
+    if (container != null) {
+      console.log(
+        'testing',
+        container.getBoundingClientRect().top -
+          parent.getBoundingClientRect().top
+      );
+      if (
+        container.getBoundingClientRect().top -
+          parent.getBoundingClientRect().top <=
+        0
+      ) {
+        this.headerFixed = true;
+      } else {
+        this.headerFixed = false;
+      }
+    }
+  }
 
   @ViewChild('carousel') carousel: NgbCarousel;
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
@@ -1490,8 +1512,5 @@ export class UserDetailComponent implements OnInit {
       this.makeupModalClose();
       this.callMakeupLists();
     });
-  }
-  sortDate() {
-    this.lessonOfStudent.lessonsOfStudent = this.lessonOfStudent.lessonsOfStudent.reverse();
   }
 }

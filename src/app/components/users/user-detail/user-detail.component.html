@@ -2481,7 +2481,7 @@
   </ng-template>
 
   <ng-template #remainingLessons>
-    <div style="overflow: auto;">
+    <div style="overflow: auto; height: 767px;" id="rm-parent">
       <div class="d-flex modal-header">
         <h3 class="body-m text-c100">{{ custDetail.user.preferredName }}</h3>
         <span class="cross_close" (click)="closeModal('')"></span>
@@ -2491,11 +2491,49 @@
           <h3 class="h1-strong text-c300">Remaining lesson</h3>
           <p class="pb-0 light-body-l text-c100">{{ lessonOfStudent.name }}</p>
         </div>
-        <div class="rm-header text-c100">
+        <div *ngIf="!headerFixed" class="rm-header text-c100">
+          <div class="d-flex align-items-center" style="width: 40%;">
+            DATE
+            <div
+              *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1"
+              class="rm-count text-y300 small"
+            >
+              <span
+                class="d-flex align-items-center"
+                *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1"
+              >
+                <span class="text-y200 caption">Upcoming</span>
+                <div class="yellow-dot"></div>
+                {{ lessonOfStudent.upComingLessonCountOfStudent }} lessons
+                left</span
+              ><span
+                class="d-flex align-items-center"
+                *ngIf="lessonOfStudent.upComingLessonCountOfStudent <= 1"
+              >
+                <span class="text-y200 caption">Upcoming</span>
+                <div class="yellow-dot"></div>
+                {{ lessonOfStudent.upComingLessonCountOfStudent }} lesson
+                left</span
+              >
+            </div>
+            <div
+              *ngIf="lessonOfStudent.upComingLessonCountOfStudent < 1"
+              class="rm-count-0 text-c100 caption"
+            >
+              Attended
+            </div>
+          </div>
+          <div class="d-flex align-items-center" style="width: 30%;">
+            STATUS
+          </div>
+          <div class="d-flex align-items-center" style="width: 30%;">
+            TEACHER
+          </div>
+        </div>
+        <div *ngIf="headerFixed" class="rm-header-fixed text-c100">
           <div
-            class="d-flex align-items-center cursor"
-            style="width: 40%;"
-            (click)="sortDate()"
+            class="d-flex align-items-center"
+            style="width: 40%;margin-left: 24px;"
           >
             DATE
             <div
@@ -2534,7 +2572,7 @@
             TEACHER
           </div>
         </div>
-        <div class="rm-container">
+        <div class="rm-container" id="rm-container">
           <div
             class="rm-lesson"
             *ngFor="let lesson of lessonOfStudent.lessonsOfStudent"
