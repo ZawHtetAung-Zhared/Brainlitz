@@ -2492,7 +2492,11 @@
           <p class="pb-0 light-body-l text-c100">{{ lessonOfStudent.name }}</p>
         </div>
         <div class="rm-header text-c100">
-          <div class="d-flex align-items-center" style="width: 40%;">
+          <div
+            class="d-flex align-items-center cursor"
+            style="width: 40%;"
+            (click)="sortDate()"
+          >
             DATE
             <div
               *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1"

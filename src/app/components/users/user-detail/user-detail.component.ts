@@ -1054,6 +1054,10 @@ export class UserDetailComponent implements OnInit {
   openLessonsModal(modal, course) {
     this.lessonOfStudent = course;
     console.log(this.lessonOfStudent.lessonsOfStudent);
+    console.log(
+      'reverse order',
+      this.lessonOfStudent.lessonsOfStudent.reverse()
+    );
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass: 'modal-xl d-flex justify-content-center align-items-center'
@@ -1486,5 +1490,8 @@ export class UserDetailComponent implements OnInit {
       this.makeupModalClose();
       this.callMakeupLists();
     });
+  }
+  sortDate() {
+    this.lessonOfStudent.lessonsOfStudent = this.lessonOfStudent.lessonsOfStudent.reverse();
   }
 }
