@@ -161,16 +161,17 @@ export class UserDetailComponent implements OnInit {
     }
   }
   public headerFixed: boolean = false;
+  public attendedFlag: boolean = false;
   @HostListener('document:wheel', ['$event.target'])
   public onWheel(targetElement) {
     var container = document.getElementById('rm-container');
     var parent = document.getElementById('rm-parent');
     if (container != null) {
-      console.log(
-        'testing',
-        container.getBoundingClientRect().top -
-          parent.getBoundingClientRect().top
-      );
+      // console.log(
+      //   "testing",
+      //   container.getBoundingClientRect().top -
+      //     parent.getBoundingClientRect().top
+      // );
       if (
         container.getBoundingClientRect().top -
           parent.getBoundingClientRect().top <=
@@ -179,6 +180,23 @@ export class UserDetailComponent implements OnInit {
         this.headerFixed = true;
       } else {
         this.headerFixed = false;
+      }
+    }
+    var line = document.getElementById('the-line');
+    if (line != null) {
+      console.log(
+        'line testing',
+        line.getBoundingClientRect().top -
+          (parent.getBoundingClientRect().top + 48)
+      );
+      if (
+        line.getBoundingClientRect().top -
+          (parent.getBoundingClientRect().top + 48) <=
+        0
+      ) {
+        this.attendedFlag = true;
+      } else {
+        this.attendedFlag = false;
       }
     }
   }
@@ -1076,10 +1094,6 @@ export class UserDetailComponent implements OnInit {
   openLessonsModal(modal, course) {
     this.lessonOfStudent = course;
     console.log(this.lessonOfStudent.lessonsOfStudent);
-    console.log(
-      'reverse order',
-      this.lessonOfStudent.lessonsOfStudent.reverse()
-    );
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass: 'modal-xl d-flex justify-content-center align-items-center'

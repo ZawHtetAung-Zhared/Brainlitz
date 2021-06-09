@@ -2494,10 +2494,7 @@
         <div *ngIf="!headerFixed" class="rm-header text-c100">
           <div class="d-flex align-items-center" style="width: 40%;">
             DATE
-            <div
-              *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1"
-              class="rm-count text-y300 small"
-            >
+            <div *ngIf="!attendedFlag" class="rm-count text-y300 small">
               <span
                 class="d-flex align-items-center"
                 *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1"
@@ -2516,10 +2513,7 @@
                 left</span
               >
             </div>
-            <div
-              *ngIf="lessonOfStudent.upComingLessonCountOfStudent < 1"
-              class="rm-count-0 text-c100 caption"
-            >
+            <div *ngIf="attendedFlag" class="rm-count-0 text-c100 caption">
               Attended
             </div>
           </div>
@@ -2536,10 +2530,7 @@
             style="width: 40%;margin-left: 24px;"
           >
             DATE
-            <div
-              *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1"
-              class="rm-count text-y300 small"
-            >
+            <div *ngIf="!attendedFlag" class="rm-count text-y300 small">
               <span
                 class="d-flex align-items-center"
                 *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1"
@@ -2558,10 +2549,7 @@
                 left</span
               >
             </div>
-            <div
-              *ngIf="lessonOfStudent.upComingLessonCountOfStudent < 1"
-              class="rm-count-0 text-c100 caption"
-            >
+            <div *ngIf="attendedFlag" class="rm-count-0 text-c100 caption">
               Attended
             </div>
           </div>
@@ -2573,9 +2561,99 @@
           </div>
         </div>
         <div class="rm-container" id="rm-container">
+          <!-- upcoming -->
           <div
             class="rm-lesson"
-            *ngFor="let lesson of lessonOfStudent.lessonsOfStudent"
+            *ngFor="let lesson of lessonOfStudent.upComingLessonsOfStudent"
+          >
+            <div class="h5-strong text-c300" style="width: 40%;">
+              {{ lesson.startDate | remainingLessonDate
+              }}<span
+                class="rm-auto small text-c100"
+                *ngIf="lesson.autoEnrolledLesson"
+                >Auto enrolled lesson</span
+              ><span class="rm-auto small text-c100" *ngIf="lesson.makeup"
+                >Makeup lesson</span
+              ><span
+                class="rm-auto small text-c100"
+                *ngIf="lesson.rescheduledLesson"
+                >Reschedued lesson</span
+              >
+            </div>
+            <div style="width: 30%;" *ngIf="lesson.cancel == true">
+              <div class="rm-cancel text-y300 body-m">
+                <img
+                  class="mr-6"
+                  src="../../../../assets/img/rm_cancel.png"
+                />Cancelled
+              </div>
+            </div>
+            <div
+              style="width: 30%;"
+              *ngIf="lesson.attendance == true && lesson.cancel == false"
+            >
+              <div class="rm-present text-g200 body-m">
+                <img
+                  class="mr-6"
+                  src="../../../../assets/img/rm_present.png"
+                />Present
+              </div>
+            </div>
+            <div
+              style="width: 30%;"
+              *ngIf="lesson.attendance == false && lesson.cancel == false"
+            >
+              <div class="rm-absent text-r100 body-m">
+                <img
+                  class="mr-6"
+                  src="../../../../assets/img/rm_absent.png"
+                />Absent
+              </div>
+            </div>
+            <!-- <div
+              style="width: 30%;"
+              *ngIf="
+                lesson.attendance == null &&
+                !lesson.isUpcomingLesson &&
+                lesson.cancel == false
+              "
+            >
+              <div class="rm-nodata text-c100 body-m">
+                <img
+                  class="mr-6"
+                  src="../../../../assets/img/rm_nodata.png"
+                />No data
+              </div>
+            </div> -->
+            <div
+              style="width: 30%;"
+              *ngIf="lesson.attendance == null && lesson.cancel == false"
+            >
+              <div class="rm-unavail text-s70 body-m">
+                <img
+                  class="mr-6"
+                  src="../../../../assets/img/rm_unavail.png"
+                />Not avaliable
+              </div>
+            </div>
+            <div
+              class="d-flex align-items-center light-body-m text-c300"
+              style="width: 30%;"
+            >
+              <div>
+                <img
+                  class="rm-profile mr-3"
+                  src="{{ lesson.teacher?.profilePic }}"
+                />
+              </div>
+              {{ lesson.teacher?.preferredName }}
+            </div>
+          </div>
+          <div id="the-line"></div>
+          <!-- prev -->
+          <div
+            class="rm-lesson"
+            *ngFor="let lesson of lessonOfStudent.prevLessonsOfStudent"
           >
             <div class="h5-strong text-c300" style="width: 40%;">
               {{ lesson.startDate | remainingLessonDate
@@ -2665,145 +2743,6 @@
             </div>
           </div>
         </div>
-        <!-- <p class="_lessons_left body-l text-c300">
-          {{ lessonOfStudent.upComingLessonCountOfStudent }}/{{
-            lessonOfStudent.lessonsOfStudent.length
-          }}
-          <span
-            class="body-l text-c100"
-            *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1"
-          >
-            lessons left
-          </span>
-          <span
-            class="body-l text-c100"
-            *ngIf="lessonOfStudent.upComingLessonCountOfStudent <= 1"
-          >
-            lesson left
-          </span>
-        </p> -->
-        <!-- <div class="lesson_block_wrapper">
-          <div
-            class="lesson_block"
-            [ngClass]="{
-              'bg-y25': lesson.cancel == true,
-              'bg-r25': lesson.attendance == false && lesson.cancel == false,
-              'bg-g25': lesson.attendance == true && lesson.cancel == false,
-              'bg-s20':
-                lesson.attendance == null &&
-                lesson.isUpcomingLesson == false &&
-                lesson.cancel == false,
-              'bg-s0 notAvailable_block':
-                lesson.attendance == null &&
-                lesson.isUpcomingLesson == true &&
-                lesson.cancel == false
-            }"
-            *ngFor="let lesson of lessonOfStudent.lessonsOfStudent"
-          >
-            <div
-              class="d-flex inner-header justify-content-between align-items-center"
-            >
-              <p
-                class="mb-0 h4-strong"
-                [ngClass]="{
-                  'text-y300': lesson.cancel == true,
-                  'text-r300':
-                    lesson.attendance == false && lesson.cancel == false,
-                  'text-g300':
-                    lesson.attendance == true && lesson.cancel == false,
-                  'text-c300':
-                    lesson.attendance == null &&
-                    !lesson.isUpcomingLesson &&
-                    lesson.cancel == false,
-                  'text-c100':
-                    lesson.attendance == null &&
-                    lesson.isUpcomingLesson &&
-                    lesson.cancel == false
-                }"
-              >
-                {{ lesson.startDate | remainingLessonDate }}
-              </p>
-              <span
-                [ngClass]="{
-                  cancel_icon: lesson.cancel == true,
-                  absent_icon:
-                    lesson.attendance == false && lesson.cancel == false,
-                  present_icon:
-                    lesson.attendance == true && lesson.cancel == false,
-                  noData_icon:
-                    lesson.attendance == null && lesson.cancel == false,
-                  'bg-none':
-                    lesson.isUpcomingLesson &&
-                    lesson.attendance == null &&
-                    lesson.cancel == false
-                }"
-              ></span>
-            </div>
-            <div class="d-flex flex-column inner-body">
-              <p class="mb-0 body-m text-y200" *ngIf="lesson.cancel == true">
-                Cancelled
-              </p>
-              <p
-                class="mb-0 body-m text-g200"
-                *ngIf="lesson.attendance == true && lesson.cancel == false"
-              >
-                Present
-              </p>
-              <p
-                class="mb-0 body-m text-r200"
-                *ngIf="lesson.attendance == false && lesson.cancel == false"
-              >
-                Absent
-              </p>
-              <p
-                class="mb-0 body-m text-c100"
-                *ngIf="
-                  lesson.attendance == null &&
-                  !lesson.isUpcomingLesson &&
-                  lesson.cancel == false
-                "
-              >
-                No data
-              </p>
-              <p
-                class="mb-0 body-m text-s70"
-                *ngIf="
-                  lesson.isUpcomingLesson &&
-                  lesson.attendance == null &&
-                  lesson.cancel == false
-                "
-              >
-                Not avaliable
-              </p>
-              <span
-                class="caption"
-                [ngClass]="{
-                  'text-y100': lesson.cancel == true,
-                  'text-r100':
-                    lesson.attendance == false && lesson.cancel == false,
-                  'text-g100':
-                    lesson.attendance == true && lesson.cancel == false,
-                  'text-c75': lesson.attendance == null && lesson.cancel == false
-                }"
-                *ngIf="
-                  !lesson.isUpcomingLesson ||
-                  (lesson.isUpcomingLesson && lesson.attendance != null) ||
-                  lesson.cancel == true
-                "
-                >by {{ lesson.teacher?.preferredName }}</span
-              >
-              <span
-                class="caption text-c75"
-                *ngIf="
-                  lesson.isUpcomingLesson &&
-                  lesson.attendance == null &&
-                  lesson.cancel == false
-                "
-                >-</span
-              >
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
   </ng-template>

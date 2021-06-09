@@ -3072,7 +3072,7 @@ p.grade-txt {
 }
 .rm-container {
   height: auto;
-  padding-bottom: 256px;
+  padding-bottom: 600px;
   /* overflow: auto;
   overflow-x: hidden; */
 }
@@ -3171,4 +3171,9 @@ p.grade-txt {
   background: #ffbf00;
   border-radius: 50%;
   margin: 0px 8px;
+}
+#the-line {
+  width: 100%;
+  height: 10px;
+  background: #e3e4e6;
 }
