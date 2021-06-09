@@ -1243,6 +1243,8 @@ export class UserDetailComponent implements OnInit {
     this.invPayment = [];
     this.searchData.searchText = '';
     this.showflexyCourse = false;
+    this.headerFixed = false;
+    this.attendedFlag = false;
 
     if (type == 'closeInv') {
       this.showDetails(this.custDetail.user.userId, 'class', 'user,courses');
