@@ -51,7 +51,7 @@ import {
   ],
   template: `
     <div class="block-ui-template">
-      <img src="{{ orgLogo }}" />
+      <img style="width:240px; height:auto" src="{{ orgLogo }}" />
       <div class="progress-bar">
         <div class="progress"></div>
         <div style="width:50%;"></div>
@@ -62,8 +62,8 @@ import {
 export class BlockTemplateComponent implements OnInit {
   public orgLogo: any;
   ngOnInit(): void {
-    // this.orgLogo = localStorage.getItem('OrgLogo');
+    this.orgLogo = localStorage.getItem('OrgLogo');
     // this.orgLogo = "./assets/img/classWerkz_word@2x.png";
-    this.orgLogo = '';
+    // this.orgLogo = '';
   }
 }
