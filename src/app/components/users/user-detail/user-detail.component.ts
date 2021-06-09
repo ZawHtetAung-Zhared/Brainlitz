@@ -160,6 +160,46 @@ export class UserDetailComponent implements OnInit {
       this.isSticky = false;
     }
   }
+  public headerFixed: boolean = false;
+  public attendedFlag: boolean = false;
+  @HostListener('document:wheel', ['$event.target'])
+  public onWheel(targetElement) {
+    var container = document.getElementById('rm-container');
+    var parent = document.getElementById('rm-parent');
+    if (container != null) {
+      // console.log(
+      //   "testing",
+      //   container.getBoundingClientRect().top -
+      //     parent.getBoundingClientRect().top
+      // );
+      if (
+        container.getBoundingClientRect().top -
+          parent.getBoundingClientRect().top <=
+        0
+      ) {
+        this.headerFixed = true;
+      } else {
+        this.headerFixed = false;
+      }
+    }
+    var line = document.getElementById('the-line');
+    if (line != null) {
+      console.log(
+        'line testing',
+        line.getBoundingClientRect().top -
+          (parent.getBoundingClientRect().top + 48)
+      );
+      if (
+        line.getBoundingClientRect().top -
+          (parent.getBoundingClientRect().top + 48) <=
+        0
+      ) {
+        this.attendedFlag = true;
+      } else {
+        this.attendedFlag = false;
+      }
+    }
+  }
 
   @ViewChild('carousel') carousel: NgbCarousel;
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
@@ -1203,6 +1243,8 @@ export class UserDetailComponent implements OnInit {
     this.invPayment = [];
     this.searchData.searchText = '';
     this.showflexyCourse = false;
+    this.headerFixed = false;
+    this.attendedFlag = false;
 
     if (type == 'closeInv') {
       this.showDetails(this.custDetail.user.userId, 'class', 'user,courses');
