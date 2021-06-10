@@ -18,7 +18,7 @@
     <div *ngIf="!conceptEdit"><h5 class="mb-0 create-title text-center">Create Concept</h5></div>
     <div *ngIf="conceptEdit"><h5 class="mb-0 create-title text-center">Update Concept</h5></div>
     <div class="d-flex flex-row concept_info ">
-      <p class="mb-0">tag</p><span class="dott">&#183;</span><p class="mb-0">{{ pickedTag.name }}</p>	
+      <p class="mb-0">tag</p><span class="dott">&#183;</span><p class="mb-0">{{ pickedTag.name }}</p>
     </div>
   </div>
   <div *ngIf="!conceptEdit" class="mr-2">
@@ -560,7 +560,7 @@
   <div contenteditable="true">
      For Editor 2 The quick brown fox jumped over the lazy dog.
   </div>
-  <div contenteditable="true"> 
+  <div contenteditable="true">
     For Editor 3 The quick brown fox jumped over the lazy dog.
   </div>
   <fieldset>
@@ -957,7 +957,7 @@
               </button>
             </fieldset> -->
             <!-- <div class="d-flex">
-              
+
             </div> -->
             <!-- <button (click)="turn()">Turn</button> -->
 
@@ -1163,7 +1163,7 @@
                         ></div>
                         <!-- <div class="question-vd-wrapper row">
                           <div *ngFor="let video of  question.contents; let idx = index"
-                            class="position-relative mr-2 ml-2 question-vd innerPd" 
+                            class="position-relative mr-2 ml-2 question-vd innerPd"
                             (mouseenter)="mouseOver($event, 'qRMI', i, j, idx)"
                             (mouseleave)="mouseOut($event)"
                             [ngClass]="isVideo(video) ? 'transparent-bg' : ''">
@@ -1988,12 +1988,12 @@
   </div>
 
   <!-- For Concept Create End -->
-  <block-ui message="Deafult Message"></block-ui>
+  <!-- <block-ui message="Deafult Message"></block-ui> -->
 
   <!-- modal for image upload -->
   <ng-template #imgModal let-modal>
     <!-- <div class="modal-header">
-    
+
     </div> -->
     <div class="modal-body img_upload" *ngIf="contentArr.length == 0">
       <div class="d-flex justify-content-center drop_zone">
@@ -2201,7 +2201,7 @@
   <!-- modal for video upload -->
   <ng-template #videoModal let-modal>
     <!-- <div class="modal-header">
-    
+
     </div> -->
     <div
       class="modal-body img_upload"
