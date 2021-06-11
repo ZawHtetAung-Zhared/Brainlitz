@@ -1015,6 +1015,13 @@
                             {{ grade.assessment.apgName }}
                           </p>
                           <div
+                            class="d-flex align-items-center small text-b100"
+                            style="margin: 0px 0px 12px 12px;"
+                          >
+                            <!-- <div class="bullet"></div> -->
+                            {{ grade.course.name }}
+                          </div>
+                          <div
                             class="pick-grade-wrap bg-s0 light-body-m text-c100 d-flex align-items-center"
                           >
                             <div class="pick-grade-text">
@@ -1105,6 +1112,13 @@
                           <p class="body-l text-c300 mb-0">
                             {{ evaluation.apg.name }}
                           </p>
+                          <div
+                            class="d-flex align-items-center small text-b100"
+                            style="margin: 0px 0px 12px 0px;"
+                          >
+                            <!-- <div class="bullet"></div> -->
+                            {{ evaluation.course.name }}
+                          </div>
                         </div>
                         <div class="evaluation-body">
                           {{ evaluation.assessments.isLoadmore }}
