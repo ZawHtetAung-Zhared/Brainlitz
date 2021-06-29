@@ -43,6 +43,8 @@ export class TodayLessonsComponent implements OnInit {
   public checkboxFlag: any = {};
   public selectAllFlag: boolean;
   public selectedDate: Date = new Date();
+  public regionID = localStorage.getItem('regionId');
+  public locationList: any;
 
   @Output() courseDetail = new EventEmitter();
 
@@ -67,6 +69,7 @@ export class TodayLessonsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getAllLocations();
     this.todayDate = new Date();
     this.getTodayDatedLesson();
     console.log('abcd', this.selectedDate.toISOString());
@@ -517,5 +520,31 @@ export class TodayLessonsComponent implements OnInit {
   }
   teacherDetail(id) {
     this._router.navigate(['/staff/staffdetail', id]);
+  }
+  public currentLoc: any = '';
+  getAllLocations() {
+    this._service
+      .getLocations(this.regionID, 20, 0, true)
+      .subscribe((res: any) => {
+        console.log('Locations', res);
+        this.locationList = res;
+        console.log(
+          'testing',
+          this.locationList.find(x => x._id === this.locationID).name
+        );
+        this.currentLoc = this.locationList.find(
+          x => x._id === this.locationID
+        ).name;
+      });
+  }
+  public locToggle: boolean = false;
+  openLoc() {
+    this.locToggle = !this.locToggle;
+  }
+  selectLoc(obj) {
+    console.log('selected loc', obj);
+    this.locationID = obj._id;
+    this.currentLoc = obj.name;
+    this.getTodayLesson();
   }
 }

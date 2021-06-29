@@ -26,6 +26,29 @@
             [(ngModel)]="dateModal"
           ></ngb-datepicker>
         </span>
+        <span
+          style="position: relative;"
+          class="setting-date body-m text-c300"
+          (click)="openLoc()"
+          ><img
+            style="margin-right: 8px;"
+            src="../../../assets/images/location_small.svg"
+          />
+          {{ currentLoc }}
+          <i
+            style="margin-left: 12px;"
+            class="fa fa-chevron-down downIcon small"
+          ></i>
+          <div class="loc-div" *ngIf="locToggle">
+            <div
+              class="loc-li"
+              *ngFor="let loc of locationList"
+              (click)="selectLoc(loc)"
+            >
+              {{ loc.name }}
+            </div>
+          </div>
+        </span>
       </div>
       <div class="d-flex align-items-center">
         <span
@@ -131,6 +154,11 @@
             </div>
             <div class="d-flex">
               <div class="teacher-div">
+                <div class="caption-u text-c100 mb-16">Location</div>
+                <div class="d-flex loc-yellow body-m text-y300">
+                  <img src="../../../assets/images/location_small_yellow.svg" />
+                  {{ currentLoc }}
+                </div>
                 <div class="caption-u text-c100 mb-16">Teacher</div>
                 <div
                   class="d-flex align-items-center"
