@@ -897,7 +897,9 @@ export class appService {
     let re = /original/gi;
 
     for (let i = 0; i < data.courses.length; i++) {
-      if (
+      if (data.courses[i].teacher == null) {
+        console.log('null teacher obj');
+      } else if (
         data.courses[i].teacher.profilePic !=
         'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png'
       )
