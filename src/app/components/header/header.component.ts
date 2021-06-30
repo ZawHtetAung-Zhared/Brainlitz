@@ -434,6 +434,7 @@ export class HeaderComponent implements OnInit, OnChanges {
   getAllLocation() {
     this._service.getHeaderLocations(this.regionID, '', '', true).subscribe(
       (res: any) => {
+        console.log('res getallloc', res);
         this._service.setLocationCache(res);
         this.headerlocationLists = res;
         console.log(this.headerlocationLists.length);
