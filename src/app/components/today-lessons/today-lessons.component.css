@@ -1043,3 +1043,6 @@ input:checked + .slider:before {
   background: #007fff;
   color: #fff;
 }
+.selected-loc:hover {
+  background: #007fff;
+}
