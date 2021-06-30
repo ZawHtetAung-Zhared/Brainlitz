@@ -28,7 +28,7 @@
         </span>
         <span
           style="position: relative;"
-          class="setting-date body-m text-c300"
+          class="setting-loc body-m text-c300"
           (click)="openLoc()"
           ><img
             style="margin-right: 8px;"
@@ -41,6 +41,9 @@
           ></i>
           <div class="loc-div" *ngIf="locToggle">
             <div
+              [ngClass]="{
+                'selected-loc': currentLoc == loc.name
+              }"
               class="loc-li"
               *ngFor="let loc of locationList"
               (click)="selectLoc(loc)"
