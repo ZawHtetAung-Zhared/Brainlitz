@@ -66,6 +66,12 @@ export class TodayLessonsComponent implements OnInit {
     if ($event.target.className != 'setting-date') {
       this.showCalendar = false;
     }
+    if (!$event.target.classList.contains('setting-loc')) {
+      console.log('testing loc');
+
+      this.locToggle = false;
+    }
+    console.log('testing click', $event.target.className);
   }
 
   ngOnInit() {
@@ -540,6 +546,7 @@ export class TodayLessonsComponent implements OnInit {
   public locToggle: boolean = false;
   openLoc() {
     this.locToggle = !this.locToggle;
+    console.log('loc', this.locToggle);
   }
   selectLoc(obj) {
     console.log('selected loc', obj);
