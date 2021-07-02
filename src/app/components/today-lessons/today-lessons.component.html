@@ -105,13 +105,13 @@
                   class="d-flex align-items-center"
                   style="margin-bottom:10px;"
                 >
-                  <p
+                  <a
                     class="course-name mb-0 text-b100 body-xl"
-                    (click)="getcourseDetail(tcourse._id)"
+                    href="/#/coursedetail/{{ tcourse._id }}"
                   >
                     {{ tcourse.name | slice: 0:40
                     }}{{ tcourse.name.length > 40 ? '...' : '' }}
-                  </p>
+                  </a>
 
                   <span class="course-code small text-b300 bg-b25">
                     {{ tcourse.courseCode }}

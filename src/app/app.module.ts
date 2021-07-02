@@ -129,6 +129,7 @@ import { from } from 'rxjs/observable/from';
 import { ReviewComponent } from './components/review/review.component';
 import { LivechatComponent } from './components/livechat/livechat.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import {
   CourseComponent,
@@ -317,6 +318,7 @@ import { CredentialComponent } from './components/credential/credential.componen
     HttpClientModule,
     HttpModule,
     FormsModule,
+    Ng2SearchPipeModule,
     AppRoutingModule,
     TimezonePickerModule,
     NgbModule.forRoot(),
