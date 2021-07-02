@@ -13,6 +13,8 @@ export class CredentialComponent implements OnInit {
   public userList: any;
   public checkboxFlag: any = {};
   public selectAllFlag: boolean;
+  public sortFlag: boolean = false;
+  public cusName: any = '';
 
   constructor(
     private _service: appService,
@@ -28,6 +30,7 @@ export class CredentialComponent implements OnInit {
     this._service.getNotyetLoginuser(this.regionID).subscribe((res: any) => {
       console.log('customer', res);
       this.userList = res.notYetLoginUsers;
+      // this.userList.sort(this.compareAZ);
     });
   }
   sendReset(obj) {
@@ -35,9 +38,12 @@ export class CredentialComponent implements OnInit {
       .sendPasswordReset(obj, this.regionID)
       .subscribe((res: any) => {
         console.log('customer', res);
+        this.getCredentials();
       });
   }
   checkLesson(i) {
+    console.log('user', this.userList[i]);
+
     if (this.checkboxFlag[i] != true) {
       this.checkboxFlag[i] = true;
     } else this.checkboxFlag[i] = false;
@@ -62,5 +68,65 @@ export class CredentialComponent implements OnInit {
     };
     console.log('list of ids', body);
     this.sendReset(body);
+  }
+  sortByCus() {
+    this.sortFlag = !this.sortFlag;
+    if (this.sortFlag) {
+      this.userList.sort(this.compareZA);
+    }
+    if (!this.sortFlag) {
+      this.userList.sort(this.compareAZ);
+    }
+  }
+  sortByDate() {
+    this.sortFlag = !this.sortFlag;
+    if (this.sortFlag) {
+      this.userList.sort(this.compareDateZA);
+    }
+    if (!this.sortFlag) {
+      this.userList.sort(this.compareDateAZ);
+    }
+  }
+
+  compareAZ(a, b) {
+    if (a.preferredName < b.preferredName) {
+      return -1;
+    }
+    if (a.preferredName > b.preferredName) {
+      return 1;
+    }
+    return 0;
+  }
+  compareZA(a, b) {
+    if (a.preferredName < b.preferredName) {
+      return 1;
+    }
+    if (a.preferredName > b.preferredName) {
+      return -1;
+    }
+    return 0;
+  }
+
+  compareDateAZ(a, b) {
+    if (a.sendRandomPasswordAt < b.sendRandomPasswordAt) {
+      return -1;
+    }
+    if (a.sendRandomPasswordAt > b.sendRandomPasswordAt) {
+      return 1;
+    }
+    return 0;
+  }
+  compareDateZA(a, b) {
+    if (a.sendRandomPasswordAt < b.sendRandomPasswordAt) {
+      return 1;
+    }
+    if (a.sendRandomPasswordAt > b.sendRandomPasswordAt) {
+      return -1;
+    }
+    return 0;
+  }
+  searchCus() {
+    var index = this.userList.filter(obj => obj.preferredName === this.cusName);
+    console.log(index, this.cusName);
   }
 }
