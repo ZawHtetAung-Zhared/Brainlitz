@@ -5352,4 +5352,33 @@ export class appService {
       return res;
     });
   }
+
+  getNotyetLoginuser(regionId) {
+    let apiUrl = this.baseUrl + '/regions/' + regionId + '/not-yet-login-user';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  sendPasswordReset(body, regionId) {
+    let apiUrl =
+      this.baseUrl + '/regions/' + regionId + '/user-random-password';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
+  }
 }
