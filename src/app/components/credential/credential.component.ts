@@ -16,6 +16,9 @@ export class CredentialComponent implements OnInit {
   public sortFlag: boolean = false;
   public cusName: any = '';
   public loader: boolean = true;
+  public resendLoading: boolean = false;
+  public sentDone: boolean = false;
+  public currentId: any;
 
   constructor(
     private _service: appService,
@@ -32,15 +35,19 @@ export class CredentialComponent implements OnInit {
       console.log('customer', res);
       this.userList = res.notYetLoginUsers;
       this.loader = false;
+      this.sentDone = false;
       // this.userList.sort(this.compareAZ);
     });
   }
   sendReset(obj) {
+    this.resendLoading = true;
     this._service
       .sendPasswordReset(obj, this.regionID)
       .subscribe((res: any) => {
         console.log('customer', res);
         this.getCredentials();
+        this.resendLoading = false;
+        this.sentDone = true;
       });
   }
   checkLesson(i) {
@@ -130,5 +137,14 @@ export class CredentialComponent implements OnInit {
   searchCus() {
     var index = this.userList.filter(obj => obj.preferredName === this.cusName);
     console.log(index, this.cusName);
+  }
+  singleResend(id, event) {
+    this.currentId = id;
+    event.stopPropagation();
+    console.log('resend');
+    var body = {
+      customerIdList: [id]
+    };
+    this.sendReset(body);
   }
 }
