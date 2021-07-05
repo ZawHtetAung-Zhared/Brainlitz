@@ -15,6 +15,7 @@ export class CredentialComponent implements OnInit {
   public selectAllFlag: boolean;
   public sortFlag: boolean = false;
   public cusName: any = '';
+  public loader: boolean = true;
 
   constructor(
     private _service: appService,
@@ -30,6 +31,7 @@ export class CredentialComponent implements OnInit {
     this._service.getNotyetLoginuser(this.regionID).subscribe((res: any) => {
       console.log('customer', res);
       this.userList = res.notYetLoginUsers;
+      this.loader = false;
       // this.userList.sort(this.compareAZ);
     });
   }
