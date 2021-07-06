@@ -45,6 +45,7 @@ export class TodayLessonsComponent implements OnInit {
   public selectedDate: Date = new Date();
   public regionID = localStorage.getItem('regionId');
   public locationList: any;
+  public todayModal: Date = new Date();
 
   @Output() courseDetail = new EventEmitter();
 
@@ -77,7 +78,8 @@ export class TodayLessonsComponent implements OnInit {
   ngOnInit() {
     this.getAllLocations();
     this.todayDate = new Date();
-    this.getTodayDatedLesson();
+    // this.getTodayDatedLesson();
+    this.getTodayLesson();
     console.log('abcd', this.selectedDate.toISOString());
   }
 
@@ -430,7 +432,7 @@ export class TodayLessonsComponent implements OnInit {
   closeTab() {
     window.close();
   }
-  public todayModal: Date = new Date();
+
   onDateSelect(event) {
     let year = event.year;
     let month = event.month <= 9 ? '0' + event.month : event.month;
@@ -515,8 +517,8 @@ export class TodayLessonsComponent implements OnInit {
     this.todayModal = moment(today).toDate();
     this.dateModal = this.todayModal;
     this.todayDate = this.dateModal;
-    // this.getTodayLesson();
-    this.getTodayDatedLesson();
+    this.getTodayLesson();
+    // this.getTodayDatedLesson();
   }
   stopEvent(e) {
     e.stopPropagation();

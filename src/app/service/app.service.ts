@@ -4388,14 +4388,26 @@ export class appService {
 
   // today lesson
   gettodayLesson(regionId, locationid, date, word, cid) {
+    var test = new Date(date);
+    console.log('testing date', test);
+    var day = ('0' + test.getDate()).slice(-2);
+    var month = ('0' + (test.getMonth() + 1)).slice(-2);
+    var year = test.getFullYear();
+
     let url =
       this.baseUrl +
       '/regions/' +
       regionId +
       '/courses/today-lessons?locationId=' +
       locationid +
-      '&date=' +
-      date.toISOString();
+      '&dd=' +
+      day +
+      '&mm=' +
+      month +
+      '&yyyy=' +
+      year;
+    // '&date=' +
+    // date.toISOString();
     if (word != null) {
       url += '&courseName=' + word;
     }
