@@ -556,4 +556,60 @@ export class TodayLessonsComponent implements OnInit {
     this.currentLoc = obj.name;
     this.getTodayLesson();
   }
+  public transformDay;
+  public dateArray = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  public startDay;
+  public length;
+  public type = null;
+  public showDate = null;
+
+  dateFormatSetter(obj) {
+    this.transformDay = [];
+    console.log('date format setter', obj);
+    this.startDay = obj[0];
+    this.length = obj.length;
+    this.transformArray(obj);
+    if (this.length == 1) {
+      this.showDate = this.transformDay[0];
+    } else this.checkCase(obj);
+
+    return this.showDate;
+  }
+  transformArray(obj) {
+    for (var k = 0; k < this.length; k++) {
+      this.transformDay.push(this.dateArray[obj[k]]);
+    }
+    console.log('transform array', this.transformDay);
+  }
+
+  checkCase(obj) {
+    for (var i = 1; i < this.length; i++) {
+      if (this.startDay + 1 == obj[i] && i != this.length - 1)
+        this.startDay = obj[i];
+      else if (this.startDay + 1 != obj[i] && i == this.length - 1)
+        this.andCase();
+      else this.toCase();
+    }
+  }
+
+  toCase() {
+    this.type = 'to';
+    this.showDate =
+      this.transformDay[0] + ' to ' + this.transformDay[this.length - 1];
+  }
+
+  andCase() {
+    this.showDate = null;
+    this.type = 'and';
+    for (var j = 0; j < this.length; j++) {
+      if (this.length - 1 == j) {
+        this.showDate += ' & ' + this.transformDay[j];
+      } else if (j != 0) {
+        this.showDate += ', ' + this.transformDay[j];
+      } else {
+        this.showDate += this.transformDay[j];
+      }
+    }
+    this.showDate = this.showDate.slice(4, this.showDate.length);
+  }
 }

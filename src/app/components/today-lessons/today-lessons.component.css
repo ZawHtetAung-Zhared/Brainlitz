@@ -1032,12 +1032,15 @@ input:checked + .slider:before {
   background: #e8e9eb;
 }
 .loc-yellow {
-  width: max-content;
-  height: auto;
+  max-width: 287px;
+  height: 72px;
   background: #fff2b3;
-  border-radius: 8px;
+  border-radius: 12px;
   margin-bottom: 32px;
-  padding: 2px 4px;
+  padding-left: 34px;
+  padding-top: 12px;
+  margin-right: 32px;
+  position: relative;
 }
 .selected-loc {
   background: #007fff;
@@ -1045,4 +1048,9 @@ input:checked + .slider:before {
 }
 .selected-loc:hover {
   background: #007fff;
+}
+.loc-dot {
+  position: absolute;
+  top: 12px;
+  left: 16px;
 }

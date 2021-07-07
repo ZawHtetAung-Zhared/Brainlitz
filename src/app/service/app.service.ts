@@ -331,6 +331,20 @@ export class appService {
       return result;
     });
   }
+  getAllEnroledUsersForExport(regionId) {
+    let url = this.baseUrl + '/' + regionId + '/user-enroled-class-csv';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result, 'AnoNyMous');
+      return result;
+    });
+  }
 
   getPermission(locationId: string) {
     let url = this.baseUrl + '/user-location-permission/' + locationId;

@@ -136,6 +136,12 @@ export class UserListComponent implements OnInit {
       this.downloadFile(res);
     });
   }
+  getAllEnrollUsersForExport() {
+    console.log('call for all usres');
+    this._service.getAllUsersForExport(this.regionID).subscribe((res: any) => {
+      // this.downloadFile(res);
+    });
+  }
   public csvData;
   downloadFile(res) {
     this.csvData = this.convertToCSV(res);
