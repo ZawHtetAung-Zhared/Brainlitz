@@ -985,11 +985,11 @@ input:checked + .slider:before {
 }
 .present-rdo-checked {
   background: #00a653;
-  pointer-events: none;
+  /* pointer-events: none; */
 }
 .absent-rdo-checked {
   background: #e63c39;
-  pointer-events: none;
+  /* pointer-events: none; */
 }
 .rdo_checked_present {
   background-image: url('../../../assets/icons/checked_present_radio.svg');

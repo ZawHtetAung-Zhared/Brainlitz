@@ -332,7 +332,7 @@ export class appService {
     });
   }
   getAllEnroledUsersForExport(regionId) {
-    let url = this.baseUrl + '/' + regionId + '/user-enroled-class-csv';
+    let url = this.baseUrl + '/regions/' + regionId + '/user-enroled-class-csv';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -4407,19 +4407,33 @@ export class appService {
     var day = ('0' + test.getDate()).slice(-2);
     var month = ('0' + (test.getMonth() + 1)).slice(-2);
     var year = test.getFullYear();
-
-    let url =
-      this.baseUrl +
-      '/regions/' +
-      regionId +
-      '/courses/today-lessons?locationId=' +
-      locationid +
-      '&dd=' +
-      day +
-      '&mm=' +
-      month +
-      '&yyyy=' +
-      year;
+    let url = '';
+    if (locationid == null) {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/courses/today-lessons' +
+        '&dd=' +
+        day +
+        '&mm=' +
+        month +
+        '&yyyy=' +
+        year;
+    } else {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/courses/today-lessons?locationId=' +
+        locationid +
+        '&dd=' +
+        day +
+        '&mm=' +
+        month +
+        '&yyyy=' +
+        year;
+    }
     // '&date=' +
     // date.toISOString();
     if (word != null) {

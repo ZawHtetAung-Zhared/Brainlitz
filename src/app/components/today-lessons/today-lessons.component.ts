@@ -18,6 +18,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import * as moment from 'moment';
+import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-today-lessons',
@@ -33,7 +34,7 @@ export class TodayLessonsComponent implements OnInit {
   public modalReference: any;
   public makeupForm: any = {};
   public makeupLists: any = [];
-  public isGlobal: boolean = false;
+  public isGlobal: boolean = false; //slider in issue makeup pass
   public reasonValue: any;
   public textAreaOption = false;
   public isSticky = false;
@@ -140,8 +141,40 @@ export class TodayLessonsComponent implements OnInit {
     this.index = index;
     this.attan_type = type;
     this.lessonObj = student.todayLesson;
+    //click same type again
+    if (
+      (type == 'absent' && student.todayLesson.attendance == false) ||
+      (type == 'present' && student.todayLesson.attendance == true)
+    ) {
+      var D = new Date(this.todayDate).getUTCDate();
+      var M = new Date(this.todayDate).getUTCMonth() + 1;
+      var Y = new Date(this.todayDate).getUTCFullYear();
+      var temp = {
+        studentId: this.studentDetail._id,
+        lessonId: this.lessonObj._id,
+        attendance: 'null'
+      };
+      console.log('tempObj~~~', temp);
+      this._service
+        .markAttendance(this.todayCourse.courses[this.index]._id, temp, D, M, Y)
+        .subscribe(
+          (res: any) => {
+            setTimeout(() => {
+              this.toastr.success(res.message);
+            }, 100);
+            console.log('res', res);
 
-    if (type == 'absent') {
+            this.getAssignUsers(D, M, Y, this.index);
+            // this.closemakeupmodal();
+          },
+          err => {
+            console.log(err);
+            this.toastr.error('');
+          }
+        );
+    } else if (type == 'absent') {
+      console.log('ABSENT CLICK');
+
       this.getMakeupLists(
         this.studentDetail._id,
         'course',
@@ -153,7 +186,8 @@ export class TodayLessonsComponent implements OnInit {
         windowClass:
           'modal-xl modal-inv d-flex justify-content-center align-items-center'
       });
-    } else {
+    } else if (type == 'present') {
+      console.log('PRESENT CLICK');
       var d = new Date(this.todayDate).getUTCDate();
       var m = new Date(this.todayDate).getUTCMonth() + 1;
       var y = new Date(this.todayDate).getUTCFullYear();
@@ -556,6 +590,22 @@ export class TodayLessonsComponent implements OnInit {
     this.currentLoc = obj.name;
     this.getTodayLesson();
   }
+  locAllSelected() {
+    this.currentLoc = 'All';
+    this._service
+      .gettodayLesson(this.regionId, null, this.todayModal, null, null)
+      .subscribe(
+        (res: any) => {
+          console.log(this.todayCourse);
+
+          this.todayCourse = res;
+          console.log('tday lessons', this.todayCourse);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
   public transformDay;
   public dateArray = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
   public startDay;
@@ -565,7 +615,7 @@ export class TodayLessonsComponent implements OnInit {
 
   dateFormatSetter(obj) {
     this.transformDay = [];
-    console.log('date format setter', obj);
+    // console.log("date format setter", obj);
     this.startDay = obj[0];
     this.length = obj.length;
     this.transformArray(obj);
@@ -579,7 +629,7 @@ export class TodayLessonsComponent implements OnInit {
     for (var k = 0; k < this.length; k++) {
       this.transformDay.push(this.dateArray[obj[k]]);
     }
-    console.log('transform array', this.transformDay);
+    // console.log('transform array', this.transformDay);
   }
 
   checkCase(obj) {

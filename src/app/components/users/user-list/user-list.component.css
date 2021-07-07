@@ -34,16 +34,23 @@
 
 .option-dp {
   padding: 10px;
-  position: absolute;
+  /* position: absolute; */
   z-index: 99;
   cursor: pointer;
   min-width: 100px;
   text-align: center;
   top: 55px;
   right: -20px;
+  border: none;
+}
+.export-wrap {
   border-radius: 8px;
   box-shadow: 0px 2px 30px 1px rgba(1, 0, 0, 0.2);
-  border: none;
+  position: absolute;
+  width: 200px;
+  left: 64px;
+  top: 60px;
+  z-index: 99;
 }
 
 .option-dp:after {

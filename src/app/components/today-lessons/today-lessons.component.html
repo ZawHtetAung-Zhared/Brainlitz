@@ -42,6 +42,15 @@
           <div class="loc-div" *ngIf="locToggle">
             <div
               [ngClass]="{
+                'selected-loc': currentLoc == 'All'
+              }"
+              class="loc-li"
+              (click)="locAllSelected()"
+            >
+              All
+            </div>
+            <div
+              [ngClass]="{
                 'selected-loc': currentLoc == loc.name
               }"
               class="loc-li"

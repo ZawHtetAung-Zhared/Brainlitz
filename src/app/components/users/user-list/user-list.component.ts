@@ -3,6 +3,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { appService } from '../../../service/app.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ISubscription } from 'rxjs/Subscription';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-user-list',
@@ -138,9 +139,17 @@ export class UserListComponent implements OnInit {
   }
   getAllEnrollUsersForExport() {
     console.log('call for all usres');
-    this._service.getAllUsersForExport(this.regionID).subscribe((res: any) => {
-      // this.downloadFile(res);
-    });
+    this._service.getAllEnroledUsersForExport(this.regionID).subscribe(
+      (res: any) => {
+        var disposition = res.headers.get('content-disposition');
+        var filename = disposition.slice(21, disposition.length);
+        console.log(filename);
+        FileSaver.saveAs(res.body, filename);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
   public csvData;
   downloadFile(res) {
