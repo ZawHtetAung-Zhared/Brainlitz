@@ -333,17 +333,18 @@ export class appService {
   }
   getAllEnroledUsersForExport(regionId) {
     let url = this.baseUrl + '/regions/' + regionId + '/user-enroled-class-csv';
-    const httpOptions = {
+    const httpoptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
-    return this.httpClient.get(url, httpOptions).map((res: Response) => {
-      let result = res;
-      console.log(result, 'AnoNyMous');
-      return result;
-    });
+    const httpOptions: any = {
+      ...httpoptions,
+      responseType: 'text',
+      observe: 'response'
+    };
+    return this.httpClient.get(url, httpOptions);
   }
 
   getPermission(locationId: string) {
@@ -4414,7 +4415,7 @@ export class appService {
         '/regions/' +
         regionId +
         '/courses/today-lessons' +
-        '&dd=' +
+        '?dd=' +
         day +
         '&mm=' +
         month +

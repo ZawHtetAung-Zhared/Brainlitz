@@ -141,10 +141,10 @@ export class UserListComponent implements OnInit {
     console.log('call for all usres');
     this._service.getAllEnroledUsersForExport(this.regionID).subscribe(
       (res: any) => {
-        var disposition = res.headers.get('content-disposition');
-        var filename = disposition.slice(21, disposition.length);
-        console.log(filename);
-        FileSaver.saveAs(res.body, filename);
+        console.log('enroled res', res);
+
+        var data = new Blob([res.body], { type: 'text/plain;charset=utf-8' });
+        FileSaver.saveAs(data, 'enrolledUsers.csv');
       },
       err => {
         console.log(err);
@@ -170,7 +170,8 @@ export class UserListComponent implements OnInit {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
     var str = '';
     var row = '';
-    row = 'Student Id,Email,Preferred Name,Full Name,Guardian Email,userType';
+    row =
+      'Student Id,Email,Preferred Name,Full Name,Guardian Email,userType,Last Logindate';
     str += row + '\r\n';
     var invObj = {};
     var objArr = [];
@@ -194,6 +195,9 @@ export class UserListComponent implements OnInit {
         invObj['guardianEmail'] = '';
       else invObj['guardianEmail'] = array[i].guardianEmail[0];
       invObj['userType'] = array[i].userType;
+      if (array[i].lastLoginDate == '') {
+        invObj['lastLoginDate'] = '';
+      } else invObj['lastLoginDate'] = array[i].lastLoginDate;
       var line = '';
       for (var index in invObj) {
         if (line != '') line += ',';
