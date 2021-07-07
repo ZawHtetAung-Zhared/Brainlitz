@@ -3365,19 +3365,21 @@ export class appService {
       regionId +
       '/invoices?status=' +
       status +
-      '&all=true&exportinvoices=true';
+      '&all=true&exportinvoices=true&getCSV=true';
 
-    const httpOptions = {
+    const httpoptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
 
-    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
-      let result = res;
-      return result;
-    });
+    const httpOptions: any = {
+      ...httpoptions,
+      responseType: 'blob',
+      observe: 'response'
+    };
+    return this.httpClient.get(apiUrl, httpOptions);
   }
 
   cancelUsersFromClass(classId: string, data, global): Observable<any> {

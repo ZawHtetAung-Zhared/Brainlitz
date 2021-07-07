@@ -144,7 +144,10 @@ export class UserListComponent implements OnInit {
         console.log('enroled res', res);
 
         var data = new Blob([res.body], { type: 'text/plain;charset=utf-8' });
-        FileSaver.saveAs(data, 'enrolledUsers.csv');
+        FileSaver.saveAs(
+          data,
+          'enrolledUsers' + new Date().toISOString + '.csv'
+        );
       },
       err => {
         console.log(err);
