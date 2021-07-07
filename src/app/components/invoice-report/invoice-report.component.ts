@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DaterangepickerConfig } from 'ng2-daterangepicker';
 import * as moment from 'moment';
 declare var $: any;
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-invoice-report',
@@ -200,12 +201,28 @@ export class InvoiceReportComponent implements OnInit {
   }
 
   exportInvoiceLists(status) {
-    this._service
-      .invoicesExport(this.regionID, status)
-      .subscribe((res: any) => {
-        console.log(res);
-        this.downloadFile(res, status);
-      });
+    this._service.invoicesExport(this.regionID, status).subscribe(
+      (res: any) => {
+        console.log('invoice res', res);
+        console.log('headers', res.headers.keys());
+
+        var data = new Blob([res.body], { type: 'text/plain;charset=utf-8' });
+        if (status == 'PAID')
+          FileSaver.saveAs(
+            data,
+            'PAIDinvoices' + new Date().toISOString() + '.csv'
+          );
+        if (status == 'UNPAID')
+          FileSaver.saveAs(
+            data,
+            'UNPAIDinvoices' + new Date().toISOString() + '.csv'
+          );
+      },
+      err => {
+        console.log(err);
+      }
+    );
+    // this.downloadFile(res, status);
   }
   public csvData;
 

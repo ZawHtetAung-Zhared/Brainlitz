@@ -331,6 +331,21 @@ export class appService {
       return result;
     });
   }
+  getAllEnroledUsersForExport(regionId) {
+    let url = this.baseUrl + '/regions/' + regionId + '/user-enroled-class-csv';
+    const httpoptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    const httpOptions: any = {
+      ...httpoptions,
+      responseType: 'text',
+      observe: 'response'
+    };
+    return this.httpClient.get(url, httpOptions);
+  }
 
   getPermission(locationId: string) {
     let url = this.baseUrl + '/user-location-permission/' + locationId;
@@ -3350,19 +3365,21 @@ export class appService {
       regionId +
       '/invoices?status=' +
       status +
-      '&all=true&exportinvoices=true';
+      '&all=true&exportinvoices=true&getCSV=true';
 
-    const httpOptions = {
+    const httpoptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
 
-    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
-      let result = res;
-      return result;
-    });
+    const httpOptions: any = {
+      ...httpoptions,
+      responseType: 'blob',
+      observe: 'response'
+    };
+    return this.httpClient.get(apiUrl, httpOptions);
   }
 
   cancelUsersFromClass(classId: string, data, global): Observable<any> {
@@ -4388,14 +4405,40 @@ export class appService {
 
   // today lesson
   gettodayLesson(regionId, locationid, date, word, cid) {
-    let url =
-      this.baseUrl +
-      '/regions/' +
-      regionId +
-      '/courses/today-lessons?locationId=' +
-      locationid +
-      '&date=' +
-      date.toISOString();
+    var test = new Date(date);
+    console.log('testing date', test);
+    var day = ('0' + test.getDate()).slice(-2);
+    var month = ('0' + (test.getMonth() + 1)).slice(-2);
+    var year = test.getFullYear();
+    let url = '';
+    if (locationid == null) {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/courses/today-lessons' +
+        '?dd=' +
+        day +
+        '&mm=' +
+        month +
+        '&yyyy=' +
+        year;
+    } else {
+      url =
+        this.baseUrl +
+        '/regions/' +
+        regionId +
+        '/courses/today-lessons?locationId=' +
+        locationid +
+        '&dd=' +
+        day +
+        '&mm=' +
+        month +
+        '&yyyy=' +
+        year;
+    }
+    // '&date=' +
+    // date.toISOString();
     if (word != null) {
       url += '&courseName=' + word;
     }
@@ -5351,5 +5394,34 @@ export class appService {
     return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
       return res;
     });
+  }
+
+  getNotyetLoginuser(regionId) {
+    let apiUrl = this.baseUrl + '/regions/' + regionId + '/not-yet-login-user';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
+  sendPasswordReset(body, regionId) {
+    let apiUrl =
+      this.baseUrl + '/regions/' + regionId + '/user-random-password';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
   }
 }

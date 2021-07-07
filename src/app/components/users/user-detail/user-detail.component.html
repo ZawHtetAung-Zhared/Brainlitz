@@ -213,6 +213,26 @@
                   </div>
                 </div>
               </div>
+              <div>
+                <label class="text-c100 body-m">Last login date</label>
+                <div
+                  class="body-xl"
+                  *ngIf="custDetail.user.lastLoginDate != ''"
+                >
+                  <span>{{
+                    custDetail.user.lastLoginDate | date: 'd LLL yyyy'
+                  }}</span>
+                  <span>{{
+                    custDetail.user.lastLoginDate | date: 'h:mm a'
+                  }}</span>
+                </div>
+                <div
+                  class="body-xl"
+                  *ngIf="custDetail.user.lastLoginDate == ''"
+                >
+                  -
+                </div>
+              </div>
             </div>
           </div>
           <div

@@ -3862,7 +3862,36 @@ export class AttendanceComponent implements OnInit {
   public modalType;
   public absentInfo;
   onClickRadio(type, id, modal, user) {
-    if (type == 'absent') {
+    this.activeCourseInfo = [];
+    console.log('LASD~~~', this.LASD);
+    var d = new Date(this.LASD).getUTCDate();
+    var m = new Date(this.LASD).getUTCMonth() + 1;
+    var y = new Date(this.LASD).getUTCFullYear();
+    var obj = {
+      studentId: id
+    };
+    if (
+      (type == 'absent' && user.attendance == false) ||
+      (type == 'present' && user.attendance == true)
+    ) {
+      obj['attendance'] = 'null';
+      this._service.markAttendance(this.courseId, obj, d, m, y).subscribe(
+        (res: any) => {
+          setTimeout(() => {
+            this.toastr.success(res.message);
+          }, 100);
+          console.log('res', res);
+          // this.getUsersInCourse(this.courseId);
+          this.activeTab = 'Class';
+          this.attdBox = false;
+          this.getAssignUsers(d, m, y);
+        },
+        err => {
+          console.log(err);
+          this.toastr.error('');
+        }
+      );
+    } else if (type == 'absent') {
       this.modalType = type;
       this.absentInfo = user;
       this.getMakeupLists(id, 'course', this.regionId, this.courseId);
@@ -3872,16 +3901,7 @@ export class AttendanceComponent implements OnInit {
           'modal-xl modal-inv d-flex justify-content-center align-items-center'
       });
       return;
-    }
-    this.activeCourseInfo = [];
-    console.log('LASD~~~', this.LASD);
-    var d = new Date(this.LASD).getUTCDate();
-    var m = new Date(this.LASD).getUTCMonth() + 1;
-    var y = new Date(this.LASD).getUTCFullYear();
-    var obj = {
-      studentId: id
-    };
-    if (type == 'present') {
+    } else if (type == 'present') {
       obj['attendance'] = 'true';
     } else {
       obj['attendance'] = 'false';

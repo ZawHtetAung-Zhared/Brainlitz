@@ -3,6 +3,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { appService } from '../../../service/app.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ISubscription } from 'rxjs/Subscription';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-user-list',
@@ -136,6 +137,23 @@ export class UserListComponent implements OnInit {
       this.downloadFile(res);
     });
   }
+  getAllEnrollUsersForExport() {
+    console.log('call for all usres');
+    this._service.getAllEnroledUsersForExport(this.regionID).subscribe(
+      (res: any) => {
+        console.log('enroled res', res);
+
+        var data = new Blob([res.body], { type: 'text/plain;charset=utf-8' });
+        FileSaver.saveAs(
+          data,
+          'enrolledUsers' + new Date().toISOString + '.csv'
+        );
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
   public csvData;
   downloadFile(res) {
     this.csvData = this.convertToCSV(res);
@@ -155,7 +173,8 @@ export class UserListComponent implements OnInit {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
     var str = '';
     var row = '';
-    row = 'Student Id,Email,Preferred Name,Full Name,Guardian Email,userType';
+    row =
+      'Student Id,Email,Preferred Name,Full Name,Guardian Email,userType,Last Logindate';
     str += row + '\r\n';
     var invObj = {};
     var objArr = [];
@@ -179,6 +198,9 @@ export class UserListComponent implements OnInit {
         invObj['guardianEmail'] = '';
       else invObj['guardianEmail'] = array[i].guardianEmail[0];
       invObj['userType'] = array[i].userType;
+      if (array[i].lastLoginDate == '') {
+        invObj['lastLoginDate'] = '';
+      } else invObj['lastLoginDate'] = array[i].lastLoginDate;
       var line = '';
       for (var index in invObj) {
         if (line != '') line += ',';

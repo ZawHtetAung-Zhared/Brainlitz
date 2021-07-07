@@ -42,6 +42,15 @@
           <div class="loc-div" *ngIf="locToggle">
             <div
               [ngClass]="{
+                'selected-loc': currentLoc == 'All'
+              }"
+              class="loc-li"
+              (click)="locAllSelected()"
+            >
+              All
+            </div>
+            <div
+              [ngClass]="{
                 'selected-loc': currentLoc == loc.name
               }"
               class="loc-li"
@@ -105,13 +114,13 @@
                   class="d-flex align-items-center"
                   style="margin-bottom:10px;"
                 >
-                  <p
+                  <a
                     class="course-name mb-0 text-b100 body-xl"
-                    (click)="getcourseDetail(tcourse._id)"
+                    href="/#/coursedetail/{{ tcourse._id }}"
                   >
                     {{ tcourse.name | slice: 0:40
                     }}{{ tcourse.name.length > 40 ? '...' : '' }}
-                  </p>
+                  </a>
 
                   <span class="course-code small text-b300 bg-b25">
                     {{ tcourse.courseCode }}
@@ -158,9 +167,15 @@
             <div class="d-flex">
               <div class="teacher-div">
                 <div class="caption-u text-c100 mb-16">Location</div>
-                <div class="d-flex loc-yellow body-m text-y300">
-                  <img src="../../../assets/images/location_small_yellow.svg" />
-                  {{ currentLoc }}
+                <div class="d-flex flex-column loc-yellow body-m text-y300">
+                  <img
+                    class="loc-dot"
+                    src="../../../assets/icons/location_dot.svg"
+                  />
+                  <div>{{ tcourse.location.name }}</div>
+                  <div>
+                    {{ dateFormatSetter(tcourse.repeatDays) }}
+                  </div>
                 </div>
                 <div class="caption-u text-c100 mb-16">Teacher</div>
                 <div

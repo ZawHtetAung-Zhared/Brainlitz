@@ -49,13 +49,18 @@
               style="width: auto; height: auto;"
             />
           </button>
-          <div *ngIf="showDp" class=" body-l text-c300 bg-s0">
+          <div *ngIf="showDp" class=" body-l text-c300 bg-s0 export-wrap">
             <div
               class="bottom-border option-dp"
               (click)="getAllUsersForExport()"
-              style="font-size: 15px; position: absolute"
             >
               Export as CSV
+            </div>
+            <div
+              class="bottom-border option-dp"
+              (click)="getAllEnrollUsersForExport()"
+            >
+              Export Class Data
             </div>
           </div>
         </div>

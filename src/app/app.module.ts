@@ -129,6 +129,7 @@ import { from } from 'rxjs/observable/from';
 import { ReviewComponent } from './components/review/review.component';
 import { LivechatComponent } from './components/livechat/livechat.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import {
   CourseComponent,
@@ -172,6 +173,7 @@ import {
 } from './subscription/index';
 import { CreateSubscriptionComponent } from './components/create-subscription/create-subscription.component';
 import { BlockTemplateComponent } from './block-template.component';
+import { CredentialComponent } from './components/credential/credential.component';
 
 @NgModule({
   declarations: [
@@ -295,7 +297,8 @@ import { BlockTemplateComponent } from './block-template.component';
     SubscriptionComponent,
     SubscriptionDetailComponent,
     LessonPickerComponent,
-    CreateSubscriptionComponent
+    CreateSubscriptionComponent,
+    CredentialComponent
   ],
   imports: [
     ContentLoaderModule,
@@ -315,6 +318,7 @@ import { BlockTemplateComponent } from './block-template.component';
     HttpClientModule,
     HttpModule,
     FormsModule,
+    Ng2SearchPipeModule,
     AppRoutingModule,
     TimezonePickerModule,
     NgbModule.forRoot(),

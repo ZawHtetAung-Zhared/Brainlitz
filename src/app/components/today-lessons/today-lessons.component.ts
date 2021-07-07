@@ -18,6 +18,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import * as moment from 'moment';
+import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-today-lessons',
@@ -33,7 +34,7 @@ export class TodayLessonsComponent implements OnInit {
   public modalReference: any;
   public makeupForm: any = {};
   public makeupLists: any = [];
-  public isGlobal: boolean = false;
+  public isGlobal: boolean = false; //slider in issue makeup pass
   public reasonValue: any;
   public textAreaOption = false;
   public isSticky = false;
@@ -45,6 +46,7 @@ export class TodayLessonsComponent implements OnInit {
   public selectedDate: Date = new Date();
   public regionID = localStorage.getItem('regionId');
   public locationList: any;
+  public todayModal: Date = new Date();
 
   @Output() courseDetail = new EventEmitter();
 
@@ -77,7 +79,8 @@ export class TodayLessonsComponent implements OnInit {
   ngOnInit() {
     this.getAllLocations();
     this.todayDate = new Date();
-    this.getTodayDatedLesson();
+    // this.getTodayDatedLesson();
+    this.getTodayLesson();
     console.log('abcd', this.selectedDate.toISOString());
   }
 
@@ -138,8 +141,40 @@ export class TodayLessonsComponent implements OnInit {
     this.index = index;
     this.attan_type = type;
     this.lessonObj = student.todayLesson;
+    //click same type again
+    if (
+      (type == 'absent' && student.todayLesson.attendance == false) ||
+      (type == 'present' && student.todayLesson.attendance == true)
+    ) {
+      var D = new Date(this.todayDate).getUTCDate();
+      var M = new Date(this.todayDate).getUTCMonth() + 1;
+      var Y = new Date(this.todayDate).getUTCFullYear();
+      var temp = {
+        studentId: this.studentDetail._id,
+        lessonId: this.lessonObj._id,
+        attendance: 'null'
+      };
+      console.log('tempObj~~~', temp);
+      this._service
+        .markAttendance(this.todayCourse.courses[this.index]._id, temp, D, M, Y)
+        .subscribe(
+          (res: any) => {
+            setTimeout(() => {
+              this.toastr.success(res.message);
+            }, 100);
+            console.log('res', res);
 
-    if (type == 'absent') {
+            this.getAssignUsers(D, M, Y, this.index);
+            // this.closemakeupmodal();
+          },
+          err => {
+            console.log(err);
+            this.toastr.error('');
+          }
+        );
+    } else if (type == 'absent') {
+      console.log('ABSENT CLICK');
+
       this.getMakeupLists(
         this.studentDetail._id,
         'course',
@@ -151,7 +186,8 @@ export class TodayLessonsComponent implements OnInit {
         windowClass:
           'modal-xl modal-inv d-flex justify-content-center align-items-center'
       });
-    } else {
+    } else if (type == 'present') {
+      console.log('PRESENT CLICK');
       var d = new Date(this.todayDate).getUTCDate();
       var m = new Date(this.todayDate).getUTCMonth() + 1;
       var y = new Date(this.todayDate).getUTCFullYear();
@@ -430,7 +466,7 @@ export class TodayLessonsComponent implements OnInit {
   closeTab() {
     window.close();
   }
-  public todayModal: Date = new Date();
+
   onDateSelect(event) {
     let year = event.year;
     let month = event.month <= 9 ? '0' + event.month : event.month;
@@ -515,8 +551,8 @@ export class TodayLessonsComponent implements OnInit {
     this.todayModal = moment(today).toDate();
     this.dateModal = this.todayModal;
     this.todayDate = this.dateModal;
-    // this.getTodayLesson();
-    this.getTodayDatedLesson();
+    this.getTodayLesson();
+    // this.getTodayDatedLesson();
   }
   stopEvent(e) {
     e.stopPropagation();
@@ -553,5 +589,77 @@ export class TodayLessonsComponent implements OnInit {
     this.locationID = obj._id;
     this.currentLoc = obj.name;
     this.getTodayLesson();
+  }
+  locAllSelected() {
+    this.currentLoc = 'All';
+    this._service
+      .gettodayLesson(this.regionId, null, this.todayModal, null, null)
+      .subscribe(
+        (res: any) => {
+          console.log(this.todayCourse);
+
+          this.todayCourse = res;
+          console.log('tday lessons', this.todayCourse);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
+  public transformDay;
+  public dateArray = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  public startDay;
+  public length;
+  public type = null;
+  public showDate = null;
+
+  dateFormatSetter(obj) {
+    this.transformDay = [];
+    // console.log("date format setter", obj);
+    this.startDay = obj[0];
+    this.length = obj.length;
+    this.transformArray(obj);
+    if (this.length == 1) {
+      this.showDate = this.transformDay[0];
+    } else this.checkCase(obj);
+
+    return this.showDate;
+  }
+  transformArray(obj) {
+    for (var k = 0; k < this.length; k++) {
+      this.transformDay.push(this.dateArray[obj[k]]);
+    }
+    // console.log('transform array', this.transformDay);
+  }
+
+  checkCase(obj) {
+    for (var i = 1; i < this.length; i++) {
+      if (this.startDay + 1 == obj[i] && i != this.length - 1)
+        this.startDay = obj[i];
+      else if (this.startDay + 1 != obj[i] && i == this.length - 1)
+        this.andCase();
+      else this.toCase();
+    }
+  }
+
+  toCase() {
+    this.type = 'to';
+    this.showDate =
+      this.transformDay[0] + ' to ' + this.transformDay[this.length - 1];
+  }
+
+  andCase() {
+    this.showDate = null;
+    this.type = 'and';
+    for (var j = 0; j < this.length; j++) {
+      if (this.length - 1 == j) {
+        this.showDate += ' & ' + this.transformDay[j];
+      } else if (j != 0) {
+        this.showDate += ', ' + this.transformDay[j];
+      } else {
+        this.showDate += this.transformDay[j];
+      }
+    }
+    this.showDate = this.showDate.slice(4, this.showDate.length);
   }
 }
