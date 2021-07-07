@@ -207,16 +207,11 @@ export class InvoiceReportComponent implements OnInit {
         console.log('headers', res.headers.keys());
 
         var data = new Blob([res.body], { type: 'text/plain;charset=utf-8' });
+        const fileName = res.headers.get('blz-download-filename');
         if (status == 'PAID')
-          FileSaver.saveAs(
-            data,
-            'PAIDinvoices' + new Date().toISOString() + '.csv'
-          );
+          FileSaver.saveAs(data, 'PAIDinvoices-' + fileName + '.csv');
         if (status == 'UNPAID')
-          FileSaver.saveAs(
-            data,
-            'UNPAIDinvoices' + new Date().toISOString() + '.csv'
-          );
+          FileSaver.saveAs(data, 'UNPAIDinvoices-' + fileName + '.csv');
       },
       err => {
         console.log(err);

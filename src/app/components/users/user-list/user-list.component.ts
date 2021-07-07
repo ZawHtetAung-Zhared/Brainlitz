@@ -143,11 +143,9 @@ export class UserListComponent implements OnInit {
       (res: any) => {
         console.log('enroled res', res);
 
+        const fileName = res.headers.get('blz-download-filename');
         var data = new Blob([res.body], { type: 'text/plain;charset=utf-8' });
-        FileSaver.saveAs(
-          data,
-          'enrolledUsers' + new Date().toISOString + '.csv'
-        );
+        FileSaver.saveAs(data, 'enrolledUsers-' + fileName + '.csv');
       },
       err => {
         console.log(err);

@@ -335,13 +335,11 @@ export class appService {
     let url = this.baseUrl + '/regions/' + regionId + '/user-enroled-class-csv';
     const httpoptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
     const httpOptions: any = {
       ...httpoptions,
-      responseType: 'text',
       observe: 'response'
     };
     return this.httpClient.get(url, httpOptions);
@@ -3369,7 +3367,6 @@ export class appService {
 
     const httpoptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
         authorization: this.tokenType + ' ' + this.accessToken
       })
     };
