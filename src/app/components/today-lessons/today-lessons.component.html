@@ -184,16 +184,16 @@
                 >
                   <div>
                     <div class="img-wrap align-self-center">
-                      <img src="{{ tcourse.teacher.profilePic }}" />
+                      <img src="{{ tcourse.teacher?.profilePic }}" />
                     </div>
                   </div>
                   <div>
-                    <p
+                    <a
                       class="teacher-name pl-2 pt-2 body-m text-c300"
-                      (click)="teacherDetail(tcourse.teacher._id)"
+                      href="/#/staff/staffdetail/{{ tcourse.teacher?._id }}"
                     >
-                      {{ tcourse.teacher.fullName }}
-                    </p>
+                      {{ tcourse.teacher?.fullName }}
+                    </a>
                   </div>
                 </div>
                 <div
@@ -214,7 +214,7 @@
                 >
                   <div class="mr-16">
                     <div class="img-wrap align-self-center">
-                      <img src="{{ assTeacher.userDetails.profilePic }}" />
+                      <img src="{{ assTeacher.userDetails?.profilePic }}" />
                     </div>
                   </div>
                   <div>
@@ -243,7 +243,7 @@
                   <div class="d-flex libr align-items-center">
                     <div class="mr-16 d-flex">
                       <div class="img-wrap align-self-center">
-                        <img src="{{ student.userDetails.profilePic }}" />
+                        <img src="{{ student.userDetails?.profilePic }}" />
                       </div>
                     </div>
 
@@ -641,7 +641,7 @@
                 <div class="pr-2">
                   <div class="std-img-wrap1 justify-content-end">
                     <img
-                      src="{{ studentDetail.profilePic }}"
+                      src="{{ studentDetail?.profilePic }}"
                       class="user-pic"
                     />
                   </div>
@@ -738,10 +738,13 @@
             </div>
             <div class="right-div d-flex">
               <div>
-                <img class="temp-icon" src="{{ tcourse.teacher.profilePic }}" />
+                <img
+                  class="temp-icon"
+                  src="{{ tcourse.teacher?.profilePic }}"
+                />
               </div>
               <div class="light-body-m text-c100" style="margin-left: 8px;">
-                {{ tcourse.teacher.fullName }}
+                {{ tcourse.teacher?.fullName }}
               </div>
             </div>
           </div>
