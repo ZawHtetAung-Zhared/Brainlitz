@@ -204,19 +204,14 @@ export class InvoiceReportComponent implements OnInit {
     this._service.invoicesExport(this.regionID, status).subscribe(
       (res: any) => {
         console.log('invoice res', res);
-        console.log('headers', res.headers.keys());
+        var disposition = res.headers.get('blz-download-filename');
+        console.log('header is ', disposition);
 
         var data = new Blob([res.body], { type: 'text/plain;charset=utf-8' });
         if (status == 'PAID')
-          FileSaver.saveAs(
-            data,
-            'PAIDinvoices' + new Date().toISOString() + '.csv'
-          );
+          FileSaver.saveAs(data, 'PAID-' + disposition + '.csv');
         if (status == 'UNPAID')
-          FileSaver.saveAs(
-            data,
-            'UNPAIDinvoices' + new Date().toISOString() + '.csv'
-          );
+          FileSaver.saveAs(data, 'UNPAID-' + disposition + '.csv');
       },
       err => {
         console.log(err);

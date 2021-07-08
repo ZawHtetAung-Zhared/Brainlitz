@@ -478,7 +478,8 @@ export class TodayLessonsComponent implements OnInit {
     console.log('iso format', this.todayModal.toISOString());
     this.todayDate = this.todayModal;
     // this.calendarToggle();
-    this.getTodayLesson();
+    if (this.currentLoc == 'All') this.locAllSelected();
+    else this.getTodayLesson();
   }
   calendarToggle() {
     this.showCalendar = !this.showCalendar;
@@ -536,7 +537,8 @@ export class TodayLessonsComponent implements OnInit {
     this.todayModal = temp.toDate();
     this.dateModal = this.todayModal;
     this.todayDate = this.dateModal;
-    this.getTodayLesson();
+    if (this.currentLoc == 'All') this.locAllSelected();
+    else this.getTodayLesson();
   }
   nextDate() {
     console.log('prevDate', this.todayModal);
@@ -544,14 +546,16 @@ export class TodayLessonsComponent implements OnInit {
     this.todayModal = temp.toDate();
     this.dateModal = this.todayModal;
     this.todayDate = this.dateModal;
-    this.getTodayLesson();
+    if (this.currentLoc == 'All') this.locAllSelected();
+    else this.getTodayLesson();
   }
   getTodayDate() {
     var today = new Date();
     this.todayModal = moment(today).toDate();
     this.dateModal = this.todayModal;
     this.todayDate = this.dateModal;
-    this.getTodayLesson();
+    if (this.currentLoc == 'All') this.locAllSelected();
+    else this.getTodayLesson();
     // this.getTodayDatedLesson();
   }
   stopEvent(e) {
