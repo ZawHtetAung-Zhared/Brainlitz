@@ -573,11 +573,15 @@ export class CourseListComponent implements OnInit {
   }
 
   showCourseDetail(course) {
+    var href = '';
     if (course.draft == true) {
       this.goToCourseEditForm(course._id);
+      href = '/#/coursecreate';
     } else {
-      this.router.navigate(['/coursedetail', course._id]);
+      // this.router.navigate(['/coursedetail', course._id]);
+      href = '/#/coursedetail/' + course._id;
     }
+    return href;
   }
 
   goToCourseEditForm(courseId) {
@@ -589,7 +593,7 @@ export class CourseListComponent implements OnInit {
     localStorage.setItem('courseID', JSON.stringify(obj));
     localStorage.removeItem('cPlan');
     localStorage.removeItem('tempObj');
-    this.router.navigate(['/coursecreate']);
+    // this.router.navigate(['/coursecreate']);
   }
 
   enrollCustomer(courseId) {

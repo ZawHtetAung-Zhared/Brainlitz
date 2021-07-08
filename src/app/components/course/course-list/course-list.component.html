@@ -365,13 +365,13 @@
                         }}
                       </label>
                     </div>
-                    <span
+                    <a
                       class="cplan-title1 cursor-on h3-strong"
                       [ngClass]="{ 'cursor-off': courseDemo.viewCourse == '' }"
-                      (click)="showCourseDetail(course)"
+                      href="{{ showCourseDetail(course) }}"
                     >
                       {{ course.name }}
-                    </span>
+                    </a>
                     <span
                       *ngIf="course.teacher != undefined"
                       class="body-m text-c100"
