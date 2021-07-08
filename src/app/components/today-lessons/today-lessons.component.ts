@@ -16,7 +16,12 @@ import {
   NgbCalendar,
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
+import {
+  Router,
+  ActivatedRoute,
+  NavigationStart,
+  NavigationExtras
+} from '@angular/router';
 import * as moment from 'moment';
 import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 
@@ -564,8 +569,20 @@ export class TodayLessonsComponent implements OnInit {
   customerDetail(id) {
     this._router.navigate(['/customer/customerdetail', id]);
   }
-  teacherDetail(id) {
-    this._router.navigate(['/staff/staffdetail', id]);
+  teacherDetail(staffId, staff) {
+    staff.userId = staffId;
+
+    let navigationExtras: NavigationExtras = {
+      queryParams: staff
+    };
+    // console.log("whats in staff", staff);
+
+    return (
+      '#' +
+      this._router
+        .createUrlTree(['/staff/staffdetail', staffId], navigationExtras)
+        .toString()
+    );
   }
   public currentLoc: any = '';
   getAllLocations() {

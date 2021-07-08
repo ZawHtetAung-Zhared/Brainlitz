@@ -190,7 +190,9 @@
                   <div>
                     <a
                       class="teacher-name pl-2 pt-2 body-m text-c300"
-                      href="/#/staff/staffdetail/{{ tcourse.teacher?._id }}"
+                      href="{{
+                        teacherDetail(tcourse.teacher._id, tcourse.teacher)
+                      }}"
                     >
                       {{ tcourse.teacher?.fullName }}
                     </a>
@@ -218,9 +220,14 @@
                     </div>
                   </div>
                   <div>
-                    <p class="teacher-name pl-2 pt-2">
+                    <a
+                      href="{{
+                        teacherDetail(assTeacher.userDetails._id, assTeacher)
+                      }}"
+                      class="teacher-name pl-2 pt-2 body-m text-c300"
+                    >
                       {{ assTeacher.userDetails.fullName }}
-                    </p>
+                    </a>
                   </div>
                 </div>
                 <div

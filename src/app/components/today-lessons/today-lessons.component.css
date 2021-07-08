@@ -1033,7 +1033,7 @@ input:checked + .slider:before {
 }
 .loc-yellow {
   max-width: 287px;
-  height: 72px;
+  min-height: 72px;
   background: #fff2b3;
   border-radius: 12px;
   margin-bottom: 32px;
