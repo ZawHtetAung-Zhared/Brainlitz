@@ -247,12 +247,14 @@
                       </div>
                     </div>
 
-                    <p
+                    <a
                       class="student-name mb-0 body-l text-c300"
-                      (click)="customerDetail(student.userDetails._id)"
+                      href="/#/customer/customerdetail/{{
+                        student.userDetails._id
+                      }}"
                     >
                       {{ student.userDetails.fullName }}
-                    </p>
+                    </a>
                     <div
                       *ngIf="student.todayLesson.autoEnrolledLesson"
                       class="attype text-c100 small align-items-center"

@@ -321,11 +321,11 @@
             {{ count.name }}
           </h4>
           <div class="d-flex">
-            <span
+            <a
               class="body-m text-c300"
               class="course-details"
-              (click)="goCourseDetails(count.courseId)"
-              >Go to course details</span
+              href="/#/coursedetail/{{ count.courseId }}"
+              >Go to course details</a
             >
 
             <i
@@ -380,11 +380,11 @@
               {{ count.name }}
             </h4>
             <div class="d-flex">
-              <span
+              <a
                 class=" body-m text-c300"
                 class="course-details"
-                (click)="goCourseDetails(count.courseId)"
-                >Go to course details</span
+                href="/#/coursedetail/{{ count.courseId }}"
+                >Go to course details</a
               >
               <!-- <div class="apo-location" [ngStyle]="{'background-color': count.location.backgroundColorHex,'color':count.location.textColorHex, 'padding': '5px'}"> -->
 
@@ -420,11 +420,11 @@
               {{ count.name }}
             </h4>
             <div class="d-flex">
-              <span
+              <a
                 class=" body-m text-c300"
                 class="course-details"
-                (click)="goCourseDetails(count.courseId)"
-                >Go to course details</span
+                href="/#/coursedetail/{{ count.courseId }}"
+                >Go to course details</a
               >
               <!-- <div class="apo-location" [ngStyle]="{'background-color': count.location.backgroundColorHex,'color':count.location.textColorHex, 'padding': '5px'}"> -->
 
