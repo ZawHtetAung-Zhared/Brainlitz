@@ -72,57 +72,62 @@
           class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
           *ngFor="let staff of staffLists; let i = index"
         >
-          <div
-            class="box-design d-flex flex-row align-items-center"
-            (click)="showDetails(staff, staff.userId)"
+          <a
+            style="text-decoration: none;"
+            href="{{ showDetails(staff, staff.userId) }}"
           >
-            <div class="profileimg-wrap">
-              <div class="circular-image">
-                <img
-                  *ngIf="staff.profilePic == 'undefined'"
-                  src="assets/img/user.svg"
-                />
-                <img
-                  *ngIf="staff.profilePic != 'undefined'"
-                  src="{{ staff.profilePic }}"
-                />
+            <div class="box-design d-flex flex-row align-items-center">
+              <div class="profileimg-wrap">
+                <div class="circular-image">
+                  <img
+                    *ngIf="staff.profilePic == 'undefined'"
+                    src="assets/img/user.svg"
+                  />
+                  <img
+                    *ngIf="staff.profilePic != 'undefined'"
+                    src="{{ staff.profilePic }}"
+                  />
+                </div>
               </div>
-            </div>
-            <div class="info-side d-flex flex-column justify-content-center">
-              <div>
-                <label
-                  class="staff-label small text-c300"
-                  *ngIf="staff.permission"
-                  >{{ staff.permission.name }}</label
+              <div class="info-side d-flex flex-column justify-content-center">
+                <div>
+                  <label
+                    class="staff-label small text-c300"
+                    *ngIf="staff.permission"
+                    >{{ staff.permission.name }}</label
+                  >
+                </div>
+                <h5 class="body-xl text-c300">
+                  {{
+                    staff.preferredName.length > 20
+                      ? (staff.preferredName | slice: 0:20) + '...'
+                      : staff.preferredName
+                  }}
+                </h5>
+                <p class="info-mail body-m text-c100">{{ staff.email }}</p>
+                <p class="info-about" *ngIf="staff.about == 'undefined'">
+                  -
+                </p>
+                <p
+                  class="info-about body-m text-c100"
+                  *ngIf="staff.about != 'undefined'"
                 >
+                  <!-- <span>{{staff.about}}</span> -->
+                  {{
+                    staff.about.length > 48
+                      ? (staff.about | slice: 0:48) + '...'
+                      : staff.about
+                  }}
+                </p>
               </div>
-              <h5 class="body-xl text-c300">
-                {{
-                  staff.preferredName.length > 20
-                    ? (staff.preferredName | slice: 0:20) + '...'
-                    : staff.preferredName
-                }}
-              </h5>
-              <p class="info-mail body-m text-c100">{{ staff.email }}</p>
-              <p class="info-about" *ngIf="staff.about == 'undefined'">
-                -
-              </p>
-              <p
-                class="info-about body-m text-c100"
-                *ngIf="staff.about != 'undefined'"
+              <div
+                *ngIf="staffDemo.viewStaff != ''"
+                class="right-arrow ml-auto"
               >
-                <!-- <span>{{staff.about}}</span> -->
-                {{
-                  staff.about.length > 48
-                    ? (staff.about | slice: 0:48) + '...'
-                    : staff.about
-                }}
-              </p>
+                <i class="fa fa-angle-right text-c75"></i>
+              </div>
             </div>
-            <div *ngIf="staffDemo.viewStaff != ''" class="right-arrow ml-auto">
-              <i class="fa fa-angle-right text-c75"></i>
-            </div>
-          </div>
+          </a>
         </div>
 
         <div

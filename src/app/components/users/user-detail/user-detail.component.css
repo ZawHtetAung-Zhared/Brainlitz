@@ -673,6 +673,7 @@ h5 {
 
 .infoGp-wrap {
   padding: 10px 0px;
+  overflow: hidden;
 }
 
 .clickable {

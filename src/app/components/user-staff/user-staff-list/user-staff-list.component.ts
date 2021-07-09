@@ -198,7 +198,13 @@ export class UserStaffListComponent implements OnInit {
     let navigationExtras: NavigationExtras = {
       queryParams: staff
     };
-    this.router.navigate(['/staff/staffdetail', staffId], navigationExtras);
+    return (
+      '#' +
+      this.router
+        .createUrlTree(['/staff/staffdetail', staffId], navigationExtras)
+        .toString()
+    );
+    // this.router.navigate(["/staff/staffdetail", staffId], navigationExtras);
   }
 
   goCreateForm(type) {

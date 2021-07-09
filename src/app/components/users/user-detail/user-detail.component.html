@@ -347,13 +347,13 @@
                             }}</label
                           >
                         </div>
-                        <p
+                        <a
                           class="info-p body-xl clickable text-b100 pt-2"
-                          (click)="onClickCourse(course)"
+                          href="/#/coursedetail/{{ course._id }}"
                           style="padding-left: 20px"
                         >
                           {{ course.name }}
-                        </p>
+                        </a>
                         <div class="d-flex">
                           <div class="d-flex info-wrap justify-content-between">
                             <div class="d-flex">

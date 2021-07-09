@@ -103,22 +103,23 @@
           class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
           *ngFor="let customer of customerLists; let i = index"
         >
-          <div
-            class="box-design d-flex flex-row align-items-center"
-            (click)="showDetails(customer.userId, 'class')"
+          <a
+            style="text-decoration: none;"
+            href="/#/customer/customerdetail/{{ customer.userId }}"
           >
-            <div class="profileimg-wrap">
-              <div class="circular-image">
-                <img
-                  *ngIf="customer.profilePic == 'undefined'"
-                  src="assets/img/user.svg"
-                />
-                <img
-                  *ngIf="customer.profilePic != 'undefined'"
-                  src="{{ customer.profilePic }}"
-                />
-              </div>
-              <!-- <div
+            <div class="box-design d-flex flex-row align-items-center">
+              <div class="profileimg-wrap">
+                <div class="circular-image">
+                  <img
+                    *ngIf="customer.profilePic == 'undefined'"
+                    src="assets/img/user.svg"
+                  />
+                  <img
+                    *ngIf="customer.profilePic != 'undefined'"
+                    src="{{ customer.profilePic }}"
+                  />
+                </div>
+                <!-- <div
                 class="user-grade"
                 *ngIf="(customer.userGrading.grade | json) != '{}'"
               >
@@ -142,46 +143,47 @@
                   </span>
                 </div>
               </div> -->
-            </div>
-            <div class="info-side d-flex flex-column justify-content-center">
-              <h5
-                *ngIf="customer.preferredName"
-                class="body-xl text-c300"
-                style="margin-bottom: 0px"
+              </div>
+              <div class="info-side d-flex flex-column justify-content-center">
+                <h5
+                  *ngIf="customer.preferredName"
+                  class="body-xl text-c300"
+                  style="margin-bottom: 0px"
+                >
+                  {{
+                    customer.preferredName.length > 20
+                      ? (customer.preferredName | slice: 0:20) + '...'
+                      : customer.preferredName
+                  }}
+                </h5>
+                <p class="info-mail mb-0 body-m text-c100">
+                  {{ customer.email }}
+                </p>
+                <p
+                  class="info-about body-m text-c300"
+                  *ngIf="customer.about == 'undefined'"
+                >
+                  -
+                </p>
+                <p
+                  class="info-about body-m text-c300"
+                  *ngIf="customer.about != 'undefined'"
+                >
+                  {{
+                    customer.about.length > 25
+                      ? (customer.about | slice: 0:25) + '...'
+                      : customer.about
+                  }}
+                </p>
+              </div>
+              <div
+                *ngIf="customerDemo.viewCustomer != ''"
+                class="ml-auto right-arrow h1-strong text-s60"
               >
-                {{
-                  customer.preferredName.length > 20
-                    ? (customer.preferredName | slice: 0:20) + '...'
-                    : customer.preferredName
-                }}
-              </h5>
-              <p class="info-mail mb-0 body-m text-c100">
-                {{ customer.email }}
-              </p>
-              <p
-                class="info-about body-m text-c300"
-                *ngIf="customer.about == 'undefined'"
-              >
-                -
-              </p>
-              <p
-                class="info-about body-m text-c300"
-                *ngIf="customer.about != 'undefined'"
-              >
-                {{
-                  customer.about.length > 25
-                    ? (customer.about | slice: 0:25) + '...'
-                    : customer.about
-                }}
-              </p>
+                <i class="fa fa-angle-right"></i>
+              </div>
             </div>
-            <div
-              *ngIf="customerDemo.viewCustomer != ''"
-              class="ml-auto right-arrow h1-strong text-s60"
-            >
-              <i class="fa fa-angle-right"></i>
-            </div>
-          </div>
+          </a>
         </div>
 
         <div

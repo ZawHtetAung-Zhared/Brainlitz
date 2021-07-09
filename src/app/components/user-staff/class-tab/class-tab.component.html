@@ -74,12 +74,12 @@
         <!-- <span>Bedok centre</span>
         <span>Beginner Piano Course</span> -->
 
-        <div
+        <a
           class="col-md-12 title h3-strong text-b100 p-0 pt-1"
-          (click)="navigateToCourseDetail(course._id)"
+          href="/#/coursedetail/{{ course._id }}"
         >
           {{ course?.name }}
-        </div>
+        </a>
       </div>
 
       <div class="overview-shedule d-flex">
