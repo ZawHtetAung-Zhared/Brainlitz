@@ -1960,7 +1960,7 @@ card-body {
 }
 
 .tchr-img-wraper {
-  width: 40px;
+  min-width: 40px;
   height: 40px;
   border-radius: 50%;
   /* border: 1px solid rgba(211, 211, 211, 0.123); */

@@ -238,7 +238,7 @@
           <div
             class="col-md-8 col-xl-9 col-lg-9 d-flex flex-column profile-right"
           >
-            <div class="d-flex tab-section bg-s0">
+            <div class="d-flex tab-section bg-s0" style="overflow: auto;">
               <button
                 [ngClass]="{ 'active text-b100': activeTab == 'class' }"
                 class="btn tab-btn body-l"
@@ -387,7 +387,10 @@
                                 </p>
                               </div>
                             </div>
-                            <div class="d-flex tchr-img align-items-center">
+                            <div
+                              class="d-flex tchr-img align-items-center"
+                              style="overflow: hidden;"
+                            >
                               <div class="tchr-img-wraper">
                                 <img
                                   src="{{ course.teacher?.profilePic }}"
