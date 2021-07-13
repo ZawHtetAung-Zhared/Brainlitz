@@ -38,6 +38,22 @@ import {
         animation-name: big1;
         animation-duration: 4s;
       }
+      .white-bg {
+        width: 100vw;
+        height: 100vh;
+        background: white;
+        animation: animated-popup 0.2s;
+        transition: 1s;
+      }
+
+      @keyframes animated-popup {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
 
       @keyframes big1 {
         0% {
@@ -50,11 +66,13 @@ import {
     `
   ],
   template: `
-    <div class="block-ui-template">
-      <img style="width:240px; height:auto" src="{{ orgLogo }}" />
-      <div class="progress-bar">
-        <div class="progress"></div>
-        <div style="width:50%;"></div>
+    <div class="white-bg" id="white-id">
+      <div class="block-ui-template">
+        <img style="width:240px; height:auto" src="{{ orgLogo }}" />
+        <div class="progress-bar">
+          <div class="progress"></div>
+          <div style="width:50%;"></div>
+        </div>
       </div>
     </div>
   `

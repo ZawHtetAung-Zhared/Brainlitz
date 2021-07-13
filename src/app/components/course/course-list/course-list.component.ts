@@ -45,7 +45,7 @@ export class CourseListComponent implements OnInit {
   private courseCollection;
   private courses = [];
   private page = 1;
-  private limit = 10;
+  private limit = 100;
   private skip = 0;
   private courseLoading: boolean;
   private coursePlanLoading: boolean = false;
