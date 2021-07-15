@@ -1104,7 +1104,8 @@ export class UserDetailComponent implements OnInit {
   public tempcIndex;
   public tempCourse;
   autoEnroll(i, data, autoEnroll) {
-    console.log('auto enrol');
+    console.log('auto enrol', i);
+    console.log('auto enrol', data);
     this.tempCourse = data;
     console.warn(autoEnroll);
     this.autoEnrollModal = this.modalService.open(autoEnroll, {
@@ -1124,6 +1125,8 @@ export class UserDetailComponent implements OnInit {
 
   confirmAutoEnroll() {
     console.error('object');
+    console.log('confirm course', this.custDetail.courses[this.tempcIndex]);
+
     this.custDetail.courses[this.tempcIndex].autoEnroll = !this.custDetail
       .courses[this.tempcIndex].autoEnroll;
 

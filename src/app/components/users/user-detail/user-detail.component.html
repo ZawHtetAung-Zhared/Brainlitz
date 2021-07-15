@@ -573,7 +573,11 @@
                                     course.autoEnroll == undefined ||
                                     !course.autoEnroll
                                 }"
-                                *ngIf="course.type == 'FLEXY'"
+                                *ngIf="
+                                  course.type == 'FLEXY' &&
+                                  course.autoEnroll != undefined &&
+                                  course.autoEnroll
+                                "
                                 (click)="$event.stopPropagation()"
                                 class="light-body-m text-c300 d-flex inv-wrap"
                               >
