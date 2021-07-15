@@ -144,7 +144,7 @@ export class UserDetailComponent implements OnInit {
   public moreOpt: any = {};
   public clickedCourseID: any = null;
   public coursePlanID: any = null;
-  public invFlag: boolean = true;
+  public invFlag: boolean = null;
 
   constructor(
     private _service: appService,
@@ -1126,11 +1126,13 @@ export class UserDetailComponent implements OnInit {
     console.error('object');
     this.custDetail.courses[this.tempcIndex].autoEnroll = !this.custDetail
       .courses[this.tempcIndex].autoEnroll;
+
     let tempObj = {
       courseId: this.custDetail.courses[this.tempcIndex]._id,
       userId: this.custDetail.user.userId,
       autoEnroll: this.custDetail.courses[this.tempcIndex].autoEnroll,
-      disableAutoInvoiceOnAutoEnrol: this.invFlag
+      disableAutoInvoiceOnAutoEnrol: this.custDetail.courses[this.tempcIndex]
+        .disableAutoInvoiceOnAutoEnrol
     };
     this._service.autoEnroll(this.regionID, tempObj).subscribe(
       res => {

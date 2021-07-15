@@ -486,6 +486,14 @@
                                 src="../../../../assets/images/yes_inv.svg"
                               />Auto enrolment with invoice</label
                             >
+                            <label
+                              class="switch-label mt-0 light-body-m text-c300"
+                              *ngIf="!course.autoEnroll"
+                              ><img
+                                style="margin-right: 9px;"
+                                src="../../../../assets/images/enrol_avail.svg"
+                              />Auto enrolment available</label
+                            >
                           </div>
                           <!-- <div
                           class="d-flex align-items-center"
@@ -511,6 +519,7 @@
                             <span class="body-m text-b100">More</span>
                             <div *ngIf="moreOpt[i]" class="more-popup">
                               <div
+                                *ngIf="course.type == 'FLEXY'"
                                 (click)="$event.stopPropagation()"
                                 class="light-body-m text-c300 d-flex align-items-center justify-content-between "
                               >
@@ -559,10 +568,12 @@
                                 </div>
                               </div>
                               <div
+                                *ngIf="course.type == 'FLEXY'"
                                 (click)="$event.stopPropagation()"
                                 class="light-body-m text-c300 d-flex inv-wrap"
                               >
                                 <div
+                                  style="margin-left: 8px;"
                                   class="box-type d-flex align-items-center"
                                   (click)="
                                     fieldsChange(
@@ -576,7 +587,7 @@
                                     class="invoice-cb"
                                     type="checkbox"
                                     [checked]="
-                                      course.disableAutoInvoiceOnAutoEnrol
+                                      !course.disableAutoInvoiceOnAutoEnrol
                                     "
                                   />
                                   <span>Allow automated invoice</span>
@@ -590,8 +601,9 @@
                                     course.teacher.preferredName
                                   )
                                 "
+                                [ngClass]="{ 'b-top': course.type == 'FLEXY' }"
                                 class="light-body-m text-c300 cursor-on"
-                                style="padding-bottom: 16px;padding-top: 16px;border-bottom: 1px solid #E8E9EB; border-top: 1px solid #E8E9EB;"
+                                style="padding-bottom: 16px;padding-top: 16px;border-bottom: 1px solid #E8E9EB;"
                               >
                                 View journal
                               </div>
