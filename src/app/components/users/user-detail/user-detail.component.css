@@ -30,6 +30,20 @@
   height: 40px;
   padding: 8px 0px;
   margin-top: 12px;
+
+  animation-name: invani;
+  animation-duration: 1s;
+}
+
+@keyframes invani {
+  0% {
+    margin-top: -40px;
+    opacity: 0;
+  }
+  100% {
+    margin-top: 12px;
+    opacity: 1;
+  }
 }
 
 ul.pass-list {
