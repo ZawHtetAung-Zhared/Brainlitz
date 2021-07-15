@@ -568,11 +568,21 @@
                                 </div>
                               </div>
                               <div
+                                [ngClass]="{
+                                  'not-allowed':
+                                    course.autoEnroll == undefined ||
+                                    !course.autoEnroll
+                                }"
                                 *ngIf="course.type == 'FLEXY'"
                                 (click)="$event.stopPropagation()"
                                 class="light-body-m text-c300 d-flex inv-wrap"
                               >
                                 <div
+                                  [ngClass]="{
+                                    'no-event':
+                                      course.autoEnroll == undefined ||
+                                      !course.autoEnroll
+                                  }"
                                   style="margin-left: 8px;"
                                   class="box-type d-flex align-items-center"
                                   (click)="

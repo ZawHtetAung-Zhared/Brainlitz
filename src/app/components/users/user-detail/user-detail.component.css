@@ -3020,6 +3020,9 @@ p.grade-txt {
 .not-allowed {
   cursor: not-allowed;
 }
+.no-event {
+  pointer-events: none;
+}
 .more-option {
   width: 101px;
   height: 40px;
