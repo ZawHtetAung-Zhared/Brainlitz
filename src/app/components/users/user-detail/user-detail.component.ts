@@ -144,6 +144,7 @@ export class UserDetailComponent implements OnInit {
   public moreOpt: any = {};
   public clickedCourseID: any = null;
   public coursePlanID: any = null;
+  public invFlag: boolean = null;
 
   constructor(
     private _service: appService,
@@ -1103,6 +1104,7 @@ export class UserDetailComponent implements OnInit {
   public tempcIndex;
   public tempCourse;
   autoEnroll(i, data, autoEnroll) {
+    console.log('auto enrol');
     this.tempCourse = data;
     console.warn(autoEnroll);
     this.autoEnrollModal = this.modalService.open(autoEnroll, {
@@ -1124,10 +1126,13 @@ export class UserDetailComponent implements OnInit {
     console.error('object');
     this.custDetail.courses[this.tempcIndex].autoEnroll = !this.custDetail
       .courses[this.tempcIndex].autoEnroll;
+
     let tempObj = {
       courseId: this.custDetail.courses[this.tempcIndex]._id,
       userId: this.custDetail.user.userId,
-      autoEnroll: this.custDetail.courses[this.tempcIndex].autoEnroll
+      autoEnroll: this.custDetail.courses[this.tempcIndex].autoEnroll,
+      disableAutoInvoiceOnAutoEnrol: this.custDetail.courses[this.tempcIndex]
+        .disableAutoInvoiceOnAutoEnrol
     };
     this._service.autoEnroll(this.regionID, tempObj).subscribe(
       res => {
@@ -1528,5 +1533,26 @@ export class UserDetailComponent implements OnInit {
       this.makeupModalClose();
       this.callMakeupLists();
     });
+  }
+
+  fieldsChange(i, flag) {
+    this.tempcIndex = i;
+    this.invFlag = !flag;
+    console.log('checkbox is ', this.invFlag);
+    let tempObj = {
+      courseId: this.custDetail.courses[this.tempcIndex]._id,
+      userId: this.custDetail.user.userId,
+      autoEnroll: this.custDetail.courses[this.tempcIndex].autoEnroll,
+      disableAutoInvoiceOnAutoEnrol: this.invFlag
+    };
+    this._service.autoEnroll(this.regionID, tempObj).subscribe(
+      res => {
+        console.log(res);
+        this.showDetails(this.custDetail.user.userId, 'class', 'user,courses');
+      },
+      err => {
+        console.error(err);
+      }
+    );
   }
 }

@@ -16,6 +16,21 @@
 .mr-32 {
   margin-right: 32px;
 }
+.invoice-cb {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+}
+.inv-wrap {
+  margin-bottom: 16px;
+  border-bottom: 1px solid #e8e9eb;
+  background: #f2f3f5;
+  border-radius: 8px;
+  align-items: center;
+  height: 40px;
+  padding: 8px 0px;
+  margin-top: 12px;
+}
 
 ul.pass-list {
   list-style: none;
@@ -2078,10 +2093,14 @@ input:checked + .slider:before {
 }
 
 .auto-enroll {
-  background: #f2f4f5;
-  border-radius: 25px !important;
+  background: #f2f4f5 !important;
+  border-radius: 8px !important;
   min-width: 100px;
   margin-right: 14px;
+  padding: 8px 0px;
+}
+.b-top {
+  border-top: 1px solid #e8e9eb;
 }
 
 .tchr-img {
@@ -3017,20 +3036,21 @@ p.grade-txt {
   background: #f2f3f5;
 }
 .more-popup {
-  background: #363f4d;
+  background: #ffffff;
   border-radius: 8px;
-  width: 200px;
+  width: 293px;
   padding: 16px;
   position: absolute;
   right: 0;
   bottom: 55px;
+  box-shadow: 0px 0px 10px 6px #e3e3e3e3;
 }
 .more-popup::after {
   position: absolute;
   content: '';
   border-style: solid;
   border-width: 12px 10px 0 10px;
-  border-color: #363f4d transparent transparent transparent;
+  border-color: #ffffff transparent transparent transparent;
   bottom: -12px;
   right: 40px;
 }
