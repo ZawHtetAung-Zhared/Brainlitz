@@ -2596,7 +2596,7 @@
   </ng-template>
 
   <ng-template #remainingLessons>
-    <div style="overflow: auto; height: 767px;" id="rm-parent">
+    <div style=" height: 767px;" id="rm-parent">
       <div class="d-flex modal-header">
         <h3 class="body-m text-c100">{{ custDetail.user.preferredName }}</h3>
         <span class="cross_close" (click)="closeModal('')"></span>
@@ -2873,6 +2873,17 @@
               </div>
               {{ lesson.teacher?.preferredName }}
             </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center" style="margin-top: 52px;">
+          <div
+            (click)="scrollDiv()"
+            class="arrow-wrap d-flex justify-content-center align-items-center"
+          >
+            <img
+              [ngClass]="{ 'flip-arrow': scrollDirection == false }"
+              src="../../../../assets/images/down_arrow.svg"
+            />
           </div>
         </div>
       </div>

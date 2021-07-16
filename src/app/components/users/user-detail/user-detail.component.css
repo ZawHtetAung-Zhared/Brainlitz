@@ -34,7 +34,17 @@
   animation-name: invani;
   animation-duration: 1s;
 }
-
+.arrow-wrap {
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  background: #ffffff;
+  box-shadow: 2px 4px 32px rgba(0, 0, 0, 0.32);
+  border-radius: 99px;
+}
+.flip-arrow {
+  transform: rotate(180deg);
+}
 @keyframes invani {
   0% {
     margin-top: -40px;
@@ -3110,10 +3120,10 @@ p.grade-txt {
   align-items: center;
 }
 .rm-container {
-  height: auto;
+  scroll-behavior: smooth;
+  height: 400px;
   padding-bottom: 200px;
-  /* overflow: auto;
-  overflow-x: hidden; */
+  overflow: auto;
 }
 .rm-count {
   width: auto;
