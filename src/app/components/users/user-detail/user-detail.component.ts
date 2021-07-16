@@ -1253,6 +1253,7 @@ export class UserDetailComponent implements OnInit {
     this.showflexyCourse = false;
     this.headerFixed = false;
     this.attendedFlag = false;
+    this.scrollDirection = true;
 
     if (type == 'closeInv') {
       this.showDetails(this.custDetail.user.userId, 'class', 'user,courses');
@@ -1557,5 +1558,13 @@ export class UserDetailComponent implements OnInit {
         console.error(err);
       }
     );
+  }
+  public scrollDirection: boolean = true;
+  scrollDiv() {
+    this.scrollDirection = !this.scrollDirection;
+    var ele = document.getElementById('rm-container');
+
+    if (!this.scrollDirection) ele.scrollTop = ele.scrollHeight;
+    else ele.scrollTop = 0;
   }
 }
