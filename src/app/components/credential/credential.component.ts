@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbCalendar
+} from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { appService } from '../../service/app.service';
 
@@ -19,11 +24,14 @@ export class CredentialComponent implements OnInit {
   public resendLoading: boolean = false;
   public sentDone: boolean = false;
   public currentId: any;
+  public currentSwitch: any = 'new';
+  public modalReference: any;
 
   constructor(
     private _service: appService,
     public toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    public modalService: NgbModal
   ) {}
 
   ngOnInit() {
@@ -31,13 +39,23 @@ export class CredentialComponent implements OnInit {
   }
 
   getCredentials() {
-    this._service.getNotyetLoginuser(this.regionID).subscribe((res: any) => {
-      console.log('customer', res);
-      this.userList = res.notYetLoginUsers;
-      this.loader = false;
-      this.sentDone = false;
-      // this.userList.sort(this.compareAZ);
-    });
+    if (this.currentSwitch == 'new') {
+      this._service.getNotyetLoginuser(this.regionID).subscribe((res: any) => {
+        console.log('customer', res);
+        this.userList = res.notYetLoginUsers;
+        this.loader = false;
+        this.sentDone = false;
+        // this.userList.sort(this.compareAZ);
+      });
+    } else if (this.currentSwitch == 'old') {
+      this._service.getAlreadyLoginuser(this.regionID).subscribe((res: any) => {
+        console.log('customer', res);
+        this.userList = res.notYetLoginUsers;
+        this.loader = false;
+        this.sentDone = false;
+        // this.userList.sort(this.compareAZ);
+      });
+    }
   }
   sendReset(obj) {
     this.resendLoading = true;
@@ -49,6 +67,7 @@ export class CredentialComponent implements OnInit {
         this.resendLoading = false;
         this.sentDone = true;
       });
+    this.closeModal();
   }
   checkLesson(i) {
     console.log('user', this.userList[i]);
@@ -65,7 +84,7 @@ export class CredentialComponent implements OnInit {
     }
   }
 
-  resend() {
+  resend(modal) {
     var cusId = [];
     for (var k = 0; k < this.userList.length; k++) {
       if (this.checkboxFlag[k] == true) {
@@ -76,6 +95,34 @@ export class CredentialComponent implements OnInit {
       customerIdList: cusId
     };
     console.log('list of ids', body);
+    if (this.currentSwitch == 'new') {
+      this.sendReset(body);
+    } else {
+      this.modalReference = this.modalService.open(modal, {
+        backdrop: 'static',
+        windowClass: 'modal d-flex justify-content-center align-items-center'
+      });
+    }
+  }
+  closeModal() {
+    this.modalReference.close();
+  }
+  confirmResend() {
+    var cusId = [];
+    for (var k = 0; k < this.userList.length; k++) {
+      if (this.checkboxFlag[k] == true) {
+        cusId.push(this.userList[k].customerId);
+      }
+    }
+    if (cusId.length == 0) {
+      var body = {
+        customerIdList: [this.currentId]
+      };
+    } else {
+      var body = {
+        customerIdList: cusId
+      };
+    }
     this.sendReset(body);
   }
   sortByCus() {
@@ -138,13 +185,26 @@ export class CredentialComponent implements OnInit {
     var index = this.userList.filter(obj => obj.preferredName === this.cusName);
     console.log(index, this.cusName);
   }
-  singleResend(id, event) {
+  singleResend(id, event, modal) {
     this.currentId = id;
     event.stopPropagation();
     console.log('resend');
     var body = {
       customerIdList: [id]
     };
-    this.sendReset(body);
+    if (this.currentSwitch == 'new') {
+      this.sendReset(body);
+    } else {
+      this.modalReference = this.modalService.open(modal, {
+        backdrop: 'static',
+        windowClass: 'modal d-flex justify-content-center align-items-center'
+      });
+    }
+  }
+
+  switchLogin(obj) {
+    this.currentSwitch = obj;
+    this.getCredentials();
+    console.log('enter switch func', this.currentSwitch);
   }
 }

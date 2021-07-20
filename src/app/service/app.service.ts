@@ -5409,6 +5409,20 @@ export class appService {
     });
   }
 
+  getAlreadyLoginuser(regionId) {
+    let apiUrl =
+      this.baseUrl + '/regions/' + regionId + '/already-logged-in-user';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
+
   sendPasswordReset(body, regionId) {
     let apiUrl =
       this.baseUrl + '/regions/' + regionId + '/user-random-password';
