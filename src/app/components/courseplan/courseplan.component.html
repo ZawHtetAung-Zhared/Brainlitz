@@ -259,6 +259,7 @@
                       </div>
                     </div>
                   </div>
+
                   <div
                     *ngIf="
                       formField.lesson.duration == '0 min' &&
@@ -271,6 +272,22 @@
                     </div>
                   </div>
                   <hr class="limit-hr-length" />
+                  <div>
+                    <div class="body-l text-c300" style="margin-bottom: 16px;">
+                      Location
+                    </div>
+                    <div
+                      (click)="locationModalOpen(locationModal)"
+                      class="light-body-l text-c100 d-flex justify-content-between location-box align-items-center"
+                    >
+                      <span *ngIf="locNames.length == 0">Select location</span>
+                      <span *ngIf="locNames.length != 0">
+                        <span *ngFor="let name of locNames">{{ name }} ,</span>
+                      </span>
+                      <span> > </span>
+                    </div>
+                    <hr class="limit-hr-length" />
+                  </div>
                 </div>
                 <div class="col-md-6">
                   <div>
@@ -1614,3 +1631,60 @@
   </form>
   <!-- <block-ui message="Deafult Message"></block-ui> -->
 </div>
+<ng-template #locationModal let-c="close" let-d="dismiss">
+  <div class="location-wrapper">
+    <div
+      class="d-flex justify-content-between h2-strong text-c300"
+      style="margin-bottom: 24px;"
+    >
+      <span>Select location</span>
+      <img
+        (click)="closeModal()"
+        class="close-x cursor"
+        src="../../../assets/icons/crossClose.svg"
+      />
+    </div>
+    <div class="d-flex list-wrap">
+      <div
+        *ngFor="let loc of locationList; let i = index"
+        class="loc-list d-flex align-items-center cursor"
+        (click)="selectedLoc(i)"
+      >
+        <div
+          style="width: 15%;"
+          class="d-flex justify-content-center align-items-center"
+        >
+          <input
+            style="width: 20px; height: 20px; pointer-events: none;"
+            [(ngModel)]="locCheckboxes[i]"
+            type="checkbox"
+          />
+        </div>
+        <div
+          [ngStyle]="{
+            color: loc.textColorHex,
+            background: loc.backgroundColorHex
+          }"
+          style="width: 85%; padding: 8px 12px;"
+        >
+          {{ loc.name }}
+        </div>
+      </div>
+    </div>
+    <div class="loc-footer">
+      <button
+        class="btn loc-cancel body-m text-b100 bg-s0"
+        style="margin-right: 24px;"
+        (click)="closeModal()"
+      >
+        Cancel
+      </button>
+      <button
+        (click)="locConfirm()"
+        class="btn loc-confirm body-m text-s0 bg-b100"
+      >
+        Confirm
+      </button>
+    </div>
+  </div>
+</ng-template>

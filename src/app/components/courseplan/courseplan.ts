@@ -36,6 +36,7 @@ export class cPlanField {
   public searchText: string;
   public assessmentPlans: Array<any> = [];
   public dueDateCount: number;
+  public locationIdList: Array<any> = [];
 }
 
 export class apgForm {

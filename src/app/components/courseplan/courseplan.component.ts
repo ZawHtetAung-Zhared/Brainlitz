@@ -220,6 +220,7 @@ export class CourseplanComponent implements OnInit {
       .subscribe((res: any) => {
         console.log('single plan', res);
         this.formField = res;
+
         if (
           res.paymentPolicy.taxOptions != null ||
           res.paymentPolicy.taxOptions != undefined
@@ -665,7 +666,8 @@ export class CourseplanComponent implements OnInit {
       holidayCalendarId: this.formField.holidayCalendarId,
       accessPointGroup: selectedAPGArray,
       assessmentPlans: this.selectedAPidList,
-      dueDateCount: this.formField.dueDateCount
+      dueDateCount: this.formField.dueDateCount,
+      locationIdList: this.formField.locationIdList
     };
 
     // let data = {
@@ -2007,5 +2009,56 @@ export class CourseplanComponent implements OnInit {
     }
     this.isSameOpt = same;
     console.log(this.isSameOpt);
+  }
+  locationModalOpen(modal) {
+    this.getAllLocations();
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass: 'loc-modal d-flex justify-content-center align-items-center'
+    });
+  }
+  public locationList: any = [];
+  public currentLoc: any;
+  getAllLocations() {
+    this._service
+      .getLocations(this.regionID, 20, 0, true)
+      .subscribe((res: any) => {
+        console.log('Locations', res);
+        this.locationList = res;
+        console.log(
+          'current Loc',
+          this.locationList.find(x => x._id === this.locationID).name
+        );
+        this.currentLoc = this.locationList.find(
+          x => x._id === this.locationID
+        ).name;
+      });
+  }
+  public locCheckboxes: any = [];
+  selectedLoc(i) {
+    console.log('selected index ', i);
+    if (this.locCheckboxes[i] != true) {
+      this.locCheckboxes[i] = true;
+    } else this.locCheckboxes[i] = false;
+  }
+  closeModal() {
+    this.modalReference.close();
+    this.locNames = [];
+  }
+  public locNames: any = [];
+  locConfirm() {
+    var locations = [];
+    var dummy = [];
+    for (var j = 0; j < this.locationList.length; j++) {
+      if (this.locCheckboxes[j] == true) {
+        locations.push(this.locationList[j]._id);
+        dummy.push(this.locationList[j]);
+        this.locNames.push(this.locationList[j].name);
+      }
+    }
+    console.log('list of selected locations', locations);
+    console.log('loc names', dummy);
+    this.formField.locationIdList = locations;
+    this.modalReference.close();
   }
 }
