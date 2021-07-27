@@ -1670,3 +1670,8 @@ button.toast-close-button {
   max-width: 720px;
   border-radius: 16px;
 }
+.loc-modal .modal-dialog {
+  width: 720px;
+  max-width: 720px;
+  border-radius: 16px;
+}
