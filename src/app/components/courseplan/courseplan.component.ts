@@ -159,7 +159,6 @@ export class CourseplanComponent implements OnInit {
   deviceObjects = [{ name: 'inclusive' }, { name: 'exclusive' }];
   selectedDeviceObj = this.deviceObjects[1];
   ngOnInit() {
-    this.getAllLocations();
     this.formField.lesson.duration = '0 min';
     this.showModal = true;
     this.showsubModal = false;
@@ -173,6 +172,7 @@ export class CourseplanComponent implements OnInit {
     this.getAllHolidaysCalendar();
     this.getAllPdf();
     this.getAllAPG(20, 0);
+    this.getAllLocations();
     this.pdfId = [];
     // this.formField.holidayCalendarId = 'disabledHoliday';
     this.formField.holidayCalendarId = null;
@@ -332,7 +332,7 @@ export class CourseplanComponent implements OnInit {
                 }
               }
             }
-          }, 300);
+          }, 1000);
         }
       });
   }
