@@ -159,6 +159,7 @@ export class CourseplanComponent implements OnInit {
   deviceObjects = [{ name: 'inclusive' }, { name: 'exclusive' }];
   selectedDeviceObj = this.deviceObjects[1];
   ngOnInit() {
+    this.getAllLocations();
     this.formField.lesson.duration = '0 min';
     this.showModal = true;
     this.showsubModal = false;
@@ -220,7 +221,6 @@ export class CourseplanComponent implements OnInit {
       .subscribe((res: any) => {
         console.log('single plan', res);
         this.formField = res;
-
         if (
           res.paymentPolicy.taxOptions != null ||
           res.paymentPolicy.taxOptions != undefined
@@ -2010,8 +2010,12 @@ export class CourseplanComponent implements OnInit {
     this.isSameOpt = same;
     console.log(this.isSameOpt);
   }
+  public prevStates: any = [];
   locationModalOpen(modal) {
-    this.getAllLocations();
+    this.prevStates = JSON.parse(JSON.stringify(this.locCheckboxes));
+
+    console.log('prev checkbox states', this.prevStates);
+
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass: 'loc-modal d-flex justify-content-center align-items-center'
@@ -2025,6 +2029,7 @@ export class CourseplanComponent implements OnInit {
       .subscribe((res: any) => {
         console.log('Locations', res);
         this.locationList = res;
+        this.locationFunc();
         console.log(
           'current Loc',
           this.locationList.find(x => x._id === this.locationID).name
@@ -2043,11 +2048,19 @@ export class CourseplanComponent implements OnInit {
   }
   closeModal() {
     this.modalReference.close();
-    this.locNames = [];
+    console.log('loc cb', this.locCheckboxes);
+    console.log('prev cb', this.prevStates);
+
+    this.locCheckboxes = this.prevStates;
+
+    console.log('loc cb', this.locCheckboxes);
+    console.log('prev cb', this.prevStates);
   }
   public locNames: any = [];
+  public showLocNames: any = '';
   locConfirm() {
     var locations = [];
+    this.locNames = [];
     var dummy = [];
     for (var j = 0; j < this.locationList.length; j++) {
       if (this.locCheckboxes[j] == true) {
@@ -2056,9 +2069,53 @@ export class CourseplanComponent implements OnInit {
         this.locNames.push(this.locationList[j].name);
       }
     }
+    if (this.locNames.length == 1) {
+      this.showLocNames = this.locNames[0];
+    } else if (this.locNames.length == 2) {
+      this.showLocNames = this.locNames[0] + ', ' + this.locNames[1];
+    } else if (this.locNames.length > 2) {
+      this.showLocNames =
+        this.locNames[0] +
+        ', ' +
+        this.locNames[1] +
+        ', and ' +
+        (this.locNames.length - 2) +
+        'more';
+    }
     console.log('list of selected locations', locations);
     console.log('loc names', dummy);
     this.formField.locationIdList = locations;
     this.modalReference.close();
+  }
+  locationFunc() {
+    var resLoc = [];
+    this.locNames = [];
+    console.log('test1', this.formField.locationIdList);
+    console.log('test2', this.locationList);
+    if (this.formField.locationIdList == undefined)
+      this.formField.locationIdList = [];
+    for (var i = 0; i < this.formField.locationIdList.length; i++) {
+      for (var j = 0; j < this.locationList.length; j++) {
+        if (this.formField.locationIdList[i] == this.locationList[j]._id) {
+          resLoc.push(this.locationList[j]);
+          this.locNames.push(this.locationList[j].name);
+          console.log('loc res list', this.locationList[j].name);
+          this.locCheckboxes[j] = true;
+        }
+      }
+    }
+    if (this.locNames.length == 1) {
+      this.showLocNames = this.locNames[0];
+    } else if (this.locNames.length == 2) {
+      this.showLocNames = this.locNames[0] + ', ' + this.locNames[1];
+    } else if (this.locNames.length > 2) {
+      this.showLocNames =
+        this.locNames[0] +
+        ', ' +
+        this.locNames[1] +
+        ', and ' +
+        (this.locNames.length - 2) +
+        ' more';
+    }
   }
 }

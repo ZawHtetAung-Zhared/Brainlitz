@@ -282,9 +282,14 @@
                     >
                       <span *ngIf="locNames.length == 0">Select location</span>
                       <span *ngIf="locNames.length != 0">
-                        <span *ngFor="let name of locNames">{{ name }} ,</span>
+                        <span class="h4-strong text-c300">{{
+                          showLocNames
+                        }}</span>
                       </span>
-                      <span> > </span>
+                      <img
+                        style="    margin-right: 24px;"
+                        src="../../../assets/images/chevron_right.svg"
+                      />
                     </div>
                     <hr class="limit-hr-length" />
                   </div>
