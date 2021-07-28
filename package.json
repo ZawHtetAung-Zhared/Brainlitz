@@ -13,7 +13,7 @@
     "build:master_old": "ng build --prod=true --env=master --aot=false",
     "build:staging_old": "ng build --prod=true --env=staging --aot=false",
     "build:dev_old": "ng build --prod=true --env=dev --aot=false",
-    "build:dev": "ng build client --prod=true --aot=false --env=dev --buildOptimizer=true",
+    "build:dev": "cross-env NODE_OPTIONS=--max_old_space_size=8192 ng build client --prod=true --aot=true --env=dev --buildOptimizer=true",
     "build:master": "cross-env NODE_OPTIONS=--max_old_space_size=8192 ng build client --prod=true --aot=true --env=master --buildOptimizer=true",
     "build:staging": "cross-env NODE_OPTIONS=--max_old_space_size=8192 ng build client --prod=true --aot=true --env=staging --buildOptimizer=true",
     "test": "ng test",
