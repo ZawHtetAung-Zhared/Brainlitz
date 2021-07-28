@@ -12,4 +12,8 @@ export class MakeupPassComponent implements OnInit {
   public cusName: any;
   public currentSwitch: any = 'Available';
   searchCus() {}
+
+  switchTab(obj) {
+    this.currentSwitch = obj;
+  }
 }
