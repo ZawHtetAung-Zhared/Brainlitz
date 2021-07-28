@@ -19,16 +19,31 @@
     style="margin: 0 auto ;margin-top: 20px;"
   >
     <div
+      [ngClass]="{
+        'switcher-active': currentSwitch == 'Available',
+        'h5-strong': currentSwitch == 'Available',
+        'text-b100': currentSwitch == 'Available'
+      }"
       class="makeup-options d-flex justify-content-center align-items-center cursor"
     >
       Available
     </div>
     <div
+      [ngClass]="{
+        'switcher-active': currentSwitch == 'Claimed',
+        'h5-strong': currentSwitch == 'Claimed',
+        'text-b100': currentSwitch == 'Claimed'
+      }"
       class="makeup-options d-flex justify-content-center align-items-center cursor"
     >
       Claimed
     </div>
     <div
+      [ngClass]="{
+        'switcher-active': currentSwitch == 'Expired',
+        'h5-strong': currentSwitch == 'Expired',
+        'text-b100': currentSwitch == 'Expired'
+      }"
       class="makeup-options d-flex justify-content-center align-items-center cursor"
     >
       Expired
@@ -84,7 +99,12 @@
         </div>
       </div>
       <div class="d-flex" style="width: 20%; padding: 16px 20px;">
-        <div class="option" style="margin-right: 16px;">. . .</div>
+        <div
+          class="option d-flex justify-content-center align-items-center"
+          style="margin-right: 16px;"
+        >
+          . . .
+        </div>
         <div
           class="claim-div caption-u text-b100 d-flex justify-content-center align-items-center"
         >

@@ -10,5 +10,6 @@ export class MakeupPassComponent implements OnInit {
 
   ngOnInit() {}
   public cusName: any;
+  public currentSwitch: any = 'Available';
   searchCus() {}
 }

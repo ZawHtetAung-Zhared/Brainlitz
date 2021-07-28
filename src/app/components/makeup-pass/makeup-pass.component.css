@@ -22,6 +22,11 @@
 .makeup-options {
   width: 96px;
   height: 40px;
+  /* background: #ffffff; */
+  /* box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 99px; */
+}
+.switcher-active {
   background: #ffffff;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 99px;
@@ -62,4 +67,6 @@
   height: 4px;
   background: #b1b1b3;
   margin: auto 8px;
+  display: inline-block;
+  border-radius: 50%;
 }
