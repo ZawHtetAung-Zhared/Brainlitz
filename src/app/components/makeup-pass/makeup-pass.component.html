@@ -1,0 +1,18 @@
+<div style="padding: 48px 0px;">
+  <div class="h1-strong text-c300">Makeup pass</div>
+  <div class="light-body-l text-c100" style="margin-top: 8px;">
+    Please select the customer and send a random password to the registered
+    email address.
+  </div>
+  <div style="position: relative; width: 100%;margin-top: 40px;">
+    <input
+      [(ngModel)]="cusName"
+      (keyup.enter)="searchCus()"
+      type="text"
+      placeholder="Search student"
+      class="makeup-search"
+    />
+    <img class="search" src="./assets/icons/search_l.svg" />
+  </div>
+  <div class="makeup-switcher" style="margin: 0 auto ;margin-top: 20px;"></div>
+</div>
