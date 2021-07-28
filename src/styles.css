@@ -1665,3 +1665,13 @@ button.toast-close-button {
 .align-item-center {
   align-items: center;
 }
+.loc-modal .modal-content {
+  width: 720px;
+  max-width: 720px;
+  border-radius: 16px;
+}
+.loc-modal .modal-dialog {
+  width: 720px;
+  max-width: 720px;
+  border-radius: 16px;
+}
