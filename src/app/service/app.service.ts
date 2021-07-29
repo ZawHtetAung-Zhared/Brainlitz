@@ -5438,4 +5438,18 @@ export class appService {
         return res;
       });
   }
+
+  getMakeupList(filter, regionId) {
+    let apiUrl =
+      this.baseUrl + '/regions/' + regionId + '/makeup-pass?filter=' + filter;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
+  }
 }
