@@ -733,7 +733,7 @@ export class CourseplanComponent implements OnInit {
             console.log('success post', res);
             this.toastr.success('Successfully Created.');
             //this.blockUI.stop();
-            this.getAllCoursePlan();
+            // this.getAllCoursePlan();
             this.cancel();
             this.mainForm.reset();
             this.formField = new cPlanField();
