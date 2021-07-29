@@ -22,6 +22,11 @@
 .makeup-options {
   width: 96px;
   height: 40px;
+  /* background: #ffffff; */
+  /* box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+  border-radius: 99px; */
+}
+.switcher-active {
   background: #ffffff;
   box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 99px;
@@ -35,8 +40,36 @@
 }
 .makeup-body {
   max-width: 966px;
-  height: 88px;
+  min-height: 88px;
   background: #ffffff;
 
   box-shadow: 0px -1px 0px #e3e4e5;
+}
+.makeup-body > div {
+  overflow: auto;
+}
+.option {
+  width: 40px;
+  height: 40px;
+  background: #ffffff;
+
+  box-shadow: 0px 0px 0px 1px #edeef0, 1px 2px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+}
+.claim-div {
+  width: 80px;
+  height: 40px;
+  background: #f2f3f5;
+
+  border: 1px solid #e8e9eb;
+  box-sizing: border-box;
+  border-radius: 99px;
+}
+.little-dot {
+  width: 4px;
+  height: 4px;
+  background: #b1b1b3;
+  margin: auto 8px;
+  display: inline-block;
+  border-radius: 50%;
 }

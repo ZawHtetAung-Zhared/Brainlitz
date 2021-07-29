@@ -19,52 +19,296 @@
     style="margin: 0 auto ;margin-top: 20px;"
   >
     <div
+      (click)="switchTab('available')"
+      [ngClass]="{
+        'switcher-active': currentSwitch == 'available',
+        'h5-strong': currentSwitch == 'available',
+        'text-b100': currentSwitch == 'available'
+      }"
       class="makeup-options d-flex justify-content-center align-items-center cursor"
     >
       Available
     </div>
     <div
+      (click)="switchTab('claimed')"
+      [ngClass]="{
+        'switcher-active': currentSwitch == 'claimed',
+        'h5-strong': currentSwitch == 'claimed',
+        'text-b100': currentSwitch == 'claimed'
+      }"
       class="makeup-options d-flex justify-content-center align-items-center cursor"
     >
       Claimed
     </div>
     <div
+      (click)="switchTab('expired')"
+      [ngClass]="{
+        'switcher-active': currentSwitch == 'expired',
+        'h5-strong': currentSwitch == 'expired',
+        'text-b100': currentSwitch == 'expired'
+      }"
       class="makeup-options d-flex justify-content-center align-items-center cursor"
     >
       Expired
     </div>
   </div>
-  <div
-    class="makeup-header d-flex align-items-center"
-    style="margin-top: 20px;"
-  >
-    <div class="caption-u text-c100" style="width: 30%; padding: 14px 20px;">
-      Name<img
-        class="cursor"
-        style="margin-left: 8px;"
-        src="./assets/icons/sorting.svg"
-      />
-    </div>
-    <div class="caption-u text-c100" style="width: 30%; padding: 14px 20px;">
-      Expiry date<img
-        class="cursor"
-        style="margin-left: 8px;"
-        src="./assets/icons/sorting.svg"
-      />
-    </div>
-    <div class="caption-u text-c100" style="width: 25%; padding: 14px 20px;">
-      Issued
+  <div *ngIf="currentSwitch == 'available'" style="width: 100%;">
+    <div
+      class="makeup-header d-flex align-items-center"
+      style="margin-top: 20px;"
+    >
+      <div class="caption-u text-c100" style="width: 30%; padding: 14px 20px;">
+        Name<img
+          class="cursor"
+          style="margin-left: 8px;"
+          src="./assets/icons/sorting.svg"
+        />
+      </div>
+      <div class="caption-u text-c100" style="width: 20%; padding: 14px 20px;">
+        Expiry date<img
+          class="cursor"
+          style="margin-left: 8px;"
+          src="./assets/icons/sorting.svg"
+        />
+      </div>
+      <div class="caption-u text-c100" style="width: 30%; padding: 14px 20px;">
+        Issued
+      </div>
+      <div
+        class="caption-u text-c100 d-flex justify-content-center"
+        style="width: 20%; padding: 14px 20px;"
+      >
+        Action
+      </div>
     </div>
     <div
-      class="caption-u text-c100 d-flex justify-content-center"
-      style="width: 15%; padding: 14px 20px;"
+      style="    height: 400px;
+    overflow: auto;"
     >
-      Action
+      <div
+        *ngFor="let makeup of makeupList | filter: cusName; let i = index"
+        class="makeup-body d-flex align-items-center"
+      >
+        <div style="width: 30%; padding: 16px 20px;">
+          <div class="h4-strong text-c300">{{ makeup.name }}</div>
+          <div class="light-body-m text-c100">
+            for
+            <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
+              makeup.studentDetails.preferredName
+            }}</span>
+            <span class="text-b100" *ngIf="makeup.studentDetails == null">
+              -
+            </span>
+            <span class="text-s70" *ngIf="makeup.student != null"
+              >({{ makeup.student.email }})</span
+            >
+            <span class="text-s70" *ngIf="makeup.student == null">( - )</span>
+          </div>
+        </div>
+        <div style="width: 20%; padding: 16px 20px;">
+          <div class="h4-strong text-c300">
+            {{ makeup.expirationDate | date: 'd LLL yyyy' }}
+          </div>
+          <div class="light-body-m text-c100">
+            {{ calculateDiff(makeup.expirationDate) }} days left
+          </div>
+        </div>
+        <div style="width: 30%; padding: 16px 20px;">
+          <div class="body-l text-b100">{{ makeup.course.name }}</div>
+          <div>
+            <span class="body-m text-c300">{{
+              makeup.cancelledLesson.startDate | date: 'd LLL yyyy'
+            }}</span>
+            <span class="little-dot"></span>
+            <span class="light-body-m text-c100"
+              >{{ makeup.cancelledLesson.startDate | date: 'h:mm a' }} -
+              {{ makeup.cancelledLesson.endDate | date: 'h:mm a' }}</span
+            >
+          </div>
+        </div>
+        <div class="d-flex" style="width: 20%; padding: 16px 20px;">
+          <div
+            class="cursor option d-flex justify-content-center align-items-center"
+            style="margin-right: 16px;"
+          >
+            <img src="../../../assets/images/three_dots.svg" />
+          </div>
+          <div
+            class="cursor claim-div caption-u text-b100 d-flex justify-content-center align-items-center"
+          >
+            claim
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div>
-    <div class="makeup-body d-flex align-items-center">
-      <div></div>
+  <div *ngIf="currentSwitch == 'claimed'" style="width: 100%;">
+    <div
+      class="makeup-header d-flex align-items-center"
+      style="margin-top: 20px;"
+    >
+      <div class="caption-u text-c100" style="width: 20%; padding: 14px 20px;">
+        Name<img
+          class="cursor"
+          style="margin-left: 8px;"
+          src="./assets/icons/sorting.svg"
+        />
+      </div>
+      <div class="caption-u text-c100" style="width: 35%; padding: 14px 20px;">
+        Issued
+      </div>
+      <div class="caption-u text-c100" style="width: 35%; padding: 14px 20px;">
+        CLAIMED
+      </div>
+      <div
+        class="caption-u text-c100 d-flex justify-content-center"
+        style="width: 10%; padding: 14px 20px;"
+      >
+        Action
+      </div>
+    </div>
+    <div
+      style="    height: 400px;
+    overflow: auto;"
+    >
+      <div
+        *ngFor="let makeup of makeupList | filter: cusName; let i = index"
+        class="makeup-body d-flex align-items-center"
+      >
+        <div style="width: 20%; padding: 16px 20px;">
+          <div class="h4-strong text-c300">{{ makeup.name }}</div>
+          <div class="light-body-m text-c100">
+            for
+            <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
+              makeup.studentDetails.preferredName
+            }}</span>
+            <span class="text-b100" *ngIf="makeup.studentDetails == null">
+              -
+            </span>
+            <span class="text-s70" *ngIf="makeup.student != null"
+              >({{ makeup.student.email }})</span
+            >
+            <span class="text-s70" *ngIf="makeup.student == null">( - )</span>
+          </div>
+        </div>
+        <div style="width: 35%; padding: 16px 20px;">
+          <div class="body-l text-b100">{{ makeup.course.name }}</div>
+          <div>
+            <span class="body-m text-c300">{{
+              makeup.cancelledLesson.startDate | date: 'd LLL yyyy'
+            }}</span>
+            <span class="little-dot"></span>
+            <span class="light-body-m text-c100"
+              >{{ makeup.cancelledLesson.startDate | date: 'h:mm a' }} -
+              {{ makeup.cancelledLesson.endDate | date: 'h:mm a' }}</span
+            >
+          </div>
+        </div>
+        <div style="width: 35%; padding: 16px 20px;">
+          <div class="body-l text-b100">{{ makeup.course.name }}</div>
+          <div>
+            <span class="body-m text-c300">{{
+              makeup.cancelledLesson.startDate | date: 'd LLL yyyy'
+            }}</span>
+            <span class="little-dot"></span>
+            <span class="light-body-m text-c100"
+              >{{ makeup.cancelledLesson.startDate | date: 'h:mm a' }} -
+              {{ makeup.cancelledLesson.endDate | date: 'h:mm a' }}</span
+            >
+          </div>
+        </div>
+        <div class="d-flex cursor" style="width: 10%; padding: 16px 20px;">
+          <div
+            class="option d-flex justify-content-center align-items-center"
+            style="margin-right: 16px;"
+          >
+            <img src="../../../assets/images/eyecon.svg" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="currentSwitch == 'expired'" style="width: 100%;">
+    <div
+      class="makeup-header d-flex align-items-center"
+      style="margin-top: 20px;"
+    >
+      <div class="caption-u text-c100" style="width: 35%; padding: 14px 20px;">
+        Name<img
+          class="cursor"
+          style="margin-left: 8px;"
+          src="./assets/icons/sorting.svg"
+        />
+      </div>
+      <div class="caption-u text-c100" style="width: 35%; padding: 14px 20px;">
+        Issued
+      </div>
+      <div class="caption-u text-c100" style="width: 20%; padding: 14px 20px;">
+        Expired
+        <img
+          class="cursor"
+          style="margin-left: 8px;"
+          src="./assets/icons/sorting.svg"
+        />
+      </div>
+      <div
+        class="caption-u text-c100 d-flex justify-content-center"
+        style="width: 10%; padding: 14px 20px;"
+      >
+        Action
+      </div>
+    </div>
+    <div
+      style="    height: 400px;
+    overflow: auto;"
+    >
+      <div
+        *ngFor="let makeup of makeupList | filter: cusName; let i = index"
+        class="makeup-body d-flex align-items-center"
+      >
+        <div style="width: 35%; padding: 16px 20px;">
+          <div class="h4-strong text-c300">{{ makeup.name }}</div>
+          <div class="light-body-m text-c100">
+            for
+            <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
+              makeup.studentDetails.preferredName
+            }}</span>
+            <span class="text-b100" *ngIf="makeup.studentDetails == null">
+              -
+            </span>
+            <span class="text-s70" *ngIf="makeup.student != null"
+              >({{ makeup.student.email }})</span
+            >
+            <span class="text-s70" *ngIf="makeup.student == null">( - )</span>
+          </div>
+        </div>
+        <div style="width: 35%; padding: 16px 20px;">
+          <div class="body-l text-b100">{{ makeup.course.name }}</div>
+          <div>
+            <span class="body-m text-c300">{{
+              makeup.cancelledLesson.startDate | date: 'd LLL yyyy'
+            }}</span>
+            <span class="little-dot"></span>
+            <span class="light-body-m text-c100"
+              >{{ makeup.cancelledLesson.startDate | date: 'h:mm a' }} -
+              {{ makeup.cancelledLesson.endDate | date: 'h:mm a' }}</span
+            >
+          </div>
+        </div>
+        <div style="width: 20%; padding: 16px 20px;">
+          <div class="body-l text-b100">
+            {{ makeup.expirationDate | date: 'd LLL yyyy' }}
+          </div>
+        </div>
+        <div class="d-flex cursor" style="width: 10%; padding: 16px 20px;">
+          <div
+            class="option d-flex justify-content-center align-items-center"
+            style="margin-right: 16px;"
+          >
+            <img src="../../../assets/images/eyecon.svg" />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
