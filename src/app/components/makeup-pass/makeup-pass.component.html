@@ -57,14 +57,22 @@
       class="makeup-header d-flex align-items-center"
       style="margin-top: 20px;"
     >
-      <div class="caption-u text-c100" style="width: 30%; padding: 14px 20px;">
+      <div
+        (click)="sortByCus()"
+        class="cursor caption-u text-c100"
+        style="width: 30%; padding: 14px 20px;"
+      >
         Name<img
           class="cursor"
           style="margin-left: 8px;"
           src="./assets/icons/sorting.svg"
         />
       </div>
-      <div class="caption-u text-c100" style="width: 20%; padding: 14px 20px;">
+      <div
+        (click)="sortByDate()"
+        class="cursor caption-u text-c100"
+        style="width: 20%; padding: 14px 20px;"
+      >
         Expiry date<img
           class="cursor"
           style="margin-left: 8px;"
@@ -109,8 +117,15 @@
           <div class="h4-strong text-c300">
             {{ makeup.expirationDate | date: 'd LLL yyyy' }}
           </div>
-          <div class="light-body-m text-c100">
-            {{ calculateDiff(makeup.expirationDate) }} days left
+          <div
+            class="light-body-m"
+            [ngClass]="{
+              'text-r100': calculateDiff(makeup.expirationDate) <= 7,
+              'text-c100': calculateDiff(makeup.expirationDate) > 7
+            }"
+          >
+            {{ calculateDiff(makeup.expirationDate) }}
+            days left
           </div>
         </div>
         <div style="width: 30%; padding: 16px 20px;">
@@ -134,9 +149,25 @@
             <img src="../../../assets/images/three_dots.svg" />
           </div>
           <div
+            (click)="openClaimModal(claimModal, makeup)"
             class="cursor claim-div caption-u text-b100 d-flex justify-content-center align-items-center"
           >
             claim
+          </div>
+        </div>
+      </div>
+      <div
+        style="margin-top: 120px;"
+        *ngIf="(makeupList | filter: cusName)?.length === 0"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <div class="d-flex flex-column align-items-center">
+          <img
+            style="width: 103px; height:135px;"
+            src="../../../assets/images/no_result.png"
+          />
+          <div style="margin-top: 16px;" class="light-body-m text-c300">
+            No search results found!
           </div>
         </div>
       </div>
@@ -147,7 +178,11 @@
       class="makeup-header d-flex align-items-center"
       style="margin-top: 20px;"
     >
-      <div class="caption-u text-c100" style="width: 20%; padding: 14px 20px;">
+      <div
+        (click)="sortByCus()"
+        class="cursor caption-u text-c100"
+        style="width: 20%; padding: 14px 20px;"
+      >
         Name<img
           class="cursor"
           style="margin-left: 8px;"
@@ -233,7 +268,11 @@
       class="makeup-header d-flex align-items-center"
       style="margin-top: 20px;"
     >
-      <div class="caption-u text-c100" style="width: 35%; padding: 14px 20px;">
+      <div
+        (click)="sortByCus()"
+        class="cursor caption-u text-c100"
+        style="width: 35%; padding: 14px 20px;"
+      >
         Name<img
           class="cursor"
           style="margin-left: 8px;"
@@ -243,13 +282,13 @@
       <div class="caption-u text-c100" style="width: 35%; padding: 14px 20px;">
         Issued
       </div>
-      <div class="caption-u text-c100" style="width: 20%; padding: 14px 20px;">
+      <div
+        (click)="sortByDate()"
+        class="cursor caption-u text-c100"
+        style="width: 20%; padding: 14px 20px;"
+      >
         Expired
-        <img
-          class="cursor"
-          style="margin-left: 8px;"
-          src="./assets/icons/sorting.svg"
-        />
+        <img style="margin-left: 8px;" src="./assets/icons/sorting.svg" />
       </div>
       <div
         class="caption-u text-c100 d-flex justify-content-center"
@@ -312,3 +351,166 @@
     </div>
   </div>
 </div>
+
+<ng-template #claimModal let-c="close" let-d="dismiss">
+  <div class="modal-header d-flex justify-content-between">
+    <div>
+      <p class="valid-until body-m text-c100">
+        Valid until
+        <span
+          >{{ currentPassObj.expirationDate.day }}
+          {{ currentPassObj.expirationDate.month - 1 | TTmonth }}
+          {{ currentPassObj.expirationDate.year }}</span
+        >
+      </p>
+      <h3 class="modal-title text-c300">{{ currentPassObj.name }}</h3>
+    </div>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="closeModal('close')"
+    >
+      <span class="closepass">
+        <div class="closepass_stem"></div>
+        <div class="closepass_kick"></div>
+      </span>
+    </button>
+  </div>
+  <div class="modal-body confirm-text">
+    <div>
+      <input
+        type="search"
+        name=""
+        class="form-control course-search-input body-l"
+        placeholder="Search courses"
+        (input)="searchMakeup_input($event.target.value)"
+        (keyup.enter)="searchMakeup($event.target.value)"
+      />
+    </div>
+    <div class="mt-20 class-group" style="margin-bottom: 20px;">
+      <div class="card-columns pd-zero" *ngIf="claimCourses">
+        <div class="card" *ngFor="let claim of claimCourses; let i = index">
+          <div class="single-class">
+            <div
+              class="no-seat small bg-s20 text-c100"
+              *ngIf="claim.seat_left == 0"
+            >
+              All seat taken
+            </div>
+            <div
+              class="seat-left small text-s0 bg-b100"
+              *ngIf="claim.seat_left != 0 && claim.seat_left != null"
+            >
+              {{ claim.seat_left }} seats left
+            </div>
+            <div
+              class="seat-left small text-s0 bg-b100"
+              *ngIf="claim.seat_left == null"
+            >
+              unlimited seats
+            </div>
+            <div class="class-info-head">
+              <h5 class="mt-03 small text-c100">
+                <i class="fa fa-map-marker" style="font-size:15px"></i>
+                {{ claim.location.name }}
+              </h5>
+              <b class="h3-strong text-c300">{{ claim.name }}</b
+              ><br />
+              <label class="makeup-plan small text-c100">
+                <span *ngIf="claim.startTime"
+                  >{{ claim.startTime.hr | timeFormat }} :
+                  {{ claim.startTime.min | timeFormat }}
+                  {{ claim.startTime.meridiem }}</span
+                >
+                -
+                <span *ngIf="claim.endTime"
+                  >{{ claim.endTime.hr | timeFormat }} :
+                  {{ claim.endTime.min | timeFormat }}
+                  {{ claim.endTime.meridiem }}</span
+                >
+              </label>
+            </div>
+            <div class="d-flex flex-column count-wrap w-100 bg-s20">
+              <div class="d-flex justify-content-between">
+                <p class="valid-until body-m text-c100">
+                  Pick a date to claim makeup pass
+                </p>
+                <div>
+                  <img
+                    src="./assets/img/chevron-right-s.png"
+                    (click)="backward('timeline-' + i)"
+                    class="mr-32"
+                  />
+                  <img
+                    src="./assets/img/chevron-left-s.png"
+                    (click)="forward('timeline-' + i)"
+                  />
+                </div>
+              </div>
+
+              <div id="timeline-{{ i }}" class="timeline">
+                <div
+                  *ngFor="let lesson of claim.lessons"
+                  class=" form-check-inline tool-checked"
+                >
+                  <label
+                    *ngIf="lesson && lesson._id"
+                    [ngClass]="{
+                      'selected bg-b100 text-s0': isChecked == lesson._id
+                    }"
+                    [ngClass]="{ 'bg-s0': isChecked != lesson._id }"
+                    class="form-check-label light-body-l"
+                  >
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="passForm"
+                      id="course"
+                      value="{{ lesson }}"
+                      [(ngModel)]="passForm.lesson"
+                      #course="ngModel"
+                      [checked]="false"
+                      (click)="chooseDate(lesson, claim)"
+                    />
+                    <p class="xxxdate body-m text-c300">
+                      {{ lesson.startDate | timelineDate }}
+                    </p>
+                    <p class="xxxday small text-c100">
+                      {{ lesson.startDate | timelineDay }}
+                    </p>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row d-flex justify-content-center class-info-footer">
+              <button
+                type="button"
+                class="btn enroll-button body-l"
+                [ngClass]="{ 'text-c300': checkCourse == claim.courseId }"
+                (click)="enrollPass(claim, currentPassObj.course.courseId)"
+                [disabled]="checkCourse != claim.courseId"
+              >
+                Claim class
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="
+        claimCourses?.length >= 20 && mkResult?.length > 0 && !mkSearchFlag
+      "
+      class="load-more1 bg-s0 d-flex justify-content-center"
+    >
+      <button
+        type="button"
+        class="btn body-m bg-s0 text-b100"
+        (click)="showMoreMakeup(claimCourses.length)"
+      >
+        load more
+      </button>
+    </div>
+  </div>
+</ng-template>

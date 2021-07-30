@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-makeup-pass',
@@ -7,7 +9,11 @@ import { appService } from '../../service/app.service';
   styleUrls: ['./makeup-pass.component.css']
 })
 export class MakeupPassComponent implements OnInit {
-  constructor(private _service: appService) {}
+  constructor(
+    private _service: appService,
+    private modalService: NgbModal,
+    public toastr: ToastrService
+  ) {}
 
   ngOnInit() {
     this.getAllMakeupList();
@@ -16,6 +22,14 @@ export class MakeupPassComponent implements OnInit {
   public currentSwitch: any = 'available';
   public regionID = localStorage.getItem('regionId');
   public makeupList: any = [];
+  public currentPassObj: any;
+  public modalReference: any;
+  public claimCourses: Array<any> = [];
+  public passForm: any = {};
+  public lessonData: any;
+  public isChecked: any = '';
+  public checkCourse: any = '';
+  public sortFlag: boolean = false;
 
   searchCus() {}
 
@@ -50,5 +64,141 @@ export class MakeupPassComponent implements OnInit {
         )) /
         (1000 * 60 * 60 * 24)
     );
+  }
+  openClaimModal(claimModal, passObj) {
+    this.currentPassObj = passObj;
+    this.modalReference = this.modalService.open(claimModal, {
+      backdrop: 'static',
+      windowClass: 'modal-xl d-flex justify-content-center align-items-center'
+    });
+    this.getClaimCourses(this.currentPassObj.courseId, 0);
+  }
+  public mkResult: any;
+  getClaimCourses(id, skip) {
+    //this.blockUI.start('Loading...');
+    this._service.getClaimPassCourses(id, 20, skip).subscribe(
+      (res: any) => {
+        //this.blockUI.stop();
+        console.log(res);
+        this.mkResult = res;
+        this.claimCourses = this.claimCourses.concat(res);
+        console.log('claim course', this.claimCourses);
+      },
+      err => {
+        //this.blockUI.stop();
+        console.log(err);
+      }
+    );
+  }
+  showMoreMakeup(skip) {
+    console.log('Makeup skip', skip);
+    this.getClaimCourses(this.currentPassObj.courseId, skip);
+  }
+  closeModal(type) {
+    console.log(type);
+    this.modalReference.close();
+  }
+  chooseDate(obj, data) {
+    console.log(obj);
+    console.log(data);
+    this.lessonData = obj;
+    this.isChecked = obj._id;
+    this.checkCourse = data.courseId;
+    // console.log(this.checkCourse)
+  }
+  enrollPass(data, courseid) {
+    console.log(data);
+    console.log(this.lessonData);
+    let body = {
+      _id: this.lessonData._id,
+      startDate: this.lessonData.startDate,
+      endDate: this.lessonData.endDate,
+      teacherId: this.lessonData.teacherId,
+      makeupCourseId: data.courseId,
+      passId: this.currentPassObj._id
+    };
+    console.log(body);
+    //this.blockUI.start('Loading...');
+    this._service
+      .enrollPass(
+        body,
+        this.currentPassObj.studentId,
+        this.currentPassObj.courseId
+      )
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.modalReference.close();
+          //this.blockUI.stop();
+          this.isChecked = '';
+          this.checkCourse = '';
+          this.toastr.success('Successfully passed.');
+          this.getAllMakeupList();
+        },
+        err => {
+          console.log(err);
+          // this.toastr.error('Claim pass failed.');
+          this.toastr.error(err.error.message);
+          //this.blockUI.stop();
+          this.isChecked = '';
+          this.checkCourse = '';
+          this.modalReference.close();
+        }
+      );
+  }
+  sortByCus() {
+    this.sortFlag = !this.sortFlag;
+    if (this.sortFlag) {
+      this.makeupList.sort(this.compareZA);
+    }
+    if (!this.sortFlag) {
+      this.makeupList.sort(this.compareAZ);
+    }
+  }
+  compareAZ(a, b) {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
+  }
+  compareZA(a, b) {
+    if (a.name < b.name) {
+      return 1;
+    }
+    if (a.name > b.name) {
+      return -1;
+    }
+    return 0;
+  }
+  sortByDate() {
+    this.sortFlag = !this.sortFlag;
+    if (this.sortFlag) {
+      this.makeupList.sort(this.compareDateZA);
+    }
+    if (!this.sortFlag) {
+      this.makeupList.sort(this.compareDateAZ);
+    }
+  }
+
+  compareDateAZ(a, b) {
+    if (a.expirationDate < b.expirationDate) {
+      return -1;
+    }
+    if (a.expirationDate > b.expirationDate) {
+      return 1;
+    }
+    return 0;
+  }
+  compareDateZA(a, b) {
+    if (a.expirationDate < b.expirationDate) {
+      return 1;
+    }
+    if (a.expirationDate > b.expirationDate) {
+      return -1;
+    }
+    return 0;
   }
 }
