@@ -66,6 +66,7 @@ export class MakeupPassComponent implements OnInit {
     );
   }
   openClaimModal(claimModal, passObj) {
+    console.log('current obj', passObj);
     this.currentPassObj = passObj;
     this.modalReference = this.modalService.open(claimModal, {
       backdrop: 'static',
@@ -83,6 +84,9 @@ export class MakeupPassComponent implements OnInit {
         this.mkResult = res;
         this.claimCourses = this.claimCourses.concat(res);
         console.log('claim course', this.claimCourses);
+        setTimeout(() => {
+          this.scrollToLine();
+        }, 1000);
       },
       err => {
         //this.blockUI.stop();
@@ -200,5 +204,65 @@ export class MakeupPassComponent implements OnInit {
       return -1;
     }
     return 0;
+  }
+  scrollToLine() {
+    for (var i = 0; i < this.claimCourses.length; i++) {
+      console.log(
+        'position from left',
+        document.getElementById('line-' + i).offsetLeft
+      );
+      document.getElementById('timeline-' + i).scrollLeft =
+        document.getElementById('line-' + i).offsetLeft - 80;
+    }
+  }
+  forward(target) {
+    console.log('----', target);
+    event.preventDefault();
+    $('#' + target).animate(
+      {
+        scrollLeft: '+=150px'
+      },
+      'slow'
+    );
+  }
+
+  backward(target) {
+    console.log('----', target);
+    event.preventDefault();
+    $('#' + target).animate(
+      {
+        scrollLeft: '-=200px'
+      },
+      'slow'
+    );
+  }
+  searchMakeup_input(keyword) {
+    if (keyword.length == 0) {
+      this.searchMakeup(keyword);
+    }
+  }
+  public mkSearchFlag: boolean = false;
+  searchMakeup(keyword) {
+    if (keyword.length > 0) {
+      this.mkSearchFlag = true;
+      //this.blockUI.start('Loading...');
+      this._service
+        .searchMakeupCourse(keyword, this.currentPassObj.courseId, 20, 0)
+        .subscribe(
+          (res: any) => {
+            console.log(res);
+            //this.blockUI.stop();
+            this.claimCourses = res;
+          },
+          err => {
+            //this.blockUI.stop();
+            console.log(err);
+          }
+        );
+    } else {
+      this.claimCourses = [];
+      this.mkSearchFlag = false;
+      this.getClaimCourses(this.currentPassObj.courseId, 0);
+    }
   }
 }

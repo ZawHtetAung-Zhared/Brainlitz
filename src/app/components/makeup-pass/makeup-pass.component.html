@@ -355,15 +355,13 @@
 <ng-template #claimModal let-c="close" let-d="dismiss">
   <div class="modal-header d-flex justify-content-between">
     <div>
-      <p class="valid-until body-m text-c100">
+      <div class="h1-strong text-c300" style="margin-bottom: 8px;">
+        {{ currentPassObj.name }}
+      </div>
+      <p class="valid-until light-body-m text-c300">
         Valid until
-        <span
-          >{{ currentPassObj.expirationDate.day }}
-          {{ currentPassObj.expirationDate.month - 1 | TTmonth }}
-          {{ currentPassObj.expirationDate.year }}</span
-        >
+        <span>{{ currentPassObj.expirationDate | date: 'd LLL yyyy' }}</span>
       </p>
-      <h3 class="modal-title text-c300">{{ currentPassObj.name }}</h3>
     </div>
     <button
       type="button"
@@ -393,28 +391,34 @@
         <div class="card" *ngFor="let claim of claimCourses; let i = index">
           <div class="single-class">
             <div
-              class="no-seat small bg-s20 text-c100"
+              class="no-seat small bg-b25 text-b100"
               *ngIf="claim.seat_left == 0"
             >
               All seat taken
             </div>
             <div
-              class="seat-left small text-s0 bg-b100"
+              class="seat-left small bg-b25 text-b100"
               *ngIf="claim.seat_left != 0 && claim.seat_left != null"
             >
               {{ claim.seat_left }} seats left
             </div>
             <div
-              class="seat-left small text-s0 bg-b100"
+              class="seat-left small bg-b25 text-b100"
               *ngIf="claim.seat_left == null"
             >
               unlimited seats
             </div>
             <div class="class-info-head">
-              <h5 class="mt-03 small text-c100">
+              <div
+                class="mt-03 small text-c100 loc-wrap"
+                [ngStyle]="{
+                  color: claim.location?.textColorHex,
+                  background: claim.location?.backgroundColorHex
+                }"
+              >
                 <i class="fa fa-map-marker" style="font-size:15px"></i>
                 {{ claim.location.name }}
-              </h5>
+              </div>
               <b class="h3-strong text-c300">{{ claim.name }}</b
               ><br />
               <label class="makeup-plan small text-c100">
@@ -449,7 +453,43 @@
                 </div>
               </div>
 
-              <div id="timeline-{{ i }}" class="timeline">
+              <div id="timeline-{{ i }}" class="timeline d-flex">
+                <div
+                  *ngFor="let lesson of claim.prevLessons"
+                  class=" form-check-inline tool-checked"
+                >
+                  <label
+                    *ngIf="lesson && lesson._id"
+                    [ngClass]="{
+                      'selected bg-b100 text-s0': isChecked == lesson._id
+                    }"
+                    [ngClass]="{ 'bg-s0': isChecked != lesson._id }"
+                    class="form-check-label light-body-l"
+                  >
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="passForm"
+                      id="course"
+                      value="{{ lesson }}"
+                      [(ngModel)]="passForm.lesson"
+                      #course="ngModel"
+                      [checked]="false"
+                      (click)="chooseDate(lesson, claim)"
+                    />
+                    <p class="xxxdate body-m text-c300">
+                      {{ lesson.startDate | timelineDate }}
+                    </p>
+                    <p class="xxxday small text-c100">
+                      {{ lesson.startDate | timelineDay }}
+                    </p>
+                  </label>
+                </div>
+                <img
+                  id="line-{{ i }}"
+                  class="a-line"
+                  src="../../../assets/images/line.svg"
+                />
                 <div
                   *ngFor="let lesson of claim.lessons"
                   class=" form-check-inline tool-checked"
@@ -487,7 +527,7 @@
               <button
                 type="button"
                 class="btn enroll-button body-l"
-                [ngClass]="{ 'text-c300': checkCourse == claim.courseId }"
+                [ngClass]="{ 'text-b100': checkCourse == claim.courseId }"
                 (click)="enrollPass(claim, currentPassObj.course.courseId)"
                 [disabled]="checkCourse != claim.courseId"
               >

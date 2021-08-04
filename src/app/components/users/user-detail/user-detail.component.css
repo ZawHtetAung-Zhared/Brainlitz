@@ -116,8 +116,11 @@ ul.pass-list li {
 .tool-checked {
   margin-right: 12px;
   flex: auto;
-  width: 75px;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  min-width: 72px;
+
+  background: #ffffff;
+  box-shadow: 1px 2px 4px rgb(0 0 0 / 8%);
+  border-radius: 8px;
 }
 
 .tool-checked label {
@@ -138,7 +141,7 @@ ul.pass-list li {
 }
 
 .count-wrap {
-  border-radius: 4px;
+  border-radius: 12px;
   padding: 16px;
   margin-top: 18px;
 }
@@ -182,13 +185,14 @@ ul.pass-list li {
 }
 
 .course-search-input {
-  border: 1px solid #eee;
   background: url(../../../../assets/img/search-ico@2x.png) no-repeat #fff;
   background-size: 16px;
   background-position-y: center;
   background-position-x: 16px;
   padding: 12px 12px 12px 40px !important;
-  border-radius: 4.4px;
+
+  border: 2px solid #e8e9eb;
+  border-radius: 12px;
 }
 
 .right-scoope1,
@@ -375,10 +379,9 @@ ul.pass-list li {
 .no-seat,
 .seat-left {
   text-align: center;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  border-radius: 4px;
   position: absolute;
-  right: 0;
+  right: 12px;
   padding: 4px;
 }
 
@@ -3241,4 +3244,14 @@ p.grade-txt {
   background: #2e3d4d;
   border-radius: 50%;
   margin-right: 8px;
+}
+.loc-wrap {
+  width: max-content;
+  border-radius: 4px;
+  padding: 4px;
+  margin-bottom: 4px;
+}
+.a-line {
+  margin-left: 4px;
+  margin-right: 16px;
 }
