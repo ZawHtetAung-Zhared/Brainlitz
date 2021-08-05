@@ -4,52 +4,54 @@
     Please select the customer and send a random password to the registered
     email address.
   </div>
-  <div style="position: relative; width: 100%;margin-top: 40px;">
-    <input
-      [(ngModel)]="cusName"
-      (keyup.enter)="searchCus()"
-      type="text"
-      placeholder="Search student"
-      class="makeup-search"
-    />
-    <img class="search" src="./assets/icons/search_l.svg" />
-  </div>
-  <div
-    class="makeup-switcher d-flex justify-content-around align-items-center"
-    style="margin: 0 auto ;margin-top: 20px;"
-  >
+  <div class="d-flex" style="margin-top: 40px;">
     <div
-      (click)="switchTab('available')"
-      [ngClass]="{
-        'switcher-active': currentSwitch == 'available',
-        'h5-strong': currentSwitch == 'available',
-        'text-b100': currentSwitch == 'available'
-      }"
-      class="makeup-options d-flex justify-content-center align-items-center cursor"
+      style="margin-right: 16px;"
+      class="makeup-switcher d-flex justify-content-around align-items-center"
     >
-      Available
+      <div
+        (click)="switchTab('available')"
+        [ngClass]="{
+          'switcher-active': currentSwitch == 'available',
+          'h5-strong': currentSwitch == 'available',
+          'text-b100': currentSwitch == 'available'
+        }"
+        class="makeup-options d-flex justify-content-center align-items-center cursor"
+      >
+        Available
+      </div>
+      <div
+        (click)="switchTab('claimed')"
+        [ngClass]="{
+          'switcher-active': currentSwitch == 'claimed',
+          'h5-strong': currentSwitch == 'claimed',
+          'text-b100': currentSwitch == 'claimed'
+        }"
+        class="makeup-options d-flex justify-content-center align-items-center cursor"
+      >
+        Claimed
+      </div>
+      <div
+        (click)="switchTab('expired')"
+        [ngClass]="{
+          'switcher-active': currentSwitch == 'expired',
+          'h5-strong': currentSwitch == 'expired',
+          'text-b100': currentSwitch == 'expired'
+        }"
+        class="makeup-options d-flex justify-content-center align-items-center cursor"
+      >
+        Expired
+      </div>
     </div>
-    <div
-      (click)="switchTab('claimed')"
-      [ngClass]="{
-        'switcher-active': currentSwitch == 'claimed',
-        'h5-strong': currentSwitch == 'claimed',
-        'text-b100': currentSwitch == 'claimed'
-      }"
-      class="makeup-options d-flex justify-content-center align-items-center cursor"
-    >
-      Claimed
-    </div>
-    <div
-      (click)="switchTab('expired')"
-      [ngClass]="{
-        'switcher-active': currentSwitch == 'expired',
-        'h5-strong': currentSwitch == 'expired',
-        'text-b100': currentSwitch == 'expired'
-      }"
-      class="makeup-options d-flex justify-content-center align-items-center cursor"
-    >
-      Expired
+    <div style="position: relative; width: 100%;">
+      <input
+        [(ngModel)]="cusName"
+        (keyup.enter)="searchCus()"
+        type="text"
+        placeholder="Search student"
+        class="makeup-search"
+      />
+      <img class="search" src="./assets/icons/search_l.svg" />
     </div>
   </div>
   <div *ngIf="currentSwitch == 'available'" style="width: 100%;">
@@ -254,12 +256,12 @@
           </div>
         </div>
         <div class="d-flex cursor" style="width: 10%; padding: 16px 20px;">
-          <div
+          <!-- <div
             class="option d-flex justify-content-center align-items-center"
             style="margin-right: 16px;"
           >
-            <img src="../../../assets/images/eyecon.svg" />
-          </div>
+            <img src="../../../assets/images/delete_l.svg" />
+          </div> -->
         </div>
       </div>
     </div>
@@ -342,11 +344,18 @@
         </div>
         <div class="d-flex cursor" style="width: 10%; padding: 16px 20px;">
           <div
+            (click)="oneditMakeup(editMakeup, makeup)"
             class="option d-flex justify-content-center align-items-center"
             style="margin-right: 16px;"
           >
-            <img src="../../../assets/images/eyecon.svg" />
+            <img src="../../../assets/images/pencil_l.svg" />
           </div>
+          <!-- <div
+            class="option d-flex justify-content-center align-items-center"
+            style="margin-right: 16px;"
+          >
+            <img src="../../../assets/images/delete_l.svg" />
+          </div> -->
         </div>
       </div>
     </div>
