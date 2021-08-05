@@ -269,7 +269,14 @@ export class MakeupPassComponent implements OnInit {
   public makeupId: any;
   oneditMakeup(editMakeup, list) {
     console.log('makeup list', list);
-    this.editMakeUpDate = list.expirationDate;
+    var dateFormat = {
+      year: new Date(list.expirationDate).getFullYear(),
+      month: new Date(list.expirationDate).getMonth() + 1,
+      day: new Date(list.expirationDate).getDate()
+    };
+    console.log('date format', dateFormat);
+
+    this.editMakeUpDate = dateFormat;
     console.log('edit makeup date', this.editMakeUpDate);
 
     this.makeupId = list.id;
