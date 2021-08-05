@@ -115,6 +115,7 @@
             <span class="text-s70" *ngIf="makeup.student == null">( - )</span>
           </div>
         </div>
+        <!-- expired date -->
         <div style="width: 20%; padding: 16px 20px;">
           <div class="h4-strong text-c300">
             {{ makeup.expirationDate | date: 'd LLL yyyy' }}
@@ -130,16 +131,17 @@
             days left
           </div>
         </div>
+        <!-- issued date -->
         <div style="width: 30%; padding: 16px 20px;">
           <div class="body-l text-b100">{{ makeup.course.name }}</div>
           <div>
             <span class="body-m text-c300">{{
-              makeup.cancelledLesson.startDate | date: 'd LLL yyyy'
+              makeup.created_at | date: 'd LLL yyyy'
             }}</span>
             <span class="little-dot"></span>
             <span class="light-body-m text-c100"
-              >{{ makeup.cancelledLesson.startDate | date: 'h:mm a' }} -
-              {{ makeup.cancelledLesson.endDate | date: 'h:mm a' }}</span
+              >{{ makeup.course.duration.startDate | date: 'h:mm a' }} -
+              {{ makeup.course.duration.endDate | date: 'h:mm a' }}</span
             >
           </div>
         </div>
@@ -229,29 +231,31 @@
             <span class="text-s70" *ngIf="makeup.student == null">( - )</span>
           </div>
         </div>
+        <!-- issued course -->
         <div style="width: 35%; padding: 16px 20px;">
           <div class="body-l text-b100">{{ makeup.course.name }}</div>
           <div>
             <span class="body-m text-c300">{{
-              makeup.cancelledLesson.startDate | date: 'd LLL yyyy'
+              makeup.created_at | date: 'd LLL yyyy'
             }}</span>
             <span class="little-dot"></span>
             <span class="light-body-m text-c100"
-              >{{ makeup.cancelledLesson.startDate | date: 'h:mm a' }} -
-              {{ makeup.cancelledLesson.endDate | date: 'h:mm a' }}</span
+              >{{ makeup.course.duration.startDate | date: 'h:mm a' }} -
+              {{ makeup.course.duration.endDate | date: 'h:mm a' }}</span
             >
           </div>
         </div>
+        <!-- claimed course -->
         <div style="width: 35%; padding: 16px 20px;">
-          <div class="body-l text-b100">{{ makeup.course.name }}</div>
+          <div class="body-l text-b100">{{ makeup.makeupCourse.name }}</div>
           <div>
             <span class="body-m text-c300">{{
-              makeup.cancelledLesson.startDate | date: 'd LLL yyyy'
+              makeup.filing_date | date: 'd LLL yyyy'
             }}</span>
             <span class="little-dot"></span>
             <span class="light-body-m text-c100"
-              >{{ makeup.cancelledLesson.startDate | date: 'h:mm a' }} -
-              {{ makeup.cancelledLesson.endDate | date: 'h:mm a' }}</span
+              >{{ makeup.makeupCourse.duration.startDate | date: 'h:mm a' }} -
+              {{ makeup.makeupCourse.duration.endDate | date: 'h:mm a' }}</span
             >
           </div>
         </div>
@@ -325,19 +329,21 @@
             <span class="text-s70" *ngIf="makeup.student == null">( - )</span>
           </div>
         </div>
+        <!-- issued date -->
         <div style="width: 35%; padding: 16px 20px;">
           <div class="body-l text-b100">{{ makeup.course.name }}</div>
           <div>
             <span class="body-m text-c300">{{
-              makeup.cancelledLesson.startDate | date: 'd LLL yyyy'
+              makeup.created_at | date: 'd LLL yyyy'
             }}</span>
             <span class="little-dot"></span>
             <span class="light-body-m text-c100"
-              >{{ makeup.cancelledLesson.startDate | date: 'h:mm a' }} -
-              {{ makeup.cancelledLesson.endDate | date: 'h:mm a' }}</span
+              >{{ makeup.course.duration.startDate | date: 'h:mm a' }} -
+              {{ makeup.course.duration.endDate | date: 'h:mm a' }}</span
             >
           </div>
         </div>
+        <!-- expired date -->
         <div style="width: 20%; padding: 16px 20px;">
           <div class="body-l text-b100">
             {{ makeup.expirationDate | date: 'd LLL yyyy' }}
