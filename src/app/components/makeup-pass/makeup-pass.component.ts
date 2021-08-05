@@ -265,4 +265,46 @@ export class MakeupPassComponent implements OnInit {
       this.getClaimCourses(this.currentPassObj.courseId, 0);
     }
   }
+  public editMakeUpDate: any;
+  public makeupId: any;
+  oneditMakeup(editMakeup, list) {
+    console.log('makeup list', list);
+    this.editMakeUpDate = list.expirationDate;
+    console.log('edit makeup date', this.editMakeUpDate);
+
+    this.makeupId = list.id;
+    this.modalReference = this.modalService.open(editMakeup, {
+      backdrop: 'static',
+      windowClass: 'holidayModal'
+    });
+  }
+  deleteMakeUp() {
+    this._service.deleteMakeup(this.regionID, this.makeupId).subscribe(res => {
+      console.log(res);
+      this.makeupModalClose();
+      this.getAllMakeupList();
+    });
+  }
+  makeupModalClose() {
+    this.modalReference.close();
+    this.editMakeUpDate = undefined;
+    this.makeupId = undefined;
+  }
+
+  editMakeupDate() {
+    console.log(this.editMakeUpDate);
+    let temp = {
+      expiredDate: this.editMakeUpDate
+    };
+    this._service
+      .editMakeupDate(temp, this.makeupId, this.regionID)
+      .subscribe(res => {
+        console.log(res);
+        this.makeupModalClose();
+        this.getAllMakeupList();
+      });
+  }
+  closeDropdown(event, type, datePicker?) {
+    console.log('close');
+  }
 }

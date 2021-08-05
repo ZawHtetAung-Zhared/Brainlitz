@@ -143,6 +143,7 @@
         </div>
         <div class="d-flex" style="width: 20%; padding: 16px 20px;">
           <div
+            (click)="oneditMakeup(editMakeup, makeup)"
             class="cursor option d-flex justify-content-center align-items-center"
             style="margin-right: 16px;"
           >
@@ -550,6 +551,59 @@
         (click)="showMoreMakeup(claimCourses.length)"
       >
         load more
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #editMakeup let-c="close" let-d="dismiss">
+  <div class="modal-body modal-wrap">
+    <h3 class="text-c100 light-body-l">
+      Edit valid date
+    </h3>
+    <div class="input-wrap">
+      <div class="cc-start">
+        <span class="dp-icon2">
+          <img src="../../../../assets/img/course-dp.png" />
+        </span>
+        <input
+          [disabled]="activePass == 'claimed'"
+          [ngClass]="activePass == 'claimed' ? 'not-allowed' : ''"
+          type="text"
+          placeholder="Edit date"
+          class="input-day2 dropD startInput body-m text-c300"
+          name="start"
+          required
+          (click)="start.toggle()"
+          [(ngModel)]="editMakeUpDate"
+          ngbDatepicker
+          #start="ngbDatepicker"
+          (document:click)="closeDropdown($event, 'start', start)"
+          readonly
+        />
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-between m-3">
+    <button
+      class="btn elevation-2y text-r100 body-m bg-s0 btn-makeup"
+      (click)="deleteMakeUp()"
+    >
+      Delete
+    </button>
+    <div class="d-flex">
+      <button
+        class="btn bg-s20 text-c100 body-m btn-makeup mr-3"
+        (click)="makeupModalClose()"
+      >
+        Cancel
+      </button>
+      <button
+        class="btn bg-b100 text-s0 body-m btn-makeup"
+        (click)="editMakeupDate()"
+        [disabled]="activePass == 'claimed'"
+      >
+        Edit
       </button>
     </div>
   </div>
