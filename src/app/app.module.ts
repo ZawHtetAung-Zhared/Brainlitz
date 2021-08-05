@@ -174,6 +174,7 @@ import {
 import { CreateSubscriptionComponent } from './components/create-subscription/create-subscription.component';
 import { BlockTemplateComponent } from './block-template.component';
 import { CredentialComponent } from './components/credential/credential.component';
+import { MakeupPassComponent } from './components/makeup-pass/makeup-pass.component';
 
 @NgModule({
   declarations: [
@@ -298,7 +299,8 @@ import { CredentialComponent } from './components/credential/credential.componen
     SubscriptionDetailComponent,
     LessonPickerComponent,
     CreateSubscriptionComponent,
-    CredentialComponent
+    CredentialComponent,
+    MakeupPassComponent
   ],
   imports: [
     ContentLoaderModule,

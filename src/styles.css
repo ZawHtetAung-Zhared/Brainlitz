@@ -1675,3 +1675,14 @@ button.toast-close-button {
   max-width: 720px;
   border-radius: 16px;
 }
+
+.w360-modal .modal-content {
+  width: 360px;
+  max-width: 360px;
+  border-radius: 16px;
+}
+.w360-modal .modal-dialog {
+  width: 360px;
+  max-width: 360px;
+  border-radius: 16px;
+}

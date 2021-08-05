@@ -1313,6 +1313,9 @@ export class UserDetailComponent implements OnInit {
         console.log(res);
         this.mkResult = res;
         this.claimCourses = this.claimCourses.concat(res);
+        setTimeout(() => {
+          this.scrollToLine();
+        }, 1000);
       },
       err => {
         //this.blockUI.stop();
@@ -1360,6 +1363,16 @@ export class UserDetailComponent implements OnInit {
           this.modalReference.close();
         }
       );
+  }
+  scrollToLine() {
+    for (var i = 0; i < this.claimCourses.length; i++) {
+      console.log(
+        'position from left',
+        document.getElementById('line-' + i).offsetLeft
+      );
+      document.getElementById('timeline-' + i).scrollLeft =
+        document.getElementById('line-' + i).offsetLeft - 80;
+    }
   }
 
   chooseDate(obj, data) {

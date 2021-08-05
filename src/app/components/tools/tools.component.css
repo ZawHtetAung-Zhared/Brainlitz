@@ -474,19 +474,19 @@ img.setting-icon {
   overflow: hidden;
 }
 /*.active .noti-tab::after,
-.active .noti-tab::before {   
+.active .noti-tab::before {
 	content: '';
 	position: absolute;
 	width: 0;
 	height: 0;
 	left: 0;
 }
-.active .noti-tab::before {    
+.active .noti-tab::before {
     border-bottom: 5px solid #4292f1;
     border-right: 3px solid transparent;
     top: 5px;
 }
-.active .noti-tab::after {  
+.active .noti-tab::after {
    	border-top: 5px solid #4292f1;
    	border-right: 3px solid transparent;
    	bottom: 5px;

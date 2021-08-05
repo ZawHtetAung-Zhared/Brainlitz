@@ -1,0 +1,637 @@
+<div style="padding: 48px 0px;">
+  <div class="h1-strong text-c300">Makeup pass</div>
+  <!-- <div class="light-body-l text-c100" style="margin-top: 8px;">
+    Please select the customer and send a random password to the registered
+    email address.
+  </div> -->
+  <div class="d-flex" style="margin-top: 40px;">
+    <div
+      style="margin-right: 16px;"
+      class="makeup-switcher d-flex justify-content-around align-items-center"
+    >
+      <div
+        (click)="switchTab('available')"
+        [ngClass]="{
+          'switcher-active': currentSwitch == 'available',
+          'h5-strong': currentSwitch == 'available',
+          'text-b100': currentSwitch == 'available'
+        }"
+        class="makeup-options d-flex justify-content-center align-items-center cursor"
+      >
+        Available
+      </div>
+      <div
+        (click)="switchTab('claimed')"
+        [ngClass]="{
+          'switcher-active': currentSwitch == 'claimed',
+          'h5-strong': currentSwitch == 'claimed',
+          'text-b100': currentSwitch == 'claimed'
+        }"
+        class="makeup-options d-flex justify-content-center align-items-center cursor"
+      >
+        Claimed
+      </div>
+      <div
+        (click)="switchTab('expired')"
+        [ngClass]="{
+          'switcher-active': currentSwitch == 'expired',
+          'h5-strong': currentSwitch == 'expired',
+          'text-b100': currentSwitch == 'expired'
+        }"
+        class="makeup-options d-flex justify-content-center align-items-center cursor"
+      >
+        Expired
+      </div>
+    </div>
+    <div style="position: relative; width: 100%;">
+      <input
+        [(ngModel)]="cusName"
+        (keyup.enter)="searchCus()"
+        type="text"
+        placeholder="Search makeup pass..."
+        class="makeup-search"
+      />
+      <img class="search" src="./assets/icons/search_l.svg" />
+    </div>
+  </div>
+  <div *ngIf="currentSwitch == 'available'" style="width: 100%;">
+    <div
+      class="makeup-header d-flex align-items-center"
+      style="margin-top: 20px;"
+    >
+      <div
+        (click)="sortByCus()"
+        class="cursor caption-u text-c100"
+        style="width: 30%; padding: 14px 20px;"
+      >
+        Name<img
+          class="cursor"
+          style="margin-left: 8px;"
+          src="./assets/icons/sorting.svg"
+        />
+      </div>
+      <div
+        (click)="sortByDate()"
+        class="cursor caption-u text-c100"
+        style="width: 20%; padding: 14px 20px;"
+      >
+        Expiry date<img
+          class="cursor"
+          style="margin-left: 8px;"
+          src="./assets/icons/sorting.svg"
+        />
+      </div>
+      <div class="caption-u text-c100" style="width: 30%; padding: 14px 20px;">
+        Issued
+      </div>
+      <div
+        class="caption-u text-c100 d-flex justify-content-center"
+        style="width: 20%; padding: 14px 20px;"
+      >
+        Action
+      </div>
+    </div>
+    <div
+      style="    height: 400px;
+    overflow: auto;"
+    >
+      <div
+        *ngFor="let makeup of makeupList | filter: cusName; let i = index"
+        class="makeup-body d-flex align-items-center"
+      >
+        <div style="width: 30%; padding: 16px 20px;">
+          <div class="h4-strong text-c300">{{ makeup.name }}</div>
+          <div class="light-body-m text-c100">
+            for
+            <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
+              makeup.studentDetails.preferredName
+            }}</span>
+            <span class="text-b100" *ngIf="makeup.studentDetails == null">
+              -
+            </span>
+            <span class="text-s70" *ngIf="makeup.student != null"
+              >({{ makeup.student.email }})</span
+            >
+            <span class="text-s70" *ngIf="makeup.student == null">( - )</span>
+          </div>
+        </div>
+        <!-- expired date -->
+        <div style="width: 20%; padding: 16px 20px;">
+          <div class="h4-strong text-c300">
+            {{ makeup.expirationDate | date: 'd LLL yyyy' }}
+          </div>
+          <div
+            class="light-body-m"
+            [ngClass]="{
+              'text-r100': calculateDiff(makeup.expirationDate) <= 7,
+              'text-c100': calculateDiff(makeup.expirationDate) > 7
+            }"
+          >
+            {{ calculateDiff(makeup.expirationDate) }}
+            days left
+          </div>
+        </div>
+        <!-- issued date -->
+        <div style="width: 30%; padding: 16px 20px;">
+          <div class="body-l text-b100">{{ makeup.course.name }}</div>
+          <div>
+            <span class="body-m text-c300">{{
+              makeup.created_at | date: 'd LLL yyyy'
+            }}</span>
+            <span class="little-dot"></span>
+            <span class="light-body-m text-c100"
+              >{{ makeup.course.duration.startDate | date: 'h:mm a' }} -
+              {{ makeup.course.duration.endDate | date: 'h:mm a' }}</span
+            >
+          </div>
+        </div>
+        <div class="d-flex" style="width: 20%; padding: 16px 20px;">
+          <div
+            (click)="oneditMakeup(editMakeup, makeup)"
+            class="cursor option d-flex justify-content-center align-items-center"
+            style="margin-right: 16px;"
+          >
+            <img src="../../../assets/images/three_dots.svg" />
+          </div>
+          <div
+            (click)="openClaimModal(claimModal, makeup)"
+            class="cursor claim-div caption-u text-b100 d-flex justify-content-center align-items-center"
+          >
+            claim
+          </div>
+        </div>
+      </div>
+      <div
+        style="margin-top: 120px;"
+        *ngIf="(makeupList | filter: cusName)?.length === 0"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <div class="d-flex flex-column align-items-center">
+          <img
+            style="width: 103px; height:135px;"
+            src="../../../assets/images/no_result.png"
+          />
+          <div style="margin-top: 16px;" class="light-body-m text-c300">
+            No search results found!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="currentSwitch == 'claimed'" style="width: 100%;">
+    <div
+      class="makeup-header d-flex align-items-center"
+      style="margin-top: 20px;"
+    >
+      <div
+        (click)="sortByCus()"
+        class="cursor caption-u text-c100"
+        style="width: 20%; padding: 14px 20px;"
+      >
+        Name<img
+          class="cursor"
+          style="margin-left: 8px;"
+          src="./assets/icons/sorting.svg"
+        />
+      </div>
+      <div class="caption-u text-c100" style="width: 35%; padding: 14px 20px;">
+        Issued
+      </div>
+      <div class="caption-u text-c100" style="width: 35%; padding: 14px 20px;">
+        CLAIMED
+      </div>
+      <div
+        class="caption-u text-c100 d-flex justify-content-center"
+        style="width: 10%; padding: 14px 20px;"
+      >
+        Action
+      </div>
+    </div>
+    <div
+      style="    height: 400px;
+    overflow: auto;"
+    >
+      <div
+        *ngFor="let makeup of makeupList | filter: cusName; let i = index"
+        class="makeup-body d-flex align-items-center"
+      >
+        <div style="width: 20%; padding: 16px 20px;">
+          <div class="h4-strong text-c300">{{ makeup.name }}</div>
+          <div class="light-body-m text-c100">
+            for
+            <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
+              makeup.studentDetails.preferredName
+            }}</span>
+            <span class="text-b100" *ngIf="makeup.studentDetails == null">
+              -
+            </span>
+            <span class="text-s70" *ngIf="makeup.student != null"
+              >({{ makeup.student.email }})</span
+            >
+            <span class="text-s70" *ngIf="makeup.student == null">( - )</span>
+          </div>
+        </div>
+        <!-- issued course -->
+        <div style="width: 35%; padding: 16px 20px;">
+          <div class="body-l text-b100">{{ makeup.course.name }}</div>
+          <div>
+            <span class="body-m text-c300">{{
+              makeup.created_at | date: 'd LLL yyyy'
+            }}</span>
+            <span class="little-dot"></span>
+            <span class="light-body-m text-c100"
+              >{{ makeup.course.duration.startDate | date: 'h:mm a' }} -
+              {{ makeup.course.duration.endDate | date: 'h:mm a' }}</span
+            >
+          </div>
+        </div>
+        <!-- claimed course -->
+        <div style="width: 35%; padding: 16px 20px;">
+          <div class="body-l text-b100">{{ makeup.makeupCourse.name }}</div>
+          <div>
+            <span class="body-m text-c300">{{
+              makeup.filing_date | date: 'd LLL yyyy'
+            }}</span>
+            <span class="little-dot"></span>
+            <span class="light-body-m text-c100"
+              >{{ makeup.makeupCourse.duration.startDate | date: 'h:mm a' }} -
+              {{ makeup.makeupCourse.duration.endDate | date: 'h:mm a' }}</span
+            >
+          </div>
+        </div>
+        <div class="d-flex cursor" style="width: 10%; padding: 16px 20px;">
+          <!-- <div
+            (click)="openDeleteConfirm(deleteConfirm, makeup)"
+            class="option d-flex justify-content-center align-items-center"
+            style="margin-right: 16px;"
+          >
+            <img src="../../../assets/images/delete_l.svg" />
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="currentSwitch == 'expired'" style="width: 100%;">
+    <div
+      class="makeup-header d-flex align-items-center"
+      style="margin-top: 20px;"
+    >
+      <div
+        (click)="sortByCus()"
+        class="cursor caption-u text-c100"
+        style="width: 35%; padding: 14px 20px;"
+      >
+        Name<img
+          class="cursor"
+          style="margin-left: 8px;"
+          src="./assets/icons/sorting.svg"
+        />
+      </div>
+      <div class="caption-u text-c100" style="width: 35%; padding: 14px 20px;">
+        Issued
+      </div>
+      <div
+        (click)="sortByDate()"
+        class="cursor caption-u text-c100"
+        style="width: 20%; padding: 14px 20px;"
+      >
+        Expired
+        <img style="margin-left: 8px;" src="./assets/icons/sorting.svg" />
+      </div>
+      <div
+        class="caption-u text-c100 d-flex justify-content-center"
+        style="width: 10%; padding: 14px 20px;"
+      >
+        Action
+      </div>
+    </div>
+    <div
+      style="    height: 400px;
+    overflow: auto;"
+    >
+      <div
+        *ngFor="let makeup of makeupList | filter: cusName; let i = index"
+        class="makeup-body d-flex align-items-center"
+      >
+        <div style="width: 35%; padding: 16px 20px;">
+          <div class="h4-strong text-c300">{{ makeup.name }}</div>
+          <div class="light-body-m text-c100">
+            for
+            <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
+              makeup.studentDetails.preferredName
+            }}</span>
+            <span class="text-b100" *ngIf="makeup.studentDetails == null">
+              -
+            </span>
+            <span class="text-s70" *ngIf="makeup.student != null"
+              >({{ makeup.student.email }})</span
+            >
+            <span class="text-s70" *ngIf="makeup.student == null">( - )</span>
+          </div>
+        </div>
+        <!-- issued date -->
+        <div style="width: 35%; padding: 16px 20px;">
+          <div class="body-l text-b100">{{ makeup.course.name }}</div>
+          <div>
+            <span class="body-m text-c300">{{
+              makeup.created_at | date: 'd LLL yyyy'
+            }}</span>
+            <span class="little-dot"></span>
+            <span class="light-body-m text-c100"
+              >{{ makeup.course.duration.startDate | date: 'h:mm a' }} -
+              {{ makeup.course.duration.endDate | date: 'h:mm a' }}</span
+            >
+          </div>
+        </div>
+        <!-- expired date -->
+        <div style="width: 20%; padding: 16px 20px;">
+          <div class="body-l text-b100">
+            {{ makeup.expirationDate | date: 'd LLL yyyy' }}
+          </div>
+        </div>
+        <div class="d-flex cursor" style="width: 10%; padding: 16px 20px;">
+          <div
+            (click)="oneditMakeup(editMakeup, makeup)"
+            class="option d-flex justify-content-center align-items-center"
+            style="margin-right: 16px;"
+          >
+            <img src="../../../assets/images/pencil_l.svg" />
+          </div>
+          <!-- <div
+            (click)="openDeleteConfirm(deleteConfirm, makeup)"
+            class="option d-flex justify-content-center align-items-center"
+            style="margin-right: 16px;"
+          >
+            <img src="../../../assets/images/delete_l.svg" />
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #claimModal let-c="close" let-d="dismiss">
+  <div class="modal-header d-flex justify-content-between">
+    <div>
+      <div class="h1-strong text-c300" style="margin-bottom: 8px;">
+        {{ currentPassObj.name }}
+      </div>
+      <p class="valid-until light-body-m text-c300">
+        Valid until
+        <span>{{ currentPassObj.expirationDate | date: 'd LLL yyyy' }}</span>
+      </p>
+    </div>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="closeModal('close')"
+    >
+      <span class="closepass">
+        <div class="closepass_stem"></div>
+        <div class="closepass_kick"></div>
+      </span>
+    </button>
+  </div>
+  <div class="modal-body confirm-text">
+    <div>
+      <input
+        type="search"
+        name=""
+        class="form-control course-search-input body-l"
+        placeholder="Search courses"
+        (input)="searchMakeup_input($event.target.value)"
+        (keyup.enter)="searchMakeup($event.target.value)"
+      />
+    </div>
+    <div class="mt-20 class-group" style="margin-bottom: 20px;">
+      <div class="card-columns pd-zero" *ngIf="claimCourses">
+        <div class="card" *ngFor="let claim of claimCourses; let i = index">
+          <div class="single-class">
+            <div
+              class="no-seat small bg-b25 text-b100"
+              *ngIf="claim.seat_left == 0"
+            >
+              All seat taken
+            </div>
+            <div
+              class="seat-left small bg-b25 text-b100"
+              *ngIf="claim.seat_left != 0 && claim.seat_left != null"
+            >
+              {{ claim.seat_left }} seats left
+            </div>
+            <div
+              class="seat-left small bg-b25 text-b100"
+              *ngIf="claim.seat_left == null"
+            >
+              unlimited seats
+            </div>
+            <div class="class-info-head">
+              <div
+                class="mt-03 small text-c100 loc-wrap"
+                [ngStyle]="{
+                  color: claim.location?.textColorHex,
+                  background: claim.location?.backgroundColorHex
+                }"
+              >
+                <i class="fa fa-map-marker" style="font-size:15px"></i>
+                {{ claim.location.name }}
+              </div>
+              <b class="h3-strong text-c300">{{ claim.name }}</b
+              ><br />
+              <label class="makeup-plan small text-c100">
+                <span *ngIf="claim.startTime"
+                  >{{ claim.startTime.hr | timeFormat }} :
+                  {{ claim.startTime.min | timeFormat }}
+                  {{ claim.startTime.meridiem }}</span
+                >
+                -
+                <span *ngIf="claim.endTime"
+                  >{{ claim.endTime.hr | timeFormat }} :
+                  {{ claim.endTime.min | timeFormat }}
+                  {{ claim.endTime.meridiem }}</span
+                >
+              </label>
+            </div>
+            <div class="d-flex flex-column count-wrap w-100 bg-s20">
+              <div class="d-flex justify-content-between">
+                <p class="valid-until body-m text-c100">
+                  Pick a date to claim makeup pass
+                </p>
+                <div>
+                  <img
+                    src="./assets/img/chevron-right-s.png"
+                    (click)="backward('timeline-' + i)"
+                    class="mr-32"
+                  />
+                  <img
+                    src="./assets/img/chevron-left-s.png"
+                    (click)="forward('timeline-' + i)"
+                  />
+                </div>
+              </div>
+
+              <div id="timeline-{{ i }}" class="timeline d-flex">
+                <div
+                  *ngFor="let lesson of claim.prevLessons"
+                  class=" form-check-inline tool-checked"
+                >
+                  <label
+                    *ngIf="lesson && lesson._id"
+                    [ngClass]="{
+                      'selected bg-b100 text-s0': isChecked == lesson._id
+                    }"
+                    [ngClass]="{ 'bg-s0': isChecked != lesson._id }"
+                    class="form-check-label light-body-l"
+                  >
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="passForm"
+                      id="course"
+                      value="{{ lesson }}"
+                      [(ngModel)]="passForm.lesson"
+                      #course="ngModel"
+                      [checked]="false"
+                      (click)="chooseDate(lesson, claim)"
+                    />
+                    <p class="xxxdate body-m text-c300">
+                      {{ lesson.startDate | timelineDate }}
+                    </p>
+                    <p class="xxxday small text-c100">
+                      {{ lesson.startDate | timelineDay }}
+                    </p>
+                  </label>
+                </div>
+                <img
+                  id="line-{{ i }}"
+                  class="a-line"
+                  src="../../../assets/images/line.svg"
+                />
+                <div
+                  *ngFor="let lesson of claim.lessons"
+                  class=" form-check-inline tool-checked"
+                >
+                  <label
+                    *ngIf="lesson && lesson._id"
+                    [ngClass]="{
+                      'selected bg-b100 text-s0': isChecked == lesson._id
+                    }"
+                    [ngClass]="{ 'bg-s0': isChecked != lesson._id }"
+                    class="form-check-label light-body-l"
+                  >
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="passForm"
+                      id="course"
+                      value="{{ lesson }}"
+                      [(ngModel)]="passForm.lesson"
+                      #course="ngModel"
+                      [checked]="false"
+                      (click)="chooseDate(lesson, claim)"
+                    />
+                    <p class="xxxdate body-m text-c300">
+                      {{ lesson.startDate | timelineDate }}
+                    </p>
+                    <p class="xxxday small text-c100">
+                      {{ lesson.startDate | timelineDay }}
+                    </p>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row d-flex justify-content-center class-info-footer">
+              <button
+                type="button"
+                class="btn enroll-button body-l"
+                [ngClass]="{ 'text-b100': checkCourse == claim.courseId }"
+                (click)="enrollPass(claim, currentPassObj.course.courseId)"
+                [disabled]="checkCourse != claim.courseId"
+              >
+                Claim class
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="
+        claimCourses?.length >= 20 && mkResult?.length > 0 && !mkSearchFlag
+      "
+      class="load-more1 bg-s0 d-flex justify-content-center"
+    >
+      <button
+        type="button"
+        class="btn body-m bg-s0 text-b100"
+        (click)="showMoreMakeup(claimCourses.length)"
+      >
+        load more
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #editMakeup let-c="close" let-d="dismiss">
+  <div class="modal-body modal-wrap">
+    <h3 class="text-c100 light-body-l">
+      Edit valid date
+    </h3>
+    <div class="input-wrap">
+      <div class="cc-start">
+        <span class="dp-icon2">
+          <img src="../../../../assets/img/course-dp.png" />
+        </span>
+        <input
+          [disabled]="activePass == 'claimed'"
+          [ngClass]="activePass == 'claimed' ? 'not-allowed' : ''"
+          type="text"
+          placeholder="Edit date"
+          class="input-day2 dropD startInput body-m text-c300"
+          name="start"
+          required
+          (click)="start.toggle()"
+          [(ngModel)]="editMakeUpDate"
+          ngbDatepicker
+          #start="ngbDatepicker"
+          (document:click)="closeDropdown($event, 'start', start)"
+          readonly
+        />
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-between m-3">
+    <button
+      class="btn elevation-2y text-r100 body-m bg-s0 btn-makeup"
+      (click)="deleteMakeUp()"
+    >
+      Delete
+    </button>
+    <div class="d-flex">
+      <button
+        class="btn bg-s20 text-c100 body-m btn-makeup mr-3"
+        (click)="makeupModalClose()"
+      >
+        Cancel
+      </button>
+      <button
+        class="btn bg-b100 text-s0 body-m btn-makeup"
+        (click)="editMakeupDate()"
+        [disabled]="activePass == 'claimed'"
+      >
+        Edit
+      </button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #deleteConfirm let-c="close" let-d="dismiss">
+  <div class="delete-wrap">
+    <div>Confirm delete</div>
+    <div>Are you sure you want to delete? You won’t back it return.</div>
+    <div>
+      <button (click)="closeModal('cancel')">Cancel</button>
+      <button (click)="deleteConfirm()">Delete</button>
+    </div>
+  </div>
+</ng-template>
