@@ -314,4 +314,15 @@ export class MakeupPassComponent implements OnInit {
   closeDropdown(event, type, datePicker?) {
     console.log('close');
   }
+  openDeleteConfirm(modal, makeup) {
+    this.makeupId = makeup.id;
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass: 'holidayModal'
+    });
+  }
+  deleteConfirm() {
+    this.deleteMakeUp();
+    this.closeModal('delete');
+  }
 }
