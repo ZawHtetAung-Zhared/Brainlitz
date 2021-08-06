@@ -159,6 +159,7 @@ main {
 .animation-wrap,
 .deleteModal,
 .holidayModal,
+.w360-modal,
 .modal-xl {
   animation: 0.3s linear 0s slideInFromTop;
 }
@@ -1685,4 +1686,8 @@ button.toast-close-button {
   width: 360px;
   max-width: 360px;
   border-radius: 16px;
+}
+.w360-modal .modal-dialog {
+  margin: 0 auto !important;
+  top: 30% !important;
 }

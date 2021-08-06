@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { appService } from '../../service/app.service';
 import { ToastrService } from 'ngx-toastr';
@@ -31,6 +31,14 @@ export class MakeupPassComponent implements OnInit {
   public checkCourse: any = '';
   public sortFlag: boolean = false;
 
+  @HostListener('document:click', ['$event']) clickout($event) {
+    if (!$event.target.classList.contains('option')) {
+      for (var j = 0; j < this.makeupList.length; j++) {
+        this.popupOpts[j] = false;
+      }
+    }
+    console.log('clicked', $event.target.className);
+  }
   searchCus() {}
 
   switchTab(obj) {
@@ -318,11 +326,23 @@ export class MakeupPassComponent implements OnInit {
     this.makeupId = makeup.id;
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
-      windowClass: 'holidayModal'
+      windowClass: 'w360-modal'
     });
   }
-  deleteConfirm() {
+  delete() {
     this.deleteMakeUp();
     this.closeModal('delete');
+  }
+  public popupOpts: any = [];
+  detailPopup(i) {
+    if (this.popupOpts[i] == true) {
+      this.popupOpts[i] = false;
+    } else {
+      for (var j = 0; j < this.makeupList.length; j++) {
+        this.popupOpts[j] = false;
+      }
+      this.popupOpts[i] = true;
+    }
+    console.log('popup', this.popupOpts);
   }
 }

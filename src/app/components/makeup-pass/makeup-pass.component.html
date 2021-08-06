@@ -1,4 +1,4 @@
-<div style="padding: 48px 0px;">
+<div style="padding: 48px 0px;overflow: auto;">
   <div class="h1-strong text-c300">Makeup pass</div>
   <!-- <div class="light-body-l text-c100" style="margin-top: 8px;">
     Please select the customer and send a random password to the registered
@@ -93,7 +93,7 @@
     </div>
     <div
       style="    height: 400px;
-    overflow: auto;"
+    "
     >
       <div
         *ngFor="let makeup of makeupList | filter: cusName; let i = index"
@@ -109,10 +109,16 @@
             <span class="text-b100" *ngIf="makeup.studentDetails == null">
               -
             </span>
-            <span class="text-s70" *ngIf="makeup.student != null"
+            <span
+              class="text-s70"
+              *ngIf="makeup.student != null && makeup.student.email != ''"
               >({{ makeup.student.email }})</span
             >
-            <span class="text-s70" *ngIf="makeup.student == null">( - )</span>
+            <span
+              class="text-s70"
+              *ngIf="makeup.student == null || makeup.student.email == ''"
+              >( - )</span
+            >
           </div>
         </div>
         <!-- expired date -->
@@ -140,24 +146,47 @@
             }}</span>
             <span class="little-dot"></span>
             <span class="light-body-m text-c100"
-              >{{ makeup.course.duration.startDate | date: 'h:mm a' }} -
-              {{ makeup.course.duration.endDate | date: 'h:mm a' }}</span
+              >{{ makeup.course?.duration.startDate | date: 'h:mm a' }} -
+              {{ makeup.course?.duration.endDate | date: 'h:mm a' }}</span
             >
           </div>
         </div>
-        <div class="d-flex" style="width: 20%; padding: 16px 20px;">
+        <div
+          class="d-flex"
+          style="width: 20%; padding: 16px 20px;position: relative;"
+        >
           <div
-            (click)="oneditMakeup(editMakeup, makeup)"
+            (click)="detailPopup(i)"
             class="cursor option d-flex justify-content-center align-items-center"
             style="margin-right: 16px;"
           >
-            <img src="../../../assets/images/three_dots.svg" />
+            <img
+              style="pointer-events: none;"
+              src="../../../assets/images/three_dots.svg"
+            />
           </div>
           <div
             (click)="openClaimModal(claimModal, makeup)"
             class="cursor claim-div caption-u text-b100 d-flex justify-content-center align-items-center"
           >
             claim
+          </div>
+          <div class="action-detail" *ngIf="popupOpts[i]">
+            <div
+              (click)="oneditMakeup(editMakeup, makeup)"
+              class="cursor d-flex align-items-center detail-opt"
+              style="border-bottom: 1px solid #E8E9EB;"
+            >
+              <img class="w24" src="../../../assets/images/pencil_l.svg" />
+              <div class="light-body-m text-c300">Edit expiry date</div>
+            </div>
+            <div
+              (click)="openDeleteConfirm(deleteConfirm, makeup)"
+              class="cursor d-flex align-items-center detail-opt"
+            >
+              <img class="w24" src="../../../assets/images/delete_l.svg" />
+              <div class="light-body-m text-r100">Delete pass</div>
+            </div>
           </div>
         </div>
       </div>
@@ -209,14 +238,14 @@
     </div>
     <div
       style="    height: 400px;
-    overflow: auto;"
+    "
     >
       <div
         *ngFor="let makeup of makeupList | filter: cusName; let i = index"
         class="makeup-body d-flex align-items-center"
       >
         <div style="width: 20%; padding: 16px 20px;">
-          <div class="h4-strong text-c300">{{ makeup.name }}</div>
+          <div class="h4-strong text-c300">{{ makeup?.name }}</div>
           <div class="light-body-m text-c100">
             for
             <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
@@ -233,40 +262,40 @@
         </div>
         <!-- issued course -->
         <div style="width: 35%; padding: 16px 20px;">
-          <div class="body-l text-b100">{{ makeup.course.name }}</div>
+          <div class="body-l text-b100">{{ makeup.course?.name }}</div>
           <div>
             <span class="body-m text-c300">{{
               makeup.created_at | date: 'd LLL yyyy'
             }}</span>
             <span class="little-dot"></span>
             <span class="light-body-m text-c100"
-              >{{ makeup.course.duration.startDate | date: 'h:mm a' }} -
-              {{ makeup.course.duration.endDate | date: 'h:mm a' }}</span
+              >{{ makeup.course?.duration.startDate | date: 'h:mm a' }} -
+              {{ makeup.course?.duration.endDate | date: 'h:mm a' }}</span
             >
           </div>
         </div>
         <!-- claimed course -->
         <div style="width: 35%; padding: 16px 20px;">
-          <div class="body-l text-b100">{{ makeup.makeupCourse.name }}</div>
+          <div class="body-l text-b100">{{ makeup.makeupCourse?.name }}</div>
           <div>
             <span class="body-m text-c300">{{
               makeup.filing_date | date: 'd LLL yyyy'
             }}</span>
             <span class="little-dot"></span>
             <span class="light-body-m text-c100"
-              >{{ makeup.makeupCourse.duration.startDate | date: 'h:mm a' }} -
-              {{ makeup.makeupCourse.duration.endDate | date: 'h:mm a' }}</span
+              >{{ makeup.makeupCourse?.duration.startDate | date: 'h:mm a' }} -
+              {{ makeup.makeupCourse?.duration.endDate | date: 'h:mm a' }}</span
             >
           </div>
         </div>
         <div class="d-flex cursor" style="width: 10%; padding: 16px 20px;">
-          <!-- <div
+          <div
             (click)="openDeleteConfirm(deleteConfirm, makeup)"
             class="option d-flex justify-content-center align-items-center"
             style="margin-right: 16px;"
           >
             <img src="../../../assets/images/delete_l.svg" />
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
@@ -307,7 +336,7 @@
     </div>
     <div
       style="    height: 400px;
-    overflow: auto;"
+    "
     >
       <div
         *ngFor="let makeup of makeupList | filter: cusName; let i = index"
@@ -338,8 +367,8 @@
             }}</span>
             <span class="little-dot"></span>
             <span class="light-body-m text-c100"
-              >{{ makeup.course.duration.startDate | date: 'h:mm a' }} -
-              {{ makeup.course.duration.endDate | date: 'h:mm a' }}</span
+              >{{ makeup.course?.duration.startDate | date: 'h:mm a' }} -
+              {{ makeup.course?.duration.endDate | date: 'h:mm a' }}</span
             >
           </div>
         </div>
@@ -357,13 +386,13 @@
           >
             <img src="../../../assets/images/pencil_l.svg" />
           </div>
-          <!-- <div
+          <div
             (click)="openDeleteConfirm(deleteConfirm, makeup)"
             class="option d-flex justify-content-center align-items-center"
             style="margin-right: 16px;"
           >
             <img src="../../../assets/images/delete_l.svg" />
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
@@ -627,11 +656,19 @@
 </ng-template>
 <ng-template #deleteConfirm let-c="close" let-d="dismiss">
   <div class="delete-wrap">
-    <div>Confirm delete</div>
-    <div>Are you sure you want to delete? You won’t back it return.</div>
-    <div>
-      <button (click)="closeModal('cancel')">Cancel</button>
-      <button (click)="deleteConfirm()">Delete</button>
+    <div class="h3-strong text-c300" style="margin-bottom: 8px;">
+      Confirm delete
+    </div>
+    <div class="light-body-l text-c300">
+      Are you sure you want to delete? You won’t back it return.
+    </div>
+    <div style="margin-top: 24px;" class="d-flex justify-content-between">
+      <button class="confirm-btn btn bg-s20" (click)="closeModal('cancel')">
+        Cancel
+      </button>
+      <button class="confirm-btn btn bg-r100 text-s0" (click)="delete()">
+        Delete
+      </button>
     </div>
   </div>
 </ng-template>

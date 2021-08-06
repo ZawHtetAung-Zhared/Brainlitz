@@ -44,11 +44,11 @@
 
   box-shadow: 0px -1px 0px #e3e4e5;
 }
-.makeup-body > div {
+/* .makeup-body > div {
   overflow: auto;
-}
+} */
 .option {
-  width: 40px;
+  min-width: 40px;
   height: 40px;
   background: #ffffff;
 
@@ -74,4 +74,32 @@
 }
 .timeline {
   position: relative;
+}
+.delete-wrap {
+  padding: 20px;
+}
+.confirm-btn {
+  width: 150px;
+  height: 40px;
+  border-radius: 8px;
+}
+.action-detail {
+  width: 224px;
+  /* height: 113px; */
+  background: white;
+  position: absolute;
+  box-shadow: 0px 0px 0px 1px #edeef0, 1px 2px 16px rgb(0 0 0 / 8%);
+  border-radius: 8px;
+  z-index: 99;
+  bottom: 70px;
+  right: 120px;
+  padding: 12px;
+}
+.detail-opt {
+  height: 56px;
+}
+.w24 {
+  width: 24px;
+  height: auto;
+  margin-right: 16px;
 }
