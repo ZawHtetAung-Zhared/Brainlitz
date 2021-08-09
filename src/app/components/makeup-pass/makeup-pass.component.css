@@ -41,8 +41,12 @@
   min-height: 88px;
   background: #ffffff;
   padding: 0 !important;
+  cursor: pointer;
 
   box-shadow: 0px -1px 0px #e3e4e5;
+}
+.makeup-body:hover {
+  background: #f7f9fa;
 }
 /* .makeup-body > div {
   overflow: auto;
@@ -83,6 +87,13 @@
   height: 40px;
   border-radius: 8px;
 }
+.popup-btn {
+  width: 120px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #e3e4e6;
+  border-radius: 8px;
+}
 .action-detail {
   width: 224px;
   /* height: 113px; */
@@ -102,4 +113,57 @@
   width: 24px;
   height: auto;
   margin-right: 16px;
+}
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.w200 {
+  width: 200px;
+}
+.avail-div {
+  width: 520px;
+  height: 112px;
+
+  background: #f2f3f5;
+  border-radius: 12px;
+}
+.avail-div2 {
+  width: 496px;
+  height: 64px;
+
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 12px 8px;
+}
+.profile {
+  width: 32px;
+  height: 32px;
+
+  border-radius: 100px;
+  margin-right: 12px;
+}
+.pencil-wrap {
+  width: 40px;
+  height: 40px;
+
+  background: #d9ecff;
+  border-radius: 8px;
+}
+.claimed-div {
+  width: 112px;
+  height: 40px;
+  background: #bfffda;
+
+  border: 1px solid #91f2ba;
+  border-radius: 99px;
+}
+.expired-div {
+  width: 103px;
+  height: 40px;
+  background: #f7f9fa;
+
+  border: 1px solid #edeef0;
+  border-radius: 99px;
 }

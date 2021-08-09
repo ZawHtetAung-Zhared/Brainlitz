@@ -74,6 +74,7 @@ export class MakeupPassComponent implements OnInit {
     );
   }
   openClaimModal(claimModal, passObj) {
+    this.closeModal('close');
     console.log('current obj', passObj);
     this.currentPassObj = passObj;
     this.modalReference = this.modalService.open(claimModal, {
@@ -276,6 +277,7 @@ export class MakeupPassComponent implements OnInit {
   public editMakeUpDate: any;
   public makeupId: any;
   oneditMakeup(editMakeup, list) {
+    this.closeModal('close');
     console.log('makeup list', list);
     var dateFormat = {
       year: new Date(list.expirationDate).getFullYear(),
@@ -290,7 +292,7 @@ export class MakeupPassComponent implements OnInit {
     this.makeupId = list.id;
     this.modalReference = this.modalService.open(editMakeup, {
       backdrop: 'static',
-      windowClass: 'holidayModal'
+      windowClass: 'w360-modal'
     });
   }
   deleteMakeUp() {
@@ -323,6 +325,7 @@ export class MakeupPassComponent implements OnInit {
     console.log('close');
   }
   openDeleteConfirm(modal, makeup) {
+    this.closeModal('close');
     this.makeupId = makeup.id;
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
@@ -344,5 +347,13 @@ export class MakeupPassComponent implements OnInit {
       this.popupOpts[i] = true;
     }
     console.log('popup', this.popupOpts);
+  }
+  public currentMakeup: any;
+  openDetailPopup(modal, makeup) {
+    this.currentMakeup = makeup;
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass: 'makeup-modal'
+    });
   }
 }

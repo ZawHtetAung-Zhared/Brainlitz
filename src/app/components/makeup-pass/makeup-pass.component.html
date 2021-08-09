@@ -98,9 +98,10 @@
       <div
         *ngFor="let makeup of makeupList | filter: cusName; let i = index"
         class="makeup-body d-flex align-items-center"
+        (click)="openDetailPopup(availPopup, makeup)"
       >
         <div style="width: 30%; padding: 16px 20px;">
-          <div class="h4-strong text-c300">{{ makeup.name }}</div>
+          <div class="h4-strong text-c300 ellipsis">{{ makeup.name }}</div>
           <div class="light-body-m text-c100">
             for
             <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
@@ -109,11 +110,12 @@
             <span class="text-b100" *ngIf="makeup.studentDetails == null">
               -
             </span>
-            <span
-              class="text-s70"
+            <div
+              class="text-s70 ellipsis w200"
               *ngIf="makeup.student != null && makeup.student.email != ''"
-              >({{ makeup.student.email }})</span
             >
+              ({{ makeup.student.email }})
+            </div>
             <span
               class="text-s70"
               *ngIf="makeup.student == null || makeup.student.email == ''"
@@ -156,7 +158,7 @@
           style="width: 20%; padding: 16px 20px;position: relative;"
         >
           <div
-            (click)="detailPopup(i)"
+            (click)="detailPopup(i); $event.stopPropagation()"
             class="cursor option d-flex justify-content-center align-items-center"
             style="margin-right: 16px;"
           >
@@ -166,14 +168,18 @@
             />
           </div>
           <div
-            (click)="openClaimModal(claimModal, makeup)"
+            (click)="
+              openClaimModal(claimModal, makeup); $event.stopPropagation()
+            "
             class="cursor claim-div caption-u text-b100 d-flex justify-content-center align-items-center"
           >
             claim
           </div>
           <div class="action-detail" *ngIf="popupOpts[i]">
             <div
-              (click)="oneditMakeup(editMakeup, makeup)"
+              (click)="
+                oneditMakeup(editMakeup, makeup); $event.stopPropagation()
+              "
               class="cursor d-flex align-items-center detail-opt"
               style="border-bottom: 1px solid #E8E9EB;"
             >
@@ -181,7 +187,10 @@
               <div class="light-body-m text-c300">Edit expiry date</div>
             </div>
             <div
-              (click)="openDeleteConfirm(deleteConfirm, makeup)"
+              (click)="
+                openDeleteConfirm(deleteConfirm, makeup);
+                $event.stopPropagation()
+              "
               class="cursor d-flex align-items-center detail-opt"
             >
               <img class="w24" src="../../../assets/images/delete_l.svg" />
@@ -243,10 +252,11 @@
       <div
         *ngFor="let makeup of makeupList | filter: cusName; let i = index"
         class="makeup-body d-flex align-items-center"
+        (click)="openDetailPopup(claimedPopup, makeup)"
       >
         <div style="width: 20%; padding: 16px 20px;">
-          <div class="h4-strong text-c300">{{ makeup?.name }}</div>
-          <div class="light-body-m text-c100">
+          <div class="h4-strong text-c300 ellipsis">{{ makeup?.name }}</div>
+          <div class="light-body-m text-c100 ellipsis">
             for
             <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
               makeup.studentDetails.preferredName
@@ -254,9 +264,9 @@
             <span class="text-b100" *ngIf="makeup.studentDetails == null">
               -
             </span>
-            <span class="text-s70" *ngIf="makeup.student != null"
-              >({{ makeup.student.email }})</span
-            >
+            <div class="text-s70 w200 ellipsis" *ngIf="makeup.student != null">
+              ({{ makeup.student.email }})
+            </div>
             <span class="text-s70" *ngIf="makeup.student == null">( - )</span>
           </div>
         </div>
@@ -290,7 +300,9 @@
         </div>
         <div class="d-flex cursor" style="width: 10%; padding: 16px 20px;">
           <div
-            (click)="openDeleteConfirm(deleteConfirm, makeup)"
+            (click)="
+              openDeleteConfirm(deleteConfirm, makeup); $event.stopPropagation()
+            "
             class="option d-flex justify-content-center align-items-center"
             style="margin-right: 16px;"
           >
@@ -316,20 +328,20 @@
           src="./assets/icons/sorting.svg"
         />
       </div>
-      <div class="caption-u text-c100" style="width: 35%; padding: 14px 20px;">
+      <div class="caption-u text-c100" style="width: 32%; padding: 14px 20px;">
         Issued
       </div>
       <div
         (click)="sortByDate()"
         class="cursor caption-u text-c100"
-        style="width: 20%; padding: 14px 20px;"
+        style="width: 18%; padding: 14px 20px;"
       >
         Expired
         <img style="margin-left: 8px;" src="./assets/icons/sorting.svg" />
       </div>
       <div
         class="caption-u text-c100 d-flex justify-content-center"
-        style="width: 10%; padding: 14px 20px;"
+        style="width: 15%; padding: 14px 20px;"
       >
         Action
       </div>
@@ -341,9 +353,10 @@
       <div
         *ngFor="let makeup of makeupList | filter: cusName; let i = index"
         class="makeup-body d-flex align-items-center"
+        (click)="openDetailPopup(expiredPopup, makeup)"
       >
         <div style="width: 35%; padding: 16px 20px;">
-          <div class="h4-strong text-c300">{{ makeup.name }}</div>
+          <div class="h4-strong text-c300 ellipsis">{{ makeup.name }}</div>
           <div class="light-body-m text-c100">
             for
             <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
@@ -352,14 +365,14 @@
             <span class="text-b100" *ngIf="makeup.studentDetails == null">
               -
             </span>
-            <span class="text-s70" *ngIf="makeup.student != null"
-              >({{ makeup.student.email }})</span
-            >
+            <div class="text-s70 w200 ellipsis" *ngIf="makeup.student != null">
+              ({{ makeup.student.email }})
+            </div>
             <span class="text-s70" *ngIf="makeup.student == null">( - )</span>
           </div>
         </div>
         <!-- issued date -->
-        <div style="width: 35%; padding: 16px 20px;">
+        <div style="width: 32%; padding: 16px 20px;">
           <div class="body-l text-b100">{{ makeup.course.name }}</div>
           <div>
             <span class="body-m text-c300">{{
@@ -373,21 +386,23 @@
           </div>
         </div>
         <!-- expired date -->
-        <div style="width: 20%; padding: 16px 20px;">
+        <div style="width: 18%; padding: 16px 20px;">
           <div class="body-l text-b100">
             {{ makeup.expirationDate | date: 'd LLL yyyy' }}
           </div>
         </div>
-        <div class="d-flex cursor" style="width: 10%; padding: 16px 20px;">
+        <div class="d-flex cursor" style="width: 15%; padding: 16px 20px;">
           <div
-            (click)="oneditMakeup(editMakeup, makeup)"
+            (click)="oneditMakeup(editMakeup, makeup); $event.stopPropagation()"
             class="option d-flex justify-content-center align-items-center"
             style="margin-right: 16px;"
           >
             <img src="../../../assets/images/pencil_l.svg" />
           </div>
           <div
-            (click)="openDeleteConfirm(deleteConfirm, makeup)"
+            (click)="
+              openDeleteConfirm(deleteConfirm, makeup); $event.stopPropagation()
+            "
             class="option d-flex justify-content-center align-items-center"
             style="margin-right: 16px;"
           >
@@ -604,7 +619,7 @@
 
 <ng-template #editMakeup let-c="close" let-d="dismiss">
   <div class="modal-body modal-wrap">
-    <h3 class="text-c100 light-body-l">
+    <h3 class="text-c100 h4-strong">
       Edit valid date
     </h3>
     <div class="input-wrap">
@@ -631,21 +646,15 @@
     </div>
   </div>
   <div class="d-flex justify-content-between m-3">
-    <button
-      class="btn elevation-2y text-r100 body-m bg-s0 btn-makeup"
-      (click)="deleteMakeUp()"
-    >
-      Delete
-    </button>
     <div class="d-flex">
       <button
-        class="btn bg-s20 text-c100 body-m btn-makeup mr-3"
+        class="btn bg-s20 text-c100 body-m confirm-btn mr-3"
         (click)="makeupModalClose()"
       >
         Cancel
       </button>
       <button
-        class="btn bg-b100 text-s0 body-m btn-makeup"
+        class="btn bg-b100 text-s0 body-m confirm-btn"
         (click)="editMakeupDate()"
         [disabled]="activePass == 'claimed'"
       >
@@ -663,12 +672,290 @@
       Are you sure you want to delete? You won’t back it return.
     </div>
     <div style="margin-top: 24px;" class="d-flex justify-content-between">
-      <button class="confirm-btn btn bg-s20" (click)="closeModal('cancel')">
+      <button
+        class="confirm-btn btn bg-s20"
+        style="margin-right: 20px;"
+        (click)="closeModal('cancel')"
+      >
         Cancel
       </button>
       <button class="confirm-btn btn bg-r100 text-s0" (click)="delete()">
         Delete
       </button>
+    </div>
+  </div>
+</ng-template>
+<ng-template #availPopup let-c="close" let-d="dismiss">
+  <div class="avail-wrap">
+    <div
+      style="height: 56px; padding: 16px;"
+      class="d-flex justify-content-between align-items-center"
+    >
+      <div class="h5-strong text-c100 d-flex align-items-center">
+        <img
+          class="profile"
+          src="{{ currentMakeup.studentDetails.profilePic }}"
+        />
+        {{ currentMakeup.studentDetails.preferredName }}
+      </div>
+      <img
+        class="cursor"
+        (click)="closeModal('cancel')"
+        src="../../../assets/icons/crossClose.svg"
+      />
+    </div>
+    <div style="height: 297px; padding: 20px 16px;">
+      <div class="h4-strong text-c300" style="margin-bottom: 8px;">
+        {{ currentMakeup.name }}
+      </div>
+      <div
+        class="light-body-m text-c100"
+        style="border-bottom: 1px solid #E8E9EB;    padding-bottom: 16px;"
+      >
+        {{ currentMakeup.reason }}
+      </div>
+      <div style="margin-top: 16px;" class="d-flex justify-content-between">
+        <div>
+          <div class="caption-u text-b100" style="margin-bottom: 4px;">
+            Expiry date
+          </div>
+          <div class="h5-strong text-c300" style="margin-right: 8px;">
+            {{ currentMakeup.expirationDate | date: 'd LLL yyyy' }}
+            <span class="light-body-m text-s70"
+              >{{ calculateDiff(currentMakeup.expirationDate) }} days left</span
+            >
+          </div>
+        </div>
+        <div
+          (click)="oneditMakeup(editMakeup, currentMakeup)"
+          class="cursor pencil-wrap d-flex align-items-center justify-content-center"
+        >
+          <img src="../../../assets/images/pencil_l.svg" />
+        </div>
+      </div>
+      <div class="avail-div" style="padding: 12px; margin-top: 16px;">
+        <div
+          style="margin-left: 12px;margin-bottom: 8px;"
+          class="caption text-c100"
+        >
+          Issued on {{ currentMakeup.created_at | date: 'd LLL yyyy' }}
+        </div>
+        <div class="avail-div2">
+          <div style="margin-bottom: 4px;" class="body-m text-b100">
+            {{ currentMakeup.course.name }}
+          </div>
+          <div class="small text-c100">
+            {{ currentMakeup.course?.duration.startDate | date: 'h:mm a' }} -
+            {{ currentMakeup.course?.duration.endDate | date: 'h:mm a' }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      style="margin-top: 36px;    padding: 0 20px;"
+      class="d-flex justify-content-between"
+    >
+      <button
+        class="popup-btn btn bg-s0 text-r100"
+        (click)="openDeleteConfirm(deleteConfirm, currentMakeup)"
+      >
+        Delete pass
+      </button>
+      <div>
+        <button class="popup-btn btn bg-s20" (click)="closeModal('cancel')">
+          Cancel
+        </button>
+        <button
+          class="popup-btn btn bg-b100 text-s0"
+          (click)="openClaimModal(claimModal, currentMakeup)"
+        >
+          Claim pass
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #claimedPopup let-c="close" let-d="dismiss">
+  <div class="claimed-wrap">
+    <div
+      style="height: 56px; padding: 16px;"
+      class="d-flex justify-content-between align-items-center"
+    >
+      <div class="h5-strong text-c100 d-flex align-items-center">
+        <img
+          class="profile"
+          src="{{ currentMakeup.studentDetails.profilePic }}"
+        />
+        {{ currentMakeup.studentDetails.preferredName }}
+      </div>
+      <img
+        class="cursor"
+        (click)="closeModal('cancel')"
+        src="../../../assets/icons/crossClose.svg"
+      />
+    </div>
+    <div style="height: 344px; padding: 20px 16px;">
+      <div class="h4-strong text-c300" style="margin-bottom: 8px;">
+        {{ currentMakeup.name }}
+      </div>
+      <div
+        class="light-body-m text-c100"
+        style="border-bottom: 1px solid #E8E9EB;    padding-bottom: 16px;"
+      >
+        {{ currentMakeup.reason }}
+      </div>
+
+      <div class="avail-div" style="padding: 12px; margin-top: 16px;">
+        <div
+          style="margin-left: 12px;margin-bottom: 8px;"
+          class="caption text-c100"
+        >
+          Issued on {{ currentMakeup.created_at | date: 'd LLL yyyy' }}
+        </div>
+        <div class="avail-div2">
+          <div style="margin-bottom: 4px;" class="body-m text-b100">
+            {{ currentMakeup.course.name }}
+          </div>
+          <div class="small text-c100">
+            {{ currentMakeup.course?.duration.startDate | date: 'h:mm a' }} -
+            {{ currentMakeup.course?.duration.endDate | date: 'h:mm a' }}
+          </div>
+        </div>
+      </div>
+      <div class="avail-div" style="padding: 12px; margin-top: 16px;">
+        <div
+          style="margin-left: 12px;margin-bottom: 8px;"
+          class="caption text-g200"
+        >
+          Claimed on {{ currentMakeup.created_at | date: 'd LLL yyyy' }}
+        </div>
+        <div class="avail-div2">
+          <div style="margin-bottom: 4px;" class="body-m text-b100">
+            {{ currentMakeup.makeupCourse.name }}
+          </div>
+          <div class="small text-c100">
+            {{
+              currentMakeup.makeupCourse?.duration.startDate | date: 'h:mm a'
+            }}
+            -
+            {{ currentMakeup.makeupCourse?.duration.endDate | date: 'h:mm a' }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      style="margin-top: 36px;    padding: 20px 20px;"
+      class="d-flex justify-content-between"
+    >
+      <div
+        class="body-m text-g200 claimed-div d-flex justify-content-center align-items-center"
+      >
+        Claimed
+      </div>
+      <div>
+        <button
+          style="margin-right: 20px;"
+          class="popup-btn btn bg-s0 text-r100"
+          (click)="openDeleteConfirm(deleteConfirm, currentMakeup)"
+        >
+          Delete pass
+        </button>
+        <button
+          class="popup-btn btn bg-b100 text-s0"
+          (click)="closeModal('cancel')"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #expiredPopup let-c="close" let-d="dismiss">
+  <div class="avail-wrap">
+    <div
+      style="height: 56px; padding: 16px;"
+      class="d-flex justify-content-between align-items-center"
+    >
+      <div class="h5-strong text-c100 d-flex align-items-center">
+        <img
+          class="profile"
+          src="{{ currentMakeup.studentDetails.profilePic }}"
+        />
+        {{ currentMakeup.studentDetails.preferredName }}
+      </div>
+      <img
+        class="cursor"
+        (click)="closeModal('cancel')"
+        src="../../../assets/icons/crossClose.svg"
+      />
+    </div>
+    <div style="height: 297px; padding: 20px 16px;">
+      <div class="h4-strong text-c300" style="margin-bottom: 8px;">
+        {{ currentMakeup.name }}
+      </div>
+      <div
+        class="light-body-m text-c100"
+        style="border-bottom: 1px solid #E8E9EB;    padding-bottom: 16px;"
+      >
+        {{ currentMakeup.reason }}
+      </div>
+      <div style="margin-top: 16px;" class="d-flex justify-content-between">
+        <div>
+          <div class="caption-u text-b100" style="margin-bottom: 4px;">
+            Expiry date
+          </div>
+          <div class="h5-strong text-c300" style="margin-right: 8px;">
+            {{ currentMakeup.expirationDate | date: 'd LLL yyyy' }}
+          </div>
+        </div>
+        <div
+          (click)="oneditMakeup(editMakeup, currentMakeup)"
+          class="cursor pencil-wrap d-flex align-items-center justify-content-center"
+        >
+          <img src="../../../assets/images/pencil_l.svg" />
+        </div>
+      </div>
+      <div class="avail-div" style="padding: 12px; margin-top: 16px;">
+        <div
+          style="margin-left: 12px;margin-bottom: 8px;"
+          class="caption text-c100"
+        >
+          Issued on {{ currentMakeup.created_at | date: 'd LLL yyyy' }}
+        </div>
+        <div class="avail-div2">
+          <div style="margin-bottom: 4px;" class="body-m text-b100">
+            {{ currentMakeup.course.name }}
+          </div>
+          <div class="small text-c100">
+            {{ currentMakeup.course?.duration.startDate | date: 'h:mm a' }} -
+            {{ currentMakeup.course?.duration.endDate | date: 'h:mm a' }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      style="margin-top: 36px;    padding: 0 20px;"
+      class="d-flex justify-content-between"
+    >
+      <div
+        class="body-m text-s70 expired-div d-flex justify-content-center align-items-center"
+      >
+        Expired
+      </div>
+      <div>
+        <button
+          style="margin-right: 20px;"
+          class="popup-btn btn bg-s0 text-r100"
+          (click)="openDeleteConfirm(deleteConfirm, currentMakeup)"
+        >
+          Delete pass
+        </button>
+        <button class="popup-btn btn bg-s20" (click)="closeModal('cancel')">
+          Cancel
+        </button>
+      </div>
     </div>
   </div>
 </ng-template>
