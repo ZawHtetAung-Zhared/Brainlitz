@@ -851,6 +851,10 @@
       <div
         class="body-m text-g200 claimed-div d-flex justify-content-center align-items-center"
       >
+        <img
+          src="../../../assets/images/claim_tick.svg"
+          style="margin-right: 4px;"
+        />
         Claimed
       </div>
       <div>
@@ -942,6 +946,10 @@
       <div
         class="body-m text-s70 expired-div d-flex justify-content-center align-items-center"
       >
+        <img
+          src="../../../assets/images/expire-alert.svg"
+          style="margin-right: 4px;"
+        />
         Expired
       </div>
       <div>
@@ -952,8 +960,11 @@
         >
           Delete pass
         </button>
-        <button class="popup-btn btn bg-s20" (click)="closeModal('cancel')">
-          Cancel
+        <button
+          class="popup-btn btn bg-b100 text-s0"
+          (click)="closeModal('cancel')"
+        >
+          Close
         </button>
       </div>
     </div>
