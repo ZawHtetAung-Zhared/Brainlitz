@@ -751,10 +751,8 @@
         </div>
       </div>
     </div>
-    <div
-      style="margin-top: 36px;    padding: 0 20px;"
-      class="d-flex justify-content-between"
-    >
+    <div class="dashed"></div>
+    <div style="  padding: 0 20px;" class="d-flex justify-content-between">
       <button
         class="popup-btn btn bg-s0 text-r100"
         (click)="openDeleteConfirm(deleteConfirm, currentMakeup)"
@@ -762,7 +760,11 @@
         Delete pass
       </button>
       <div>
-        <button class="popup-btn btn bg-s20" (click)="closeModal('cancel')">
+        <button
+          style="margin-right: 20px;"
+          class="popup-btn btn bg-s20"
+          (click)="closeModal('cancel')"
+        >
           Cancel
         </button>
         <button
@@ -795,7 +797,7 @@
         src="../../../assets/icons/crossClose.svg"
       />
     </div>
-    <div style="height: 344px; padding: 20px 16px;">
+    <div style="height: 344px; padding: 20px 16px;    margin-bottom: 30px;">
       <div class="h4-strong text-c300" style="margin-bottom: 8px;">
         {{ currentMakeup.name }}
       </div>
@@ -845,9 +847,10 @@
       </div>
     </div>
     <div
-      style="margin-top: 36px;    padding: 20px 20px;"
-      class="d-flex justify-content-between"
-    >
+      class="dashed"
+      style="height: 0 !important; margin-top: 0 !important;"
+    ></div>
+    <div style="  padding: 20px 20px;" class="d-flex justify-content-between">
       <div
         class="body-m text-g200 claimed-div d-flex justify-content-center align-items-center"
       >
@@ -939,10 +942,8 @@
         </div>
       </div>
     </div>
-    <div
-      style="margin-top: 36px;    padding: 0 20px;"
-      class="d-flex justify-content-between"
-    >
+    <div class="dashed"></div>
+    <div style="   padding: 0 20px;" class="d-flex justify-content-between">
       <div
         class="body-m text-s70 expired-div d-flex justify-content-center align-items-center"
       >

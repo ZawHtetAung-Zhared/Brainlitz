@@ -167,3 +167,11 @@
   border: 1px solid #edeef0;
   border-radius: 99px;
 }
+.dashed {
+  width: 528px;
+  height: 12px;
+  border-top: 2px dashed #e3e4e6;
+
+  margin: 0 auto;
+  margin-top: 24px;
+}
