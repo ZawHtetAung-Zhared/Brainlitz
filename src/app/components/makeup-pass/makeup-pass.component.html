@@ -1,4 +1,4 @@
-<div style="padding: 48px 0px;overflow: auto;">
+<div style="padding: 48px 0px;">
   <div class="h1-strong text-c300">Makeup pass</div>
   <!-- <div class="light-body-l text-c100" style="margin-top: 8px;">
     Please select the customer and send a random password to the registered
@@ -54,7 +54,7 @@
       <img class="search" src="./assets/icons/search_l.svg" />
     </div>
   </div>
-  <div *ngIf="currentSwitch == 'available'" style="width: 100%;">
+  <div *ngIf="currentSwitch == 'available'" style="width: 100%;overflow: auto;">
     <div
       class="makeup-header d-flex align-items-center"
       style="margin-top: 20px;"
@@ -216,7 +216,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="currentSwitch == 'claimed'" style="width: 100%;">
+  <div *ngIf="currentSwitch == 'claimed'" style="width: 100%;overflow: auto;">
     <div
       class="makeup-header d-flex align-items-center"
       style="margin-top: 20px;"
@@ -312,7 +312,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="currentSwitch == 'expired'" style="width: 100%;">
+  <div *ngIf="currentSwitch == 'expired'" style="width: 100%;overflow: auto;">
     <div
       class="makeup-header d-flex align-items-center"
       style="margin-top: 20px;"
