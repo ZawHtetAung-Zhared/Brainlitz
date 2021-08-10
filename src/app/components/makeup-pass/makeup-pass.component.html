@@ -201,7 +201,7 @@
       </div>
       <div
         style="margin-top: 120px;"
-        *ngIf="(makeupList | filter: cusName)?.length === 0"
+        *ngIf="(makeupList | filter: cusName)?.length === 0 && !emptyList"
         class="d-flex justify-content-center align-items-center"
       >
         <div class="d-flex flex-column align-items-center">
@@ -211,6 +211,21 @@
           />
           <div style="margin-top: 16px;" class="light-body-m text-c300">
             No search results found!
+          </div>
+        </div>
+      </div>
+      <div
+        style="margin-top: 120px;"
+        *ngIf="emptyList"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <div class="d-flex flex-column align-items-center">
+          <img
+            style="width: 103px; height:135px;"
+            src="../../../assets/images/no_result.png"
+          />
+          <div style="margin-top: 16px;" class="light-body-m text-c300">
+            No available makeup pass found!
           </div>
         </div>
       </div>
@@ -322,6 +337,21 @@
           />
           <div style="margin-top: 16px;" class="light-body-m text-c300">
             No search results found!
+          </div>
+        </div>
+      </div>
+      <div
+        style="margin-top: 120px;"
+        *ngIf="emptyList"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <div class="d-flex flex-column align-items-center">
+          <img
+            style="width: 103px; height:135px;"
+            src="../../../assets/images/no_result.png"
+          />
+          <div style="margin-top: 16px;" class="light-body-m text-c300">
+            No claimed makeup pass found!
           </div>
         </div>
       </div>
@@ -437,6 +467,21 @@
           />
           <div style="margin-top: 16px;" class="light-body-m text-c300">
             No search results found!
+          </div>
+        </div>
+      </div>
+      <div
+        style="margin-top: 120px;"
+        *ngIf="emptyList"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <div class="d-flex flex-column align-items-center">
+          <img
+            style="width: 103px; height:135px;"
+            src="../../../assets/images/no_result.png"
+          />
+          <div style="margin-top: 16px;" class="light-body-m text-c300">
+            No expired makeup pass found!
           </div>
         </div>
       </div>

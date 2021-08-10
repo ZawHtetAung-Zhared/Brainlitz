@@ -45,12 +45,14 @@ export class MakeupPassComponent implements OnInit {
     this.currentSwitch = obj;
     this.getAllMakeupList();
   }
-
+  public emptyList: boolean = false;
   getAllMakeupList() {
     this._service
       .getMakeupList(this.currentSwitch, this.regionID)
       .subscribe((res: any) => {
         this.makeupList = res.makeupPassesOfRegion;
+        if (this.makeupList.length == 0) this.emptyList = true;
+        else this.emptyList = false;
         console.log('makeup', this.makeupList);
       });
   }
