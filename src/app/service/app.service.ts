@@ -5441,7 +5441,12 @@ export class appService {
 
   getMakeupList(filter, regionId) {
     let apiUrl =
-      this.baseUrl + '/regions/' + regionId + '/makeup-pass?filter=' + filter;
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/makeup-pass?filter=' +
+      filter +
+      '&groupby=location';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

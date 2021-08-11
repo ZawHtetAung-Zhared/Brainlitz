@@ -95,106 +95,124 @@
       style="    height: 400px;
     "
     >
-      <div
-        *ngFor="let makeup of makeupList | filter: cusName; let i = index"
-        class="makeup-body d-flex align-items-center"
-        (click)="openDetailPopup(availPopup, makeup)"
-      >
-        <div style="width: 30%; padding: 16px 20px;">
-          <div class="h4-strong text-c300 ellipsis">{{ makeup.name }}</div>
-          <div class="light-body-m text-c100">
-            for
-            <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
-              makeup.studentDetails.preferredName
-            }}</span>
-            <span class="text-b100" *ngIf="makeup.studentDetails == null">
-              -
-            </span>
-            <div
-              class="text-s70 ellipsis w200"
-              *ngIf="makeup.student != null && makeup.student.email != ''"
-            >
-              ({{ makeup.student.email }})
-            </div>
-            <span
-              class="text-s70"
-              *ngIf="makeup.student == null || makeup.student.email == ''"
-              >( - )</span
-            >
-          </div>
-        </div>
-        <!-- expired date -->
-        <div style="width: 20%; padding: 16px 20px;">
-          <div class="h4-strong text-c300">
-            {{ makeup.expirationDate | date: 'd LLL yyyy' }}
-          </div>
-          <div
-            class="light-body-m"
-            [ngClass]="{
-              'text-r100': calculateDiff(makeup.expirationDate) <= 7,
-              'text-c100': calculateDiff(makeup.expirationDate) > 7
-            }"
+      <div *ngFor="let location of makeupList | filter: cusName; let i = index">
+        <div
+          class="location-header d-flex justify-content-between align-items-center"
+          [ngStyle]="{
+            color: location.location?.textColorHex,
+            background: location.location?.backgroundColorHex
+          }"
+        >
+          <span
+            ><img src="../../../assets/images/location_small.svg" />
+            {{ location.location.name }}</span
           >
-            {{ calculateDiff(makeup.expirationDate) }}
-            days left
-          </div>
-        </div>
-        <!-- issued date -->
-        <div style="width: 30%; padding: 16px 20px;">
-          <div class="body-l text-b100">{{ makeup.course.name }}</div>
-          <div>
-            <span class="body-m text-c300">{{
-              makeup.created_at | date: 'd LLL yyyy'
-            }}</span>
-            <span class="little-dot"></span>
-            <span class="light-body-m text-c100"
-              >{{ makeup.course?.duration.startDate | date: 'h:mm a' }} -
-              {{ makeup.course?.duration.endDate | date: 'h:mm a' }}</span
-            >
-          </div>
+          <span>{{ location.makeuppasses.length }} passes</span>
         </div>
         <div
-          class="d-flex"
-          style="width: 20%; padding: 16px 20px;position: relative;"
+          *ngFor="
+            let makeup of location.makeuppasses | filter: cusName;
+            let i = index
+          "
+          class="makeup-body d-flex align-items-center"
+          (click)="openDetailPopup(availPopup, makeup)"
         >
-          <div
-            (click)="detailPopup(i); $event.stopPropagation()"
-            class="cursor option d-flex justify-content-center align-items-center"
-            style="margin-right: 16px;"
-          >
-            <img
-              style="pointer-events: none;"
-              src="../../../assets/images/three_dots.svg"
-            />
+          <div style="width: 30%; padding: 16px 20px;">
+            <div class="h4-strong text-c300 ellipsis">{{ makeup.name }}</div>
+            <div class="light-body-m text-c100">
+              for
+              <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
+                makeup.studentDetails.preferredName
+              }}</span>
+              <span class="text-b100" *ngIf="makeup.studentDetails == null">
+                -
+              </span>
+              <div
+                class="text-s70 ellipsis w200"
+                *ngIf="makeup.student != null && makeup.student.email != ''"
+              >
+                ({{ makeup.student.email }})
+              </div>
+              <span
+                class="text-s70"
+                *ngIf="makeup.student == null || makeup.student.email == ''"
+                >( - )</span
+              >
+            </div>
           </div>
-          <div
-            (click)="
-              openClaimModal(claimModal, makeup); $event.stopPropagation()
-            "
-            class="cursor claim-div caption-u text-b100 d-flex justify-content-center align-items-center"
-          >
-            claim
-          </div>
-          <div class="action-detail" *ngIf="popupOpts[i]">
+          <!-- expired date -->
+          <div style="width: 20%; padding: 16px 20px;">
+            <div class="h4-strong text-c300">
+              {{ makeup.expirationDate | date: 'd LLL yyyy' }}
+            </div>
             <div
-              (click)="
-                oneditMakeup(editMakeup, makeup); $event.stopPropagation()
-              "
-              class="cursor d-flex align-items-center detail-opt"
-              style="border-bottom: 1px solid #E8E9EB;"
+              class="light-body-m"
+              [ngClass]="{
+                'text-r100': calculateDiff(makeup.expirationDate) <= 7,
+                'text-c100': calculateDiff(makeup.expirationDate) > 7
+              }"
             >
-              <img class="w24" src="../../../assets/images/pencil_l.svg" />
-              <div class="light-body-m text-c300">Edit expiry date</div>
+              {{ calculateDiff(makeup.expirationDate) }}
+              days left
+            </div>
+          </div>
+          <!-- issued date -->
+          <div style="width: 30%; padding: 16px 20px;">
+            <div class="body-l text-b100">{{ makeup.course.name }}</div>
+            <div>
+              <span class="body-m text-c300">{{
+                makeup.created_at | date: 'd LLL yyyy'
+              }}</span>
+              <span class="little-dot"></span>
+              <span class="light-body-m text-c100"
+                >{{ makeup.course?.duration.startDate | date: 'h:mm a' }} -
+                {{ makeup.course?.duration.endDate | date: 'h:mm a' }}</span
+              >
+            </div>
+          </div>
+          <div
+            class="d-flex"
+            style="width: 20%; padding: 16px 20px;position: relative;"
+          >
+            <div
+              (click)="detailPopup(i); $event.stopPropagation()"
+              class="cursor option d-flex justify-content-center align-items-center"
+              style="margin-right: 16px;"
+            >
+              <img
+                style="pointer-events: none;"
+                src="../../../assets/images/three_dots.svg"
+              />
             </div>
             <div
               (click)="
-                openDeleteConfirm(deleteConfirm, makeup);
-                $event.stopPropagation()
+                openClaimModal(claimModal, makeup); $event.stopPropagation()
               "
-              class="cursor d-flex align-items-center detail-opt"
+              class="cursor claim-div caption-u text-b100 d-flex justify-content-center align-items-center"
             >
-              <img class="w24" src="../../../assets/images/delete_l.svg" />
-              <div class="light-body-m text-r100">Delete pass</div>
+              claim
+            </div>
+            <div class="action-detail" *ngIf="popupOpts[i]">
+              <div
+                (click)="
+                  oneditMakeup(editMakeup, makeup); $event.stopPropagation()
+                "
+                class="cursor d-flex align-items-center detail-opt"
+                style="border-bottom: 1px solid #E8E9EB;"
+              >
+                <img class="w24" src="../../../assets/images/pencil_l.svg" />
+                <div class="light-body-m text-c300">Edit expiry date</div>
+              </div>
+              <div
+                (click)="
+                  openDeleteConfirm(deleteConfirm, makeup);
+                  $event.stopPropagation()
+                "
+                class="cursor d-flex align-items-center detail-opt"
+              >
+                <img class="w24" src="../../../assets/images/delete_l.svg" />
+                <div class="light-body-m text-r100">Delete pass</div>
+              </div>
             </div>
           </div>
         </div>
@@ -264,64 +282,89 @@
       style="    height: 400px;
     "
     >
-      <div
-        *ngFor="let makeup of makeupList | filter: cusName; let i = index"
-        class="makeup-body d-flex align-items-center"
-        (click)="openDetailPopup(claimedPopup, makeup)"
-      >
-        <div style="width: 20%; padding: 16px 20px;">
-          <div class="h4-strong text-c300 ellipsis">{{ makeup?.name }}</div>
-          <div class="light-body-m text-c100 ellipsis">
-            for
-            <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
-              makeup.studentDetails.preferredName
-            }}</span>
-            <span class="text-b100" *ngIf="makeup.studentDetails == null">
-              -
-            </span>
-            <div class="text-s70 w200 ellipsis" *ngIf="makeup.student != null">
-              ({{ makeup.student.email }})
-            </div>
-            <span class="text-s70" *ngIf="makeup.student == null">( - )</span>
-          </div>
-        </div>
-        <!-- issued course -->
-        <div style="width: 35%; padding: 16px 20px;">
-          <div class="body-l text-b100">{{ makeup.course?.name }}</div>
-          <div>
-            <span class="body-m text-c300">{{
-              makeup.created_at | date: 'd LLL yyyy'
-            }}</span>
-            <span class="little-dot"></span>
-            <span class="light-body-m text-c100"
-              >{{ makeup.course?.duration.startDate | date: 'h:mm a' }} -
-              {{ makeup.course?.duration.endDate | date: 'h:mm a' }}</span
-            >
-          </div>
-        </div>
-        <!-- claimed course -->
-        <div style="width: 35%; padding: 16px 20px;">
-          <div class="body-l text-b100">{{ makeup.makeupCourse?.name }}</div>
-          <div>
-            <span class="body-m text-c300">{{
-              makeup.filing_date | date: 'd LLL yyyy'
-            }}</span>
-            <span class="little-dot"></span>
-            <span class="light-body-m text-c100"
-              >{{ makeup.makeupCourse?.duration.startDate | date: 'h:mm a' }} -
-              {{ makeup.makeupCourse?.duration.endDate | date: 'h:mm a' }}</span
-            >
-          </div>
-        </div>
-        <div class="d-flex cursor" style="width: 10%; padding: 16px 20px;">
-          <div
-            (click)="
-              openDeleteConfirm(deleteConfirm, makeup); $event.stopPropagation()
-            "
-            class="option d-flex justify-content-center align-items-center"
-            style="margin-right: 16px;"
+      <div *ngFor="let location of makeupList | filter: cusName; let i = index">
+        <div
+          class="location-header d-flex justify-content-between align-items-center"
+          [ngStyle]="{
+            color: location.location?.textColorHex,
+            background: location.location?.backgroundColorHex
+          }"
+        >
+          <span
+            ><img src="../../../assets/images/location_small.svg" />
+            {{ location.location.name }}</span
           >
-            <img src="../../../assets/images/delete_l.svg" />
+          <span>{{ location.makeuppasses.length }} passes</span>
+        </div>
+        <div
+          *ngFor="
+            let makeup of location.makeuppasses | filter: cusName;
+            let i = index
+          "
+          class="makeup-body d-flex align-items-center"
+          (click)="openDetailPopup(claimedPopup, makeup)"
+        >
+          <div style="width: 20%; padding: 16px 20px;">
+            <div class="h4-strong text-c300 ellipsis">{{ makeup?.name }}</div>
+            <div class="light-body-m text-c100 ellipsis">
+              for
+              <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
+                makeup.studentDetails.preferredName
+              }}</span>
+              <span class="text-b100" *ngIf="makeup.studentDetails == null">
+                -
+              </span>
+              <div
+                class="text-s70 w200 ellipsis"
+                *ngIf="makeup.student != null"
+              >
+                ({{ makeup.student.email }})
+              </div>
+              <span class="text-s70" *ngIf="makeup.student == null">( - )</span>
+            </div>
+          </div>
+          <!-- issued course -->
+          <div style="width: 35%; padding: 16px 20px;">
+            <div class="body-l text-b100">{{ makeup.course?.name }}</div>
+            <div>
+              <span class="body-m text-c300">{{
+                makeup.created_at | date: 'd LLL yyyy'
+              }}</span>
+              <span class="little-dot"></span>
+              <span class="light-body-m text-c100"
+                >{{ makeup.course?.duration.startDate | date: 'h:mm a' }} -
+                {{ makeup.course?.duration.endDate | date: 'h:mm a' }}</span
+              >
+            </div>
+          </div>
+          <!-- claimed course -->
+          <div style="width: 35%; padding: 16px 20px;">
+            <div class="body-l text-b100">{{ makeup.makeupCourse?.name }}</div>
+            <div>
+              <span class="body-m text-c300">{{
+                makeup.filing_date | date: 'd LLL yyyy'
+              }}</span>
+              <span class="little-dot"></span>
+              <span class="light-body-m text-c100"
+                >{{ makeup.makeupCourse?.duration.startDate | date: 'h:mm a' }}
+                -
+                {{
+                  makeup.makeupCourse?.duration.endDate | date: 'h:mm a'
+                }}</span
+              >
+            </div>
+          </div>
+          <div class="d-flex cursor" style="width: 10%; padding: 16px 20px;">
+            <div
+              (click)="
+                openDeleteConfirm(deleteConfirm, makeup);
+                $event.stopPropagation()
+              "
+              class="option d-flex justify-content-center align-items-center"
+              style="margin-right: 16px;"
+            >
+              <img src="../../../assets/images/delete_l.svg" />
+            </div>
           </div>
         </div>
       </div>
@@ -395,63 +438,88 @@
       style="    height: 400px;
     "
     >
-      <div
-        *ngFor="let makeup of makeupList | filter: cusName; let i = index"
-        class="makeup-body d-flex align-items-center"
-        (click)="openDetailPopup(expiredPopup, makeup)"
-      >
-        <div style="width: 35%; padding: 16px 20px;">
-          <div class="h4-strong text-c300 ellipsis">{{ makeup.name }}</div>
-          <div class="light-body-m text-c100">
-            for
-            <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
-              makeup.studentDetails.preferredName
-            }}</span>
-            <span class="text-b100" *ngIf="makeup.studentDetails == null">
-              -
-            </span>
-            <div class="text-s70 w200 ellipsis" *ngIf="makeup.student != null">
-              ({{ makeup.student.email }})
+      <div *ngFor="let location of makeupList | filter: cusName; let i = index">
+        <div
+          class="location-header d-flex justify-content-between align-items-center"
+          [ngStyle]="{
+            color: location.location?.textColorHex,
+            background: location.location?.backgroundColorHex
+          }"
+        >
+          <span
+            ><img src="../../../assets/images/location_small.svg" />
+            {{ location.location.name }}</span
+          >
+          <span>{{ location.makeuppasses.length }} passes</span>
+        </div>
+
+        <div
+          *ngFor="
+            let makeup of location.makeuppasses | filter: cusName;
+            let i = index
+          "
+          class="makeup-body d-flex align-items-center"
+          (click)="openDetailPopup(expiredPopup, makeup)"
+        >
+          <div style="width: 35%; padding: 16px 20px;">
+            <div class="h4-strong text-c300 ellipsis">{{ makeup.name }}</div>
+            <div class="light-body-m text-c100">
+              for
+              <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
+                makeup.studentDetails.preferredName
+              }}</span>
+              <span class="text-b100" *ngIf="makeup.studentDetails == null">
+                -
+              </span>
+              <div
+                class="text-s70 w200 ellipsis"
+                *ngIf="makeup.student != null"
+              >
+                ({{ makeup.student.email }})
+              </div>
+              <span class="text-s70" *ngIf="makeup.student == null">( - )</span>
             </div>
-            <span class="text-s70" *ngIf="makeup.student == null">( - )</span>
           </div>
-        </div>
-        <!-- issued date -->
-        <div style="width: 32%; padding: 16px 20px;">
-          <div class="body-l text-b100">{{ makeup.course.name }}</div>
-          <div>
-            <span class="body-m text-c300">{{
-              makeup.created_at | date: 'd LLL yyyy'
-            }}</span>
-            <span class="little-dot"></span>
-            <span class="light-body-m text-c100"
-              >{{ makeup.course?.duration.startDate | date: 'h:mm a' }} -
-              {{ makeup.course?.duration.endDate | date: 'h:mm a' }}</span
+          <!-- issued date -->
+          <div style="width: 32%; padding: 16px 20px;">
+            <div class="body-l text-b100">{{ makeup.course.name }}</div>
+            <div>
+              <span class="body-m text-c300">{{
+                makeup.created_at | date: 'd LLL yyyy'
+              }}</span>
+              <span class="little-dot"></span>
+              <span class="light-body-m text-c100"
+                >{{ makeup.course?.duration.startDate | date: 'h:mm a' }} -
+                {{ makeup.course?.duration.endDate | date: 'h:mm a' }}</span
+              >
+            </div>
+          </div>
+          <!-- expired date -->
+          <div style="width: 18%; padding: 16px 20px;">
+            <div class="body-l text-b100">
+              {{ makeup.expirationDate | date: 'd LLL yyyy' }}
+            </div>
+          </div>
+          <div class="d-flex cursor" style="width: 15%; padding: 16px 20px;">
+            <div
+              (click)="
+                oneditMakeup(editMakeup, makeup); $event.stopPropagation()
+              "
+              class="option d-flex justify-content-center align-items-center"
+              style="margin-right: 16px;"
             >
-          </div>
-        </div>
-        <!-- expired date -->
-        <div style="width: 18%; padding: 16px 20px;">
-          <div class="body-l text-b100">
-            {{ makeup.expirationDate | date: 'd LLL yyyy' }}
-          </div>
-        </div>
-        <div class="d-flex cursor" style="width: 15%; padding: 16px 20px;">
-          <div
-            (click)="oneditMakeup(editMakeup, makeup); $event.stopPropagation()"
-            class="option d-flex justify-content-center align-items-center"
-            style="margin-right: 16px;"
-          >
-            <img src="../../../assets/images/pencil_l.svg" />
-          </div>
-          <div
-            (click)="
-              openDeleteConfirm(deleteConfirm, makeup); $event.stopPropagation()
-            "
-            class="option d-flex justify-content-center align-items-center"
-            style="margin-right: 16px;"
-          >
-            <img src="../../../assets/images/delete_l.svg" />
+              <img src="../../../assets/images/pencil_l.svg" />
+            </div>
+            <div
+              (click)="
+                openDeleteConfirm(deleteConfirm, makeup);
+                $event.stopPropagation()
+              "
+              class="option d-flex justify-content-center align-items-center"
+              style="margin-right: 16px;"
+            >
+              <img src="../../../assets/images/delete_l.svg" />
+            </div>
           </div>
         </div>
       </div>
