@@ -2943,6 +2943,8 @@ p.grade-txt {
   padding-bottom: 10px;
   margin-left: 60px;
   margin-right: 30px;
+
+  white-space: pre-wrap;
 }
 
 .upper-case {

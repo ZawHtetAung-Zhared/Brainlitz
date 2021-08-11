@@ -1390,13 +1390,12 @@
                     </div>
                     <div
                       class="noti-body"
+                      [innerHTML]="noti.message"
                       [ngClass]="{
                         'body-read light-body-l text-c100': noti.isRead == true,
                         'body-unread body-l text-c300': noti.isRead == false
                       }"
-                    >
-                      {{ noti.message }}
-                    </div>
+                    ></div>
                     <div
                       *ngIf="notification.noti.length - 1 > j"
                       class="inner-line"
