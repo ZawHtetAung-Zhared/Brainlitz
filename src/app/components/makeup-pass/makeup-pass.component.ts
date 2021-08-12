@@ -33,6 +33,7 @@ export class MakeupPassComponent implements OnInit {
   public sortFlag: boolean = false;
   public locFlag: boolean = false;
   public locationID: any = null;
+  public loader: boolean = true;
 
   @HostListener('document:click', ['$event']) clickout($event) {
     if (!$event.target.classList.contains('option')) {
@@ -56,6 +57,7 @@ export class MakeupPassComponent implements OnInit {
     this._service
       .getMakeupList(this.currentSwitch, this.regionID, this.locationID)
       .subscribe((res: any) => {
+        this.loader = false;
         this.makeupList = res.makeupPassesOfRegion;
         if (this.makeupList.length == 0) this.emptyList = true;
         else this.emptyList = false;
@@ -379,13 +381,6 @@ export class MakeupPassComponent implements OnInit {
       .subscribe((res: any) => {
         console.log('Locations', res);
         this.locationList = res;
-        console.log(
-          'testing',
-          this.locationList.find(x => x._id === this.locationID).name
-        );
-        // this.currentLoc = this.locationList.find(
-        //   x => x._id === this.locationID
-        // ).name;
       });
   }
   selectLoc(obj) {
