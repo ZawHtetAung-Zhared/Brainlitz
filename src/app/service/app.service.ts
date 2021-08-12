@@ -5439,7 +5439,7 @@ export class appService {
       });
   }
 
-  getMakeupList(filter, regionId) {
+  getMakeupList(filter, regionId, locationID) {
     let apiUrl =
       this.baseUrl +
       '/regions/' +
@@ -5447,6 +5447,9 @@ export class appService {
       '/makeup-pass?filter=' +
       filter +
       '&groupby=location';
+    if (locationID != null) {
+      apiUrl += '&locationId=' + locationID;
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

@@ -17,6 +17,7 @@ export class MakeupPassComponent implements OnInit {
 
   ngOnInit() {
     this.getAllMakeupList();
+    this.getAllLocations();
   }
   public cusName: any = '';
   public currentSwitch: any = 'available';
@@ -30,12 +31,17 @@ export class MakeupPassComponent implements OnInit {
   public isChecked: any = '';
   public checkCourse: any = '';
   public sortFlag: boolean = false;
+  public locFlag: boolean = false;
+  public locationID: any = null;
 
   @HostListener('document:click', ['$event']) clickout($event) {
     if (!$event.target.classList.contains('option')) {
       for (var j = 0; j < this.makeupList.length; j++) {
         this.popupOpts[j] = false;
       }
+    }
+    if (!$event.target.classList.contains('makeup-loc')) {
+      this.locFlag = false;
     }
     console.log('clicked', $event.target.className);
   }
@@ -48,7 +54,7 @@ export class MakeupPassComponent implements OnInit {
   public emptyList: boolean = false;
   getAllMakeupList() {
     this._service
-      .getMakeupList(this.currentSwitch, this.regionID)
+      .getMakeupList(this.currentSwitch, this.regionID, this.locationID)
       .subscribe((res: any) => {
         this.makeupList = res.makeupPassesOfRegion;
         if (this.makeupList.length == 0) this.emptyList = true;
@@ -163,11 +169,13 @@ export class MakeupPassComponent implements OnInit {
   }
   sortByCus() {
     this.sortFlag = !this.sortFlag;
-    if (this.sortFlag) {
-      this.makeupList.sort(this.compareZA);
-    }
-    if (!this.sortFlag) {
-      this.makeupList.sort(this.compareAZ);
+    for (var i = 0; i < this.makeupList.length; i++) {
+      if (this.sortFlag) {
+        this.makeupList[i].makeuppasses.sort(this.compareZA);
+      }
+      if (!this.sortFlag) {
+        this.makeupList[i].makeuppasses.sort(this.compareAZ);
+      }
     }
   }
   compareAZ(a, b) {
@@ -190,11 +198,13 @@ export class MakeupPassComponent implements OnInit {
   }
   sortByDate() {
     this.sortFlag = !this.sortFlag;
-    if (this.sortFlag) {
-      this.makeupList.sort(this.compareDateZA);
-    }
-    if (!this.sortFlag) {
-      this.makeupList.sort(this.compareDateAZ);
+    for (var i = 0; i < this.makeupList.length; i++) {
+      if (this.sortFlag) {
+        this.makeupList[i].makeuppasses.sort(this.compareDateZA);
+      }
+      if (!this.sortFlag) {
+        this.makeupList[i].makeuppasses.sort(this.compareDateAZ);
+      }
     }
   }
 
@@ -357,5 +367,36 @@ export class MakeupPassComponent implements OnInit {
       backdrop: 'static',
       windowClass: 'makeup-modal'
     });
+  }
+  openLoc() {
+    this.locFlag = !this.locFlag;
+  }
+  public locationList: any;
+  public currentLoc: any = ' All locations';
+  getAllLocations() {
+    this._service
+      .getLocations(this.regionID, 20, 0, true)
+      .subscribe((res: any) => {
+        console.log('Locations', res);
+        this.locationList = res;
+        console.log(
+          'testing',
+          this.locationList.find(x => x._id === this.locationID).name
+        );
+        // this.currentLoc = this.locationList.find(
+        //   x => x._id === this.locationID
+        // ).name;
+      });
+  }
+  selectLoc(obj) {
+    console.log('selected loc', obj);
+    this.locationID = obj._id;
+    this.currentLoc = obj.name;
+    this.getAllMakeupList();
+  }
+  locAllSelected() {
+    this.currentLoc = ' All locations';
+    this.locationID = null;
+    this.getAllMakeupList();
   }
 }
