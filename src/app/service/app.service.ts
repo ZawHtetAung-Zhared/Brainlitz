@@ -576,7 +576,7 @@ export class appService {
   }
 
   createNoti(obj, body): Observable<any> {
-    console.log(obj);
+    console.log('object testing', obj);
     console.log(obj.id);
     console.log(obj.active);
     console.log(obj.sendType.length);
@@ -609,7 +609,7 @@ export class appService {
         obj.sendType[0];
     }
     url = obj.id != undefined ? url + '&id=' + obj.id : url;
-    url = obj.active != undefined ? url + '&active=1' : url;
+    url = obj.active == true ? url + '&active=1' : url;
 
     console.log(url);
     const httpOptions = {

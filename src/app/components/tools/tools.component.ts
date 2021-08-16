@@ -838,12 +838,9 @@ export class ToolsComponent implements OnInit {
       regionId: this.regionID,
       locationId: this.locationId,
       option: this.isChecked,
-      sendType: this.checkedType
+      sendType: this.checkedType,
+      active: this.checkActive
     };
-
-    if (data.active == 1) {
-      dataObj['active'] = 1;
-    }
 
     // if(data.appType == true && data.emailType == true){
     //   dataObj["sendType"] = 'both'
