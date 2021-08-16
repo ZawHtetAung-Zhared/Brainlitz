@@ -19,6 +19,7 @@ export class MakeupPassComponent implements OnInit {
     this.getAllMakeupList();
     this.getAllLocations();
   }
+  ngAfterViewInit() {}
   public cusName: any = '';
   public currentSwitch: any = 'available';
   public regionID = localStorage.getItem('regionId');

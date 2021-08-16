@@ -82,7 +82,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="currentSwitch == 'available'" style="width: 100%;overflow: auto;">
+  <div *ngIf="currentSwitch == 'available'" style="width: 100%;;">
     <div
       class="makeup-header d-flex align-items-center"
       style="margin-top: 20px;"
@@ -120,7 +120,8 @@
       </div>
     </div>
     <div
-      style="    height: 400px;
+      id="calcHeight"
+      style="        height: calc(100vh - 480px);overflow: auto;
     "
     >
       <div *ngFor="let location of makeupList | filter: cusName; let i = index">
@@ -284,7 +285,7 @@
       </content-loader>
     </div>
   </div>
-  <div *ngIf="currentSwitch == 'claimed'" style="width: 100%;overflow: auto;">
+  <div *ngIf="currentSwitch == 'claimed'" style="width: 100%;;">
     <div
       class="makeup-header d-flex align-items-center"
       style="margin-top: 20px;"
@@ -314,7 +315,8 @@
       </div>
     </div>
     <div
-      style="    height: 400px;
+      id="calcHeight"
+      style="        height: calc(100vh - 480px);overflow: auto;
     "
     >
       <div *ngFor="let location of makeupList | filter: cusName; let i = index">
@@ -444,7 +446,7 @@
       </content-loader>
     </div>
   </div>
-  <div *ngIf="currentSwitch == 'expired'" style="width: 100%;overflow: auto;">
+  <div *ngIf="currentSwitch == 'expired'" style="width: 100%;;">
     <div
       class="makeup-header d-flex align-items-center"
       style="margin-top: 20px;"
@@ -479,7 +481,8 @@
       </div>
     </div>
     <div
-      style="    height: 400px;
+      id="calcHeight"
+      style="        height: calc(100vh - 480px); overflow: auto;
     "
     >
       <div *ngFor="let location of makeupList | filter: cusName; let i = index">
