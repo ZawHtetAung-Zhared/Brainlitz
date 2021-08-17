@@ -923,7 +923,7 @@ input:checked + .slider:before {
   border-radius: 8px;
 }
 .downIcon {
-  margin-left: 8px;
+  margin-left: 12px;
   pointer-events: none;
 }
 .setting-date:hover,
@@ -1034,10 +1034,10 @@ input:checked + .slider:before {
 .loc-li:hover {
   background: #e8e9eb;
 }
-.loc-yellow {
+.loc-color {
   max-width: 287px;
   min-height: 72px;
-  background: #fff2b3;
+  /* background: #fff2b3; */
   border-radius: 12px;
   margin-bottom: 32px;
   padding-left: 34px;
