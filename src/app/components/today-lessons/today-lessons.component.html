@@ -16,7 +16,10 @@
         /></span>
         <span class="setting-date" (click)="calendarToggle()"
           >{{ todayModal | date: 'dd LLL yyyy'
-          }}<i class="fa fa-chevron-down downIcon small"></i>
+          }}<img
+            class="downIcon small"
+            src="../../../assets/images/system-icons-down.png"
+          />
           <ngb-datepicker
             (click)="stopEvent($event)"
             *ngIf="showCalendar"
@@ -35,10 +38,10 @@
             src="../../../assets/images/location_small.svg"
           />
           {{ currentLoc }}
-          <i
-            style="margin-left: 12px;"
-            class="fa fa-chevron-down downIcon small"
-          ></i>
+          <img
+            class="downIcon small"
+            src="../../../assets/images/system-icons-down.png"
+          />
           <div class="loc-div" *ngIf="locToggle">
             <div
               [ngClass]="{
@@ -244,6 +247,7 @@
                 <div class="caption-u text-c100">Students</div>
 
                 <div
+                  [ngClass]="{ 'no-border': j == tcourse.students.length - 1 }"
                   class="d-flex student-list justify-content-between"
                   *ngFor="let student of tcourse.students; let j = index"
                 >

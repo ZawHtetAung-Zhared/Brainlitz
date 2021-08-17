@@ -716,7 +716,7 @@ input:checked + .slider:before {
 @media only screen and (min-width: 1366px) {
   .inner-wrapper,
   .setting-responsive {
-    width: 1080px !important;
+    width: 1302px !important;
     margin: 0 auto;
   }
 }
@@ -773,6 +773,9 @@ input:checked + .slider:before {
 .student-list {
   height: 72px;
   border-bottom: 1px solid #e8e9eb;
+}
+.no-border {
+  border-bottom: none;
 }
 .setting,
 .setting-responsive {
@@ -910,7 +913,7 @@ input:checked + .slider:before {
 }
 .setting-date,
 .setting-loc {
-  padding: 12px;
+  padding: 6px;
   position: relative;
   margin-left: 8px;
   cursor: pointer;
