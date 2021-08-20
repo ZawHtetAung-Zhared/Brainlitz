@@ -683,4 +683,29 @@ export class TodayLessonsComponent implements OnInit {
     }
     this.showDate = this.showDate.slice(4, this.showDate.length);
   }
+
+  undoCancel(obj) {
+    console.log('undo test', obj);
+    var body = {
+      lessons: [
+        {
+          courseId: obj._id,
+          lessonId: obj.todayLesson._id
+        }
+      ]
+    };
+    this._service.undoCancelCourse(body).subscribe(
+      (res: any) => {
+        console.log('res', res);
+        setTimeout(() => {
+          this.toastr.success(res.message);
+        }, 100);
+        this.getTodayLesson();
+      },
+      err => {
+        console.log(err);
+        this.toastr.error(err.error.message);
+      }
+    );
+  }
 }

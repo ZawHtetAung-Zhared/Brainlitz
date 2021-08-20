@@ -1688,6 +1688,16 @@ button.toast-close-button {
   max-width: 360px;
   border-radius: 16px;
 }
+.w800-modal .modal-content {
+  width: 800px;
+  max-width: 800px;
+  border-radius: 16px;
+}
+.w800-modal .modal-dialog {
+  width: 800px;
+  max-width: 800px;
+  border-radius: 16px;
+}
 .makeup-modal .modal-content {
   width: 560px;
   min-height: 449px;
@@ -1711,6 +1721,7 @@ button.toast-close-button {
   border-radius: 16px;
 }
 .w360-modal .modal-dialog,
+.w800-modal .modal-dialog,
 .makeup-modal .modal-dialog {
   margin: 0 auto !important;
   top: 30% !important;

@@ -405,6 +405,75 @@
             </div>
           </div>
         </div>
+        <div
+          class="d-flex today-coruse"
+          *ngFor="let tcourse of todayCourse.cancelledCourses; let i = index"
+        >
+          <div class="d-flex justify-content-between" style="width: 100%;">
+            <div class="d-flex flex-column">
+              <div
+                class="d-flex align-items-center"
+                style="margin-bottom:10px;"
+              >
+                <a
+                  class="course-name mb-0 text-c100 h3-strong"
+                  href="/#/coursedetail/{{ tcourse._id }}"
+                >
+                  {{ tcourse.name | slice: 0:40
+                  }}{{ tcourse.name.length > 40 ? '...' : '' }}
+                </a>
+
+                <span class="course-code small text-b300 bg-b25">
+                  {{ tcourse.courseCode }}
+                </span>
+              </div>
+              <div
+                class="d-flex align-items-center"
+                *ngIf="
+                  tcourse.lessonDuration.startDate != undefined ||
+                  tcourse.lessonDuration.endDate != undefined
+                "
+              >
+                <span class="course-time body-l text-c100">
+                  {{ tcourse.lessonDuration.startDate | utcTime }} -{{
+                    tcourse.lessonDuration.endDate | utcTime
+                  }}
+                </span>
+                <span class="course-duration body-m text-c100 bg-s20">
+                  {{ tcourse.lessonDuration | lessonDuration }}
+                </span>
+                <div class="rescheduled-to small text-s0">
+                  Reschedued to
+                  {{
+                    tcourse.todayLesson.meta.replacementLesson.startDate
+                      | date: 'dd LLL yyyy'
+                  }}
+                  {{
+                    tcourse.todayLesson.meta.replacementLesson.startDate
+                      | utcTime
+                  }}
+                </div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center">
+              <div
+                class="body-m text-s0 cancel-wrap d-flex align-items-center justify-content-center"
+              >
+                <img
+                  src="../../../assets/images/cancel_course.svg"
+                  style="margin-right: 8px;"
+                />
+                Cancelled class
+              </div>
+              <div
+                (click)="undoCancel(tcourse)"
+                class="cursor undo-wrap d-flex justify-content-center align-items-center caption-u text-b100"
+              >
+                undo
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <ng-template #makeupModal let-c="close" let-d="dismiss">

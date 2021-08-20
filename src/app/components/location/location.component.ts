@@ -535,6 +535,12 @@ export class LocationComponent implements OnInit {
     this.locationName = name;
     this.currentID = id;
   }
+  openMigrate(modal, obj) {
+    this.modalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass: 'w800-modal'
+    });
+  }
   removeHtml(e) {
     // console.warn(e);
     setTimeout(() => {

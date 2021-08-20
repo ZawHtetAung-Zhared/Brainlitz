@@ -4,78 +4,78 @@
     *ngIf="iscreate == false && locPermission.length > 0"
   >
     <div class="d-flex justify-content-between header-wrap">
-      <div class="mr-auto pl-15">
+      <div class="mr-auto">
         <h3 class="location-h3 text-c300 ">Locations</h3>
       </div>
       <button
         *ngIf="locationDemo.addLocation != ''"
         type="button"
-        class="btn btn-create bg-b100 text-s0 body-l mr-15"
+        class="btn btn-create bg-b100 text-s0 body-l"
         (click)="creatnew()"
       >
         Add new location
       </button>
     </div>
-    <div class="location-group card-columns pt-2">
+    <div class="d-flex loc-header align-items-center">
+      <div class="caption-u text-c100" style="width: 15%;">name</div>
+      <div class="caption-u text-c100" style="width: 20%;">
+        Course plan/course
+      </div>
+      <div class="caption-u text-c100" style="width: 25%;">Address</div>
+      <div class="caption-u text-c100" style="width: 25%;">phone</div>
+      <div class="caption-u text-c100" style="width: 15%;">Actions</div>
+    </div>
+    <div
+      style="    height: calc(100vh - 440px);
+    overflow: auto;
+"
+    >
       <div
-        class="card"
         *ngFor="let location of locationLists; let i = index"
-        [attr.data-index]="i"
+        class="d-flex loc-body align-items-center"
       >
-        <div class="single-item">
-          <span
-            class="h5-title body-l"
+        <div class="caption-u text-c100" style="width: 15%;">
+          <div
+            class="loc-color d-flex justify-content-center align-items-center"
             [ngStyle]="{
-              background: location.backgroundColorHex,
-              color: location.textColorHex
+              color: location.textColorHex,
+              background: location.backgroundColorHex
             }"
           >
             {{ location.name }}
-          </span>
-
-          <div class="pl-0 address-text body-m text-c100  pt-2">
-            {{ location.address }}
-          </div>
-          <div
-            class="pl-0 h5-title body-l"
-            *ngIf="location.phoneNumber.number != null"
-          >
-            +{{ location.phoneNumber.countryCode }}
-            {{ location.phoneNumber.number }}
-          </div>
-          <div
-            class="pl-0 h5-title body-l"
-            *ngIf="location.phoneNumber.number == null"
-          >
-            -
           </div>
         </div>
-        <div class="location-footer d-flex justify-content-end">
-          <button
-            *ngIf="locationDemo.editLocation != ''"
-            class="btn text-y100 btn-edit"
+        <div class="caption-u text-c100" style="width: 20%;">
+          12 / 32
+        </div>
+        <div class="caption-u text-c100" style="width: 25%;">
+          3517 W. Gray St. Utica, Pennsylvania 57867
+        </div>
+        <div class="caption-u text-c100" style="width: 25%;">
+          {{ location.phoneNumber.number }}
+        </div>
+        <div class="caption-u text-c100 d-flex" style="width: 15%;">
+          <ng-template #tipContent2>Edit location</ng-template>
+          <div
             (click)="getSingleLocation(location._id)"
+            [ngbTooltip]="tipContent2"
+            class="cursor option d-flex justify-content-center align-items-center"
+            style="margin-right: 16px;"
           >
-            Edit
-          </button>
-          <!-- <span class="sperator">|</span> <button *ngIf="locationDemo.deleteLocation != ''" (click)="deleteModal(deletemodal, location._id, location.name)" class="btn delete-btn">Delete</button> -->
+            <img src="../../../assets/images/pencil_l.svg" />
+          </div>
+          <ng-template #tipContent3>Delete location</ng-template>
+          <div
+            (click)="openMigrate(migratePopup, location)"
+            [ngbTooltip]="tipContent3"
+            class="cursor option d-flex justify-content-center align-items-center"
+            style="margin-right: 16px;"
+          >
+            <img src="../../../assets/images/delete_l.svg" />
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    *ngIf="
-      locationLists.length >= 20 && iscreate == false && result.length != 0
-    "
-    class="d-flex justify-content-center"
-    style="padding-bottom: 20px;"
-  >
-    <button
-      class="btn load-more body-m text-b100"
-      (click)="showMore(locationLists.length)"
-    >
-      Load more
-    </button>
   </div>
 
   <div class="content-wrapper" *ngIf="iscreate == true">
@@ -329,3 +329,53 @@
 </ng-template>
 <div id="placeholder_color"></div>
 <!-- <block-ui message="Deafult Message"></block-ui> -->
+<ng-template #migratePopup let-c="close" let-d="dismiss">
+  <div class="popup-wrap">
+    <div>
+      <div>Migrate location</div>
+    </div>
+    <div style="margin-top: 24px; margin-bottom: 40px;">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa et nihil
+      commodi dolorum quisquam, laborum laboriosam ducimus magnam aspernatur
+      delectus cum voluptatem facere repudiandae? Ex neque sunt hic sed
+      similique.
+    </div>
+    <div>
+      <input
+        type="search"
+        name=""
+        class="form-control course-search-input body-l"
+        placeholder="Search courses"
+        (input)="searchMakeup_input($event.target.value)"
+        (keyup.enter)="searchMakeup($event.target.value)"
+      />
+    </div>
+    <div
+      class="d-flex align-items-center migrate-header"
+      style="margin-top: 24px;"
+    >
+      <div style="width: 40%;">name</div>
+      <div style="width: 40%;">Course plan/course</div>
+      <div style="width: 20%;">Actions</div>
+    </div>
+    <div>
+      <div class="d-flex migrate-body">
+        <div style="width: 40%;">
+          <div
+            class="loc-color d-flex justify-content-center align-items-center"
+          >
+            Orange
+          </div>
+        </div>
+        <div style="width: 40%;">0 / 0</div>
+        <div style="width: 20%;">
+          <div
+            class="caption-u text-b100 d-flex justify-content-center align-items-center migbtn"
+          >
+            Migrate
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
