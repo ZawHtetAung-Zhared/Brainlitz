@@ -711,6 +711,45 @@ export class appService {
     });
   }
 
+  getLocationswithCourse(id: string): Observable<any> {
+    this.getLocalstorage();
+    let url;
+
+    url = this.baseUrl + '/regions/' + id + '/locations';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result);
+      // this.sendParentToChild.next(result);
+      return result;
+    });
+  }
+
+  checkLocationForDelete(id: string): Observable<any> {
+    this.getLocalstorage();
+    let url;
+
+    url = this.baseUrl + '/locations/' + id + '/check-for-delete';
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(url, httpOptions).map((res: Response) => {
+      let result = res;
+      console.log(result);
+      return result;
+    });
+  }
+
   getHeaderLocations(id: string, limit, skip, all): Observable<any> {
     this.getLocalstorage();
     let url;
@@ -5463,6 +5502,21 @@ export class appService {
 
   undoCancelCourse(body) {
     let apiUrl = this.baseUrl + '/lessons/cancel:undo';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
+  }
+
+  migrateLocation(body) {
+    let apiUrl = this.baseUrl + '/locations:migrate-to-new-location';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

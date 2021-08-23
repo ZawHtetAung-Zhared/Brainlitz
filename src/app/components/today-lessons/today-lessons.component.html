@@ -130,7 +130,7 @@
                   </span>
                 </div>
                 <div
-                  class="d-flex"
+                  class="d-flex align-items-center"
                   *ngIf="
                     tcourse.lessonDuration.startDate != undefined ||
                     tcourse.lessonDuration.endDate != undefined
@@ -144,6 +144,23 @@
                   <span class="course-duration body-m text-c100 bg-s20">
                     {{ tcourse.lessonDuration | lessonDuration }}
                   </span>
+                  <div
+                    *ngIf="
+                      tcourse.todayLesson.meta &&
+                      tcourse.todayLesson.meta.rescheduleFrom
+                    "
+                    class="rescheduled-to small text-s0"
+                  >
+                    Reschedued from
+                    {{
+                      tcourse.todayLesson.meta.rescheduleFrom.startDate
+                        | date: 'dd LLL yyyy'
+                    }}
+                    {{
+                      tcourse.todayLesson.meta.rescheduleFrom.startDate
+                        | utcTime
+                    }}
+                  </div>
                 </div>
               </div>
               <div class="d-flex course-attance">

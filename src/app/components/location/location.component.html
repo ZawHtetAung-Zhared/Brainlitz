@@ -46,10 +46,11 @@
           </div>
         </div>
         <div class="caption-u text-c100" style="width: 20%;">
-          12 / 32
+          {{ location.checkForDelete.meta.coursePlanCount }} /
+          {{ location.checkForDelete.meta.courseCount }}
         </div>
         <div class="caption-u text-c100" style="width: 25%;">
-          3517 W. Gray St. Utica, Pennsylvania 57867
+          {{ location.address }}
         </div>
         <div class="caption-u text-c100" style="width: 25%;">
           {{ location.phoneNumber.number }}
@@ -66,7 +67,7 @@
           </div>
           <ng-template #tipContent3>Delete location</ng-template>
           <div
-            (click)="openMigrate(migratePopup, location)"
+            (click)="openMigrate(migratePopup, deleteConfirm, location)"
             [ngbTooltip]="tipContent3"
             class="cursor option d-flex justify-content-center align-items-center"
             style="margin-right: 16px;"
@@ -331,10 +332,18 @@
 <!-- <block-ui message="Deafult Message"></block-ui> -->
 <ng-template #migratePopup let-c="close" let-d="dismiss">
   <div class="popup-wrap">
-    <div>
-      <div>Migrate location</div>
+    <div class="d-flex justify-content-between">
+      <div class="h1-strong text-c300">Migrate location</div>
+      <img
+        class="cursor"
+        (click)="closeModal()"
+        src="../../../assets/icons/crossClose.svg"
+      />
     </div>
-    <div style="margin-top: 24px; margin-bottom: 40px;">
+    <div
+      class="light-body-l text-c300"
+      style="margin-top: 24px; margin-bottom: 40px;"
+    >
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa et nihil
       commodi dolorum quisquam, laborum laboriosam ducimus magnam aspernatur
       delectus cum voluptatem facere repudiandae? Ex neque sunt hic sed
@@ -345,29 +354,44 @@
         type="search"
         name=""
         class="form-control course-search-input body-l"
-        placeholder="Search courses"
+        placeholder="Search location"
         (input)="searchMakeup_input($event.target.value)"
         (keyup.enter)="searchMakeup($event.target.value)"
       />
     </div>
     <div
-      class="d-flex align-items-center migrate-header"
+      class="d-flex align-items-center migrate-header caption-u text-c100"
       style="margin-top: 24px;"
     >
       <div style="width: 40%;">name</div>
       <div style="width: 40%;">Course plan/course</div>
       <div style="width: 20%;">Actions</div>
     </div>
-    <div>
-      <div class="d-flex migrate-body">
+    <div
+      style="
+    overflow: auto;
+    height: 300px;
+"
+    >
+      <div
+        *ngFor="let location of locationLists; let i = index"
+        class="d-flex migrate-body align-items-center"
+      >
         <div style="width: 40%;">
           <div
+            [ngStyle]="{
+              color: location.textColorHex,
+              background: location.backgroundColorHex
+            }"
             class="loc-color d-flex justify-content-center align-items-center"
           >
-            Orange
+            {{ location.name }}
           </div>
         </div>
-        <div style="width: 40%;">0 / 0</div>
+        <div style="width: 40%;">
+          {{ location.checkForDelete.meta.coursePlanCount }} /
+          {{ location.checkForDelete.meta.courseCount }}
+        </div>
         <div style="width: 20%;">
           <div
             class="caption-u text-b100 d-flex justify-content-center align-items-center migbtn"
@@ -376,6 +400,28 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #deleteConfirm let-c="close" let-d="dismiss">
+  <div class="delete-wrap">
+    <div class="h3-strong text-c300" style="margin-bottom: 8px;">
+      Confirm delete
+    </div>
+    <div class="light-body-l text-c300">
+      Are you sure you want to delete? You won’t back it return.
+    </div>
+    <div style="margin-top: 24px;" class="d-flex justify-content-between">
+      <button
+        class="confirm-btn btn bg-s20"
+        style="margin-right: 20px;"
+        (click)="closeModal()"
+      >
+        Cancel
+      </button>
+      <button class="confirm-btn btn bg-r100 text-s0">
+        Delete
+      </button>
     </div>
   </div>
 </ng-template>

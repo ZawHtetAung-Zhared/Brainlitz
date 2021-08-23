@@ -1721,8 +1721,11 @@ button.toast-close-button {
   border-radius: 16px;
 }
 .w360-modal .modal-dialog,
-.w800-modal .modal-dialog,
 .makeup-modal .modal-dialog {
   margin: 0 auto !important;
   top: 30% !important;
+}
+.w800-modal .modal-dialog {
+  margin: 0 auto !important;
+  top: 15% !important;
 }

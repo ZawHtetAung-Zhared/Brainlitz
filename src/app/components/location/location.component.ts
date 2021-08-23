@@ -356,7 +356,7 @@ export class LocationComponent implements OnInit {
 
   getAllLocation(limit, skip) {
     //this.blockUI.start('Loading...');
-    this._service.getLocations(this.regionID, limit, skip, false).subscribe(
+    this._service.getLocationswithCourse(this.regionID).subscribe(
       (res: any) => {
         this.result = res;
         setTimeout(() => {
@@ -535,11 +535,26 @@ export class LocationComponent implements OnInit {
     this.locationName = name;
     this.currentID = id;
   }
-  openMigrate(modal, obj) {
-    this.modalReference = this.modalService.open(modal, {
-      backdrop: 'static',
-      windowClass: 'w800-modal'
-    });
+  openMigrate(modal1, modal2, obj) {
+    this._service.checkLocationForDelete(obj._id).subscribe(
+      (res: any) => {
+        console.log('check check loc', res);
+        if (res.availableToDelete) {
+          this.modalReference = this.modalService.open(modal2, {
+            backdrop: 'static',
+            windowClass: 'w360-modal'
+          });
+        } else {
+          this.modalReference = this.modalService.open(modal1, {
+            backdrop: 'static',
+            windowClass: 'w800-modal'
+          });
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
   removeHtml(e) {
     // console.warn(e);
@@ -599,6 +614,10 @@ export class LocationComponent implements OnInit {
         this.selectedLocationColor.text +
         ' !important; opacity:1;}</style>'
     );
+  }
+
+  closeModal() {
+    this.modalReference.close();
   }
 
   caculatePosition(e) {

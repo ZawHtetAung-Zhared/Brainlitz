@@ -506,3 +506,6 @@ input::placeholder {
   box-sizing: border-box;
   border-radius: 99px;
 }
+.delete-wrap {
+  padding: 20px;
+}
