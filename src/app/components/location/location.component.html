@@ -17,7 +17,17 @@
       </button>
     </div>
     <div class="d-flex loc-header align-items-center">
-      <div class="caption-u text-c100" style="width: 15%;">name</div>
+      <div
+        (click)="sortByName()"
+        class="cursor caption-u text-c100"
+        style="width: 15%;"
+      >
+        name<img
+          class="cursor"
+          style="margin-left: 8px;"
+          src="./assets/icons/sorting.svg"
+        />
+      </div>
       <div class="caption-u text-c100" style="width: 20%;">
         Course plan/course
       </div>
@@ -344,28 +354,46 @@
       class="light-body-l text-c300"
       style="margin-top: 24px; margin-bottom: 40px;"
     >
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa et nihil
-      commodi dolorum quisquam, laborum laboriosam ducimus magnam aspernatur
-      delectus cum voluptatem facere repudiandae? Ex neque sunt hic sed
-      similique.
+      Before you are deleting
+      <div
+        style="display: inline-block !important;"
+        [ngStyle]="{
+          color: currentObj.textColorHex,
+          background: currentObj.backgroundColorHex
+        }"
+        class="loc-color d-flex justify-content-center align-items-center"
+      >
+        {{ currentObj.name }}
+      </div>
+      location there are
+      <b>{{ currentObj.checkForDelete.meta.coursePlanCount }} Course plan </b>
+      and <b>{{ currentObj.checkForDelete.meta.courseCount }} Courses </b>you
+      need to migrate to one of below locations.
     </div>
     <div>
       <input
+        [(ngModel)]="locName"
         type="search"
-        name=""
         class="form-control course-search-input body-l"
         placeholder="Search location"
-        (input)="searchMakeup_input($event.target.value)"
-        (keyup.enter)="searchMakeup($event.target.value)"
       />
     </div>
     <div
       class="d-flex align-items-center migrate-header caption-u text-c100"
       style="margin-top: 24px;"
     >
-      <div style="width: 40%;">name</div>
+      <div (click)="sortByName()" class="cursor" style="width: 40%;">
+        name
+        <img
+          class="cursor"
+          style="margin-left: 8px;"
+          src="./assets/icons/sorting.svg"
+        />
+      </div>
       <div style="width: 40%;">Course plan/course</div>
-      <div style="width: 20%;">Actions</div>
+      <div class="d-flex justify-content-center" style="width: 20%;">
+        Actions
+      </div>
     </div>
     <div
       style="
@@ -374,7 +402,7 @@
 "
     >
       <div
-        *ngFor="let location of locationLists; let i = index"
+        *ngFor="let location of locationLists | filter: locName; let i = index"
         class="d-flex migrate-body align-items-center"
       >
         <div style="width: 40%;">
@@ -392,11 +420,27 @@
           {{ location.checkForDelete.meta.coursePlanCount }} /
           {{ location.checkForDelete.meta.courseCount }}
         </div>
-        <div style="width: 20%;">
+        <div style="width: 20%;" class="d-flex justify-content-center">
           <div
-            class="caption-u text-b100 d-flex justify-content-center align-items-center migbtn"
+            (click)="migrateButton(location)"
+            class="cursor caption-u text-b100 d-flex justify-content-center align-items-center migbtn"
           >
             Migrate
+          </div>
+        </div>
+      </div>
+      <div
+        style="margin-top: 60px;"
+        *ngIf="(locationLists | filter: locName)?.length === 0"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <div class="d-flex flex-column align-items-center">
+          <img
+            style="width: 103px; height:135px;"
+            src="../../../assets/images/no_result.png"
+          />
+          <div style="margin-top: 16px;" class="light-body-m text-c300">
+            No search results found!
           </div>
         </div>
       </div>
@@ -419,7 +463,10 @@
       >
         Cancel
       </button>
-      <button class="confirm-btn btn bg-r100 text-s0">
+      <button
+        (click)="deleteLocation()"
+        class="confirm-btn btn bg-r100 text-s0"
+      >
         Delete
       </button>
     </div>

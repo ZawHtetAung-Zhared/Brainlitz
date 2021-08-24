@@ -55,6 +55,8 @@ export class LocationComponent implements OnInit {
   public locationDemo: any = [];
   public setTrue: any = null;
   public isShowPicker: boolean = false;
+  public sortFlag: boolean = false;
+  public locName: any = '';
 
   public selectedLocationColor = {
     text: '#544600',
@@ -362,7 +364,8 @@ export class LocationComponent implements OnInit {
         setTimeout(() => {
           //this.blockUI.stop(); // Stop blocking
         }, 300);
-        this.locationLists = this.locationLists.concat(res);
+        // this.locationLists = this.locationLists.concat(res);
+        this.locationLists = res;
         console.log(this.locationLists);
         this.isempty = res.length === 0 ? true : false;
         if (this.locationID) {
@@ -457,14 +460,13 @@ export class LocationComponent implements OnInit {
     }
   }
 
-  deleteLocation(id) {
-    console.log(id);
-    this._service.deleteLocation(id, this.locationID).subscribe(
+  deleteLocation() {
+    this._service.deleteLocation(this.currentLocationId).subscribe(
       (res: any) => {
         console.log(res);
         this.modalReference.close();
         this.toastr.success('Successfully Deleted.');
-        this.locationLists = [];
+        // this.locationLists = [];
         this.getAllLocation(20, 0);
       },
       err => {
@@ -535,7 +537,11 @@ export class LocationComponent implements OnInit {
     this.locationName = name;
     this.currentID = id;
   }
+  public currentLocationId;
+  public currentObj;
   openMigrate(modal1, modal2, obj) {
+    this.currentLocationId = obj._id;
+    this.currentObj = obj;
     this._service.checkLocationForDelete(obj._id).subscribe(
       (res: any) => {
         console.log('check check loc', res);
@@ -618,6 +624,53 @@ export class LocationComponent implements OnInit {
 
   closeModal() {
     this.modalReference.close();
+  }
+
+  migrateButton(obj) {
+    var body = {
+      currentLocationId: this.currentLocationId,
+      newLocationId: obj._id
+    };
+    this._service.migrateLocation(body).subscribe(
+      (res: any) => {
+        console.log('Migration success', res);
+        this.toastr.success('Migration successful!');
+        this.deleteLocation();
+        this.getAllLocation(20, 0);
+        this.closeModal();
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  sortByName() {
+    this.sortFlag = !this.sortFlag;
+    if (this.sortFlag) {
+      this.locationLists.sort(this.compareZA);
+    }
+    if (!this.sortFlag) {
+      this.locationLists.sort(this.compareAZ);
+    }
+  }
+  compareAZ(a, b) {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
+  }
+  compareZA(a, b) {
+    if (a.name < b.name) {
+      return 1;
+    }
+    if (a.name > b.name) {
+      return -1;
+    }
+    return 0;
   }
 
   caculatePosition(e) {

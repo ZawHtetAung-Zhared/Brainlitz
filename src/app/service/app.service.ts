@@ -1108,10 +1108,9 @@ export class appService {
       });
   }
 
-  deleteLocation(id: string, locationid: string) {
+  deleteLocation(id: string) {
     console.log(id);
-    let apiUrl =
-      this.baseUrl + '/locations/' + id + '?locationId=' + locationid;
+    let apiUrl = this.baseUrl + '/locations/' + id;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
