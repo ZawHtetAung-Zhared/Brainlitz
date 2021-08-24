@@ -44,7 +44,7 @@
         *ngFor="let location of locationLists; let i = index"
         class="d-flex loc-body align-items-center"
       >
-        <div class="caption-u text-c100" style="width: 15%;">
+        <div class="caption-u text-c100" style="width: 15%;overflow: auto;">
           <div
             class="loc-color d-flex justify-content-center align-items-center"
             [ngStyle]="{
@@ -59,7 +59,7 @@
           {{ location.checkForDelete.meta.coursePlanCount }} /
           {{ location.checkForDelete.meta.courseCount }}
         </div>
-        <div class="caption-u text-c100" style="width: 25%;">
+        <div class="caption-u text-c100 ellipsis" style="width: 25%;">
           {{ location.address }}
         </div>
         <div class="caption-u text-c100" style="width: 25%;">
@@ -86,6 +86,11 @@
           </div>
         </div>
       </div>
+      <content-loader *ngIf="loader">
+        <svg:rect x="0" y="10" rx="3" ry="3" width="450" height="30" />
+        <svg:rect x="0" y="50" rx="3" ry="3" width="450" height="30" />
+        <svg:rect x="0" y="90" rx="3" ry="3" width="450" height="30" />
+      </content-loader>
     </div>
   </div>
 
@@ -405,7 +410,7 @@
         *ngFor="let location of locationLists | filter: locName; let i = index"
         class="d-flex migrate-body align-items-center"
       >
-        <div style="width: 40%;">
+        <div style="width: 40%;overflow: auto;">
           <div
             [ngStyle]="{
               color: location.textColorHex,

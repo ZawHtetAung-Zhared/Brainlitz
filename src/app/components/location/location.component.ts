@@ -57,6 +57,7 @@ export class LocationComponent implements OnInit {
   public isShowPicker: boolean = false;
   public sortFlag: boolean = false;
   public locName: any = '';
+  public loader: boolean = true;
 
   public selectedLocationColor = {
     text: '#544600',
@@ -360,6 +361,7 @@ export class LocationComponent implements OnInit {
     //this.blockUI.start('Loading...');
     this._service.getLocationswithCourse(this.regionID).subscribe(
       (res: any) => {
+        this.loader = false;
         this.result = res;
         setTimeout(() => {
           //this.blockUI.stop(); // Stop blocking
@@ -379,6 +381,7 @@ export class LocationComponent implements OnInit {
       },
       err => {
         console.log(err);
+        this.loader = false;
       }
     );
   }
