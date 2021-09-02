@@ -16,7 +16,7 @@
           'h5-strong': currentSwitch == 'available',
           'text-b100': currentSwitch == 'available'
         }"
-        class="makeup-options d-flex justify-content-center align-items-center cursor"
+        class="light-body-m makeup-options d-flex justify-content-center align-items-center cursor"
       >
         Available
       </div>
@@ -27,7 +27,7 @@
           'h5-strong': currentSwitch == 'claimed',
           'text-b100': currentSwitch == 'claimed'
         }"
-        class="makeup-options d-flex justify-content-center align-items-center cursor"
+        class="light-body-m makeup-options d-flex justify-content-center align-items-center cursor"
       >
         Claimed
       </div>
@@ -38,7 +38,7 @@
           'h5-strong': currentSwitch == 'expired',
           'text-b100': currentSwitch == 'expired'
         }"
-        class="makeup-options d-flex justify-content-center align-items-center cursor"
+        class="light-body-m makeup-options d-flex justify-content-center align-items-center cursor"
       >
         Expired
       </div>
@@ -132,11 +132,11 @@
             background: location.location?.backgroundColorHex
           }"
         >
-          <span
+          <span class="caption-u"
             ><img src="../../../assets/images/location_small.svg" />
             {{ location.location?.name }}</span
           >
-          <span>{{ location.makeuppasses.length }} passes</span>
+          <span class="small">{{ location.makeuppasses.length }} passes</span>
         </div>
         <div
           *ngFor="
