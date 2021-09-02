@@ -14,7 +14,7 @@
         <span class="arrow" (click)="nextDate()"
           ><img src="../../../assets/img/chevron-left-s.png"
         /></span>
-        <span class="setting-date" (click)="calendarToggle()"
+        <span class="body-m text-c300 setting-date" (click)="calendarToggle()"
           >{{ todayModal | date: 'dd LLL yyyy'
           }}<img
             class="downIcon small"
@@ -125,7 +125,9 @@
                     }}{{ tcourse.name.length > 40 ? '...' : '' }}
                   </a>
 
-                  <span class="course-code small text-b300 bg-b25">
+                  <span
+                    class="d-flex align-items-center course-code light-body-m text-b300 bg-b25"
+                  >
                     {{ tcourse.courseCode }}
                   </span>
                 </div>
@@ -136,12 +138,12 @@
                     tcourse.lessonDuration.endDate != undefined
                   "
                 >
-                  <span class="course-time body-l text-c100">
+                  <span class="course-time light-body-m text-c100">
                     {{ tcourse.lessonDuration.startDate | utcTime }} -{{
                       tcourse.lessonDuration.endDate | utcTime
                     }}
                   </span>
-                  <span class="course-duration body-m text-c100 bg-s20">
+                  <span class="course-duration small text-c100 bg-s20">
                     {{ tcourse.lessonDuration | lessonDuration }}
                   </span>
                   <div
@@ -305,7 +307,7 @@
                     </div>
 
                     <a
-                      class="student-name mb-0 body-l text-c300"
+                      class="student-name mb-0 light-body-l text-c300"
                       href="/#/customer/customerdetail/{{
                         student.userDetails._id
                       }}"
@@ -440,7 +442,9 @@
                   }}{{ tcourse.name.length > 40 ? '...' : '' }}
                 </a>
 
-                <span class="course-code small text-b300 bg-b25">
+                <span
+                  class="d-flex align-items-center course-code light-body-m text-b300 bg-b25"
+                >
                   {{ tcourse.courseCode }}
                 </span>
               </div>
@@ -451,12 +455,12 @@
                   tcourse.lessonDuration.endDate != undefined
                 "
               >
-                <span class="course-time body-l text-c100">
+                <span class="course-time light-body-m text-c100">
                   {{ tcourse.lessonDuration.startDate | utcTime }} -{{
                     tcourse.lessonDuration.endDate | utcTime
                   }}
                 </span>
-                <span class="course-duration body-m text-c100 bg-s20">
+                <span class="course-duration small text-c100 bg-s20">
                   {{ tcourse.lessonDuration | lessonDuration }}
                 </span>
                 <div class="rescheduled-to small text-s0">
