@@ -70,7 +70,7 @@ export class TodayLessonsComponent implements OnInit {
     }
   }
   @HostListener('document:click', ['$event']) clickout($event) {
-    if ($event.target.className != 'setting-date') {
+    if (!$event.target.classList.contains('setting-date')) {
       this.showCalendar = false;
     }
     if (!$event.target.classList.contains('setting-loc')) {
