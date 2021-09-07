@@ -1649,7 +1649,7 @@
   <!-- loading end -->
 
   <ng-template #journalContent let-modal let-c="close" let-d="dismiss">
-    <div class="modal-body" style="padding-top:0px !important;">
+    <div class="modal-body journal-body" style="padding-top:0px !important;">
       <form>
         <div class="form-group">
           <div class="" style="padding-right:5px">
@@ -1678,9 +1678,9 @@
               No Journal Yet
             </div>
           </div>
-          <div class="bull-shit-gp">
+          <div class="jour-wrap-gp">
             <div
-              class="bull-shit"
+              class="jour-wrap"
               *ngFor="let journal of journals; let last = last"
             >
               <div
@@ -1712,7 +1712,7 @@
                       </p>
                       <span class="journal_delete_dotted"></span>
                       <span
-                        class="journal_delete body-m text-r100"
+                        class="journal_delete body-m text-r100 no-print"
                         (click)="
                           journalDeleteModal(journal, course, journal_delete)
                         "
@@ -1760,7 +1760,7 @@
                       </p>
                       <span class="journal_delete_dotted"></span>
                       <span
-                        class="journal_delete body-m text-r100"
+                        class="journal_delete body-m text-r100 no-print"
                         (click)="
                           journalDeleteModal(journal, course, journal_delete)
                         "
@@ -1804,7 +1804,7 @@
                       </p>
                       <span class="journal_delete_dotted"></span>
                       <span
-                        class="journal_delete body-m text-r100"
+                        class="journal_delete body-m text-r100 no-print"
                         (click)="
                           journalDeleteModal(journal, course, journal_delete)
                         "
@@ -1848,7 +1848,7 @@
                       </p>
                       <span class="journal_delete_dotted"></span>
                       <span
-                        class="journal_delete body-m text-r100"
+                        class="journal_delete body-m text-r100 no-print"
                         (click)="
                           journalDeleteModal(journal, course, journal_delete)
                         "
@@ -1892,7 +1892,7 @@
                 </div>
               </div>
 
-              <div
+              <!-- <div
                 class="row j-load-more body-m text-b100 bg-s0"
                 *ngIf="toShowLoadMore && last"
                 (click)="jLoadMore()"
@@ -1900,11 +1900,19 @@
                 <span style="margin-left:auto; margin-right: auto"
                   >Load more</span
                 >
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
       </form>
+      <div class="jour-footer d-flex align-items-center no-print">
+        <button
+          (click)="saveAsPDF()"
+          class="save-pdf enroll-btn body-m text-s0 bg-b100"
+        >
+          Save as PDF
+        </button>
+      </div>
     </div>
   </ng-template>
 

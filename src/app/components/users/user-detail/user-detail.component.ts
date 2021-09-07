@@ -1419,13 +1419,7 @@ export class UserDetailComponent implements OnInit {
     this.className = course.name;
     console.log(this.className, course.name);
     this._service
-      .getJournal(
-        course._id,
-        this.custDetail.user.userId,
-        String(this.jSkip),
-        String(this.jLimit),
-        null
-      )
+      .getJournal(course._id, this.custDetail.user.userId, 0, 0, null)
       .subscribe((res: any) => {
         console.log(res.length);
         if (res.length >= 20) this.toShowLoadMore = true;
@@ -1550,6 +1544,10 @@ export class UserDetailComponent implements OnInit {
       this.makeupModalClose();
       this.callMakeupLists();
     });
+  }
+
+  saveAsPDF() {
+    window.print();
   }
 
   fieldsChange(i, flag) {

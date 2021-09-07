@@ -1297,8 +1297,8 @@ export class appService {
   getJournal(
     courseId: string,
     studentId: string,
-    skip: string,
-    limit: string,
+    skip: any,
+    limit: any,
     lastjournalId: String
   ) {
     this.getLocalstorage();

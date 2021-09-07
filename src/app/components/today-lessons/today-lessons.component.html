@@ -466,11 +466,11 @@
                 <div class="rescheduled-to small text-s0">
                   Reschedued to
                   {{
-                    tcourse.todayLesson.meta.replacementLesson.startDate
+                    tcourse.todayLesson.meta.replacementLesson?.startDate
                       | date: 'dd LLL yyyy'
                   }}
                   {{
-                    tcourse.todayLesson.meta.replacementLesson.startDate
+                    tcourse.todayLesson.meta.replacementLesson?.startDate
                       | utcTime
                   }}
                 </div>
