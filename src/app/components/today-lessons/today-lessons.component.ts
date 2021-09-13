@@ -613,19 +613,8 @@ export class TodayLessonsComponent implements OnInit {
   }
   locAllSelected() {
     this.currentLoc = 'All';
-    this._service
-      .gettodayLesson(this.regionId, null, this.todayModal, null, null)
-      .subscribe(
-        (res: any) => {
-          console.log(this.todayCourse);
-
-          this.todayCourse = res;
-          console.log('tday lessons', this.todayCourse);
-        },
-        err => {
-          console.log(err);
-        }
-      );
+    this.locationID = null;
+    this.getTodayLesson();
   }
   public transformDay;
   public dateArray = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
