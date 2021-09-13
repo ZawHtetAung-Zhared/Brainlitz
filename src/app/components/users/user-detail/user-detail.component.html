@@ -110,17 +110,18 @@
                     src="{{ guardian.profilePic }}"
                   />
                 </div>
-
-                <div
-                  class="cursor-on light-body-l text-b100"
-                  (click)="showGuardian(guardian.userId)"
-                >
-                  {{
-                    guardian.fullName == '' || guardian.fullName == null
-                      ? guardian.email
-                      : guardian.fullName
-                  }}
-                </div>
+                <a href="/#/customer/customerdetail/{{ guardian.userId }}">
+                  <div
+                    class="cursor-on light-body-l text-b100"
+                    (click)="showGuardian(guardian.userId)"
+                  >
+                    {{
+                      guardian.fullName == '' || guardian.fullName == null
+                        ? guardian.email
+                        : guardian.fullName
+                    }}
+                  </div>
+                </a>
               </div>
             </div>
           </div>
