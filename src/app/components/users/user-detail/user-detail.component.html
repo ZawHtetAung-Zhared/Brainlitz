@@ -1333,14 +1333,14 @@
                     class="d-flex flex-column"
                   >
                     <div class="d-flex justify-content-between title-space">
-                      <div class="d-flex align-items-center">
+                      <div class="d-flex">
                         <div>
                           <div id="parent">
                             <img
                               *ngIf="
-                                noti.type == 1 ||
-                                noti.type == 2 ||
-                                noti.type == 3
+                                noti.title != 'Attendance marked' &&
+                                noti.title != 'Attendance status changed' &&
+                                noti.title != 'Lesson absent'
                               "
                               [ngClass]="{
                                 'img-read': noti.isRead == true,
@@ -1348,6 +1348,33 @@
                               }"
                               style="filter: brightness(50%);"
                               src="./assets/images/courseIconFrame.png"
+                            />
+                            <img
+                              *ngIf="noti.title == 'Attendance marked'"
+                              [ngClass]="{
+                                'img-read': noti.isRead == true,
+                                'img-unread': noti.isRead == false
+                              }"
+                              style="filter: brightness(50%);"
+                              src="./assets/icons/attendance_marked.svg"
+                            />
+                            <img
+                              *ngIf="noti.title == 'Attendance status changed'"
+                              [ngClass]="{
+                                'img-read': noti.isRead == true,
+                                'img-unread': noti.isRead == false
+                              }"
+                              style="filter: brightness(50%);"
+                              src="./assets/icons/status_changed.svg"
+                            />
+                            <img
+                              *ngIf="noti.title == 'Lesson absent'"
+                              [ngClass]="{
+                                'img-read': noti.isRead == true,
+                                'img-unread': noti.isRead == false
+                              }"
+                              style="filter: brightness(50%);"
+                              src="./assets/icons/lesson_absent.svg"
                             />
                           </div>
                         </div>
@@ -1362,6 +1389,16 @@
                             }"
                           >
                             {{ noti.title }}
+                          </div>
+                          <div
+                            style="margin: 4px 0px;"
+                            *ngIf="(noti.regard | json) != '{}'"
+                            class="light-body-m text-c100"
+                          >
+                            Regarding:
+                            <span class="body-m text-c300">{{
+                              noti.regard.preferredName
+                            }}</span>
                           </div>
                         </div>
                       </div>
