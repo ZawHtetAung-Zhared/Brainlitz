@@ -3875,22 +3875,22 @@ export class AttendanceComponent implements OnInit {
       (type == 'present' && user.attendance == true)
     ) {
       obj['attendance'] = 'null';
-      this._service.markAttendance(this.courseId, obj, d, m, y).subscribe(
-        (res: any) => {
-          setTimeout(() => {
-            this.toastr.success(res.message);
-          }, 100);
-          console.log('res', res);
-          // this.getUsersInCourse(this.courseId);
-          this.activeTab = 'Class';
-          this.attdBox = false;
-          this.getAssignUsers(d, m, y);
-        },
-        err => {
-          console.log(err);
-          this.toastr.error('');
-        }
-      );
+      // this._service.markAttendance(this.courseId, obj, d, m, y).subscribe(
+      //   (res: any) => {
+      //     setTimeout(() => {
+      //       this.toastr.success(res.message);
+      //     }, 100);
+      //     console.log('res', res);
+      //     // this.getUsersInCourse(this.courseId);
+      //     this.activeTab = 'Class';
+      //     this.attdBox = false;
+      //     this.getAssignUsers(d, m, y);
+      //   },
+      //   err => {
+      //     console.log(err);
+      //     this.toastr.error('');
+      //   }
+      // );
     } else if (type == 'absent') {
       this.modalType = type;
       this.absentInfo = user;
