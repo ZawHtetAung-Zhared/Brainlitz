@@ -506,6 +506,8 @@ export class TodayLessonsComponent implements OnInit {
     }
   }
   cancelClasses() {
+    console.log('today modal', this.todayModal);
+
     console.log('cancel classes', this.checkboxFlag);
     var lessons = [];
     for (var k = 0; k < this.todayCourse.courses.length; k++) {
@@ -517,8 +519,16 @@ export class TodayLessonsComponent implements OnInit {
         });
       }
     }
+    var result = this.todayModal.toLocaleDateString('en-GB', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+    console.log('locale date ', result);
+
     var body = {
-      lessons: lessons
+      lessons: lessons,
+      date: result
     };
     console.log('body', body);
 
