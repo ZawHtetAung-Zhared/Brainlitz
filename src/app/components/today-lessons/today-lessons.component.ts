@@ -685,13 +685,19 @@ export class TodayLessonsComponent implements OnInit {
 
   undoCancel(obj) {
     console.log('undo test', obj);
+    var result = this.todayModal.toLocaleDateString('en-GB', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
     var body = {
       lessons: [
         {
           courseId: obj._id,
           lessonId: obj.todayLesson._id
         }
-      ]
+      ],
+      date: result
     };
     this._service.undoCancelCourse(body).subscribe(
       (res: any) => {
