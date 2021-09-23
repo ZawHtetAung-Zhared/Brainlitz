@@ -514,7 +514,7 @@ export class appService {
       '&skip=' +
       skip +
       '&keyword=' +
-      keyword;
+      encodeURIComponent(keyword);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -858,7 +858,7 @@ export class appService {
       '/user?type=' +
       userType +
       '&keyword=' +
-      val +
+      encodeURIComponent(val) +
       '&classId=' +
       classid +
       '&limit=' +
@@ -889,7 +889,11 @@ export class appService {
 
   getSearchCourse(regionID: string, val: string, location: string) {
     let apiUrl =
-      this.baseUrl + '/' + regionID + '/course/search?keyword=' + val;
+      this.baseUrl +
+      '/' +
+      regionID +
+      '/course/search?keyword=' +
+      encodeURIComponent(val);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -903,7 +907,12 @@ export class appService {
   }
 
   getSearchCategory(regionID: string, val: string, location: string) {
-    let apiUrl = this.baseUrl + '/' + regionID + '/category?keyword=' + val;
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      regionID +
+      '/category?keyword=' +
+      encodeURIComponent(val);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -1260,7 +1269,7 @@ export class appService {
         '&limit=' +
         limit +
         '&keyword=' +
-        keyword +
+        encodeURIComponent(keyword) +
         '&viewas=' +
         viewAs;
     } else {
@@ -1279,7 +1288,7 @@ export class appService {
         '&lastjournalId=' +
         lastjournalId +
         '&keyword=' +
-        keyword +
+        encodeURIComponent(keyword) +
         '&viewas=' +
         viewAs;
     }
@@ -1360,7 +1369,7 @@ export class appService {
       '&categoryId=' +
       categoryId +
       '&keyword=' +
-      keyword +
+      encodeURIComponent(keyword) +
       '&limit=' +
       limit +
       '&skip=' +
@@ -1520,7 +1529,7 @@ export class appService {
       '/available-course/' +
       userId +
       '/search?keyword=' +
-      val +
+      encodeURIComponent(val) +
       '&limit=' +
       limit +
       '&skip=' +
@@ -1616,7 +1625,7 @@ export class appService {
         '/courseplan?locationId=' +
         location +
         '&keyword=' +
-        keyword;
+        encodeURIComponent(keyword);
     }
 
     const httpOptions = {
@@ -1648,7 +1657,7 @@ export class appService {
         '/course_plans?locationId=' +
         locationId +
         '&keyword=' +
-        keyword;
+        encodeURIComponent(keyword);
     }
 
     const httpOptions = {
@@ -1687,7 +1696,7 @@ export class appService {
         '&limit=' +
         limit +
         '&keyword=' +
-        keyword;
+        encodeURIComponent(keyword);
     } else {
       url =
         this.baseUrl +
@@ -1702,7 +1711,7 @@ export class appService {
         '&limit=' +
         limit +
         '&keyword=' +
-        keyword;
+        encodeURIComponent(keyword);
     }
 
     const httpOptions = {
@@ -1993,7 +2002,7 @@ export class appService {
       '/course?locationId=' +
       locationID +
       '&keyword=' +
-      keyword +
+      encodeURIComponent(keyword) +
       '&limit=' +
       limit +
       '&skip=' +
@@ -2031,7 +2040,10 @@ export class appService {
       this.baseUrl + '/' + regionID + '/course?locationId=' + locationID;
     console.error(repeatedDays, 'repeated days');
     console.error(repeatedDays != '' || repeatedDays != undefined);
-    url = keyword != undefined ? url + '&keyword=' + keyword : url;
+    url =
+      keyword != undefined
+        ? url + '&keyword=' + encodeURIComponent(keyword)
+        : url;
     url =
       repeatedDays != '' && repeatedDays != undefined
         ? url + '&repeatedDays=' + repeatedDays
@@ -2132,7 +2144,7 @@ export class appService {
         '&direction=' +
         direction +
         '&keyword=' +
-        keyword;
+        encodeURIComponent(keyword);
     }
 
     const httpOptions = {
@@ -2746,7 +2758,7 @@ export class appService {
         '/' +
         regionID +
         '/access-point-group/search?keyword=' +
-        keyword +
+        encodeURIComponent(keyword) +
         '&nin=' +
         selectedStr +
         '&type=' +
@@ -2763,7 +2775,7 @@ export class appService {
           '/' +
           regionID +
           '/access-point-group/search?keyword=' +
-          keyword +
+          encodeURIComponent(keyword) +
           '&type=' +
           type +
           '&moduleId=' +
@@ -2778,7 +2790,7 @@ export class appService {
           '/' +
           regionID +
           '/access-point-group/search?keyword=' +
-          keyword +
+          encodeURIComponent(keyword) +
           '&type=' +
           type +
           '&limit=' +
@@ -3566,7 +3578,7 @@ export class appService {
       '/' +
       courseid +
       '/makeup/lessons?keyword=' +
-      keyword +
+      encodeURIComponent(keyword) +
       '&limit=' +
       limit +
       '&skip=' +
@@ -3673,7 +3685,7 @@ export class appService {
           '/contents/?type=' +
           type +
           '&keyword=' +
-          keyword +
+          encodeURIComponent(keyword) +
           '&page=' +
           p +
           '&size=' +
@@ -3940,7 +3952,12 @@ export class appService {
   }
 
   getAllConceptBySearch(regionId: string, keyword: string) {
-    let url = this.baseUrl + '/' + regionId + '/concepts?keyword=' + keyword;
+    let url =
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/concepts?keyword=' +
+      encodeURIComponent(keyword);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -3956,7 +3973,11 @@ export class appService {
 
   getCollectionBySearch(regionId: string, keyword: string) {
     let url =
-      this.baseUrl + '/' + regionId + '/assessment-plans?keyword=' + keyword;
+      this.baseUrl +
+      '/' +
+      regionId +
+      '/assessment-plans?keyword=' +
+      encodeURIComponent(keyword);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
