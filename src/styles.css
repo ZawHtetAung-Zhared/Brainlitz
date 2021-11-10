@@ -84,6 +84,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background: #f7f9fa !important;
 }
 
 /* html,body{

@@ -30,6 +30,8 @@ export class UserListComponent implements OnInit {
   public searchKeyword: any;
   public showDp = false;
   public hideCSV = false;
+  public isGrid = true;
+  public isList = false;
 
   constructor(
     private _service: appService,
@@ -39,6 +41,8 @@ export class UserListComponent implements OnInit {
 
   ngOnInit() {
     //this.getAllUsersForExport();
+    // $('#grid-toggle').addClass("active");
+    // console.log($('#grid-toggle'));
     setTimeout(() => {
       console.log('~~~', this.locationName);
       this.locationName = localStorage.getItem('locationName');
@@ -221,6 +225,34 @@ export class UserListComponent implements OnInit {
         console.log('this.customerLists', this.customerLists);
         this.customerLoading = false;
         this.customerListLoading = false;
+        this.getUserGrade(this.customerLists);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  getUserGrade(cusArr) {
+    console.log('cusArr ', cusArr);
+    const idArray = cusArr.map(({ userId }) => userId);
+
+    // const idArray = cusArr.filter(cus => {
+    //   console.log(cus.userId);
+    //   return cus.userId;
+    // });
+    console.log(idArray);
+    this._service.getUserGrade(idArray).subscribe(
+      (res: any) => {
+        console.log('res.....//////....', res);
+        // var gradeArray = [];
+        for (var i in idArray) {
+          const temp = res.data.filter(user => user.userId == idArray[i]);
+          // console.log(temp);
+          this.customerLists[i]['userGrading'] = temp[0];
+          // gradeArray.push(temp[0]);
+        }
+        console.log('this.customerLists ', this.customerLists);
       },
       err => {
         console.log(err);
@@ -310,5 +342,16 @@ export class UserListComponent implements OnInit {
 
   showDetails(ID, val) {
     this.router.navigate(['../customerdetail', ID], { relativeTo: this.route });
+  }
+
+  changeView(val) {
+    console.log(val);
+    if (val == 'grid') {
+      this.isGrid = true;
+      this.isList = false;
+    } else if (val == 'list') {
+      this.isGrid = false;
+      this.isList = true;
+    }
   }
 }

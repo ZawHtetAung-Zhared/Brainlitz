@@ -750,6 +750,23 @@ export class appService {
     });
   }
 
+  getUserGrade(userIds: any): Observable<any> {
+    this.getLocalstorage();
+    let url = this.baseUrl + '/get-user-grades';
+    let idObj = {
+      userIds: userIds
+    };
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.post(url, idObj, httpOptions).map(res => {
+      console.log(res);
+      return res;
+    });
+  }
   getHeaderLocations(id: string, limit, skip, all): Observable<any> {
     this.getLocalstorage();
     let url;
@@ -3526,25 +3543,16 @@ export class appService {
   getMakeupLists(userid, type, regionid, courseId) {
     if (type === 'course') {
       var apiUrl =
-        this.baseUrl +
-        '/' +
-        regionid +
-        '/user/makeup-pass/' +
-        userid +
-        '?filter=' +
-        type +
-        '&id=' +
-        courseId;
+        this.baseUrl + '/' + regionid + '/user/makeup-pass/' + userid;
+      // '?filter=' +
+      // type +
+      // '&id=' +
+      // courseId;
     } else {
       var apiUrl =
-        this.baseUrl +
-        '/' +
-        regionid +
-        '/' +
-        'user/makeup-pass/' +
-        userid +
-        '?filter=' +
-        type;
+        this.baseUrl + '/' + regionid + '/' + 'user/makeup-pass/' + userid;
+      // '?filter=' +
+      // type;
     }
     const httpOptions = {
       headers: new HttpHeaders({
@@ -5499,13 +5507,10 @@ export class appService {
   }
 
   getMakeupList(filter, regionId, locationID) {
-    let apiUrl =
-      this.baseUrl +
-      '/regions/' +
-      regionId +
-      '/makeup-pass?filter=' +
-      filter +
-      '&groupby=location';
+    let apiUrl = this.baseUrl + '/regions/' + regionId + '/makeup-pass';
+    // '?filter=' +
+    // filter +
+    // '&groupby=location';
     if (locationID != null) {
       apiUrl += '&locationId=' + locationID;
     }
