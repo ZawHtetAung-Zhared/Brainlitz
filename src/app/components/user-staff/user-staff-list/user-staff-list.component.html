@@ -42,12 +42,18 @@
 
     <div
       *ngIf="staffPermission[0] != undefined"
-      class="col-md-12 p-0"
+      class="p-0 d-flex"
       style="margin-top: 35px;"
     >
-      <div class="input-group col-md-12 p-0">
+      <div class="d-flex search-group p-0">
+        <span
+          class="btn-design btn-outline-secondary"
+          (click)="userSearch(searchword, 'staff', '', '')"
+        >
+          <i class="fa fa-search search-size body-xl"></i>
+        </span>
         <input
-          class="form-control py-2 input-search-bg bg-s20 body-l"
+          class="form-control py-2 input-search-bg body-l"
           type="search"
           placeholder="Search staff here"
           id="staff-search-input"
@@ -55,103 +61,241 @@
           (keyup.enter)="userSearch($event.target.value, 'staff', '', '')"
           autocomplete="off"
         />
-        <span
-          class="input-group-append"
-          (click)="userSearch(searchword, 'staff', '', '')"
+      </div>
+      <div class="change-view d-flex">
+        <div
+          id="grid-toggle"
+          (click)="changeView('grid')"
+          [ngClass]="{ active: isGrid }"
         >
-          <button class="btn btn-design bg-s20 cursor-on" type="button">
-            <i class="fa fa-search search-size text-c75 body-xl"></i>
-          </button>
-        </span>
+          <img class="view-pd" src="assets/icons/grid-view.svg" />
+        </div>
+        <div
+          id="list-toggle"
+          (click)="changeView('list')"
+          [ngClass]="{ active: isList }"
+        >
+          <img class="view-pd" src="assets/icons/list-view.svg" />
+        </div>
       </div>
     </div>
 
-    <div class="d-flex flex-column justify-content-center">
-      <div class="row display-flex user-group">
-        <div
-          class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
-          *ngFor="let staff of staffLists; let i = index"
-        >
-          <a
-            style="text-decoration: none;"
-            href="{{ showDetails(staff, staff.userId) }}"
+    <!-- Grid View -->
+    <div *ngIf="isGrid == true" class="grid-view">
+      <div class="d-flex flex-column justify-content-center">
+        <div class="row display-flex user-group">
+          <div
+            class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
+            *ngFor="let staff of staffLists; let i = index"
           >
-            <div class="box-design d-flex flex-row align-items-center">
-              <div class="profileimg-wrap">
-                <div class="circular-image">
-                  <img
-                    *ngIf="staff.profilePic == 'undefined'"
-                    src="assets/img/user.svg"
-                  />
-                  <img
-                    *ngIf="staff.profilePic != 'undefined'"
-                    src="{{ staff.profilePic }}"
-                  />
+            <a
+              style="text-decoration: none;"
+              href="{{ showDetails(staff, staff.userId) }}"
+            >
+              <div class="box-design d-flex flex-row align-items-center">
+                <div class="profileimg-wrap">
+                  <div class="circular-image">
+                    <img
+                      *ngIf="staff.profilePic == 'undefined'"
+                      src="assets/img/user.svg"
+                    />
+                    <img
+                      *ngIf="staff.profilePic != 'undefined'"
+                      src="{{ staff.profilePic }}"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div class="info-side d-flex flex-column justify-content-center">
-                <div>
-                  <label
-                    class="staff-label small text-c300"
-                    *ngIf="staff.permission"
-                    >{{ staff.permission.name }}</label
-                  >
-                </div>
-                <h5 class="body-xl text-c300">
-                  {{
-                    staff.preferredName.length > 20
-                      ? (staff.preferredName | slice: 0:20) + '...'
-                      : staff.preferredName
-                  }}
-                </h5>
-                <p class="info-mail body-m text-c100">{{ staff.email }}</p>
-                <p class="info-about" *ngIf="staff.about == 'undefined'">
-                  -
-                </p>
-                <p
-                  class="info-about body-m text-c100"
-                  *ngIf="staff.about != 'undefined'"
+                <div
+                  class="info-side d-flex flex-column justify-content-center"
                 >
-                  <!-- <span>{{staff.about}}</span> -->
-                  {{
-                    staff.about.length > 48
-                      ? (staff.about | slice: 0:48) + '...'
-                      : staff.about
-                  }}
-                </p>
+                  <div>
+                    <label
+                      class="staff-label small text-c300"
+                      *ngIf="staff.permission"
+                      >{{ staff.permission.name }}</label
+                    >
+                  </div>
+                  <span class="h3-strong cus-name">
+                    {{
+                      staff.preferredName.length > 20
+                        ? (staff.preferredName | slice: 0:20) + '...'
+                        : staff.preferredName
+                    }}
+                  </span>
+                  <p class="info-mail body-m text-c100">{{ staff.email }}</p>
+                  <p class="info-about" *ngIf="staff.about == 'undefined'">
+                    -
+                  </p>
+                  <p
+                    class="info-about body-m text-c100"
+                    *ngIf="staff.about != 'undefined'"
+                  >
+                    <!-- <span>{{staff.about}}</span> -->
+                    {{
+                      staff.about.length > 48
+                        ? (staff.about | slice: 0:48) + '...'
+                        : staff.about
+                    }}
+                  </p>
+                </div>
+                <div
+                  *ngIf="staffDemo.viewStaff != ''"
+                  class="right-arrow ml-auto"
+                >
+                  <i class="fa fa-angle-right text-c75"></i>
+                </div>
               </div>
-              <div
-                *ngIf="staffDemo.viewStaff != ''"
-                class="right-arrow ml-auto"
-              >
-                <i class="fa fa-angle-right text-c75"></i>
-              </div>
-            </div>
-          </a>
-        </div>
+            </a>
+          </div>
 
-        <div
-          *ngIf="staffListLoading"
-          class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
-        >
-          <content-loader>
-            <svg:rect x="0" y="0" rx="2" ry="2" width="100%" height="60" />
-            <svg:rect x="0" y="70" rx="2" ry="2" width="100%" height="60" />
-          </content-loader>
+          <div
+            *ngIf="staffListLoading"
+            class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
+          >
+            <content-loader>
+              <svg:rect x="0" y="0" rx="2" ry="2" width="100%" height="60" />
+              <svg:rect x="0" y="70" rx="2" ry="2" width="100%" height="60" />
+            </content-loader>
+          </div>
+        </div>
+        <div *ngIf="result?.length > 0" class="d-flex justify-content-center">
+          <button
+            class="text-b100 body-m load-more bg-s0"
+            style="border:none;outline: none;cursor: pointer;"
+            (click)="showMore('staff', staffLists.length)"
+          >
+            Load more
+          </button>
         </div>
       </div>
     </div>
-    <div
-      *ngIf="result?.length > 0"
-      class="d-flex justify-content-center  bg-s0"
-    >
-      <button
-        class="text-b100 body-m load-more bg-s0"
-        style="border:none;outline: none;cursor: pointer;"
-        (click)="showMore('staff', staffLists.length)"
-      >
-        Load more
-      </button>
+
+    <!-- List View -->
+    <div *ngIf="isList == true" class="list-view">
+      <div class="d-flex flex-column justify-content-center ">
+        <div class="" style="padding-bottom: 24px">
+          <div class="list-box">
+            <div class="title-bar d-flex">
+              <div class="caption-u text-c100 w-35">name</div>
+              <div class="caption-u text-c100 w-35">email</div>
+              <div class="caption-u text-c100 w-25">last login</div>
+              <div class="caption-u text-c100">Action</div>
+            </div>
+            <div
+              class="user-row"
+              *ngFor="let customer of staffLists; let i = index"
+            >
+              <a
+                style="text-decoration: none;"
+                href="{{ showDetails(customer, customer.userId) }}"
+              >
+                <div class="d-flex flex-row align-items-center">
+                  <div class="w-35 d-flex flex-row align-items-center">
+                    <div class="profileimg-wrap">
+                      <div class="list-circular-image">
+                        <img
+                          *ngIf="customer.profilePic == 'undefined'"
+                          src="assets/img/user.svg"
+                        />
+                        <img
+                          *ngIf="customer.profilePic != 'undefined'"
+                          src="{{ customer.profilePic }}"
+                        />
+                      </div>
+                      <!-- <div
+                        class="user-grade"
+                        *ngIf="
+                          customer.userGrading != undefined &&
+                          (customer.userGrading.grade | json) != '{}'
+                        "
+                      >
+                        <div
+                          *ngIf="
+                            customer.userGrading != undefined &&
+                            customer.userGrading.grade.point != undefined &&
+                            customer.userGrading.grade.point != null
+                          "
+                          class="b-white justify-content-center d-flex small"
+                          [style.background]="
+                            customer.userGrading.sepalColor.background
+                          "
+                          [ngClass]="{
+                            'test-circle':
+                              customer.userGrading.grade.point.length == 1,
+                            circle: customer.userGrading.grade.point.length > 1
+                          }"
+                        >
+                          <span
+                            [style.color]="customer.userGrading.sepalColor.text"
+                          >
+                            {{ customer.userGrading.grade.point }}
+                          </span>
+                        </div>
+                      </div> -->
+                    </div>
+                    <div class="info-side d-flex flex-column ">
+                      <h5
+                        *ngIf="customer.preferredName"
+                        class="h4-strong text-c300"
+                        style="margin-bottom: 0px"
+                      >
+                        {{
+                          customer.preferredName.length > 20
+                            ? (customer.preferredName | slice: 0:20) + '...'
+                            : customer.preferredName
+                        }}
+                      </h5>
+                    </div>
+                  </div>
+
+                  <div class="light-body-m text-c300 w-35">
+                    {{ customer.email }}
+                  </div>
+                  <div class="light-body-m text-c300 w-25">
+                    {{ customer.lastLoginDate | lastLoginDateFormat }}
+                  </div>
+                  <div class="arrow-div">
+                    <!-- <i class="fa fa-long-arrow-right"></i> -->
+                    <div class="arrow-btn">
+                      <img
+                        class="arrow-icon-g"
+                        src="assets/icons/arrow-g.svg"
+                      />
+                      <img
+                        class="arrow-icon-w"
+                        src="assets/icons/arrow-w.svg"
+                      />
+                      <img
+                        class="arrow-icon-b"
+                        src="assets/icons/arrow-b.svg"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <div
+            *ngIf="customerListLoading"
+            class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 mr-box display-block"
+          >
+            <content-loader>
+              <svg:rect x="0" y="0" rx="2" ry="2" width="100%" height="60" />
+              <svg:rect x="0" y="70" rx="2" ry="2" width="100%" height="60" />
+            </content-loader>
+          </div>
+        </div>
+        <div *ngIf="result?.length > 0" class="d-flex justify-content-center">
+          <button
+            class="text-b100 body-m load-more bg-s0"
+            style="border:none;outline: none;cursor: pointer;"
+            (click)="showMore('staff', staffLists.length)"
+          >
+            Load more
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 

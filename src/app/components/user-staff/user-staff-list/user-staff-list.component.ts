@@ -25,6 +25,8 @@ export class UserStaffListComponent implements OnInit {
   result: any;
   isSearch = false;
   searchword: any;
+  public isGrid = true;
+  public isList = false;
 
   // for loading
   public staffLoading: boolean = true;
@@ -211,5 +213,16 @@ export class UserStaffListComponent implements OnInit {
     this.router.navigate(['../staffcreate/', type, 0], {
       relativeTo: this.route
     });
+  }
+
+  changeView(val) {
+    console.log(val);
+    if (val == 'grid') {
+      this.isGrid = true;
+      this.isList = false;
+    } else if (val == 'list') {
+      this.isGrid = false;
+      this.isList = true;
+    }
   }
 }

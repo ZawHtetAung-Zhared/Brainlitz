@@ -340,7 +340,7 @@
                     {{ customer.email }}
                   </div>
                   <div class="light-body-m text-c300 w-25">
-                    <!-- {{ customer.email }} -->
+                    {{ customer.lastLoginDate | lastLoginDateFormat }}
                   </div>
                   <div
                     *ngIf="customerDemo.viewCustomer != ''"

@@ -3543,16 +3543,28 @@ export class appService {
   getMakeupLists(userid, type, regionid, courseId) {
     if (type === 'course') {
       var apiUrl =
+        this.baseUrl +
+        '/' +
+        regionid +
+        '/user/makeup-pass/' +
+        userid +
+        '?filter=' +
+        type +
+        '&id=' +
+        courseId;
+    } else if (type === 'all') {
+      var apiUrl =
         this.baseUrl + '/' + regionid + '/user/makeup-pass/' + userid;
-      // '?filter=' +
-      // type +
-      // '&id=' +
-      // courseId;
     } else {
       var apiUrl =
-        this.baseUrl + '/' + regionid + '/' + 'user/makeup-pass/' + userid;
-      // '?filter=' +
-      // type;
+        this.baseUrl +
+        '/' +
+        regionid +
+        '/' +
+        'user/makeup-pass/' +
+        userid +
+        '?filter=' +
+        type;
     }
     const httpOptions = {
       headers: new HttpHeaders({
@@ -5507,10 +5519,13 @@ export class appService {
   }
 
   getMakeupList(filter, regionId, locationID) {
-    let apiUrl = this.baseUrl + '/regions/' + regionId + '/makeup-pass';
-    // '?filter=' +
-    // filter +
-    // '&groupby=location';
+    let apiUrl =
+      this.baseUrl +
+      '/regions/' +
+      regionId +
+      '/makeup-pass?filter=' +
+      filter +
+      '&groupby=location';
     if (locationID != null) {
       apiUrl += '&locationId=' + locationID;
     }
