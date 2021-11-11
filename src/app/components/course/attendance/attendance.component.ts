@@ -3894,7 +3894,7 @@ export class AttendanceComponent implements OnInit {
     } else if (type == 'absent') {
       this.modalType = type;
       this.absentInfo = user;
-      this.getMakeupLists(id, 'course', this.regionId, this.courseId);
+      this.getMakeupLists(id, 'all', this.regionId, this.courseId);
       this.modalReference = this.modalService.open(modal, {
         backdrop: 'static',
         windowClass:

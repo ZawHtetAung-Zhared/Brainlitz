@@ -627,7 +627,7 @@ export class CustomerComponent implements OnInit {
     } else if (type == 'makeup') {
       this.activeUserTab = type;
       console.log('ddddd');
-      this.getMakeupLists(data.userId, 'course', this.regionId, this.courseId);
+      this.getMakeupLists(data.userId, 'all', this.regionId, this.courseId);
     }
     console.log('show Tabs Modal', this.activeUserTab);
     console.warn(this.isFlexyInvoice, 'flexy invoice');

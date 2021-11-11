@@ -182,7 +182,7 @@ export class TodayLessonsComponent implements OnInit {
 
       this.getMakeupLists(
         this.studentDetail._id,
-        'course',
+        'all',
         this.regionId,
         this.courseId
       );
