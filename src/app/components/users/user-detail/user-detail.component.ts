@@ -953,7 +953,8 @@ export class UserDetailComponent implements OnInit {
       let body = {
         courseId: course._id,
         userId: this.custDetail.user.userId,
-        userType: 'customer'
+        userType: 'customer',
+        disableInvoice: this.disableInvoice
       };
       this._service.assignUser(this.regionID, body, this.locationID).subscribe(
         (res: any) => {
