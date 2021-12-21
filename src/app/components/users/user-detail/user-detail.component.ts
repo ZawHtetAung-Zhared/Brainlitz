@@ -136,6 +136,7 @@ export class UserDetailComponent implements OnInit {
   searchData: any = {};
   public passForm: any = {};
   public transferFlag: boolean = false;
+  public removeClass = {};
 
   //for loading
   public detailLoading: boolean = true;
@@ -1578,5 +1579,42 @@ export class UserDetailComponent implements OnInit {
 
     if (!this.scrollDirection) ele.scrollTop = ele.scrollHeight;
     else ele.scrollTop = 0;
+  }
+
+  showWithdrawClassModal(withdrawClassModal, course) {
+    console.log('showWithdrawClassModal', course);
+    this.removeClass = course;
+    this.modalReference = this.modalService.open(withdrawClassModal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal d-flex justify-content-center align-items-center'
+    });
+  }
+
+  cancelModal() {
+    this.modalReference.close();
+  }
+
+  withdrawClass(userId, course) {
+    console.log('withdrawClass', userId);
+    let userobj = {
+      courseId: course._id,
+      userId: userId
+    };
+    this._service
+      .withdrawAssignUser(this.regionID, userobj, this.locationID)
+      .subscribe(
+        (res: any) => {
+          this.modalReference.close();
+          console.log(res);
+          this.toastr.success('Class successfully withdrawled.');
+          this.showDetails(userId, 'class', 'user,courses');
+        },
+        err => {
+          this.toastr.error('Withdrawal user failed.');
+          this.modalReference.close();
+          console.log(err);
+        }
+      );
   }
 }
