@@ -1605,8 +1605,9 @@ export class UserDetailComponent implements OnInit {
       .withdrawAssignUser(this.regionID, userobj, this.locationID)
       .subscribe(
         (res: any) => {
-          this.modalReference.close();
           console.log(res);
+          this.tabLoading = true;
+          this.modalReference.close();
           this.toastr.success('Class successfully withdrawled.');
           this.showDetails(userId, 'class', 'user,courses');
         },
