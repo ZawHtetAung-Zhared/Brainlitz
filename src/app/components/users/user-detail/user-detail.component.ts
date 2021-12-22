@@ -136,6 +136,7 @@ export class UserDetailComponent implements OnInit {
   searchData: any = {};
   public passForm: any = {};
   public transferFlag: boolean = false;
+  public removeClass = {};
 
   //for loading
   public detailLoading: boolean = true;
@@ -996,6 +997,7 @@ export class UserDetailComponent implements OnInit {
             //this.blockUI.stop();
             this.showOneInvoice(course, this.invoice);
             if (this.transferFlag) {
+              this.tabLoading = true;
               this.showDetails(this.editId, 'class', 'user,courses');
               this.closeModal('close');
             }
@@ -1141,6 +1143,7 @@ export class UserDetailComponent implements OnInit {
     this._service.autoEnroll(this.regionID, tempObj).subscribe(
       res => {
         console.log(res);
+        this.tabLoading = true;
         this.showDetails(this.custDetail.user.userId, 'class', 'user,courses');
       },
       err => {
@@ -1257,6 +1260,7 @@ export class UserDetailComponent implements OnInit {
     this.scrollDirection = true;
 
     if (type == 'closeInv') {
+      this.tabLoading = true;
       this.showDetails(this.custDetail.user.userId, 'class', 'user,courses');
     }
     this.showflexyCourse = false;
@@ -1284,6 +1288,7 @@ export class UserDetailComponent implements OnInit {
     this._service.makePayment(this.regionID, body).subscribe(
       (res: any) => {
         console.log(res);
+        this.tabLoading = true;
         this.showDetails(this.custDetail.user.userId, 'class', 'user,courses');
         this.closeModal('closeInv');
         this.toastr.success(res.message);
@@ -1578,5 +1583,43 @@ export class UserDetailComponent implements OnInit {
 
     if (!this.scrollDirection) ele.scrollTop = ele.scrollHeight;
     else ele.scrollTop = 0;
+  }
+
+  showWithdrawClassModal(withdrawClassModal, course) {
+    console.log('showWithdrawClassModal', course);
+    this.removeClass = course;
+    this.modalReference = this.modalService.open(withdrawClassModal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal d-flex justify-content-center align-items-center'
+    });
+  }
+
+  cancelModal() {
+    this.modalReference.close();
+  }
+
+  withdrawClass(userId, course) {
+    console.log('withdrawClass', userId);
+    let userobj = {
+      courseId: course._id,
+      userId: userId
+    };
+    this._service
+      .withdrawAssignUser(this.regionID, userobj, this.locationID)
+      .subscribe(
+        (res: any) => {
+          console.log(res);
+          this.tabLoading = true;
+          this.modalReference.close();
+          this.toastr.success('Class successfully withdrawled.');
+          this.showDetails(userId, 'class', 'user,courses');
+        },
+        err => {
+          this.toastr.error('Withdrawal user failed.');
+          this.modalReference.close();
+          console.log(err);
+        }
+      );
   }
 }

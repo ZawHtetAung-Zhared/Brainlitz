@@ -631,9 +631,21 @@
                                   )
                                 "
                                 class="light-body-m text-c300 cursor-on"
-                                style="padding-top: 16px;"
+                                style="padding-bottom: 16px;padding-top: 16px;border-bottom: 1px solid #E8E9EB;"
                               >
                                 Transfer class
+                              </div>
+                              <div
+                                (click)="
+                                  showWithdrawClassModal(
+                                    withdrawClassModal,
+                                    course
+                                  )
+                                "
+                                class="light-body-m text-c300 cursor-on"
+                                style="padding-top: 16px;"
+                              >
+                                Withdraw class
                               </div>
                             </div>
                           </div>
@@ -3687,5 +3699,32 @@
         Pay now
       </button>
     </div>
+  </div>
+</ng-template>
+<ng-template #withdrawClassModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title">Withdraw class?</h3>
+  </div>
+  <div class="modal-body confirm-text">
+    <p>
+      Are You sure you want to remove
+      <span class="text-r100">"{{ removeClass.name }}"</span> from this user?
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn modal-cancel-btn"
+      (click)="cancelModal('Close click')"
+    >
+      Cancel
+    </button>
+    <button
+      type="submit"
+      class="btn modal-delete-btn body-l text-c300 bg-b100 text-s0"
+      (click)="withdrawClass(custDetail.user.userId, removeClass)"
+    >
+      Withdraw
+    </button>
   </div>
 </ng-template>
