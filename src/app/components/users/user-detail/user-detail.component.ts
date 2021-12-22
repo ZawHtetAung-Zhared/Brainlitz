@@ -997,6 +997,7 @@ export class UserDetailComponent implements OnInit {
             //this.blockUI.stop();
             this.showOneInvoice(course, this.invoice);
             if (this.transferFlag) {
+              this.tabLoading = true;
               this.showDetails(this.editId, 'class', 'user,courses');
               this.closeModal('close');
             }
@@ -1142,6 +1143,7 @@ export class UserDetailComponent implements OnInit {
     this._service.autoEnroll(this.regionID, tempObj).subscribe(
       res => {
         console.log(res);
+        this.tabLoading = true;
         this.showDetails(this.custDetail.user.userId, 'class', 'user,courses');
       },
       err => {
@@ -1258,6 +1260,7 @@ export class UserDetailComponent implements OnInit {
     this.scrollDirection = true;
 
     if (type == 'closeInv') {
+      this.tabLoading = true;
       this.showDetails(this.custDetail.user.userId, 'class', 'user,courses');
     }
     this.showflexyCourse = false;
@@ -1285,6 +1288,7 @@ export class UserDetailComponent implements OnInit {
     this._service.makePayment(this.regionID, body).subscribe(
       (res: any) => {
         console.log(res);
+        this.tabLoading = true;
         this.showDetails(this.custDetail.user.userId, 'class', 'user,courses');
         this.closeModal('closeInv');
         this.toastr.success(res.message);
