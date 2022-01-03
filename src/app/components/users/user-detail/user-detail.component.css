@@ -1718,7 +1718,7 @@ input[_ngcontent-c1]:focus {
     width: 1080px !important;
   } */
   .card-columns.evaluation-list {
-    column-count: 5 !important;
+    column-count: 3 !important;
     padding: 20px;
   }
   .card-columns.grade-list {
@@ -2306,7 +2306,7 @@ input:checked + .slider:before {
 
 @media (max-width: 765px) {
   .card-columns.evaluation-list {
-    column-count: 3;
+    column-count: 2;
     padding: 20px;
   }
   .card-columns.grade-list {
@@ -2371,7 +2371,7 @@ input:checked + .slider:before {
 }
 
 .card-columns.evaluation-list {
-  column-count: 4;
+  column-count: 3;
   padding: 20px;
 }
 
@@ -2487,6 +2487,18 @@ p.assessment-name {
   color: #b1b1b2;
 }
 
+.reset-evaluation-button {
+  border: 1px solid #e8e9eb;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 8px;
+}
+
+.reset-evaluation-button:focus {
+  background: #edeef0;
+  outline: none;
+}
+
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
   .pick-grade-text {
     font-size: 10px;
@@ -2500,6 +2512,11 @@ p.assessment-name {
 }
 
 @media only screen and (min-width: 767px) and (max-width: 995px) {
+  .card-columns.evaluation-list {
+    column-count: 2 !important;
+    padding: 20px 10px !important;
+    column-gap: 1rem;
+  }
   .card-columns.grade-list {
     column-count: 2 !important;
     padding: 20px 10px !important;
@@ -2511,10 +2528,10 @@ p.assessment-name {
   .pick-grade-text {
     font-size: 10px;
   }
-  .card-columns.evaluation-list {
+  /* .card-columns.evaluation-list {
     column-count: 3;
     padding: 20px;
-  }
+  } */
   /* .card-columns.grade-list {
     column-count: 3;
     padding: 20px;
