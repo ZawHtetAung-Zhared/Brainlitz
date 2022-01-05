@@ -1251,7 +1251,10 @@
                         </div>
                         <div class="evaluation-body">
                           {{ evaluation.assessments.isLoadmore }}
-                          <carousel>
+                          <app-pagination
+                            [evaluation]="evaluation"
+                          ></app-pagination>
+                          <!-- <carousel>
                             <ng-container
                               *ngFor="let ass of evaluation.assessments"
                             >
@@ -1331,7 +1334,7 @@
                                 </div>
                               </ng-container>
                             </ng-container>
-                          </carousel>
+                          </carousel> -->
                         </div>
                       </div>
                     </div>

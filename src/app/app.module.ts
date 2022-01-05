@@ -157,7 +157,8 @@ import {
   CarouselComponent,
   CarouselItemElement,
   CreateUserComponent,
-  UserDetailComponent
+  UserDetailComponent,
+  PaginationComponent
 } from './components/users/index';
 import { TimetableComponent } from './components/timetable/timetable.component';
 import {
@@ -290,6 +291,7 @@ import { MakeupPassComponent } from './components/makeup-pass/makeup-pass.compon
     ReportDetail2Component,
     UserListComponent,
     CreateUserComponent,
+    PaginationComponent,
     UserDetailComponent,
     TimetableComponent,
     UserStaffListComponent,
