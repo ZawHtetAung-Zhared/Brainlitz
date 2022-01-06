@@ -104,10 +104,12 @@ export class LoginComponent implements OnInit {
     if (str_res == '') {
       console.log('no subdomain');
       str_res = 'stgbl-cw1';
+      // str_res = 'classwerkz'; //to test with live api
       setTimeout(() => {
         localStorage.setItem(
           'redirectURL',
           'http://localhost:4200/stgbl-cw1.test.com/#/'
+          // 'http://localhost:4200/classwerkz.test.com/#/' //to test with live api
         );
       }, 100);
       // localStorage.setItem('redirectURL', 'http://localhost:4200/stgbl-cw1.test.com/#/');
