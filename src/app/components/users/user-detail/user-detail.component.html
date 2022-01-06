@@ -1145,7 +1145,7 @@
                               class="pick-grade-image d-flex align-items-center justify-content-center"
                             >
                               <img
-                                src="./assets/icons/pencil.svg"
+                                src="./assets/icons/pencil-blue.svg"
                                 (click)="
                                   pickGrade(pickGradeModal, grade, $event)
                                 "
@@ -1154,11 +1154,17 @@
                           </div>
                         </div>
                         <div class="d-flex grade-body">
-                          <span
-                            class="evaluation-status caption text-s50"
+                          <div
+                            class="empty-grade-wrapper evaluation-status small text-s50"
                             *ngIf="grade.assessment.logs.length <= 0"
-                            >No Data</span
                           >
+                            <div>
+                              <img src="./assets/icons/grade-empty.svg" />
+                            </div>
+                            <div class="text-center">
+                              Add first record...
+                            </div>
+                          </div>
                           <div
                             *ngIf="grade.assessment.logs.length != 0"
                             class="d-flex"
@@ -1222,21 +1228,35 @@
                   <div *ngFor="let evaluation of achievementEvaluation">
                     <div class="card">
                       <div class="evaluation-main">
-                        <div class="evaluation-header">
-                          <p class="body-l text-c300 mb-0">
-                            {{ evaluation.apg.name }}
-                          </p>
-                          <div
-                            class="d-flex align-items-center small text-b100"
-                            style="margin: 0px 0px 12px 0px;"
-                          >
-                            <!-- <div class="bullet"></div> -->
-                            {{ evaluation.course.name }}
+                        <div
+                          class="d-flex justify-content-between evaluation-header"
+                        >
+                          <div>
+                            <p class="body-l text-c300 mb-0">
+                              {{ evaluation.apg.name }}
+                            </p>
+                            <div
+                              class="d-flex align-items-center small text-b100"
+                            >
+                              <!-- <div class="bullet"></div> -->
+                              {{ evaluation.course.name }}
+                            </div>
+                          </div>
+                          <div>
+                            <button class="reset-evaluation-button" disabled>
+                              <span class="text-c300 light-body-m tooltiptext"
+                                >Reset evaluation</span
+                              >
+                              <img src="./assets/icons/more_stroke.svg" />
+                            </button>
                           </div>
                         </div>
                         <div class="evaluation-body">
                           {{ evaluation.assessments.isLoadmore }}
-                          <carousel>
+                          <app-pagination
+                            [evaluation]="evaluation"
+                          ></app-pagination>
+                          <!-- <carousel>
                             <ng-container
                               *ngFor="let ass of evaluation.assessments"
                             >
@@ -1316,7 +1336,7 @@
                                 </div>
                               </ng-container>
                             </ng-container>
-                          </carousel>
+                          </carousel> -->
                         </div>
                       </div>
                     </div>

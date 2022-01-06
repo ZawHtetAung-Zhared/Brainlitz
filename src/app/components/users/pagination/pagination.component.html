@@ -1,0 +1,99 @@
+<div class="slideshow-container">
+  <div *ngFor="let ass of evaluation.assessments; let idx = index">
+    <div class="mySlides fade" *ngIf="evaluation.slideIndex == idx + 1">
+      <div
+        class="createdDate caption text-b100 bg-s20"
+        *ngIf="ass.createdDate != null"
+      >
+        {{ ass.createdDate | utcDate }}
+      </div>
+
+      <div class="createdDate-boder" *ngIf="ass.createdDate == null"></div>
+
+      <div class="assessment-list-gp">
+        <div class="assessment-list" *ngFor="let evaluate of ass.evaluations">
+          <div class="d-flex">
+            <p class="assessment-name body-m text-c300">
+              {{ evaluate.apName }}
+            </p>
+          </div>
+
+          <span
+            class="evaluation-status caption text-s50"
+            *ngIf="evaluate.status == 'NEUTRAL'"
+            >No Data</span
+          >
+          <span
+            class="evaluation-status caption text-y100"
+            *ngIf="evaluate.status == 'IN-PROGRESS'"
+            >In Progess</span
+          >
+          <span
+            class="evaluation-status caption text-g100"
+            *ngIf="evaluate.status == 'PASS'"
+            >Achieved</span
+          >
+          <div class="d-flex flex-wrap evaluate-details">
+            <span
+              class="list-dot-wrap"
+              *ngFor="let detail of evaluate.details; let i = index"
+            >
+              <span
+                class="noData-dot bg-s50"
+                *ngIf="detail.selectedIndex == 'null'"
+              ></span>
+              <span
+                class="exitData-dot bg-r100 text-s0"
+                *ngIf="detail.selectedIndex == '0'"
+                >{{ detail.selectedIndex }}</span
+              >
+              <span
+                class="exitData-dot bg-y100 text-s0"
+                *ngIf="detail.selectedIndex == '1'"
+                >{{ detail.selectedIndex }}</span
+              >
+              <span
+                class="exitData-dot bg-g100 text-s0"
+                *ngIf="detail.selectedIndex == '2'"
+                >{{ detail.selectedIndex }}</span
+              >
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    *ngIf="evaluation.assessments?.length > 1"
+    class="d-flex justify-content-between pagination-wrapper"
+  >
+    <button
+      class="prev-btn"
+      (click)="previous(evaluation)"
+      [disabled]="evaluation.slideIndex == 1 || evaluation.slideIndex < 1"
+    >
+      <img src="./assets/icons/left_arrow.svg" />
+    </button>
+    <div class="d-flex justify-content-center align-items-center">
+      <div
+        class="dot"
+        *ngFor="let ass of evaluation.assessments; let idx = index"
+        [ngClass]="{ active: evaluation.slideIndex == idx + 1 }"
+        [ngStyle]="{
+          width: (idx + 1) * 2 + 'px',
+          height: (idx + 1) * 2 + 'px'
+        }"
+      ></div>
+    </div>
+    <button
+      class="next-btn"
+      (click)="next(evaluation)"
+      [disabled]="
+        evaluation.slideIndex == evaluation.assessments?.length ||
+        evaluation.slideIndex > evaluation.assessments?.length
+      "
+    >
+      <img src="./assets/icons/right_arrow.svg" />
+    </button>
+  </div>
+</div>
