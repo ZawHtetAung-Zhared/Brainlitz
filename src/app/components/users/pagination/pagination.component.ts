@@ -10,13 +10,18 @@ export class PaginationComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.evaluation['slideIndex'] = 1;
+  }
 
   previous(data) {
     console.log('previous', data);
+    if (this.evaluation.slideIndex > 1) this.evaluation.slideIndex -= 1;
   }
 
   next(data) {
     console.log('next', data);
+    if (this.evaluation.slideIndex < this.evaluation.assessments.length)
+      this.evaluation.slideIndex += 1;
   }
 }

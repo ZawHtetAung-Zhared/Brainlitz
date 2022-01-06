@@ -1,11 +1,8 @@
 <div class="slideshow-container">
-  <div>
-    <div class="mySlides" *ngFor="let ass of evaluation.assessments">
-      <div>
-        {{ idx }}
-      </div>
+  <div *ngFor="let ass of evaluation.assessments; let idx = index">
+    <div class="mySlides fade" *ngIf="evaluation.slideIndex == idx + 1">
       <div
-        class="createdDate caption text-b100"
+        class="createdDate caption text-b100 bg-s20"
         *ngIf="ass.createdDate != null"
       >
         {{ ass.createdDate | utcDate }}
@@ -65,21 +62,38 @@
         </div>
       </div>
     </div>
-    <div
-      *ngIf="evaluation.assessments?.length > 1"
-      class="d-flex justify-content-between"
+  </div>
+  <div
+    *ngIf="evaluation.assessments?.length > 1"
+    class="d-flex justify-content-between pagination-wrapper"
+  >
+    <button
+      class="prev-btn"
+      (click)="previous(evaluation)"
+      [disabled]="evaluation.slideIndex == 1 || evaluation.slideIndex < 1"
     >
-      <div (click)="previous(evaluation)">
-        <img src="./assets/icons/left_arrow.svg" />
-      </div>
-      <div>
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-      </div>
-      <div (click)="next(evaluation)">
-        <img src="./assets/icons/right_arrow.svg" />
-      </div>
+      <img src="./assets/icons/left_arrow.svg" />
+    </button>
+    <div class="d-flex justify-content-center align-items-center">
+      <div
+        class="dot"
+        *ngFor="let ass of evaluation.assessments; let idx = index"
+        [ngClass]="{ active: evaluation.slideIndex == idx + 1 }"
+        [ngStyle]="{
+          width: (idx + 1) * 2 + 'px',
+          height: (idx + 1) * 2 + 'px'
+        }"
+      ></div>
     </div>
+    <button
+      class="next-btn"
+      (click)="next(evaluation)"
+      [disabled]="
+        evaluation.slideIndex == evaluation.assessments?.length ||
+        evaluation.slideIndex > evaluation.assessments?.length
+      "
+    >
+      <img src="./assets/icons/right_arrow.svg" />
+    </button>
   </div>
 </div>
