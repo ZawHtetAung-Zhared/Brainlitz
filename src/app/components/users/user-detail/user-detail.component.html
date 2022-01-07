@@ -1243,10 +1243,13 @@
                             </div>
                           </div>
                           <div>
-                            <button class="reset-evaluation-button" disabled>
-                              <span class="text-c300 light-body-m tooltiptext"
-                                >Reset evaluation</span
+                            <button class="reset-evaluation-button">
+                              <span
+                                class="text-c300 light-body-m tooltiptext"
+                                (click)="resetEvaluation()"
                               >
+                                Reset evaluation
+                              </span>
                               <img src="./assets/icons/more_stroke.svg" />
                             </button>
                           </div>

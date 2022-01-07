@@ -1622,4 +1622,12 @@ export class UserDetailComponent implements OnInit {
         }
       );
   }
+
+  resetEvaluation() {
+    let userId = this.custDetail.user.userId;
+    this._service.resetEvaluation(userId).subscribe((res: any) => {
+      console.log(res);
+      this.callAchievements(3);
+    });
+  }
 }
