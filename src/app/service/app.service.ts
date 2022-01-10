@@ -5577,13 +5577,16 @@ export class appService {
       });
   }
 
-  resetEvaluation(userId) {
+  resetEvaluation(userId, apgId) {
     let apiUrl = this.baseUrl + '/users/' + userId + '/evaluation:reset';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         authorization: this.tokenType + ' ' + this.accessToken
-      })
+      }),
+      body: {
+        apgId: apgId
+      }
     };
     return this.httpClient.delete(apiUrl, httpOptions).map((res: Response) => {
       return res;

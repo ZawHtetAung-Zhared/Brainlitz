@@ -1246,7 +1246,12 @@
                             <button class="reset-evaluation-button">
                               <span
                                 class="text-c300 light-body-m tooltiptext"
-                                (click)="resetEvaluation()"
+                                (click)="
+                                  resetEvaluationConfirm(
+                                    resetEvaluationModal,
+                                    evaluation.apg
+                                  )
+                                "
                               >
                                 Reset evaluation
                               </span>
@@ -3748,6 +3753,34 @@
       (click)="withdrawClass(custDetail.user.userId, removeClass)"
     >
       Withdraw
+    </button>
+  </div>
+</ng-template>
+<ng-template #resetEvaluationModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h3 class="modal-title">Reset evaluation?</h3>
+  </div>
+  <div class="modal-body confirm-text">
+    <p>
+      Are You sure you want to reset
+      <span class="text-r100">"{{ resetEvaluationApg.name }}"</span> from this
+      user?
+    </p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn modal-cancel-btn"
+      (click)="cancelModal('Close click')"
+    >
+      Cancel
+    </button>
+    <button
+      type="submit"
+      class="btn modal-delete-btn body-l text-c300 bg-b100 text-s0"
+      (click)="resetEvaluation(custDetail.user.userId, resetEvaluationApg)"
+    >
+      Reset
     </button>
   </div>
 </ng-template>

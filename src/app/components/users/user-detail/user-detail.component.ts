@@ -146,6 +146,7 @@ export class UserDetailComponent implements OnInit {
   public clickedCourseID: any = null;
   public coursePlanID: any = null;
   public invFlag: boolean = null;
+  public resetEvaluationApg;
 
   constructor(
     private _service: appService,
@@ -1623,11 +1624,28 @@ export class UserDetailComponent implements OnInit {
       );
   }
 
-  resetEvaluation() {
-    let userId = this.custDetail.user.userId;
-    this._service.resetEvaluation(userId).subscribe((res: any) => {
-      console.log(res);
-      this.callAchievements(3);
+  resetEvaluationConfirm(resetEvaluationModal, apg) {
+    this.resetEvaluationApg = apg;
+    this.modalReference = this.modalService.open(resetEvaluationModal, {
+      backdrop: 'static',
+      windowClass:
+        'deleteModal d-flex justify-content-center align-items-center'
     });
+  }
+
+  resetEvaluation(userId, apg) {
+    console.log('resetEvaluation', apg);
+    this._service.resetEvaluation(userId, apg.id).subscribe(
+      (res: any) => {
+        console.log(res);
+        this.modalReference.close();
+        this.callAchievements(3);
+      },
+      err => {
+        console.log(err);
+        this.toastr.error('Reset evaluation failed.');
+        this.modalReference.close();
+      }
+    );
   }
 }
