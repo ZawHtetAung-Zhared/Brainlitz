@@ -1720,7 +1720,7 @@ input[_ngcontent-c1]:focus {
   } */
   .card-columns.evaluation-list {
     column-count: 3 !important;
-    padding: 20px;
+    padding: 5px 20px;
   }
   .card-columns.grade-list {
     column-count: 3 !important;
@@ -1745,7 +1745,7 @@ input[_ngcontent-c1]:focus {
 @media only screen and (max-width: 1290px) {
   .card-columns.evaluation-list {
     column-count: 2 !important;
-    padding: 20px;
+    padding: 5px 20px;
   }
   .card-columns.grade-list {
     column-count: 2 !important;
@@ -2308,7 +2308,7 @@ input:checked + .slider:before {
 @media (max-width: 765px) {
   .card-columns.evaluation-list {
     column-count: 2;
-    padding: 20px;
+    padding: 5px 20px;
   }
   .card-columns.grade-list {
     column-count: 2;
@@ -2373,7 +2373,12 @@ input:checked + .slider:before {
 
 .card-columns.evaluation-list {
   column-count: 3;
-  padding: 20px;
+  padding: 5px 20px;
+}
+
+.card {
+  margin-top: 15px !important;
+  margin-bottom: 0px !important;
 }
 
 p.course-name {
@@ -2502,10 +2507,6 @@ p.assessment-name {
   outline: none;
 }
 
-.reset-evaluation-button:focus .tooltiptext {
-  visibility: visible;
-}
-
 .reset-evaluation-button:disabled {
   cursor: no-drop;
   opacity: 0.4;
@@ -2513,26 +2514,24 @@ p.assessment-name {
 
 /****** reset evaluation tooltip ******/
 .reset-evaluation-button .tooltiptext {
-  visibility: hidden;
   width: 150px;
-  height: 48px;
   background: #ffffff;
   text-align: center;
   border-radius: 6px;
-  padding: 12px 16px;
+  padding: 5px;
   position: absolute;
   z-index: 1;
-  bottom: 48px;
-  margin-left: -60px;
+  bottom: 32px;
+  right: -20px;
   box-shadow: 0px 0px 0px 1px #edeef0, 1px 2px 16px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
 }
 
 .reset-evaluation-button .tooltiptext::after {
   content: '';
   position: absolute;
   top: 100%;
-  left: 50%;
-  margin-left: -5px;
+  right: 22%;
   border-width: 5px;
   border-style: solid;
   border-color: #ffffff transparent transparent transparent;
