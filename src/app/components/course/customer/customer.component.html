@@ -46,13 +46,16 @@
             class="single-user-info d-flex flex-wrap flex-column justify-content-center"
           >
             <p class="light-body-m text-c200">{{ user.userType }}</p>
-            <p class="text-c300 body-xl">
+            <a
+              href="/#/staff/staffdetail/{{ user.userId }}"
+              class="text-b100 body-xl"
+            >
               {{
                 user.preferredName.length > 20
                   ? (user.preferredName | slice: 0:20) + '...'
                   : user.preferredName
               }}
-            </p>
+            </a>
           </div>
         </div>
       </div>
@@ -132,13 +135,17 @@
             class="single-user-info d-flex flex-column justify-content-center "
           >
             <p class="text-c100 light-body-l">{{ user.userType }}</p>
-            <p *ngIf="user.preferredName" class="text-c300 body-l">
+            <a
+              *ngIf="user.preferredName"
+              href="/#/staff/staffdetail/{{ user.userId }}"
+              class="text-b100 body-l"
+            >
               {{
                 user.preferredName.length > 20
                   ? (user.preferredName | slice: 0:20) + '...'
                   : user.preferredName
               }}
-            </p>
+            </a>
           </div>
           <div class="ml-auto remover-wrap">
             <div
@@ -326,33 +333,32 @@
           <div
             class="single-user-info d-flex flex-column justify-content-center"
           >
-            <p
-              class="text-c300 body-l"
+            <a
+              href="/#/customer/customerdetail/{{ user.userId }}"
+              class="text-b100 body-l"
               *ngIf="user.preferredName"
-              (click)="onClickCustomer(user.userId)"
-              class="clickable-user text-c300 body-l"
             >
               {{
                 user.preferredName.length > 20
                   ? (user.preferredName | slice: 0:20) + '...'
                   : user.preferredName
               }}
-            </p>
+            </a>
           </div>
           <div
             class="single-user-info d-flex flex-column justify-content-center"
           >
-            <p
+            <a
+              href="/#/customer/customerdetail/{{ user.userId }}"
               *ngIf="user.preferredName == ''"
-              (click)="onClickCustomer(user.userId)"
-              class="clickable-user text-c300 body-l"
+              class="text-b100 body-l"
             >
               {{
                 user.email.length > 20
                   ? (user.email | slice: 0:20) + '...'
                   : user.email
               }}
-            </p>
+            </a>
           </div>
           <div class="ml-auto remover-wrap">
             <span
