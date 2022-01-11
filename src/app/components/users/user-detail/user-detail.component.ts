@@ -147,6 +147,8 @@ export class UserDetailComponent implements OnInit {
   public coursePlanID: any = null;
   public invFlag: boolean = null;
   public resetEvaluationApg;
+  public resetEvaluationClicked = false;
+  public resetEvaluationIndex = null;
 
   constructor(
     private _service: appService,
@@ -202,6 +204,21 @@ export class UserDetailComponent implements OnInit {
         this.attendedFlag = false;
       }
     }
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: Event) {
+    console.log(
+      'onClick',
+      this.resetEvaluationClicked,
+      this.resetEvaluationIndex
+    );
+    if (!this.resetEvaluationClicked) {
+      //click was outside the element, do stuff
+      console.log('clicked outside');
+      this.resetEvaluationIndex = null;
+    }
+    this.resetEvaluationClicked = false;
   }
 
   @ViewChild('carousel') carousel: NgbCarousel;
@@ -1622,6 +1639,12 @@ export class UserDetailComponent implements OnInit {
           console.log(err);
         }
       );
+  }
+
+  onClickResetEvaluation(idx) {
+    console.log('onClickResetEvaluation', this.resetEvaluationIndex);
+    this.resetEvaluationClicked = true;
+    this.resetEvaluationIndex = idx;
   }
 
   resetEvaluationConfirm(resetEvaluationModal, apg) {
