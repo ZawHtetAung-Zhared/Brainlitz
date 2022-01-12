@@ -148,7 +148,8 @@ import {
   MasteryReportComponent,
   ReportDetail2Component,
   CourseSearchComponent,
-  SampleQuestionComponent
+  SampleQuestionComponent,
+  CreateTermComponent
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
 import { CustomTaskComponent } from './components/course/custom-task/custom-task.component';
@@ -304,7 +305,8 @@ import { MakeupPassComponent } from './components/makeup-pass/makeup-pass.compon
     LessonPickerComponent,
     CreateSubscriptionComponent,
     CredentialComponent,
-    MakeupPassComponent
+    MakeupPassComponent,
+    CreateTermComponent
   ],
   imports: [
     ContentLoaderModule,

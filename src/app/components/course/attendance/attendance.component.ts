@@ -248,6 +248,7 @@ export class AttendanceComponent implements OnInit {
   //reschedule
   public isRescheduleLesson: boolean;
   public isReview: boolean = false;
+  public createTermModalReference: any;
   constructor(
     @Inject(DOCUMENT) private doc: Document,
     private router: Router,
@@ -4545,5 +4546,18 @@ export class AttendanceComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  cancelCreateTermModal() {
+    console.log('cancelCreateTermModal');
+    this.createTermModalReference.close();
+  }
+
+  openCreateTermModal(modal) {
+    this.createTermModalReference = this.modalService.open(modal, {
+      backdrop: 'static',
+      windowClass:
+        'modal-xl modal-inv d-flex justify-content-center align-items-center'
+    });
   }
 }
