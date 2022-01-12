@@ -616,16 +616,48 @@
                         *ngIf="makeup.course.type !== 'ONLINE'"
                         class="small text-c100"
                       >
-                        <span
-                          >{{ makeup.makeupCourse.startTime.hr | timeFormat }} :
-                          {{ makeup.makeupCourse.startTime.min | timeFormat }}
-                          {{ makeup.makeupCourse.startTime.meridiem }}</span
+                        <span *ngIf="makeup.makeupCourse.startTime != undefined"
+                          >{{
+                            makeup.makeupCourse.startTime != undefined
+                              ? (makeup.makeupCourse.startTime.hr | timeFormat)
+                              : ''
+                          }}
+                          :
+                          {{
+                            makeup.makeupCourse.startTime != undefined
+                              ? (makeup.makeupCourse.startTime.min | timeFormat)
+                              : ''
+                          }}
+                          {{
+                            makeup.makeupCourse.startTime != undefined
+                              ? makeup.makeupCourse.startTime.meridiem
+                              : ''
+                          }}</span
                         >
-                        -
                         <span
-                          >{{ makeup.makeupCourse.endTime.hr | timeFormat }} :
-                          {{ makeup.makeupCourse.endTime.min | timeFormat }}
-                          {{ makeup.makeupCourse.endTime.meridiem }}</span
+                          *ngIf="
+                            makeup.makeupCourse.startTime != undefined &&
+                            makeup.makeupCourse.endTime != undefined
+                          "
+                          >-</span
+                        >
+                        <span *ngIf="makeup.makeupCourse.endTime != undefined"
+                          >{{
+                            makeup.makeupCourse.endTime != undefined
+                              ? (makeup.makeupCourse.endTime.hr | timeFormat)
+                              : ''
+                          }}
+                          :
+                          {{
+                            makeup.makeupCourse.endTime != undefined
+                              ? (makeup.makeupCourse.endTime.min | timeFormat)
+                              : ''
+                          }}
+                          {{
+                            makeup.makeupCourse.endTime != undefined
+                              ? makeup.makeupCourse.endTime.meridiem
+                              : ''
+                          }}</span
                         ></label
                       >
                     </div>
