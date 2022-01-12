@@ -2991,7 +2991,12 @@
                     <strong class="makeup-course-name"
                       >{{ makeup.course.name }}
                     </strong>
-                    <label *ngIf="makeup.course.type !== 'ONLINE'">
+                    <label
+                      *ngIf="
+                        makeup.course.type !== 'ONLINE' &&
+                        makeup.course.startTime
+                      "
+                    >
                       <span
                         >{{ makeup.course.startTime.hr | timeFormat }} :
                         {{ makeup.course.startTime.min | timeFormat }}

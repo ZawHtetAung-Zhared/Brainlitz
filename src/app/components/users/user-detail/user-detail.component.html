@@ -882,7 +882,10 @@
                             list.course.name
                           }}</strong>
                           <label
-                            *ngIf="list.course.type !== 'ONLINE'"
+                            *ngIf="
+                              list.course.type !== 'ONLINE' &&
+                              list.course.startTime
+                            "
                             class="text-c100 mb-0"
                           >
                             <span

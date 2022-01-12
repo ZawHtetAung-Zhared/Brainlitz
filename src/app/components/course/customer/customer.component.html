@@ -586,7 +586,10 @@
                       >{{ makeup.course.name }}
                     </span>
                     <label
-                      *ngIf="makeup.course.type !== 'ONLINE'"
+                      *ngIf="
+                        makeup.course.type !== 'ONLINE' &&
+                        makeup.course.startTime
+                      "
                       class="small text-c100"
                     >
                       <span
