@@ -30,6 +30,7 @@
   --color-c100: #5c6773;
   --color-c200: #475466;
   --color-c300: #363f4d;
+  --color-c400: #2e3e4d;
   --color-s0: #ffffff;
   --color-s10: #f7f9fa;
   --color-s20: #f2f3f5;
@@ -219,6 +220,12 @@
 .bg-c300 {
   background-color: #363f4d;
 }
+.text-c400 {
+  color: #2e3e4d;
+}
+.bg-c400 {
+  background-color: #2e3e4d;
+}
 .text-s0 {
   color: #fff;
 }
@@ -309,6 +316,11 @@
   font-size: 13px;
   font-weight: 500;
   line-height: 20px;
+}
+.label-l {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
 }
 .h1-strong {
   font-size: 28px;

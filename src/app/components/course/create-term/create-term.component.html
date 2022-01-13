@@ -1,21 +1,89 @@
 <div>
   <div class="create-term-wrapper">
-    <div class="d-flex align-items-center" (click)="onClickCancel()">
+    <div class="d-flex align-items-center pb-1" (click)="onClickCancel()">
       <i class="fa fa-angle-left text-c200"></i>
-      <div class="body-l pl-1 back-to">Back</div>
+      <div class="light-body-l pl-1 back-to">Back</div>
     </div>
-    <div class="h1-strong text-c300">
+    <div class="h1-strong text-c300 pb-2">
       Create Term
     </div>
-    <div>
-      <button class="date-btn">
-        <span>Start Date</span>
-        <img src="./assets/icons/calender.svg" />
-      </button>
-      <button class="date-btn ml-2">
-        <span>End Date</span>
-        <img src="./assets/icons/calender.svg" />
-      </button>
+    <div class="label-l text-c400 pb-3">
+      Choose Lesson
+    </div>
+    <!-- <div class="d-flex">
+      <div>
+        <input
+          type="text"
+          name="startdate"
+          required
+          placeholder="Start Date"
+          class="input-day body-l text-c300"
+          ngbDatepicker
+          #startdate="ngbDatepicker"
+          [(ngModel)]="startDate"
+          (click)="startdate.toggle(); $event.stopPropagation()"
+          (document:click)="closeCalendar(startdate, $event)"
+          readonly
+        />
+      </div>
+      <div>
+        <input
+          type="text"
+          name="enddate"
+          required
+          placeholder="End Date"
+          class="input-day body-l text-c300"
+          ngbDatepicker
+          #enddate="ngbDatepicker"
+          [(ngModel)]="endDate"
+          (click)="enddate.toggle(); $event.stopPropagation()"
+          (document:click)="closeCalendar(enddate, $event)"
+          readonly
+        />
+      </div>
+    </div> -->
+    <div class="d-flex">
+      <div>
+        <button class="date-btn">
+          <span>Start Date</span>
+          <img src="./assets/icons/calender.svg" />
+        </button>
+        <button class="date-btn ml-2">
+          <span>End Date</span>
+          <img src="./assets/icons/calender.svg" />
+        </button>
+        <div>
+          <ngb-datepicker
+            #dp
+            (dateSelect)="onDateSelection($event)"
+            [displayMonths]="1"
+            [dayTemplate]="t"
+            outsideDays="hidden"
+          >
+          </ngb-datepicker>
+
+          <ng-template #t let-date="date" let-focused="focused">
+            <span
+              class="custom-day"
+              [class.focused]="focused"
+              (mouseenter)="hoveredDate = date"
+              (mouseleave)="hoveredDate = null"
+            >
+              {{ date.day }}
+            </span>
+          </ng-template>
+
+          <hr />
+
+          <pre>From: {{ fromDate | json }} </pre>
+          <pre>To: {{ toDate | json }} </pre>
+        </div>
+
+        <!-- <div>
+          <ngb-datepicker #startdate="ngbDatepicker" [(ngModel)]="startDate"></ngb-datepicker>
+          <pre>Start Date: {{ startDate | json }}</pre>
+        </div> -->
+      </div>
     </div>
   </div>
   <div class="d-flex justify-content-end create-term-footer">
