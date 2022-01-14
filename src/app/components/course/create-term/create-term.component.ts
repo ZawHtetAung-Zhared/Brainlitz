@@ -66,9 +66,32 @@ export class CreateTermComponent implements OnInit {
   public hoveredDate: NgbDateStruct;
   public fromDate: any;
   public toDate: any;
-  public model: any;
-  private _subscription: Subscription;
-  private _selectSubscription: Subscription;
+  public dateFormat: any = {
+    fromDate: null,
+    toDate: null
+  };
+  public termLabel: any = '';
+  public colorPaletteArr: Array<any> = [
+    {
+      color: '#FFEC8D'
+    },
+    {
+      color: '#CCE5FF'
+    },
+    {
+      color: '#F2E5FF'
+    },
+    {
+      color: '#FFE9D9'
+    },
+    {
+      color: '#CCFFEA'
+    },
+    {
+      color: '#FFE5F6'
+    }
+  ];
+  public selectedColor: String = '';
   @ViewChild('d') input: NgbInputDatepicker;
   @ViewChild(NgModel) datePick: NgModel;
   @ViewChild('myRangeInput') myRangeInput: ElementRef;
@@ -114,30 +137,67 @@ export class CreateTermComponent implements OnInit {
   }
 
   onDateSelection(date: NgbDateStruct) {
+    console.log('date', date);
     let parsed = '';
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
     } else if (this.fromDate && !this.toDate && after(date, this.fromDate)) {
       this.toDate = date;
-      // this.model = `${this.fromDate.year} - ${this.toDate.year}`;
       this.input.close();
     } else {
       this.toDate = null;
       this.fromDate = date;
     }
     if (this.fromDate) {
+      this.dateFormat.fromDate = this.formatDate(this.fromDate);
       parsed += this._parserFormatter.format(this.fromDate);
     }
     if (this.toDate) {
+      this.dateFormat.toDate = this.formatDate(this.toDate);
       parsed += ' - ' + this._parserFormatter.format(this.toDate);
     }
 
     this.renderer.setProperty(this.myRangeInput.nativeElement, 'value', parsed);
   }
 
+  formatDate(dateObj) {
+    let date =
+      dateObj.day + '' + this.getMonthName(dateObj.month) + '' + dateObj.year;
+    return date;
+  }
+
+  getMonthName(monthIdx) {
+    const month = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+    let name = month[monthIdx - 1];
+    return name;
+  }
+
   closeDatepicker(datePicker, event) {
     if (event.target.offsetParent == null) datePicker.close();
     else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER')
       datePicker.close();
+  }
+
+  createTerm() {
+    let term = {
+      startDate: this.fromDate,
+      endDate: this.toDate,
+      name: this.termLabel,
+      color: this.selectedColor
+    };
+    console.log('createTerm', term);
   }
 }
