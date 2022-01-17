@@ -92,6 +92,8 @@ export class CreateTermComponent implements OnInit {
     }
   ];
   public selectedColor: String = '';
+  public listDate: Array<any> = [];
+
   @ViewChild('d') input: NgbInputDatepicker;
   @ViewChild(NgModel) datePick: NgModel;
   @ViewChild('myRangeInput') myRangeInput: ElementRef;
@@ -157,6 +159,10 @@ export class CreateTermComponent implements OnInit {
       parsed += ' - ' + this._parserFormatter.format(this.toDate);
     }
 
+    if (this.formatDate && this.toDate) {
+      this.createDateArray();
+    }
+
     this.renderer.setProperty(this.myRangeInput.nativeElement, 'value', parsed);
   }
 
@@ -189,6 +195,51 @@ export class CreateTermComponent implements OnInit {
     if (event.target.offsetParent == null) datePicker.close();
     else if (event.target.offsetParent.nodeName != 'NGB-DATEPICKER')
       datePicker.close();
+  }
+
+  createDateArray() {
+    this.listDate = [];
+    var startDate = this.formatDateString(this.fromDate).slice(0, 10);
+    var endDate = this.formatDateString(this.toDate).slice(0, 10);
+    var dateMove = new Date(startDate);
+    var strDate = startDate;
+    console.log('startDate & endDate', startDate, endDate);
+
+    while (strDate < endDate) {
+      console.log('strDate~~~', strDate, 'endDate~~~', endDate);
+      var strDate = dateMove.toISOString().slice(0, 10);
+      this.listDate.push(strDate);
+      dateMove.setDate(dateMove.getDate() + 1);
+    }
+    console.log('date array', this.listDate);
+  }
+
+  formatYearMonthDay(dateObj) {
+    const d = dateObj.day < 10 ? '0' + dateObj.day : dateObj.day;
+    const m = dateObj.month < 10 ? '0' + dateObj.month : dateObj.month;
+    let date = dateObj.year + '/' + m + '/' + d;
+    return date;
+  }
+
+  formatDateString(dateObj) {
+    let sdate = dateObj.year + '-' + dateObj.month + '-' + dateObj.day;
+    console.log(sdate);
+    let dateParts = sdate.split('-');
+    console.log('dateParts', dateParts);
+    if (dateParts[1]) {
+      console.log(Number(dateParts[1]) - 1);
+      let newParts = Number(dateParts[1]) - 1;
+      dateParts[1] = newParts.toString();
+    }
+    if (dateParts) {
+      // let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
+      // console.log("UTC",testDate)
+      let fullDate = new Date(
+        Date.UTC.apply(undefined, dateParts.concat())
+      ).toISOString();
+      console.log('ISO', fullDate);
+      return fullDate;
+    }
   }
 
   createTerm() {
