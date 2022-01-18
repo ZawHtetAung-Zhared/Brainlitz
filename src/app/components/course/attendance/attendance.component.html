@@ -106,11 +106,16 @@
     <button
       *ngIf="detailLists.type == 'FLEXY'"
       class="btn btn-newLesson"
-      (click)="openCreateTermModal(createTermModal)"
+      (click)="openCreateTermModal(createTermModal, 'create')"
       [disabled]="isRescheduleLesson"
     >
       Create Term
     </button>
+  </div>
+  <div class="mt-2" *ngIf="loading == false">
+    <app-term-list
+      (clickEditBatch)="openCreateTermModal(createTermModal, 'edit')"
+    ></app-term-list>
   </div>
 
   <!-- end lesson list -->
@@ -1197,6 +1202,7 @@
   <div class="create-term">
     <app-create-term
       [courseId]="courseId"
+      [modalType]="termModalType"
       (closeModal)="cancelCreateTermModal($event)"
     ></app-create-term>
   </div>

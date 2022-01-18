@@ -58,6 +58,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 })
 export class CreateTermComponent implements OnInit {
   @Input() courseId: String;
+  @Input() modalType: String;
   @Output() closeModal = new EventEmitter<any>();
 
   public modalReference: any;
@@ -100,6 +101,7 @@ export class CreateTermComponent implements OnInit {
   ];
   public selectedColor: any = null;
   public listDate: Array<any> = [];
+  public termId: String;
 
   @ViewChild('d') input: NgbInputDatepicker;
   @ViewChild(NgModel) datePick: NgModel;
@@ -138,7 +140,9 @@ export class CreateTermComponent implements OnInit {
       day: now.getDate()
     };
 
-    this.getTermDetails('61e689bc80a92a001b356616'); //testing
+    if (this.modalType == 'edit') {
+      this.getTermDetails('61e689bc80a92a001b356616');
+    }
   }
 
   onClickCancel() {
@@ -264,10 +268,49 @@ export class CreateTermComponent implements OnInit {
     });
   }
 
+  editTerm() {
+    let term = {
+      name: this.termLabel,
+      termStartDate: this.formatDateString(this.fromDate),
+      termEndDate: this.formatDateString(this.toDate),
+      color: this.selectedColor
+    };
+    console.log('eidtTerm', term);
+    this._service
+      .updateTerm(term, this.termId, this.courseId)
+      .subscribe(res => {
+        console.log('res', res);
+        this.closeModal.emit('close');
+      });
+  }
+
   getTermDetails(termId) {
     let testId = '61e689bc80a92a001b356616';
-    this._service.getTermDetails(this.courseId, termId).subscribe(res => {
-      console.log('getTermDetails', res);
-    });
+    this._service
+      .getTermDetails(this.courseId, termId)
+      .subscribe((res: any) => {
+        console.log('getTermDetails', res);
+        let term = res.data;
+        this.fromDate = this.formatDateObj(term.termStartDate);
+        this.toDate = this.formatDateObj(term.termEndDate);
+        this.dateFormat.fromDate = this.formatDate(this.fromDate);
+        this.dateFormat.toDate = this.formatDate(this.toDate);
+        this.termLabel = term.name;
+        this.selectedColor = term.color;
+        this.termId = term._id;
+        this.createDateArray();
+      });
+  }
+
+  formatDateObj(date) {
+    date = date.slice(0, 10);
+    let dArray = date.split('-');
+    console.log('dArray', dArray);
+    let dateObj = {
+      year: dArray[0],
+      month: dArray[1],
+      day: dArray[2]
+    };
+    return dateObj;
   }
 }

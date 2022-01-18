@@ -5608,6 +5608,22 @@ export class appService {
       });
   }
 
+  updateTerm(data, termId, courseId) {
+    let apiUrl =
+      this.baseUrl + '/courses/' + courseId + '/lesson-terms/' + termId;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .put(apiUrl, data, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
+  }
+
   getTermDetails(courseId, termId) {
     let apiUrl =
       this.baseUrl + '/courses/' + courseId + '/lesson-terms/' + termId;

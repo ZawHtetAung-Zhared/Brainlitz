@@ -249,6 +249,7 @@ export class AttendanceComponent implements OnInit {
   public isRescheduleLesson: boolean;
   public isReview: boolean = false;
   public createTermModalReference: any;
+  public termModalType: String;
   constructor(
     @Inject(DOCUMENT) private doc: Document,
     private router: Router,
@@ -4553,7 +4554,8 @@ export class AttendanceComponent implements OnInit {
     this.createTermModalReference.close();
   }
 
-  openCreateTermModal(modal) {
+  openCreateTermModal(modal, type) {
+    this.termModalType = type;
     this.createTermModalReference = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass:
