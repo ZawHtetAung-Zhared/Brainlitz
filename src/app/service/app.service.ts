@@ -5592,4 +5592,19 @@ export class appService {
       return res;
     });
   }
+
+  createTerm(data, courseId) {
+    let apiUrl = this.baseUrl + '/courses/' + courseId + '/lesson-term';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, data, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
+  }
 }

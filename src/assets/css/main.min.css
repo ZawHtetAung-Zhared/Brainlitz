@@ -355,6 +355,18 @@
   line-height: 20px;
 }
 
+.caption-s {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.small {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+}
+
 .lineHeight-unset {
   line-height: unset !important;
 }

@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  Input,
   Output,
   EventEmitter,
   ViewChild,
@@ -18,8 +19,7 @@ import {
   NgbInputDatepicker,
   NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date';
-import { Subscription } from 'rxjs';
+import { appService } from '../../../service/app.service';
 
 const now = new Date();
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -57,6 +57,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
   styleUrls: ['./create-term.component.css']
 })
 export class CreateTermComponent implements OnInit {
+  @Input() courseId: String;
   @Output() closeModal = new EventEmitter<any>();
 
   public modalReference: any;
@@ -73,25 +74,31 @@ export class CreateTermComponent implements OnInit {
   public termLabel: any = '';
   public colorPaletteArr: Array<any> = [
     {
-      color: '#FFEC8D'
+      background: '#FFF4BF',
+      text: '#594A00'
     },
     {
-      color: '#CCE5FF'
+      background: '#CCE5FF',
+      text: '#004080'
     },
     {
-      color: '#F2E5FF'
+      background: '#F2E6FF',
+      text: '#6600CC'
     },
     {
-      color: '#FFE9D9'
+      background: '#FFE9D9',
+      text: '#803500'
     },
     {
-      color: '#CCFFEA'
+      background: '#CCFFEA',
+      text: '#005934'
     },
     {
-      color: '#FFE5F6'
+      background: '#FFE6F7',
+      text: '#990066'
     }
   ];
-  public selectedColor: String = '';
+  public selectedColor: any = null;
   public listDate: Array<any> = [];
 
   @ViewChild('d') input: NgbInputDatepicker;
@@ -109,8 +116,7 @@ export class CreateTermComponent implements OnInit {
   isTo = date => equals(date, this.toDate);
 
   constructor(
-    private modalService: NgbModal,
-    private element: ElementRef,
+    private _service: appService,
     private renderer: Renderer2,
     private _parserFormatter: NgbDateParserFormatter
   ) {}
@@ -244,11 +250,14 @@ export class CreateTermComponent implements OnInit {
 
   createTerm() {
     let term = {
-      startDate: this.fromDate,
-      endDate: this.toDate,
       name: this.termLabel,
+      termStartDate: this.fromDate,
+      termEndDate: this.toDate,
       color: this.selectedColor
     };
     console.log('createTerm', term);
+    this._service.createTerm(term, this.courseId).subscribe(res => {
+      console.log('res', res);
+    });
   }
 }

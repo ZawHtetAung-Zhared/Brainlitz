@@ -35,6 +35,13 @@
   margin-right: 20px;
 }
 
+.date-slot {
+  background-color: #007fff;
+  padding: 14px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 /****** Date picker ******/
 .datepickerInput {
   visibility: hidden;

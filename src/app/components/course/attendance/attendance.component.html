@@ -1195,6 +1195,9 @@
 </ng-template>
 <ng-template #createTermModal let-c="close" let-d="dismiss">
   <div class="create-term">
-    <app-create-term (closeModal)="cancelCreateTermModal()"></app-create-term>
+    <app-create-term
+      [courseId]="courseId"
+      (closeModal)="cancelCreateTermModal()"
+    ></app-create-term>
   </div>
 </ng-template>

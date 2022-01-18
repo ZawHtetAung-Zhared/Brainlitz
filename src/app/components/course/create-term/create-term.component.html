@@ -62,10 +62,19 @@
         </ng-template>
       </div>
     </div>
-    <div>
-      <span class="ml-2" *ngFor="let date of listDate">
-        {{ date }}
-      </span>
+    <div class="d-flex">
+      <div
+        class="mr-2 date-slot text-center"
+        *ngFor="let date of listDate"
+        [ngStyle]="{
+          'background-color':
+            selectedColor == null ? '#007FFF' : selectedColor.background,
+          color: selectedColor == null ? '#FFFFFF' : selectedColor.text
+        }"
+      >
+        <div class="caption-s">{{ date | date: 'd' }}</div>
+        <div class="small">{{ date | date: 'MMM' }}</div>
+      </div>
     </div>
     <div class="pt-2">
       <label for="name" class="input-label">Label</label>
@@ -86,10 +95,14 @@
           class="color"
           *ngFor="let item of colorPaletteArr"
           [ngStyle]="{
-            'background-color': item.color,
-            border: selectedColor == item.color ? '2px solid #007FFF' : unset
+            'background-color': item.background,
+            border:
+              selectedColor?.background == item.background &&
+              selectedColor?.text == item.text
+                ? '2px solid #007FFF'
+                : unset
           }"
-          (click)="selectedColor = item.color"
+          (click)="selectedColor = item"
         ></div>
       </div>
     </div>
@@ -102,7 +115,7 @@
       class="btn bg-b100 text-s0 ml-3"
       (click)="createTerm()"
       [disabled]="
-        !fromDate || !toDate || termLabel == '' || selectedColor == ''
+        !fromDate || !toDate || termLabel == '' || selectedColor == null
       "
     >
       Confirm
