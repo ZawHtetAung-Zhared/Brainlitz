@@ -5594,7 +5594,7 @@ export class appService {
   }
 
   createTerm(data, courseId) {
-    let apiUrl = this.baseUrl + '/courses/' + courseId + '/lesson-term';
+    let apiUrl = this.baseUrl + '/courses/' + courseId + '/lesson-terms';
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -5606,5 +5606,19 @@ export class appService {
       .map((res: Response) => {
         return res;
       });
+  }
+
+  getTermDetails(courseId, termId) {
+    let apiUrl =
+      this.baseUrl + '/courses/' + courseId + '/lesson-terms/' + termId;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient.get(apiUrl, httpOptions).map((res: Response) => {
+      return res;
+    });
   }
 }

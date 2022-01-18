@@ -4548,8 +4548,8 @@ export class AttendanceComponent implements OnInit {
     );
   }
 
-  cancelCreateTermModal() {
-    console.log('cancelCreateTermModal');
+  cancelCreateTermModal(event) {
+    console.log('cancelCreateTermModal', event);
     this.createTermModalReference.close();
   }
 

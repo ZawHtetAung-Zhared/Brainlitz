@@ -137,11 +137,13 @@ export class CreateTermComponent implements OnInit {
       month: now.getMonth() + 1,
       day: now.getDate()
     };
+
+    this.getTermDetails('61e689bc80a92a001b356616'); //testing
   }
 
   onClickCancel() {
     console.log('onClickCancel');
-    this.closeModal.emit();
+    this.closeModal.emit('cancel');
   }
 
   onDateSelection(date: NgbDateStruct) {
@@ -205,8 +207,8 @@ export class CreateTermComponent implements OnInit {
 
   createDateArray() {
     this.listDate = [];
-    var startDate = this.formatDateString(this.fromDate).slice(0, 10);
-    var endDate = this.formatDateString(this.toDate).slice(0, 10);
+    var startDate = this.formatDateString(this.fromDate);
+    var endDate = this.formatDateString(this.toDate);
     var dateMove = new Date(startDate);
     var strDate = startDate;
     console.log('startDate & endDate', startDate, endDate);
@@ -240,9 +242,9 @@ export class CreateTermComponent implements OnInit {
     if (dateParts) {
       // let testDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts)));
       // console.log("UTC",testDate)
-      let fullDate = new Date(
-        Date.UTC.apply(undefined, dateParts.concat())
-      ).toISOString();
+      let fullDate = new Date(Date.UTC.apply(undefined, dateParts.concat()))
+        .toISOString()
+        .slice(0, 10);
       console.log('ISO', fullDate);
       return fullDate;
     }
@@ -251,13 +253,21 @@ export class CreateTermComponent implements OnInit {
   createTerm() {
     let term = {
       name: this.termLabel,
-      termStartDate: this.fromDate,
-      termEndDate: this.toDate,
+      termStartDate: this.formatDateString(this.fromDate),
+      termEndDate: this.formatDateString(this.toDate),
       color: this.selectedColor
     };
     console.log('createTerm', term);
     this._service.createTerm(term, this.courseId).subscribe(res => {
       console.log('res', res);
+      this.closeModal.emit('close');
+    });
+  }
+
+  getTermDetails(termId) {
+    let testId = '61e689bc80a92a001b356616';
+    this._service.getTermDetails(this.courseId, termId).subscribe(res => {
+      console.log('getTermDetails', res);
     });
   }
 }
