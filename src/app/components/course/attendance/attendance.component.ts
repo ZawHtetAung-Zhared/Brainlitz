@@ -1971,6 +1971,10 @@ export class AttendanceComponent implements OnInit {
   selectedLesson: any = null;
   lastSelectedObj: any = null;
 
+  checkLessonAttendance(e) {
+    this.checkAttendance(e.startDate, e.timeline, e.cancelUi, e.i);
+  }
+
   checkAttendance(targetDate, classInfo, status, currentIdx) {
     this.lastSelectedObj = classInfo;
     console.log('hi', targetDate);

@@ -1,5 +1,104 @@
-<div class="timeline">
-  <button class="text-c300 edit-batch" (click)="onClickEditBatch()">
-    Edit
+<div class="d-flex flex-row lesson-list mt-2" *ngIf="loading == false">
+  <div *ngIf="LASD != null" class="timeline">
+    <div
+      [ngStyle]="{ left: i * 80 + 'px' }"
+      class="single-date"
+      *ngFor="let timeline of attendanceList?.lessons; let i = index"
+      [ngClass]="{
+        today:
+          (timeline.startDate | timelineDate) == (todayDate | timelineDate),
+        'disable-add': timeline.startDate > todayDate,
+        'disable-cursor': isRescheduleLesson || isNewLesson,
+        'day-highlight':
+          lastSelectedObj != null &&
+          lastSelectedObj._id == timeline._id &&
+          lastSelectedObj.startDate == timeline.startDate
+      }"
+    >
+      <!-- <pre>{{timeline | json}}</pre> -->
+      <div *ngIf="timeline.startDate < todayDate">
+        <div
+          *ngIf="
+            (timeline.startDate | timelineDate) != (todayDate | timelineDate)
+          "
+          (click)="onClickLesson(timeline.startDate, timeline, cancelUI, i)"
+        >
+          <b class="body-m text-c300"
+            >{{ timeline.startDate | timelineDate }}
+          </b>
+          <p class="small text-c100 mb-0">
+            {{ timeline.startDate | timelineDay }}
+            <span *ngIf="timeline.cancel == true" class="makeup-icon">C</span>
+            <span
+              *ngIf="timeline.rescheduledLesson == true"
+              class="makeup-icon"
+            >
+              R
+            </span>
+          </p>
+        </div>
+      </div>
+      <div
+        *ngIf="
+          (timeline.startDate | timelineDate) == (todayDate | timelineDate)
+        "
+        (click)="onClickLesson(timeline.startDate, timeline, cancelUI, i)"
+      >
+        <div>
+          <b class="body-m text-c300">{{
+            timeline.startDate | timelineDate
+          }}</b>
+          <p class="small text-c100 mb-0">
+            {{ timeline.startDate | timelineDay }}
+            <span *ngIf="timeline.cancel == true" class="makeup-icon">C</span>
+            <span
+              *ngIf="timeline.rescheduledLesson == true"
+              class="makeup-icon"
+            >
+              R
+            </span>
+          </p>
+        </div>
+      </div>
+      <div *ngIf="timeline.startDate > todayDate">
+        <div
+          *ngIf="
+            (timeline.startDate | timelineDate) != (todayDate | timelineDate)
+          "
+          (click)="onClickLesson(timeline.startDate, timeline, cancelUI, i)"
+        >
+          <b class="body-m text-c300">{{
+            timeline.startDate | timelineDate
+          }}</b>
+          <p class="small text-c100 mb-0">
+            {{ timeline.startDate | timelineDay }}
+            <span *ngIf="timeline.cancel == true" class="makeup-icon">C</span>
+            <span
+              *ngIf="timeline.rescheduledLesson == true"
+              class="makeup-icon"
+            >
+              R
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button
+    *ngIf="courseType == 'FLEXY'"
+    class="btn btn-newLesson"
+    (click)="onClickAddNewLesson()"
+    [disabled]="isRescheduleLesson"
+  >
+    Add new lesson
+  </button>
+  <button
+    *ngIf="courseType == 'FLEXY'"
+    class="btn btn-newLesson"
+    (click)="onClickCreateTerm()"
+    [disabled]="isRescheduleLesson"
+  >
+    Create Term
   </button>
 </div>

@@ -8,7 +8,7 @@
       <svg:rect x="0" y="0" rx="0" ry="0" width="100%" height="100%" />
     </content-loader>
   </div>
-  <div class="d-flex flex-row lesson-list" *ngIf="loading == false">
+  <!-- <div class="d-flex flex-row lesson-list" *ngIf="loading == false">
     <div *ngIf="LASD != null" class="timeline">
       <div
         [ngStyle]="{ left: i * 80 + 'px' }"
@@ -25,7 +25,6 @@
             lastSelectedObj.startDate == timeline.startDate
         }"
       >
-        <!-- <pre>{{timeline | json}}</pre> -->
         <div *ngIf="timeline.startDate < todayDate">
           <div
             *ngIf="
@@ -111,12 +110,20 @@
     >
       Create Term
     </button>
-  </div>
-  <div class="mt-2" *ngIf="loading == false">
-    <app-term-list
-      (clickEditBatch)="openCreateTermModal(createTermModal, 'edit')"
-    ></app-term-list>
-  </div>
+  </div> -->
+  <app-term-list
+    [loading]="loading"
+    [todayDate]="todayDate"
+    [courseId]="courseId"
+    [courseType]="detailLists.type"
+    [LASD]="LASD"
+    [lastSelectedObj]="lastSelectedObj"
+    [attendanceList]="attendanceList"
+    (clickEditBatch)="openCreateTermModal(createTermModal, 'edit')"
+    (clickCreateTerm)="openCreateTermModal(createTermModal, 'create')"
+    (clickLesson)="checkLessonAttendance($event)"
+    (clickAddNewLesson)="addNewLesson()"
+  ></app-term-list>
 
   <!-- end lesson list -->
 
