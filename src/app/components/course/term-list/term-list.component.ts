@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { terms } from './terms';
 import { appService } from '../../../service/app.service';
 
 @Component({

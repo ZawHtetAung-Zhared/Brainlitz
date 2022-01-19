@@ -150,8 +150,7 @@ import {
   CourseSearchComponent,
   SampleQuestionComponent,
   CreateTermComponent,
-  TermListComponent,
-  terms
+  TermListComponent
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
 import { CustomTaskComponent } from './components/course/custom-task/custom-task.component';

@@ -56,14 +56,14 @@
 .date-slot {
   background-color: #007fff;
   padding: 14px 15px;
-  margin-right: 9px;
+  margin-left: 9px;
   margin-bottom: 11px;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.date-slot:last-child {
-  margin-right: 0px;
+.date-slot:first-child {
+  margin-left: 0px;
 }
 
 /****** Date picker ******/
