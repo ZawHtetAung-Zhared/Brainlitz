@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  Input,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { appService } from '../../../service/app.service';
 
 @Component({
@@ -6,7 +13,7 @@ import { appService } from '../../../service/app.service';
   templateUrl: './term-list.component.html',
   styleUrls: ['./term-list.component.css']
 })
-export class TermListComponent implements OnInit {
+export class TermListComponent implements OnChanges {
   @Input() loading: boolean;
   @Input() todayDate: any;
   @Input() courseId: String;
@@ -22,7 +29,15 @@ export class TermListComponent implements OnInit {
 
   constructor(private _service: appService) {}
 
-  ngOnInit() {
+  // ngOnInit() {
+  //   console.log("attendanceList------",this.attendanceList.lessons);
+  //   console.log("termList------",this.termList);
+  //   this.getAllTerms();
+  // }
+
+  ngOnChanges() {
+    console.log('attendanceList------', this.attendanceList.lessons);
+    console.log('termList------', this.termList);
     this.getAllTerms();
   }
 
@@ -30,7 +45,35 @@ export class TermListComponent implements OnInit {
     this._service.getTermList(this.courseId).subscribe((res: any) => {
       console.log('res', res);
       this.termList = res.data;
+      this.mapTermWithAttendance();
     });
+  }
+
+  mapTermWithAttendance() {
+    if (
+      this.attendanceList.lessons != null &&
+      this.attendanceList.lessons != undefined &&
+      this.attendanceList.lessons.length > 0
+    ) {
+      console.log('map with term~~~~~~');
+      let lessonList = this.attendanceList.lessons;
+      lessonList.map(data => {
+        let lessonDate = new Date(data.startDate.slice(0, 10));
+        this.termList.map(item => {
+          const termStartDate = new Date(item.termStartDate.slice(0, 10));
+          const termEndDate = new Date(item.termEndDate.slice(0, 10));
+          console.log('~~~~~~~', lessonDate, termStartDate, termEndDate);
+          if (lessonDate >= termStartDate && lessonDate <= termEndDate) {
+            data['color'] = item.color;
+            console.log('lesson in term', data);
+          }
+        });
+      });
+      console.log(
+        'attendanceList.lessons---------',
+        this.attendanceList.lessons
+      );
+    }
   }
 
   onClickEditBatch() {

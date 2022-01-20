@@ -23,10 +23,21 @@
           "
           (click)="onClickLesson(timeline.startDate, timeline, cancelUI, i)"
         >
-          <b class="body-m text-c300"
+          <b
+            class="body-m"
+            [ngStyle]="{
+              color:
+                timeline.color == undefined ? '#363f4d' : timeline?.color.text
+            }"
             >{{ timeline.startDate | timelineDate }}
           </b>
-          <p class="small text-c100 mb-0">
+          <p
+            class="small mb-0"
+            [ngStyle]="{
+              color:
+                timeline.color == undefined ? '#5c6773' : timeline?.color.text
+            }"
+          >
             {{ timeline.startDate | timelineDay }}
             <span *ngIf="timeline.cancel == true" class="makeup-icon">C</span>
             <span
