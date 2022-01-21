@@ -1,7 +1,11 @@
 <div class="d-flex flex-row lesson-list mt-2" *ngIf="loading == false">
   <div *ngIf="LASD != null" class="timeline">
     <div
-      [ngStyle]="{ left: i * 80 + 'px' }"
+      [ngStyle]="{
+        left: i * 80 + 'px',
+        'background-color':
+          timeline.color == undefined ? '#ffffff' : timeline?.color?.background
+      }"
       class="single-date"
       *ngFor="let timeline of attendanceList?.lessons; let i = index"
       [ngClass]="{
@@ -27,15 +31,16 @@
             class="body-m"
             [ngStyle]="{
               color:
-                timeline.color == undefined ? '#363f4d' : timeline?.color.text
+                timeline.color == undefined ? '#363f4d' : timeline?.color?.text
             }"
-            >{{ timeline.startDate | timelineDate }}
+          >
+            {{ timeline.startDate | timelineDate }}
           </b>
           <p
             class="small mb-0"
             [ngStyle]="{
               color:
-                timeline.color == undefined ? '#5c6773' : timeline?.color.text
+                timeline.color == undefined ? '#5c6773' : timeline?.color?.text
             }"
           >
             {{ timeline.startDate | timelineDay }}
@@ -56,10 +61,22 @@
         (click)="onClickLesson(timeline.startDate, timeline, cancelUI, i)"
       >
         <div>
-          <b class="body-m text-c300">{{
-            timeline.startDate | timelineDate
-          }}</b>
-          <p class="small text-c100 mb-0">
+          <b
+            class="body-m"
+            [ngStyle]="{
+              color:
+                timeline.color == undefined ? '#363f4d' : timeline?.color?.text
+            }"
+          >
+            {{ timeline.startDate | timelineDate }}
+          </b>
+          <p
+            class="small mb-0"
+            [ngStyle]="{
+              color:
+                timeline.color == undefined ? '#5c6773' : timeline?.color?.text
+            }"
+          >
             {{ timeline.startDate | timelineDay }}
             <span *ngIf="timeline.cancel == true" class="makeup-icon">C</span>
             <span
@@ -78,10 +95,22 @@
           "
           (click)="onClickLesson(timeline.startDate, timeline, cancelUI, i)"
         >
-          <b class="body-m text-c300">{{
-            timeline.startDate | timelineDate
-          }}</b>
-          <p class="small text-c100 mb-0">
+          <b
+            class="body-m"
+            [ngStyle]="{
+              color:
+                timeline.color == undefined ? '#363f4d' : timeline?.color?.text
+            }"
+          >
+            {{ timeline.startDate | timelineDate }}
+          </b>
+          <p
+            class="small mb-0"
+            [ngStyle]="{
+              color:
+                timeline.color == undefined ? '#5c6773' : timeline?.color?.text
+            }"
+          >
             {{ timeline.startDate | timelineDay }}
             <span *ngIf="timeline.cancel == true" class="makeup-icon">C</span>
             <span
