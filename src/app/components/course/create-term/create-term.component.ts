@@ -141,7 +141,7 @@ export class CreateTermComponent implements OnInit {
     };
 
     if (this.modalType == 'edit') {
-      this.getTermDetails('61e689bc80a92a001b356616');
+      this.getTermDetails('61f7dbe044432e00218722d8');
     }
   }
 

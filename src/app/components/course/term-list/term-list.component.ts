@@ -46,8 +46,30 @@ export class TermListComponent implements OnChanges {
       console.log('res', res);
       this.termList = res.data;
       this.mapTermWithAttendance();
+      // this.getTermLessons();
     });
   }
+
+  // getTermLessons() {
+  //   this.termList.map(term => {
+  //     console.log("term",term);
+  //     const termStartDate = new Date(term.termStartDate.slice(0,10));
+  //     const termEndDate = new Date(term.termEndDate.slice(0,10));
+  //     term['lessons'] = [];
+  //     if(this.attendanceList.lessons != null && this.attendanceList.lessons != undefined && this.attendanceList.lessons.length > 0) {
+  //       let lessonList = this.attendanceList.lessons;
+  //       lessonList.map(lesson => {
+  //         let lessonDate = new Date(lesson.startDate.slice(0, 10));
+  //         console.log("attendance lesson",lesson);
+  //         console.log(lessonDate,termStartDate,termEndDate);
+  //         if(lessonDate >= termStartDate && lessonDate <= termEndDate) {
+  //           term.lessons.push(lesson);
+  //         }
+  //       })
+  //     }
+  //   })
+  //   console.log("termList",this.termList);
+  // }
 
   mapTermWithAttendance() {
     if (
