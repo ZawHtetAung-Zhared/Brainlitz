@@ -66,6 +66,16 @@
   margin-left: 0px;
 }
 
+.lesson-count {
+  background-color: #cce5ff;
+  color: #004080;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  padding: 8px 12px;
+  border-radius: 27px;
+}
+
 /****** Date picker ******/
 .datepickerInput {
   visibility: hidden;

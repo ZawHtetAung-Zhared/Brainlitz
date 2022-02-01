@@ -11,22 +11,34 @@
       Choose Lesson
     </div>
     <div>
-      <div>
-        <button class="date-btn" (click)="d.toggle(); $event.stopPropagation()">
-          <span *ngIf="dateFormat.fromDate == null">Start Date</span>
-          <span *ngIf="dateFormat.fromDate != null">{{
-            dateFormat.fromDate
-          }}</span>
-          <img src="./assets/icons/calender.svg" />
-        </button>
-        <button
-          class="date-btn ml-2"
-          (click)="d.toggle(); $event.stopPropagation()"
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <button
+            class="date-btn"
+            (click)="d.toggle(); $event.stopPropagation()"
+          >
+            <span *ngIf="dateFormat.fromDate == null">Start Date</span>
+            <span *ngIf="dateFormat.fromDate != null">{{
+              dateFormat.fromDate
+            }}</span>
+            <img src="./assets/icons/calender.svg" />
+          </button>
+          <button
+            class="date-btn ml-2"
+            (click)="d.toggle(); $event.stopPropagation()"
+          >
+            <span *ngIf="dateFormat.toDate == null">End Date</span>
+            <span *ngIf="dateFormat.toDate != null">{{
+              dateFormat.toDate
+            }}</span>
+            <img src="./assets/icons/calender.svg" />
+          </button>
+        </div>
+        <div
+          class="d-flex justify-content-center align-items-center lesson-count"
         >
-          <span *ngIf="dateFormat.toDate == null">End Date</span>
-          <span *ngIf="dateFormat.toDate != null">{{ dateFormat.toDate }}</span>
-          <img src="./assets/icons/calender.svg" />
-        </button>
+          Selected lessons: {{ listDate?.length }}
+        </div>
       </div>
       <div>
         <input
