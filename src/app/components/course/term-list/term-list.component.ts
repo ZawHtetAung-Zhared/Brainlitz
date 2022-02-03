@@ -6,6 +6,7 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
+import { ISubscription } from 'rxjs/Subscription';
 import { appService } from '../../../service/app.service';
 
 @Component({
@@ -25,7 +26,9 @@ export class TermListComponent implements OnChanges {
   @Output() clickEditBatch = new EventEmitter<any>();
   @Output() clickCreateTerm = new EventEmitter<any>();
   @Output() clickAddNewLesson = new EventEmitter<any>();
+  public subscription: ISubscription;
   public termList: Array<any> = [];
+  public termLessons: Array<any> = [];
 
   constructor(private _service: appService) {}
 
@@ -41,13 +44,19 @@ export class TermListComponent implements OnChanges {
     this.getAllTerms();
   }
 
+  ngOnDestory() {
+    this.subscription.unsubscribe();
+  }
+
   getAllTerms() {
-    this._service.getTermList(this.courseId).subscribe((res: any) => {
-      console.log('res', res);
-      this.termList = res.data;
-      this.mapTermWithAttendance();
-      // this.getTermLessons();
-    });
+    this.subscription = this._service
+      .getTermList(this.courseId)
+      .subscribe((res: any) => {
+        console.log('res-----', res);
+        this.termList = res.data;
+        this.mapTermWithAttendance();
+        // this.getTermLessons();
+      });
   }
 
   // getTermLessons() {
@@ -77,16 +86,16 @@ export class TermListComponent implements OnChanges {
       this.attendanceList.lessons != undefined &&
       this.attendanceList.lessons.length > 0
     ) {
-      console.log('map with term~~~~~~');
       let lessonList = this.attendanceList.lessons;
       lessonList.map(data => {
         let lessonDate = new Date(data.startDate.slice(0, 10));
         this.termList.map(item => {
           const termStartDate = new Date(item.termStartDate.slice(0, 10));
           const termEndDate = new Date(item.termEndDate.slice(0, 10));
-          console.log('~~~~~~~', lessonDate, termStartDate, termEndDate);
           if (lessonDate >= termStartDate && lessonDate <= termEndDate) {
             data['color'] = item.color;
+            data['termId'] = item._id;
+            data['termName'] = item.name;
             console.log('lesson in term', data);
           }
         });
@@ -95,7 +104,46 @@ export class TermListComponent implements OnChanges {
         'attendanceList.lessons---------',
         this.attendanceList.lessons
       );
+      this.setTermLessons(this.attendanceList.lessons);
     }
+  }
+
+  setTermLessons(lessons) {
+    this.termLessons = [];
+    lessons.map(lesson => {
+      if (
+        lesson.termId != undefined &&
+        lesson.termName != undefined &&
+        lesson.color != undefined
+      ) {
+        let termIdx = this.termLessons.findIndex(
+          data => data._id == lesson.termId
+        );
+        if (termIdx == -1) {
+          console.log('termIdx == -1');
+          const term_idx = this.termList.findIndex(
+            data => data._id == lesson.termId
+          );
+          const term = this.termList[term_idx];
+          term['lessons'] = [];
+          term.lessons.push(lesson);
+          this.termLessons.push(term);
+        } else {
+          console.log('term != -1', termIdx);
+          let term = this.termLessons[termIdx];
+          if (term._id == lesson.termId) {
+            this.termLessons[termIdx].lessons.push(lesson);
+          }
+        }
+      } else {
+        const idx = this.termLessons.findIndex(data => data._id == lesson._id);
+        console.log('lesson idx------', idx);
+        if (idx == -1) {
+          this.termLessons.push(lesson);
+        }
+      }
+    });
+    console.log('termLessons------', this.termLessons);
   }
 
   onClickEditBatch() {

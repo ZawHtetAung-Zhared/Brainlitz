@@ -1,6 +1,6 @@
 <div class="d-flex flex-row lesson-list mt-2" *ngIf="loading == false">
-  <div *ngIf="LASD != null" class="timeline">
-    <div
+  <div *ngIf="LASD != null" class="d-flex timeline">
+    <!-- <div
       [ngStyle]="{
         left: i * 80 + 'px',
         'background-color':
@@ -19,7 +19,6 @@
           lastSelectedObj.startDate == timeline.startDate
       }"
     >
-      <!-- <pre>{{timeline | json}}</pre> -->
       <div *ngIf="timeline.startDate < todayDate">
         <div
           *ngIf="
@@ -122,23 +121,100 @@
           </p>
         </div>
       </div>
+    </div> -->
+    <div *ngFor="let term of termLessons">
+      <div class="term-name-wrap">
+        <div
+          class="term-name"
+          *ngIf="term?.name != undefined"
+          [ngStyle]="{ color: term?.color.text }"
+        >
+          {{ term?.name }}
+        </div>
+      </div>
+      <div *ngIf="term?.lessons == undefined">
+        <div
+          class="timeline-slot"
+          (click)="onClickLesson(term.startDate, term, cancelUI, i)"
+        >
+          <b
+            class="body-m"
+            [ngStyle]="{
+              color: term.color == undefined ? '#363f4d' : term?.color?.text
+            }"
+          >
+            {{ term.startDate | timelineDate }}
+          </b>
+          <p
+            class="small mb-0"
+            [ngStyle]="{
+              color: term.color == undefined ? '#5c6773' : term?.color?.text
+            }"
+          >
+            {{ term.startDate | timelineDay }}
+            <span *ngIf="term.cancel == true" class="makeup-icon">C</span>
+            <span *ngIf="term.rescheduledLesson == true" class="makeup-icon">
+              R
+            </span>
+          </p>
+        </div>
+      </div>
+      <div
+        class="d-flex"
+        *ngIf="term?.lessons != undefined"
+        [ngStyle]="{
+          'background-color':
+            term?.color == undefined ? '#ffffff' : term?.color.background
+        }"
+      >
+        <div
+          class="timeline-slot"
+          *ngFor="let lesson of term?.lessons"
+          (click)="onClickLesson(lesson.startDate, lesson, cancelUI, i)"
+        >
+          <b
+            class="body-m"
+            [ngStyle]="{
+              color: lesson.color == undefined ? '#363f4d' : lesson?.color?.text
+            }"
+          >
+            {{ lesson.startDate | timelineDate }}
+          </b>
+          <p
+            class="small mb-0"
+            [ngStyle]="{
+              color: lesson.color == undefined ? '#5c6773' : lesson?.color?.text
+            }"
+          >
+            {{ lesson.startDate | timelineDay }}
+            <span *ngIf="lesson.cancel == true" class="makeup-icon">C</span>
+            <span *ngIf="lesson.rescheduledLesson == true" class="makeup-icon">
+              R
+            </span>
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <button
-    *ngIf="courseType == 'FLEXY'"
-    class="btn btn-newLesson"
-    (click)="onClickAddNewLesson()"
-    [disabled]="isRescheduleLesson"
-  >
-    Add new lesson
-  </button>
-  <button
-    *ngIf="courseType == 'FLEXY'"
-    class="btn btn-newLesson"
-    (click)="onClickCreateTerm()"
-    [disabled]="isRescheduleLesson"
-  >
-    Create Term
-  </button>
+  <div class="d-flex align-items-end">
+    <div class="d-flex align-items-center pl-3 pr-3 bg-s0 button-wrapper">
+      <button
+        *ngIf="courseType == 'FLEXY'"
+        class="btn btn-newLesson"
+        (click)="onClickAddNewLesson()"
+        [disabled]="isRescheduleLesson"
+      >
+        Add new lesson
+      </button>
+      <button
+        *ngIf="courseType == 'FLEXY'"
+        class="btn btn-newLesson"
+        (click)="onClickCreateTerm()"
+        [disabled]="isRescheduleLesson"
+      >
+        Create Term
+      </button>
+    </div>
+  </div>
 </div>
