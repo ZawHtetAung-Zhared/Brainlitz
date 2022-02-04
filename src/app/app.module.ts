@@ -150,7 +150,9 @@ import {
   CourseSearchComponent,
   SampleQuestionComponent,
   CreateTermComponent,
-  TermListComponent
+  TermListComponent,
+  LessonListComponent,
+  PrevLessonsComponent
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
 import { CustomTaskComponent } from './components/course/custom-task/custom-task.component';
@@ -308,7 +310,9 @@ import { MakeupPassComponent } from './components/makeup-pass/makeup-pass.compon
     CredentialComponent,
     MakeupPassComponent,
     CreateTermComponent,
-    TermListComponent
+    TermListComponent,
+    LessonListComponent,
+    PrevLessonsComponent
   ],
   imports: [
     ContentLoaderModule,

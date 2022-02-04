@@ -18,3 +18,5 @@ export * from './masteriesreport/sample-question/sample-question.component';
 export * from './course-search/course-search.component';
 export * from './create-term/create-term.component';
 export * from './term-list/term-list.component';
+export * from './lesson-list/lesson-list.component';
+export * from './prev-lessons/prev-lessons.component';

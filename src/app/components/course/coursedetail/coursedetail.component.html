@@ -218,6 +218,14 @@
             Attendance
           </button>
           <button
+            class="btn course-tab text-c300 body-l"
+            routerLinkActive="active"
+            routerLink="prev-lessons"
+            *ngIf="courseType != 'ONLINE'"
+          >
+            Prev Lessons
+          </button>
+          <button
             *ngIf="detailLists.sparkWerkz?.sparkWerkzCourse == true"
             class="btn course-tab text-c300 body-l"
             routerLinkActive="active"

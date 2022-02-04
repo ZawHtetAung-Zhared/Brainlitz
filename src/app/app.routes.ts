@@ -36,7 +36,8 @@ import {
   ReportDetailComponent,
   StudentListComponent,
   MasteryReportComponent,
-  ReportDetail2Component
+  ReportDetail2Component,
+  PrevLessonsComponent
 } from './components/course/index';
 import { EnrollUserComponent } from './components/course/customer/enroll-user/enroll-user.component';
 import {
@@ -169,6 +170,10 @@ export const routes: Routes = [
       {
         path: 'masteries-report',
         component: MasteriesreportComponent
+      },
+      {
+        path: 'prev-lessons',
+        component: PrevLessonsComponent
       }
     ]
   },
