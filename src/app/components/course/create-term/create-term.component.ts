@@ -59,6 +59,7 @@ const after = (one: NgbDateStruct, two: NgbDateStruct) =>
 export class CreateTermComponent implements OnInit {
   @Input() courseId: String;
   @Input() modalType: String;
+  @Input() termId: String;
   @Output() closeModal = new EventEmitter<any>();
 
   public modalReference: any;
@@ -101,7 +102,6 @@ export class CreateTermComponent implements OnInit {
   ];
   public selectedColor: any = null;
   public listDate: Array<any> = [];
-  public termId: String;
 
   @ViewChild('d') input: NgbInputDatepicker;
   @ViewChild(NgModel) datePick: NgModel;
@@ -141,7 +141,7 @@ export class CreateTermComponent implements OnInit {
     };
 
     if (this.modalType == 'edit') {
-      this.getTermDetails('61f7dbe044432e00218722d8');
+      this.getTermDetails(this.termId);
     }
   }
 
@@ -285,7 +285,6 @@ export class CreateTermComponent implements OnInit {
   }
 
   getTermDetails(termId) {
-    let testId = '61e689bc80a92a001b356616';
     this._service
       .getTermDetails(this.courseId, termId)
       .subscribe((res: any) => {

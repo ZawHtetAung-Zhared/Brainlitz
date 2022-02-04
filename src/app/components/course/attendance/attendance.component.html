@@ -119,8 +119,8 @@
     [LASD]="LASD"
     [lastSelectedObj]="lastSelectedObj"
     [attendanceList]="attendanceList"
-    (clickEditBatch)="openCreateTermModal(createTermModal, 'edit')"
-    (clickCreateTerm)="openCreateTermModal(createTermModal, 'create')"
+    (clickEditBatch)="editTerm($event)"
+    (clickCreateTerm)="openCreateTermModal(createTermModal, 'create', null)"
     (clickLesson)="checkLessonAttendance($event)"
     (clickAddNewLesson)="addNewLesson()"
   ></app-term-list>
@@ -1210,6 +1210,7 @@
     <app-create-term
       [courseId]="courseId"
       [modalType]="termModalType"
+      [termId]="editTermId"
       (closeModal)="cancelCreateTermModal($event)"
     ></app-create-term>
   </div>

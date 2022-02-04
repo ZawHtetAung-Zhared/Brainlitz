@@ -2,6 +2,7 @@ import {
   Component,
   OnInit,
   ViewChildren,
+  ViewChild,
   QueryList,
   Inject,
   ViewContainerRef,
@@ -33,6 +34,7 @@ export class AttendanceComponent implements OnInit {
   @ViewChildren(FlexiComponent) private FlexiComponent: QueryList<
     FlexiComponent
   >;
+  @ViewChild('createTermModal') private createTermModal;
   // @ViewChild('childComponent') FlexiComponent;
 
   //
@@ -250,6 +252,7 @@ export class AttendanceComponent implements OnInit {
   public isReview: boolean = false;
   public createTermModalReference: any;
   public termModalType: String;
+  public editTermId: String;
   constructor(
     @Inject(DOCUMENT) private doc: Document,
     private router: Router,
@@ -4556,14 +4559,30 @@ export class AttendanceComponent implements OnInit {
   cancelCreateTermModal(event) {
     console.log('cancelCreateTermModal', event);
     this.createTermModalReference.close();
+    if (event == 'close') this.clickTab('Class', 'course');
   }
 
-  openCreateTermModal(modal, type) {
+  openCreateTermModal(modal, type, termId) {
     this.termModalType = type;
+    this.editTermId = termId;
     this.createTermModalReference = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass:
         'modal-xl modal-inv d-flex justify-content-center align-items-center'
     });
+  }
+
+  editTerm(e) {
+    console.log('editTerm', e);
+    this.termModalType = 'edit';
+    this.editTermId = e;
+    this.createTermModalReference = this.modalService.open(
+      this.createTermModal,
+      {
+        backdrop: 'static',
+        windowClass:
+          'modal-xl modal-inv d-flex justify-content-center align-items-center'
+      }
+    );
   }
 }

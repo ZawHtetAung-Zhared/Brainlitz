@@ -146,8 +146,8 @@ export class TermListComponent implements OnChanges {
     console.log('termLessons------', this.termLessons);
   }
 
-  onClickEditBatch() {
-    this.clickEditBatch.emit();
+  onClickEditBatch(termId) {
+    this.clickEditBatch.emit(termId);
   }
 
   onClickCreateTerm() {

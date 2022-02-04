@@ -128,6 +128,7 @@
           class="term-name"
           *ngIf="term?.name != undefined"
           [ngStyle]="{ color: term?.color.text }"
+          (click)="onClickEditBatch(term?._id)"
         >
           {{ term?.name }}
         </div>
