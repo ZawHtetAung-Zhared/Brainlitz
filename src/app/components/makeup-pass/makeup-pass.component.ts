@@ -26,6 +26,7 @@ export class MakeupPassComponent implements OnInit {
   public makeupList: any = [];
   public currentPassObj: any;
   public modalReference: any;
+  public approveModalReference: any;
   public claimCourses: Array<any> = [];
   public passForm: any = {};
   public lessonData: any;
@@ -394,5 +395,31 @@ export class MakeupPassComponent implements OnInit {
     this.currentLoc = ' All locations';
     this.locationID = null;
     this.getAllMakeupList();
+  }
+  openRejectModal(rejectModal, makeupPass) {
+    this.currentPassObj = makeupPass;
+    this.modalReference = this.modalService.open(rejectModal, {
+      backdrop: 'static',
+      windowClass: 'w360-modal'
+    });
+  }
+  rejectMakeupPass(makeupPass) {
+    console.log('rejectMakeupPass', makeupPass);
+    this.makeupId = makeupPass.id;
+    this.closeModal('reject');
+  }
+  openApproveModal(approveModal, makeup) {
+    this.currentMakeup = makeup;
+    this.approveModalReference = this.modalService.open(approveModal, {
+      backdrop: 'static',
+      windowClass: 'makeup-modal'
+    });
+  }
+  closeApproveModal() {
+    this.approveModalReference.close();
+  }
+  approveMakeupPass(makeupPass) {
+    console.log('approveMakeupPass', makeupPass);
+    this.approveModalReference.close();
   }
 }
