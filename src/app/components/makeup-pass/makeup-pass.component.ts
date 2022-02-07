@@ -25,6 +25,8 @@ export class MakeupPassComponent implements OnInit {
   public regionID = localStorage.getItem('regionId');
   public makeupList: any = [];
   public currentPassObj: any;
+  public currentMakeupPayload: any;
+  public currentPayload: any;
   public modalReference: any;
   public approveModalReference: any;
   public claimCourses: Array<any> = [];
@@ -396,20 +398,42 @@ export class MakeupPassComponent implements OnInit {
     this.locationID = null;
     this.getAllMakeupList();
   }
-  openRejectModal(rejectModal, makeupPass) {
+  openRejectModal(rejectModal, makeupPass, makeupPayLoad) {
     this.currentPassObj = makeupPass;
+    this.currentMakeupPayload = makeupPayLoad;
+    if (this.currentMakeupPayload != undefined) {
+      this.currentMakeupPayload['passId'] = makeupPass._id;
+    }
     this.modalReference = this.modalService.open(rejectModal, {
       backdrop: 'static',
       windowClass: 'w360-modal'
     });
   }
-  rejectMakeupPass(makeupPass) {
-    console.log('rejectMakeupPass', makeupPass);
+  rejectMakeupPass(makeupPass, makeupPayLoad) {
+    console.log('rejectMakeupPass', makeupPass, makeupPayLoad);
     this.makeupId = makeupPass.id;
     this.closeModal('reject');
+    this._service
+      .rejectMakeupPass(
+        makeupPass.courseId,
+        makeupPass.studentId,
+        makeupPayLoad
+      )
+      .subscribe(
+        (res: any) => {
+          console.log('res', res);
+        },
+        err => {
+          console.log('err', err);
+        }
+      );
   }
-  openApproveModal(approveModal, makeup) {
+  openApproveModal(approveModal, makeup, makeupPayLoad) {
     this.currentMakeup = makeup;
+    this.currentPayload = makeupPayLoad;
+    if (this.currentPayload != undefined) {
+      this.currentPayload['passId'] = makeup._id;
+    }
     this.approveModalReference = this.modalService.open(approveModal, {
       backdrop: 'static',
       windowClass: 'makeup-modal'
@@ -418,8 +442,22 @@ export class MakeupPassComponent implements OnInit {
   closeApproveModal() {
     this.approveModalReference.close();
   }
-  approveMakeupPass(makeupPass) {
+  approveMakeupPass(makeupPass, makeupPayLoad) {
     console.log('approveMakeupPass', makeupPass);
     this.approveModalReference.close();
+    this._service
+      .approveMakeupPass(
+        makeupPass.courseId,
+        makeupPass.studentId,
+        makeupPayLoad
+      )
+      .subscribe(
+        (res: any) => {
+          console.log('res', res);
+        },
+        err => {
+          console.log('err', err);
+        }
+      );
   }
 }

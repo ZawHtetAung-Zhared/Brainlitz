@@ -69,7 +69,7 @@
   border-radius: 99px;
 }
 .approve-div {
-  width: 80px;
+  width: 85px;
   height: 40px;
   box-sizing: border-box;
   border-radius: 99px;
@@ -175,11 +175,8 @@
 }
 .dashed {
   width: 528px;
-  height: 12px;
   border-top: 2px dashed #e3e4e6;
-
   margin: 0 auto;
-  margin-top: 24px;
 }
 .location-header {
   /* width: 966px; */

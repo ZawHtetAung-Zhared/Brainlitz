@@ -25,7 +25,9 @@
         [ngClass]="{
           'switcher-active': currentSwitch == 'requested',
           'h5-strong': currentSwitch == 'requested',
-          'text-b100': currentSwitch == 'requested'
+          'text-b100': currentSwitch == 'requested',
+          'pl-2': currentSwitch == 'requested',
+          'pr-2': currentSwitch == 'requested'
         }"
         class="light-body-m makeup-options d-flex justify-content-center align-items-center cursor"
       >
@@ -304,7 +306,7 @@
       <div
         (click)="sortByCus()"
         class="cursor caption-u text-c100"
-        style="width: 30%; padding: 14px 20px;"
+        style="width:19%; padding: 14px 20px;"
       >
         Name<img
           class="cursor"
@@ -312,15 +314,21 @@
           src="./assets/icons/sorting.svg"
         />
       </div>
-      <div class="caption-u text-c100" style="width: 30%; padding: 14px 20px;">
+      <div
+        class="caption-u text-c100"
+        style="width: 30%; padding: 14px 20px 14px 0px;"
+      >
         Issued
       </div>
-      <div class="caption-u text-c100" style="width: 30%; padding: 14px 20px;">
+      <div
+        class="caption-u text-c100"
+        style="width: 30%; padding: 14px 20px 14px 0px;"
+      >
         Requested
       </div>
       <div
         class="caption-u text-c100 d-flex justify-content-center"
-        style="width: 20%; padding: 14px 20px;"
+        style="width: 21%; padding: 14px 20px 14px 0px;"
       >
         Action
       </div>
@@ -352,18 +360,20 @@
           class="makeup-body d-flex align-items-center"
           (click)="openDetailPopup(availPopup, makeup)"
         >
-          <div style="width: 30%; padding: 16px 20px;">
+          <div style="width: 19%; padding: 16px 20px;">
             <div class="h4-strong text-c300 ellipsis">{{ makeup.name }}</div>
             <div class="light-body-m text-c100">
-              for
-              <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
-                makeup.studentDetails.preferredName
-              }}</span>
+              <span class="ellipsis" *ngIf="makeup.studentDetails != null">
+                for
+                <span class="text-b100">
+                  {{ makeup.studentDetails.preferredName }}
+                </span>
+              </span>
               <span class="text-b100" *ngIf="makeup.studentDetails == null">
                 -
               </span>
               <div
-                class="text-s70 ellipsis w200"
+                class="text-s70 ellipsis"
                 *ngIf="makeup.student != null && makeup.student.email != ''"
               >
                 ({{ makeup.student.email }})
@@ -376,7 +386,7 @@
             </div>
           </div>
           <!-- issued date -->
-          <div style="width: 30%; padding: 16px 20px;">
+          <div style="width: 30%; padding: 16px 20px 16px 0px;">
             <div class="body-l text-b100">{{ makeup.course.name }}</div>
             <div>
               <span class="body-m text-c300">{{
@@ -390,7 +400,7 @@
             </div>
           </div>
           <!-- requested -->
-          <div style="width: 30%; padding: 16px 20px;">
+          <div style="width: 30%; padding: 16px 20px 16px 0px;">
             <div class="body-l text-b100">{{ makeup.course.name }}</div>
             <div>
               <span class="body-m text-c300">{{
@@ -404,29 +414,32 @@
             </div>
           </div>
           <div
-            class="d-flex"
-            style="width: 20%; padding: 16px 20px;position: relative;"
+            class="d-flex justify-content-between"
+            style="width: 21%; padding: 16px 20px 16px 0px;"
           >
             <div
               (click)="
-                openApproveModal(approveModal, makeup); $event.stopPropagation()
+                openApproveModal(approveModal, makeup, location?.makeupPayLoad);
+                $event.stopPropagation()
               "
-              class="cursor approve-div caption-u bg-b100 text-s0 d-flex justify-content-center align-items-center"
+              class="cursor approve-div caption-u bg-b100 text-s0 d-flex justify-content-center align-items-center pl-2 pr-2"
             >
               approve
             </div>
             <div
               (click)="
-                openRejectModal(rejectModal, makeup); $event.stopPropagation()
+                openRejectModal(rejectModal, makeup, location?.makeupPayLoad);
+                $event.stopPropagation()
               "
-              class="cursor claim-div caption-u text-b100 d-flex justify-content-center align-items-center"
+              class="cursor claim-div caption-u text-b100 d-flex justify-content-center align-items-center pl-2 pr-2"
             >
               reject
             </div>
             <div class="action-detail" *ngIf="popupOpts[i]">
               <div
                 (click)="
-                  oneditMakeup(editMakeup, makeup); $event.stopPropagation()
+                  oneditMakeup(editMakeup, makeup, location?.makeupPayLoad);
+                  $event.stopPropagation()
                 "
                 class="cursor d-flex align-items-center detail-opt"
                 style="border-bottom: 1px solid #E8E9EB;"
@@ -1392,7 +1405,7 @@
       </button>
       <button
         class="confirm-btn btn bg-r100 text-s0"
-        (click)="rejectMakeupPass(currentPassObj)"
+        (click)="rejectMakeupPass(currentPassObj, currentMakeupPayload)"
       >
         Ok
       </button>
@@ -1402,8 +1415,8 @@
 <ng-template #approveModal let-c="close" let-d="dismiss">
   <div class="avail-wrap">
     <div
-      style="height: 56px; padding: 16px;"
-      class="d-flex justify-content-between align-items-center"
+      style="height: 56px; padding: 16px; border-radius: 16px;"
+      class="d-flex justify-content-between align-items-center bg-s10"
     >
       <div class="h5-strong text-c100 d-flex align-items-center">
         <img
@@ -1418,7 +1431,7 @@
         src="../../../assets/icons/crossClose.svg"
       />
     </div>
-    <div style="height: 297px; padding: 20px 16px;">
+    <div style="height: 380px; padding: 16px 20px;">
       <div class="h4-strong text-c300" style="margin-bottom: 8px;">
         {{ currentMakeup.name }}
       </div>
@@ -1428,7 +1441,7 @@
       >
         {{ currentMakeup.reason }}
       </div>
-      <div style="margin-top: 16px;" class="d-flex justify-content-between">
+      <!-- <div style="margin-top: 16px;" class="d-flex justify-content-between">
         <div>
           <div class="caption-u text-b100" style="margin-bottom: 4px;">
             Expiry date
@@ -1446,7 +1459,7 @@
         >
           <img src="../../../assets/images/pencil_l.svg" />
         </div>
-      </div>
+      </div> -->
       <div class="avail-div" style="padding: 12px; margin-top: 16px;">
         <div
           style="margin-left: 12px;margin-bottom: 8px;"
@@ -1464,20 +1477,40 @@
           </div>
         </div>
       </div>
+      <div class="avail-div" style="padding: 12px; margin-top: 16px;">
+        <div
+          style="margin-left: 12px;margin-bottom: 8px;"
+          class="caption text-y200"
+        >
+          Requested on {{ currentMakeup.created_at | date: 'd LLL yyyy' }}
+        </div>
+        <div class="avail-div2">
+          <div style="margin-bottom: 4px;" class="body-m text-b100">
+            {{ currentMakeup.course.name }}
+          </div>
+          <div class="small text-c100">
+            {{ currentMakeup.course?.duration.startDate | date: 'h:mm a' }} -
+            {{ currentMakeup.course?.duration.endDate | date: 'h:mm a' }}
+          </div>
+        </div>
+      </div>
     </div>
     <div class="dashed"></div>
-    <div style="  padding: 0 20px;" class="d-flex justify-content-end">
+    <div style="padding: 20px;" class="d-flex justify-content-end">
       <div>
         <button
+          style="margin-right: 20px;"
           class="popup-btn btn bg-b100 text-s0"
-          (click)="approveMakeupPass(currentMakeup)"
+          (click)="approveMakeupPass(currentMakeup, currentPayload)"
         >
           Approve
         </button>
         <button
-          style="margin-right: 20px;"
           class="popup-btn btn bg-s20"
-          (click)="openRejectModal(rejectModal, currentMakeup)"
+          (click)="
+            openRejectModal(rejectModal, currentMakeup, currentPayload);
+            approveModalReference.close()
+          "
         >
           Reject
         </button>
