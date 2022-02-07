@@ -413,20 +413,20 @@ export class MakeupPassComponent implements OnInit {
     console.log('rejectMakeupPass', makeupPass, makeupPayLoad);
     this.makeupId = makeupPass.id;
     this.closeModal('reject');
-    this._service
-      .rejectMakeupPass(
-        makeupPass.courseId,
-        makeupPass.studentId,
-        makeupPayLoad
-      )
-      .subscribe(
-        (res: any) => {
-          console.log('res', res);
-        },
-        err => {
-          console.log('err', err);
-        }
-      );
+    // this._service
+    //   .rejectMakeupPass(
+    //     makeupPass.courseId,
+    //     makeupPass.studentId,
+    //     makeupPayLoad
+    //   )
+    //   .subscribe(
+    //     (res: any) => {
+    //       console.log('res', res);
+    //     },
+    //     err => {
+    //       console.log('err', err);
+    //     }
+    //   );
   }
   openApproveModal(approveModal, makeup, makeupPayLoad) {
     this.currentMakeup = makeup;
@@ -445,19 +445,19 @@ export class MakeupPassComponent implements OnInit {
   approveMakeupPass(makeupPass, makeupPayLoad) {
     console.log('approveMakeupPass', makeupPass);
     this.approveModalReference.close();
-    this._service
-      .approveMakeupPass(
-        makeupPass.courseId,
-        makeupPass.studentId,
-        makeupPayLoad
-      )
-      .subscribe(
-        (res: any) => {
-          console.log('res', res);
-        },
-        err => {
-          console.log('err', err);
-        }
-      );
+    // this._service
+    //   .approveMakeupPass(
+    //     makeupPass.courseId,
+    //     makeupPass.studentId,
+    //     makeupPayLoad
+    //   )
+    //   .subscribe(
+    //     (res: any) => {
+    //       console.log('res', res);
+    //     },
+    //     err => {
+    //       console.log('err', err);
+    //     }
+    //   );
   }
 }
