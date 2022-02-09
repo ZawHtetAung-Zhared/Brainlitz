@@ -398,12 +398,12 @@ export class MakeupPassComponent implements OnInit {
     this.locationID = null;
     this.getAllMakeupList();
   }
-  openRejectModal(rejectModal, makeupPass, makeupPayLoad) {
+  openRejectModal(rejectModal, makeupPass) {
     this.currentPassObj = makeupPass;
-    this.currentMakeupPayload = makeupPayLoad;
-    if (this.currentMakeupPayload != undefined) {
-      this.currentMakeupPayload['passId'] = makeupPass._id;
-    }
+    this.currentMakeupPayload = makeupPass.meta.makeupPayLoad;
+    // if (this.currentMakeupPayload != undefined) {
+    //   this.currentMakeupPayload['passId'] = makeupPass._id;
+    // }
     this.modalReference = this.modalService.open(rejectModal, {
       backdrop: 'static',
       windowClass: 'w360-modal'
@@ -413,27 +413,27 @@ export class MakeupPassComponent implements OnInit {
     console.log('rejectMakeupPass', makeupPass, makeupPayLoad);
     this.makeupId = makeupPass.id;
     this.closeModal('reject');
-    // this._service
-    //   .rejectMakeupPass(
-    //     makeupPass.courseId,
-    //     makeupPass.studentId,
-    //     makeupPayLoad
-    //   )
-    //   .subscribe(
-    //     (res: any) => {
-    //       console.log('res', res);
-    //     },
-    //     err => {
-    //       console.log('err', err);
-    //     }
-    //   );
+    this._service
+      .rejectMakeupPass(
+        makeupPass.courseId,
+        makeupPass.studentId,
+        makeupPayLoad
+      )
+      .subscribe(
+        (res: any) => {
+          console.log('res', res);
+        },
+        err => {
+          console.log('err', err);
+        }
+      );
   }
-  openApproveModal(approveModal, makeup, makeupPayLoad) {
+  openApproveModal(approveModal, makeup) {
     this.currentMakeup = makeup;
-    this.currentPayload = makeupPayLoad;
-    if (this.currentPayload != undefined) {
-      this.currentPayload['passId'] = makeup._id;
-    }
+    this.currentPayload = makeup.meta.makeupPayLoad;
+    // if (this.currentPayload != undefined) {
+    //   this.currentPayload['passId'] = makeup._id;
+    // }
     this.approveModalReference = this.modalService.open(approveModal, {
       backdrop: 'static',
       windowClass: 'makeup-modal'
@@ -445,19 +445,19 @@ export class MakeupPassComponent implements OnInit {
   approveMakeupPass(makeupPass, makeupPayLoad) {
     console.log('approveMakeupPass', makeupPass);
     this.approveModalReference.close();
-    // this._service
-    //   .approveMakeupPass(
-    //     makeupPass.courseId,
-    //     makeupPass.studentId,
-    //     makeupPayLoad
-    //   )
-    //   .subscribe(
-    //     (res: any) => {
-    //       console.log('res', res);
-    //     },
-    //     err => {
-    //       console.log('err', err);
-    //     }
-    //   );
+    this._service
+      .approveMakeupPass(
+        makeupPass.courseId,
+        makeupPass.studentId,
+        makeupPayLoad
+      )
+      .subscribe(
+        (res: any) => {
+          console.log('res', res);
+        },
+        err => {
+          console.log('err', err);
+        }
+      );
   }
 }

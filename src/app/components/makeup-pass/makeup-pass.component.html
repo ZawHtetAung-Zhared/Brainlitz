@@ -419,8 +419,7 @@
           >
             <div
               (click)="
-                openApproveModal(approveModal, makeup, location?.makeupPayLoad);
-                $event.stopPropagation()
+                openApproveModal(approveModal, makeup); $event.stopPropagation()
               "
               class="cursor approve-div caption-u bg-b100 text-s0 d-flex justify-content-center align-items-center pl-2 pr-2"
             >
@@ -428,8 +427,7 @@
             </div>
             <div
               (click)="
-                openRejectModal(rejectModal, makeup, location?.makeupPayLoad);
-                $event.stopPropagation()
+                openRejectModal(rejectModal, makeup); $event.stopPropagation()
               "
               class="cursor claim-div caption-u text-b100 d-flex justify-content-center align-items-center pl-2 pr-2"
             >
@@ -438,8 +436,7 @@
             <div class="action-detail" *ngIf="popupOpts[i]">
               <div
                 (click)="
-                  oneditMakeup(editMakeup, makeup, location?.makeupPayLoad);
-                  $event.stopPropagation()
+                  oneditMakeup(editMakeup, makeup); $event.stopPropagation()
                 "
                 class="cursor d-flex align-items-center detail-opt"
                 style="border-bottom: 1px solid #E8E9EB;"
