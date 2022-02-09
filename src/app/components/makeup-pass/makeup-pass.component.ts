@@ -422,9 +422,11 @@ export class MakeupPassComponent implements OnInit {
       .subscribe(
         (res: any) => {
           console.log('res', res);
+          this.getAllMakeupList();
         },
         err => {
           console.log('err', err);
+          this.getAllMakeupList();
         }
       );
   }
@@ -454,9 +456,11 @@ export class MakeupPassComponent implements OnInit {
       .subscribe(
         (res: any) => {
           console.log('res', res);
+          this.getAllMakeupList();
         },
         err => {
           console.log('err', err);
+          this.getAllMakeupList();
         }
       );
   }
