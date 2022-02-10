@@ -126,8 +126,10 @@ export class MakeupPassComponent implements OnInit {
   }
   closeModal(type) {
     console.log(type);
-    if (type == 'claim') this.claimModalReference.close();
-    else if (type == 'approve') this.approveModalReference.close();
+    if (type == 'claim') {
+      this.claimModalReference.close();
+      this.modalReference.close();
+    } else if (type == 'approve') this.approveModalReference.close();
     else this.modalReference.close();
   }
   chooseDate(obj, data) {
