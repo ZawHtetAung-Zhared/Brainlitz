@@ -28,6 +28,7 @@ export class MakeupPassComponent implements OnInit {
   public currentMakeupPayload: any;
   public currentPayload: any;
   public modalReference: any;
+  public claimModalReference: any;
   public approveModalReference: any;
   public claimCourses: Array<any> = [];
   public passForm: any = {};
@@ -88,10 +89,11 @@ export class MakeupPassComponent implements OnInit {
     );
   }
   openClaimModal(claimModal, passObj) {
-    this.closeModal('close');
+    console.log('openClaimModal------');
+    // this.closeModal('close');
     console.log('current obj', passObj);
     this.currentPassObj = passObj;
-    this.modalReference = this.modalService.open(claimModal, {
+    this.claimModalReference = this.modalService.open(claimModal, {
       backdrop: 'static',
       windowClass: 'modal-xl d-flex justify-content-center align-items-center'
     });
@@ -100,6 +102,7 @@ export class MakeupPassComponent implements OnInit {
   public mkResult: any;
   getClaimCourses(id, skip) {
     //this.blockUI.start('Loading...');
+    this.claimCourses = [];
     this._service.getClaimPassCourses(id, 20, skip).subscribe(
       (res: any) => {
         //this.blockUI.stop();
@@ -123,7 +126,9 @@ export class MakeupPassComponent implements OnInit {
   }
   closeModal(type) {
     console.log(type);
-    this.modalReference.close();
+    if (type == 'claim') this.claimModalReference.close();
+    else if (type == 'approve') this.approveModalReference.close();
+    else this.modalReference.close();
   }
   chooseDate(obj, data) {
     console.log(obj);
@@ -156,6 +161,7 @@ export class MakeupPassComponent implements OnInit {
         (res: any) => {
           console.log(res);
           this.modalReference.close();
+          this.claimModalReference.close();
           //this.blockUI.stop();
           this.isChecked = '';
           this.checkCourse = '';
@@ -440,9 +446,6 @@ export class MakeupPassComponent implements OnInit {
       backdrop: 'static',
       windowClass: 'makeup-modal'
     });
-  }
-  closeApproveModal() {
-    this.approveModalReference.close();
   }
   approveMakeupPass(makeupPass, makeupPayLoad) {
     console.log('approveMakeupPass', makeupPass);

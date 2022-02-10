@@ -228,7 +228,7 @@
             </div>
             <div
               (click)="
-                openClaimModal(claimModal, makeup); $event.stopPropagation()
+                openDetailPopup(availPopup, makeup); $event.stopPropagation()
               "
               class="cursor claim-div caption-u text-b100 d-flex justify-content-center align-items-center"
             >
@@ -358,7 +358,6 @@
             let i = index
           "
           class="makeup-body d-flex align-items-center"
-          (click)="openDetailPopup(availPopup, makeup)"
         >
           <div style="width: 19%; padding: 16px 20px;">
             <div class="h4-strong text-c300 ellipsis">{{ makeup.name }}</div>
@@ -842,7 +841,7 @@
       type="button"
       class="close"
       aria-label="Close"
-      (click)="closeModal('close')"
+      (click)="closeModal('claim')"
     >
       <span class="closepass">
         <div class="closepass_stem"></div>
@@ -1125,7 +1124,7 @@
         class="light-body-m text-c100"
         style="border-bottom: 1px solid #E8E9EB;    padding-bottom: 16px;"
       >
-        {{ currentMakeup.reason }}
+        {{ currentMakeup.reason }}~~~~~~~~~
       </div>
       <div style="margin-top: 16px;" class="d-flex justify-content-between">
         <div>
@@ -1424,7 +1423,7 @@
       </div>
       <img
         class="cursor"
-        (click)="closeApproveModal()"
+        (click)="closeModal('approve')"
         src="../../../assets/icons/crossClose.svg"
       />
     </div>
@@ -1492,7 +1491,7 @@
         </div>
       </div>
     </div>
-    <div class="dashed"></div>
+    <div class="dashed-approve"></div>
     <div style="padding: 20px;" class="d-flex justify-content-end">
       <div>
         <button

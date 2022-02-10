@@ -901,23 +901,14 @@
           </div>
         </div>
         <div>
-          <h3 class="modal-title text-c300 d-flex mr-auto">
-            All staffs:
-            <span
-              class="text-b100"
-              style="padding-left: 8px"
-              *ngIf="userCount == 1"
-            >
+          <div class="modal-title text-c300 d-flex mr-auto">
+            <span class="text-b100" *ngIf="userCount == 1">
               {{ userCount }} user</span
             >
-            <span
-              class="text-b100"
-              style="padding-left: 8px"
-              *ngIf="userCount > 1"
-            >
+            <span class="text-b100" *ngIf="userCount > 1">
               {{ userCount }} users</span
             >
-          </h3>
+          </div>
         </div>
       </div>
       <div class="modal-body">
