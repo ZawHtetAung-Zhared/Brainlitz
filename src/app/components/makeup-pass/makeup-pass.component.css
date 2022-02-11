@@ -233,7 +233,6 @@
   background: #007fff;
 }
 .reason-wrapper {
-  height: 50px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

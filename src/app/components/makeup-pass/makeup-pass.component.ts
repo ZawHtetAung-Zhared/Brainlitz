@@ -40,6 +40,7 @@ export class MakeupPassComponent implements OnInit {
   public locationID: any = null;
   public loader: boolean = true;
   public isReadMore: boolean = false;
+  public showReadmoreBtn: boolean = false;
 
   @HostListener('document:click', ['$event']) clickout($event) {
     if (!$event.target.classList.contains('option')) {
@@ -450,6 +451,13 @@ export class MakeupPassComponent implements OnInit {
       backdrop: 'static',
       windowClass: 'makeup-modal'
     });
+    setTimeout(() => {
+      let reasonHeight = document.getElementById('makeuppass-reason')
+        .offsetHeight;
+      console.log('reasonHeight', reasonHeight);
+      if (reasonHeight > 48) this.showReadmoreBtn = true;
+      else this.showReadmoreBtn = false;
+    }, 200);
   }
   approveMakeupPass(makeupPass, makeupPayLoad) {
     console.log('approveMakeupPass', makeupPass);

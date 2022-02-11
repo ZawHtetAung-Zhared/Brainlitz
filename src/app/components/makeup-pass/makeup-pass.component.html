@@ -1433,12 +1433,16 @@
         {{ currentMakeup.name }}
       </div>
       <div
-        class="reason-wrapper light-body-m text-c100"
-        [ngClass]="{ 'show-more': isReadMore }"
+        id="makeuppass-reason"
+        class="light-body-m text-c100"
+        [ngClass]="{
+          'reason-wrapper': showReadmoreBtn,
+          'show-more': isReadMore
+        }"
       >
         {{ currentMakeup.reason }}
       </div>
-      <button class="readmore-btn" (click)="readMore()">
+      <button *ngIf="showReadmoreBtn" class="readmore-btn" (click)="readMore()">
         <span class="light-body-m text-b100" *ngIf="isReadMore == false"
           >Read More</span
         >
