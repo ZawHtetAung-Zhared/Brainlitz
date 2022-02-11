@@ -358,6 +358,7 @@
             let i = index
           "
           class="makeup-body d-flex align-items-center"
+          (click)="openApproveModal(approveModal, makeup)"
         >
           <div style="width: 19%; padding: 16px 20px;">
             <div class="h4-strong text-c300 ellipsis">{{ makeup.name }}</div>
@@ -1427,35 +1428,24 @@
         src="../../../assets/icons/crossClose.svg"
       />
     </div>
-    <div style="height: 380px; padding: 16px 20px;">
+    <div style="padding: 16px 20px;">
       <div class="h4-strong text-c300" style="margin-bottom: 8px;">
         {{ currentMakeup.name }}
       </div>
       <div
-        class="light-body-m text-c100"
-        style="border-bottom: 1px solid #E8E9EB;    padding-bottom: 16px;"
+        class="reason-wrapper light-body-m text-c100"
+        [ngClass]="{ 'show-more': isReadMore }"
       >
         {{ currentMakeup.reason }}
       </div>
-      <!-- <div style="margin-top: 16px;" class="d-flex justify-content-between">
-        <div>
-          <div class="caption-u text-b100" style="margin-bottom: 4px;">
-            Expiry date
-          </div>
-          <div class="h5-strong text-c300" style="margin-right: 8px;">
-            {{ currentMakeup.expirationDate | date: 'd LLL yyyy' }}
-            <span class="light-body-m text-s70"
-              >{{ calculateDiff(currentMakeup.expirationDate) }} days left</span
-            >
-          </div>
-        </div>
-        <div
-          (click)="oneditMakeup(editMakeup, currentMakeup)"
-          class="cursor pencil-wrap d-flex align-items-center justify-content-center"
+      <button class="readmore-btn" (click)="readMore()">
+        <span class="light-body-m text-b100" *ngIf="isReadMore == false"
+          >Read More</span
         >
-          <img src="../../../assets/images/pencil_l.svg" />
-        </div>
-      </div> -->
+        <span class="light-body-m text-b100" *ngIf="isReadMore == true"
+          >Read Less</span
+        >
+      </button>
       <div class="avail-div" style="padding: 12px; margin-top: 16px;">
         <div
           style="margin-left: 12px;margin-bottom: 8px;"
@@ -1478,15 +1468,18 @@
           style="margin-left: 12px;margin-bottom: 8px;"
           class="caption text-y200"
         >
-          Requested on {{ currentMakeup.created_at | date: 'd LLL yyyy' }}
+          Requested on {{ currentMakeup.filing_date | date: 'd LLL yyyy' }}
         </div>
         <div class="avail-div2">
           <div style="margin-bottom: 4px;" class="body-m text-b100">
-            {{ currentMakeup.course.name }}
+            {{ currentMakeup.makeupCourse.name }}
           </div>
           <div class="small text-c100">
-            {{ currentMakeup.course?.duration.startDate | date: 'h:mm a' }} -
-            {{ currentMakeup.course?.duration.endDate | date: 'h:mm a' }}
+            {{
+              currentMakeup.makeupCourse?.duration.startDate | date: 'h:mm a'
+            }}
+            -
+            {{ currentMakeup.makeupCourse?.duration.endDate | date: 'h:mm a' }}
           </div>
         </div>
       </div>

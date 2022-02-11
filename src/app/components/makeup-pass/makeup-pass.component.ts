@@ -39,6 +39,7 @@ export class MakeupPassComponent implements OnInit {
   public locFlag: boolean = false;
   public locationID: any = null;
   public loader: boolean = true;
+  public isReadMore: boolean = false;
 
   @HostListener('document:click', ['$event']) clickout($event) {
     if (!$event.target.classList.contains('option')) {
@@ -441,6 +442,7 @@ export class MakeupPassComponent implements OnInit {
   openApproveModal(approveModal, makeup) {
     this.currentMakeup = makeup;
     this.currentPayload = makeup.meta.makeupPayLoad;
+    this.isReadMore = false;
     // if (this.currentPayload != undefined) {
     //   this.currentPayload['passId'] = makeup._id;
     // }
@@ -468,5 +470,9 @@ export class MakeupPassComponent implements OnInit {
           this.getAllMakeupList();
         }
       );
+  }
+
+  readMore() {
+    this.isReadMore = this.isReadMore == true ? false : true;
   }
 }

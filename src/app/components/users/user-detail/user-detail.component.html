@@ -1889,9 +1889,31 @@
                     </p>
                     <img
                       class="message-img"
-                      *ngIf="journal.photo != null"
+                      *ngIf="
+                        journal.photo != null &&
+                        journal.photo
+                          .substring(
+                            journal.photo.lastIndexOf('.') + 1,
+                            journal.photo.length
+                          )
+                          .toLowerCase() != 'mp4'
+                      "
                       src="{{ journal.photo }}"
                     />
+                    <video
+                      class="message-img"
+                      *ngIf="
+                        journal.photo != null &&
+                        journal.photo
+                          .substring(
+                            journal.photo.lastIndexOf('.') + 1,
+                            journal.photo.length
+                          )
+                          .toLowerCase() == 'mp4'
+                      "
+                      src="{{ journal.photo }}"
+                      controls
+                    ></video>
                   </div>
                 </div>
               </div>
@@ -1933,9 +1955,31 @@
                     </p>
                     <img
                       class="message-img"
-                      *ngIf="journal.photo != null"
+                      *ngIf="
+                        journal.photo != null &&
+                        journal.photo
+                          .substring(
+                            journal.photo.lastIndexOf('.') + 1,
+                            journal.photo.length
+                          )
+                          .toLowerCase() != 'mp4'
+                      "
                       src="{{ journal.photo }}"
                     />
+                    <video
+                      class="message-img"
+                      *ngIf="
+                        journal.photo != null &&
+                        journal.photo
+                          .substring(
+                            journal.photo.lastIndexOf('.') + 1,
+                            journal.photo.length
+                          )
+                          .toLowerCase() == 'mp4'
+                      "
+                      src="{{ journal.photo }}"
+                      controls
+                    ></video>
                   </div>
                 </div>
               </div>
@@ -1977,9 +2021,31 @@
                     </p>
                     <img
                       class="message-img"
-                      *ngIf="journal.photo != null"
+                      *ngIf="
+                        journal.photo != null &&
+                        journal.photo
+                          .substring(
+                            journal.photo.lastIndexOf('.') + 1,
+                            journal.photo.length
+                          )
+                          .toLowerCase() != 'mp4'
+                      "
                       src="{{ journal.photo }}"
                     />
+                    <video
+                      class="message-img"
+                      *ngIf="
+                        journal.photo != null &&
+                        journal.photo
+                          .substring(
+                            journal.photo.lastIndexOf('.') + 1,
+                            journal.photo.length
+                          )
+                          .toLowerCase() == 'mp4'
+                      "
+                      src="{{ journal.photo }}"
+                      controls
+                    ></video>
                   </div>
                   <div
                     class="attendance-time bg-s20"
