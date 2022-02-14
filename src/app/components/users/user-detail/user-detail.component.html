@@ -1842,9 +1842,9 @@
                           .toLowerCase() == 'mp4'
                       "
                       src="{{ journal.photo }}"
-                      poster="{{ journal.meta.thumbnails | thumbnail }}"
+                      poster="{{ journal.meta.thumbnails | posterThumbnail }}"
                       controls
-                      preload="metadata"
+                      preload="none"
                     ></video>
                   </div>
                 </div>
@@ -1914,9 +1914,9 @@
                           .toLowerCase() == 'mp4'
                       "
                       src="{{ journal.photo }}"
-                      poster="{{ journal.meta.thumbnails | thumbnail }}"
+                      poster="{{ journal.meta.thumbnails | posterThumbnail }}"
                       controls
-                      preload="metadata"
+                      preload="none"
                     ></video>
                   </div>
                 </div>
@@ -1982,7 +1982,7 @@
                           .toLowerCase() == 'mp4'
                       "
                       src="{{ journal.photo }}"
-                      poster="{{ journal.meta.thumbnails | thumbnail }}"
+                      poster="{{ journal.meta.thumbnails | posterThumbnail }}"
                       controls
                       preload="none"
                     ></video>
@@ -2050,7 +2050,7 @@
                           .toLowerCase() == 'mp4'
                       "
                       src="{{ journal.photo }}"
-                      poster="{{ journal.meta.thumbnails | thumbnail }}"
+                      poster="{{ journal.meta.thumbnails | posterThumbnail }}"
                       controls
                       preload="none"
                     ></video>

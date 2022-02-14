@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'thumbnail'
+  name: 'posterThumbnail'
 })
-export class VideoThumbnailPipe implements PipeTransform {
+export class PosterThumbnailPipe implements PipeTransform {
   transform(data): any {
     if (data != undefined || data != null) {
       const key = Object.keys(data);
