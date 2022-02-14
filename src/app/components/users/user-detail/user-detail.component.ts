@@ -236,6 +236,10 @@ export class UserDetailComponent implements OnInit {
     );
     this.editId = this._Activatedroute.snapshot.paramMap.get('userid');
     this.showDetails(this.editId, 'class', 'user,courses');
+    let file =
+      'http://brainlitz-dev.s3.amazonaws.com/development-encoded/stgbl-cw1/journal/164397315407718169288file_example_MP4_480_1_5MG.mp4';
+    let fileExtension = file.substring(file.lastIndexOf('.') + 1, file.length);
+    console.log('fileExtension', fileExtension);
   }
 
   ngOnDestroy() {

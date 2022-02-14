@@ -96,6 +96,7 @@ import { DateFormatPipe } from './service/pipe/dateformat.pipe';
 import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
 import { calculatePMPipe } from './service/pipe/calculatePm.pipe';
 import { TZDatePipe } from './service/pipe/tzdate.pipe';
+import { PosterThumbnailPipe } from './service/pipe/poster_thumbnail.pipe';
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
 import { MediumEditorModule } from 'angular2-medium-editor';
@@ -249,6 +250,7 @@ import { MakeupPassComponent } from './components/makeup-pass/makeup-pass.compon
     HourMinsPipe,
     calculatePMPipe,
     TZDatePipe,
+    PosterThumbnailPipe,
     InvoiceComponent,
     DndDirective,
     VideoTrimmerComponent,
