@@ -378,11 +378,19 @@ export class MakeupPassComponent implements OnInit {
   }
   public currentMakeup: any;
   openDetailPopup(modal, makeup) {
+    this.isReadMore = false;
     this.currentMakeup = makeup;
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass: 'makeup-modal'
     });
+    setTimeout(() => {
+      let reasonHeight = document.getElementById('makeuppass-reason')
+        .offsetHeight;
+      console.log('reasonHeight', reasonHeight);
+      if (reasonHeight > 48) this.showReadmoreBtn = true;
+      else this.showReadmoreBtn = false;
+    }, 200);
   }
   openLoc() {
     this.locFlag = !this.locFlag;
