@@ -122,7 +122,7 @@
         </div>
       </div>
     </div> -->
-    <div *ngFor="let term of termLessons">
+    <div *ngFor="let term of termLessons; let termIdx = index">
       <div class="term-name-wrap">
         <div
           class="caption-s term-name"
@@ -143,6 +143,11 @@
       <div *ngIf="term?.lessons == undefined">
         <div
           class="timeline-slot"
+          [ngStyle]="{
+            'border-top': '1px solid #E8E9EB',
+            'border-bottom': '1px solid #E8E9EB',
+            'border-left': termIdx == 0 ? '1px solid #E8E9EB' : null
+          }"
           (click)="onClickLesson(term.startDate, term, cancelUI, i)"
         >
           <b
