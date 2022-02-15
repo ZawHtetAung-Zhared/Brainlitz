@@ -22,6 +22,8 @@ export class TermListComponent implements OnChanges {
   @Input() LASD: any;
   @Input() lastSelectedObj: any;
   @Input() lessonList: any;
+  @Input() isRescheduleLesson: boolean;
+  @Input() isNewLesson: boolean;
   @Output() clickLesson = new EventEmitter<any>();
   @Output() clickEditBatch = new EventEmitter<any>();
   @Output() clickCreateTerm = new EventEmitter<any>();
@@ -39,6 +41,7 @@ export class TermListComponent implements OnChanges {
   // }
 
   ngOnChanges() {
+    console.log('todayDate------', this.todayDate);
     console.log('lessonList------', this.lessonList);
     console.log('termList------', this.termList);
     this.getAllTerms();
