@@ -2729,10 +2729,13 @@
                         [checked]="false"
                         (click)="chooseDate(lesson, claim)"
                       />
-                      <p class="xxxdate body-m text-c300">
+                      <p class="xxxday extra-small-light text-c400">
+                        {{ lesson.startDate | timelineYear }}
+                      </p>
+                      <p class="xxxdate caption-m text-c500">
                         {{ lesson.startDate | timelineDate }}
                       </p>
-                      <p class="xxxday small text-c100">
+                      <p class="xxxday extra-small-m text-c400">
                         {{ lesson.startDate | timelineDay }}
                       </p>
                     </label>
@@ -2765,10 +2768,13 @@
                         [checked]="false"
                         (click)="chooseDate(lesson, claim)"
                       />
-                      <p class="xxxdate body-m text-c300">
+                      <p class="xxxday extra-small-light text-c400">
+                        {{ lesson.startDate | timelineYear }}
+                      </p>
+                      <p class="xxxdate caption-m text-c500">
                         {{ lesson.startDate | timelineDate }}
                       </p>
-                      <p class="xxxday small text-c100">
+                      <p class="xxxday extra-small-m text-c400">
                         {{ lesson.startDate | timelineDay }}
                       </p>
                     </label>
