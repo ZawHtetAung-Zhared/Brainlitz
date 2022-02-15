@@ -77,6 +77,7 @@ import { GetUtcDatePipe } from './service/pipe/utcDate.pipe';
 import { GetUtcDateoverviewPipe } from './service/pipe/utcDateoverview.pipe';
 import { GetTimelineDatePipe } from './service/pipe/timelineDate.pipe';
 import { GetTimelineDayPipe } from './service/pipe/timelineDay.pipe';
+import { GetTimelineYearPipe } from './service/pipe/timelineYear.pipe';
 import { attandanceDayPipe } from './service/pipe/attendanceDate.pipe';
 import { ttDayPipe } from './service/pipe/timetableday.pipe';
 import { yearPipe } from './service/pipe/utcYear.pipe';
@@ -96,6 +97,7 @@ import { DateFormatPipe } from './service/pipe/dateformat.pipe';
 import { HourMinsPipe } from './service/pipe/hourToMins.pipe';
 import { calculatePMPipe } from './service/pipe/calculatePm.pipe';
 import { TZDatePipe } from './service/pipe/tzdate.pipe';
+import { PosterThumbnailPipe } from './service/pipe/poster_thumbnail.pipe';
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import { TestwerkzComponent } from './components/testwerkz/testwerkz.component';
 import { MediumEditorModule } from 'angular2-medium-editor';
@@ -227,6 +229,7 @@ import { MakeupPassComponent } from './components/makeup-pass/makeup-pass.compon
     GetUtcDateoverviewPipe,
     GetTimelineDatePipe,
     GetTimelineDayPipe,
+    GetTimelineYearPipe,
     attandanceDayPipe,
     yearPipe,
     ttDayPipe,
@@ -245,6 +248,7 @@ import { MakeupPassComponent } from './components/makeup-pass/makeup-pass.compon
     HourMinsPipe,
     calculatePMPipe,
     TZDatePipe,
+    PosterThumbnailPipe,
     InvoiceComponent,
     DndDirective,
     VideoTrimmerComponent,

@@ -5592,4 +5592,46 @@ export class appService {
       return res;
     });
   }
+
+  approveMakeupPass(courseId, userId, body) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      courseId +
+      '/makeup/user/' +
+      userId +
+      '/action-approvepass';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
+  }
+
+  rejectMakeupPass(courseId, userId, body) {
+    let apiUrl =
+      this.baseUrl +
+      '/' +
+      courseId +
+      '/makeup/user/' +
+      userId +
+      '/action-rejectpass';
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        authorization: this.tokenType + ' ' + this.accessToken
+      })
+    };
+    return this.httpClient
+      .post(apiUrl, body, httpOptions)
+      .map((res: Response) => {
+        return res;
+      });
+  }
 }
