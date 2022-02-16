@@ -5,7 +5,7 @@
       <div class="light-body-l pl-1 back-to">Back</div>
     </div>
     <div class="h1-strong text-c300 pb-2">
-      Create Term
+      {{ modalType == 'create' ? 'Create Term' : 'Edit Term' }}
     </div>
     <div class="label-l text-c500 pb-3">
       Choose Lesson
@@ -140,7 +140,7 @@
         !fromDate || !toDate || termLabel == '' || selectedColor == null
       "
     >
-      Edit
+      Confirm
     </button>
   </div>
 </div>
