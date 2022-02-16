@@ -47,11 +47,15 @@
 .disable-add {
   /* pointer-events: none; */
   opacity: 0.7;
-  cursor: none;
+  /* cursor: none; */
 }
 
 .disable-cursor {
   cursor: not-allowed !important;
+  /* pointer-events: none !important; */
+}
+
+.pointer-events-none {
   pointer-events: none !important;
 }
 

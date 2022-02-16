@@ -140,13 +140,26 @@
           </span>
         </div>
       </div>
-      <div *ngIf="term?.lessons == undefined">
+      <div
+        *ngIf="term?.lessons == undefined"
+        [ngClass]="{ 'disable-cursor': isRescheduleLesson || isNewLesson }"
+      >
         <div
           class="timeline-slot"
           [ngStyle]="{
             'border-top': '1px solid #E8E9EB',
             'border-bottom': '1px solid #E8E9EB',
             'border-left': termIdx == 0 ? '1px solid #E8E9EB' : null
+          }"
+          [ngClass]="{
+            today:
+              (term.startDate | timelineDate) == (todayDate | timelineDate),
+            'disable-add': term.startDate > todayDate,
+            'pointer-events-none': isRescheduleLesson || isNewLesson,
+            'day-highlight':
+              lastSelectedObj != null &&
+              lastSelectedObj._id == term._id &&
+              lastSelectedObj.startDate == term.startDate
           }"
           (click)="onClickLesson(term.startDate, term, cancelUI, i)"
         >
@@ -179,10 +192,21 @@
           'background-color':
             term?.color == undefined ? '#ffffff' : term?.color.background
         }"
+        [ngClass]="{ 'disable-cursor': isRescheduleLesson || isNewLesson }"
       >
         <div
           class="timeline-slot"
           *ngFor="let lesson of term?.lessons"
+          [ngClass]="{
+            today:
+              (lesson.startDate | timelineDate) == (todayDate | timelineDate),
+            'disable-add': lesson.startDate > todayDate,
+            'pointer-events-none': isRescheduleLesson || isNewLesson,
+            'day-highlight':
+              lastSelectedObj != null &&
+              lastSelectedObj._id == lesson._id &&
+              lastSelectedObj.startDate == lesson.startDate
+          }"
           (click)="onClickLesson(lesson.startDate, lesson, cancelUI, i)"
         >
           <b
