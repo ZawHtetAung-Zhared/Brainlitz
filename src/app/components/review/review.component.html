@@ -289,6 +289,8 @@
                 poster="{{ activeObj.meta.thumbnails | posterThumbnail }}"
                 controls
                 preload="metadata"
+                id="msg-img"
+                width="100%"
               ></video>
             </div>
             <div
@@ -321,6 +323,7 @@
                 poster="{{ activeObj.meta.thumbnails | posterThumbnail }}"
                 controls
                 preload="metadata"
+                [ngStyle]="autoSize"
               ></video>
             </div>
           </div>
