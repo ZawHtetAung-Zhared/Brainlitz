@@ -264,14 +264,67 @@
               class="d-flex justify-content-center align-items-center msg-img"
               *ngIf="!smallImg && activeObj.photo != ''"
             >
-              <img src="{{ activeObj.photo }}" id="msg-img" />
+              <img
+                *ngIf="
+                  activeObj.photo
+                    .substring(
+                      activeObj.photo.lastIndexOf('.') + 1,
+                      activeObj.photo.length
+                    )
+                    .toLowerCase() != 'mp4'
+                "
+                src="{{ activeObj.photo }}"
+                id="msg-img"
+              />
+              <video
+                *ngIf="
+                  activeObj.photo
+                    .substring(
+                      activeObj.photo.lastIndexOf('.') + 1,
+                      activeObj.photo.length
+                    )
+                    .toLowerCase() == 'mp4'
+                "
+                src="{{ activeObj.photo }}"
+                poster="{{ activeObj.meta.thumbnails | posterThumbnail }}"
+                controls
+                preload="metadata"
+                id="msg-img"
+                width="100%"
+              ></video>
             </div>
             <div
               class="d-flex justify-content-center msg-img"
               *ngIf="smallImg"
               style="background: unset !important;"
             >
-              <img src="{{ activeObj.photo }}" [ngStyle]="autoSize" />
+              <img
+                *ngIf="
+                  activeObj.photo
+                    .substring(
+                      activeObj.photo.lastIndexOf('.') + 1,
+                      activeObj.photo.length
+                    )
+                    .toLowerCase() != 'mp4'
+                "
+                src="{{ activeObj.photo }}"
+                [ngStyle]="autoSize"
+              />
+              <video
+                *ngIf="
+                  activeObj.photo
+                    .substring(
+                      activeObj.photo.lastIndexOf('.') + 1,
+                      activeObj.photo.length
+                    )
+                    .toLowerCase() == 'mp4'
+                "
+                src="{{ activeObj.photo }}"
+                poster="{{ activeObj.meta.thumbnails | posterThumbnail }}"
+                controls
+                preload="metadata"
+                [ngStyle]="autoSize"
+              ></video>
             </div>
           </div>
         </div>
