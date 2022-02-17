@@ -1123,16 +1123,28 @@
         src="../../../assets/icons/crossClose.svg"
       />
     </div>
-    <div style="height: 297px; padding: 20px 16px;">
+    <div style="min-height: 310px; padding: 16px 20px;">
       <div class="h4-strong text-c300" style="margin-bottom: 8px;">
         {{ currentMakeup.name }}
       </div>
       <div
+        id="makeuppass-reason"
         class="light-body-m text-c100"
-        style="border-bottom: 1px solid #E8E9EB;    padding-bottom: 16px;"
+        [ngClass]="{
+          'reason-wrapper': showReadmoreBtn,
+          'show-more': isReadMore
+        }"
       >
         {{ currentMakeup.reason }}
       </div>
+      <button *ngIf="showReadmoreBtn" class="readmore-btn" (click)="readMore()">
+        <span class="light-body-m text-b100" *ngIf="isReadMore == false"
+          >Read More</span
+        >
+        <span class="light-body-m text-b100" *ngIf="isReadMore == true"
+          >Read Less</span
+        >
+      </button>
       <div style="margin-top: 16px;" class="d-flex justify-content-between">
         <div>
           <div class="caption-u text-b100" style="margin-bottom: 4px;">
@@ -1171,7 +1183,7 @@
       </div>
     </div>
     <div class="dashed"></div>
-    <div style="  padding: 0 20px;" class="d-flex justify-content-between">
+    <div style="padding: 20px;" class="d-flex justify-content-between">
       <button
         class="popup-btn btn bg-s0 text-r100"
         (click)="openDeleteConfirm(deleteConfirm, currentMakeup)"
