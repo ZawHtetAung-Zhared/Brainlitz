@@ -155,34 +155,40 @@
             today:
               (term.startDate | timelineDate) == (todayDate | timelineDate),
             'disable-add': term.startDate > todayDate,
-            'pointer-events-none': isRescheduleLesson || isNewLesson,
-            'day-highlight':
-              lastSelectedObj != null &&
-              lastSelectedObj._id == term._id &&
-              lastSelectedObj.startDate == term.startDate
+            'pointer-events-none': isRescheduleLesson || isNewLesson
           }"
           (click)="onClickLesson(term.startDate, term, cancelUI, i)"
         >
-          <b
-            class="body-m"
-            [ngStyle]="{
-              color: term.color == undefined ? '#363f4d' : term?.color?.text
+          <div
+            class="timeline-lesson"
+            [ngClass]="{
+              'day-highlight':
+                lastSelectedObj != null &&
+                lastSelectedObj._id == term._id &&
+                lastSelectedObj.startDate == term.startDate
             }"
           >
-            {{ term.startDate | timelineDate }}
-          </b>
-          <p
-            class="small mb-0"
-            [ngStyle]="{
-              color: term.color == undefined ? '#5c6773' : term?.color?.text
-            }"
-          >
-            {{ term.startDate | timelineDay }}
-            <span *ngIf="term.cancel == true" class="makeup-icon">C</span>
-            <span *ngIf="term.rescheduledLesson == true" class="makeup-icon">
-              R
-            </span>
-          </p>
+            <b
+              class="body-m"
+              [ngStyle]="{
+                color: term.color == undefined ? '#363f4d' : term?.color?.text
+              }"
+            >
+              {{ term.startDate | timelineDate }}
+            </b>
+            <p
+              class="small mb-0"
+              [ngStyle]="{
+                color: term.color == undefined ? '#5c6773' : term?.color?.text
+              }"
+            >
+              {{ term.startDate | timelineDay }}
+              <span *ngIf="term.cancel == true" class="makeup-icon">C</span>
+              <span *ngIf="term.rescheduledLesson == true" class="makeup-icon">
+                R
+              </span>
+            </p>
+          </div>
         </div>
       </div>
       <div
@@ -201,34 +207,53 @@
             today:
               (lesson.startDate | timelineDate) == (todayDate | timelineDate),
             'disable-add': lesson.startDate > todayDate,
-            'pointer-events-none': isRescheduleLesson || isNewLesson,
-            'day-highlight':
-              lastSelectedObj != null &&
-              lastSelectedObj._id == lesson._id &&
-              lastSelectedObj.startDate == lesson.startDate
+            'pointer-events-none': isRescheduleLesson || isNewLesson
           }"
           (click)="onClickLesson(lesson.startDate, lesson, cancelUI, i)"
         >
-          <b
-            class="body-m"
+          <div
+            class="timeline-term-lesson"
             [ngStyle]="{
-              color: lesson.color == undefined ? '#363f4d' : lesson?.color?.text
+              border:
+                lastSelectedObj != null &&
+                lastSelectedObj._id == lesson._id &&
+                lastSelectedObj.startDate == lesson.startDate
+                  ? '2px solid ' + lesson?.color?.text
+                  : null,
+              'border-radius':
+                lastSelectedObj != null &&
+                lastSelectedObj._id == lesson._id &&
+                lastSelectedObj.startDate == lesson.startDate
+                  ? '2px'
+                  : null
             }"
           >
-            {{ lesson.startDate | timelineDate }}
-          </b>
-          <p
-            class="small mb-0"
-            [ngStyle]="{
-              color: lesson.color == undefined ? '#5c6773' : lesson?.color?.text
-            }"
-          >
-            {{ lesson.startDate | timelineDay }}
-            <span *ngIf="lesson.cancel == true" class="makeup-icon">C</span>
-            <span *ngIf="lesson.rescheduledLesson == true" class="makeup-icon">
-              R
-            </span>
-          </p>
+            <b
+              class="body-m"
+              [ngStyle]="{
+                color:
+                  lesson.color == undefined ? '#363f4d' : lesson?.color?.text
+              }"
+            >
+              {{ lesson.startDate | timelineDate }}
+            </b>
+            <p
+              class="small mb-0"
+              [ngStyle]="{
+                color:
+                  lesson.color == undefined ? '#5c6773' : lesson?.color?.text
+              }"
+            >
+              {{ lesson.startDate | timelineDay }}
+              <span *ngIf="lesson.cancel == true" class="makeup-icon">C</span>
+              <span
+                *ngIf="lesson.rescheduledLesson == true"
+                class="makeup-icon"
+              >
+                R
+              </span>
+            </p>
+          </div>
         </div>
       </div>
     </div>

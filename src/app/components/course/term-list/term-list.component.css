@@ -25,7 +25,15 @@
 }
 
 .timeline-slot {
-  padding: 15px;
+  padding: 10px;
+}
+
+.timeline-lesson {
+  padding: 3px;
+}
+
+.timeline-term-lesson {
+  padding: 4px;
 }
 
 .term-name-wrap {
