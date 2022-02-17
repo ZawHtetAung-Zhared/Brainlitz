@@ -125,16 +125,19 @@
 button.btn-newLesson {
   background: #007fff;
   border-radius: 20px;
-  width: 131px;
   border: none;
-  height: 33px;
   color: white;
   font-size: 14px;
-  margin-right: 8px;
+  margin-left: 8px;
 }
 
-button.btn-newLesson:last-child {
-  margin-right: 0px;
+button.btn-createTerm {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 2px solid #007fff;
+  box-shadow: 2px 4px 32px rgba(0, 0, 0, 0.08);
+  color: #007fff;
+  font-size: 14px;
 }
 
 .button-wrapper {

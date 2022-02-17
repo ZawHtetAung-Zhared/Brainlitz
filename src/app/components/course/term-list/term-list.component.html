@@ -263,19 +263,19 @@
     <div class="d-flex align-items-center pl-3 pr-3 bg-s0 button-wrapper">
       <button
         *ngIf="courseType == 'FLEXY'"
+        class="btn btn-createTerm"
+        (click)="onClickCreateTerm()"
+        [disabled]="isRescheduleLesson"
+      >
+        Create Term
+      </button>
+      <button
+        *ngIf="courseType == 'FLEXY'"
         class="btn btn-newLesson"
         (click)="onClickAddNewLesson()"
         [disabled]="isRescheduleLesson"
       >
         Add new lesson
-      </button>
-      <button
-        *ngIf="courseType == 'FLEXY'"
-        class="btn btn-newLesson"
-        (click)="onClickCreateTerm()"
-        [disabled]="isRescheduleLesson"
-      >
-        Create Term
       </button>
     </div>
   </div>
