@@ -271,7 +271,8 @@
                       activeObj.photo.lastIndexOf('.') + 1,
                       activeObj.photo.length
                     )
-                    .toLowerCase() != 'mp4'
+                    .toLowerCase() != 'mp4' ||
+                  activeObj?.meta?.mediaType != 'video'
                 "
                 src="{{ activeObj.photo }}"
                 id="msg-img"
@@ -283,7 +284,8 @@
                       activeObj.photo.lastIndexOf('.') + 1,
                       activeObj.photo.length
                     )
-                    .toLowerCase() == 'mp4'
+                    .toLowerCase() == 'mp4' ||
+                  activeObj?.meta?.mediaType == 'video'
                 "
                 src="{{ activeObj.photo }}"
                 poster="{{ activeObj.meta.thumbnails | posterThumbnail }}"
@@ -305,7 +307,8 @@
                       activeObj.photo.lastIndexOf('.') + 1,
                       activeObj.photo.length
                     )
-                    .toLowerCase() != 'mp4'
+                    .toLowerCase() != 'mp4' ||
+                  activeObj?.meta?.mediaType != 'video'
                 "
                 src="{{ activeObj.photo }}"
                 [ngStyle]="autoSize"
@@ -317,7 +320,8 @@
                       activeObj.photo.lastIndexOf('.') + 1,
                       activeObj.photo.length
                     )
-                    .toLowerCase() == 'mp4'
+                    .toLowerCase() == 'mp4' ||
+                  activeObj?.meta?.mediaType == 'video'
                 "
                 src="{{ activeObj.photo }}"
                 poster="{{ activeObj.meta.thumbnails | posterThumbnail }}"
