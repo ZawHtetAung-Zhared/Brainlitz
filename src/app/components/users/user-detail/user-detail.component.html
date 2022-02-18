@@ -1774,7 +1774,7 @@
           <div class="jour-wrap-gp">
             <div
               class="jour-wrap"
-              *ngFor="let journal of journals; let last = last; let idx = index"
+              *ngFor="let journal of journals; let last = last"
             >
               <div
                 class="row eachJournl"
@@ -1817,9 +1817,6 @@
                     <p>
                       {{ journal.message }}
                     </p>
-                    <p>
-                      {{ idx }}
-                    </p>
                     <img
                       class="message-img"
                       *ngIf="
@@ -1830,7 +1827,7 @@
                             journal.photo.length
                           )
                           .toLowerCase() != 'mp4' &&
-                          journal?.meta?.mediaType != 'video'
+                        journal?.meta?.mediaType != 'video'
                       "
                       src="{{ journal.photo }}"
                     />
