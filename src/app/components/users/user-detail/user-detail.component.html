@@ -1826,7 +1826,8 @@
                             journal.photo.lastIndexOf('.') + 1,
                             journal.photo.length
                           )
-                          .toLowerCase() != 'mp4'
+                          .toLowerCase() != 'mp4' &&
+                        journal?.meta?.mediaType != 'video'
                       "
                       src="{{ journal.photo }}"
                     />
@@ -1834,12 +1835,13 @@
                       class="message-img"
                       *ngIf="
                         journal.photo != null &&
-                        journal.photo
+                        (journal.photo
                           .substring(
                             journal.photo.lastIndexOf('.') + 1,
                             journal.photo.length
                           )
-                          .toLowerCase() == 'mp4'
+                          .toLowerCase() == 'mp4' ||
+                          journal?.meta?.mediaType == 'video')
                       "
                       src="{{ journal.photo }}"
                       poster="{{ journal.meta.thumbnails | posterThumbnail }}"
@@ -1893,12 +1895,13 @@
                       class="message-img"
                       *ngIf="
                         journal.photo != null &&
-                        journal.photo
+                        (journal.photo
                           .substring(
                             journal.photo.lastIndexOf('.') + 1,
                             journal.photo.length
                           )
-                          .toLowerCase() != 'mp4'
+                          .toLowerCase() != 'mp4' ||
+                          journal?.meta?.mediaType != 'video')
                       "
                       src="{{ journal.photo }}"
                     />
@@ -1906,12 +1909,13 @@
                       class="message-img"
                       *ngIf="
                         journal.photo != null &&
-                        journal.photo
+                        (journal.photo
                           .substring(
                             journal.photo.lastIndexOf('.') + 1,
                             journal.photo.length
                           )
-                          .toLowerCase() == 'mp4'
+                          .toLowerCase() == 'mp4' ||
+                          journal?.meta?.mediaType == 'video')
                       "
                       src="{{ journal.photo }}"
                       poster="{{ journal.meta.thumbnails | posterThumbnail }}"
@@ -1961,12 +1965,13 @@
                       class="message-img"
                       *ngIf="
                         journal.photo != null &&
-                        journal.photo
+                        (journal.photo
                           .substring(
                             journal.photo.lastIndexOf('.') + 1,
                             journal.photo.length
                           )
-                          .toLowerCase() != 'mp4'
+                          .toLowerCase() != 'mp4' ||
+                          journal?.meta?.mediaType != 'video')
                       "
                       src="{{ journal.photo }}"
                     />
@@ -1974,12 +1979,13 @@
                       class="message-img"
                       *ngIf="
                         journal.photo != null &&
-                        journal.photo
+                        (journal.photo
                           .substring(
                             journal.photo.lastIndexOf('.') + 1,
                             journal.photo.length
                           )
-                          .toLowerCase() == 'mp4'
+                          .toLowerCase() == 'mp4' ||
+                          journal?.meta?.mediaType == 'video')
                       "
                       src="{{ journal.photo }}"
                       poster="{{ journal.meta.thumbnails | posterThumbnail }}"
@@ -2029,12 +2035,13 @@
                       class="message-img"
                       *ngIf="
                         journal.photo != null &&
-                        journal.photo
+                        (journal.photo
                           .substring(
                             journal.photo.lastIndexOf('.') + 1,
                             journal.photo.length
                           )
-                          .toLowerCase() != 'mp4'
+                          .toLowerCase() != 'mp4' ||
+                          journal?.meta?.mediaType != 'video')
                       "
                       src="{{ journal.photo }}"
                     />
@@ -2042,12 +2049,13 @@
                       class="message-img"
                       *ngIf="
                         journal.photo != null &&
-                        journal.photo
+                        (journal.photo
                           .substring(
                             journal.photo.lastIndexOf('.') + 1,
                             journal.photo.length
                           )
-                          .toLowerCase() == 'mp4'
+                          .toLowerCase() == 'mp4' ||
+                          journal?.meta?.mediaType == 'video')
                       "
                       src="{{ journal.photo }}"
                       poster="{{ journal.meta.thumbnails | posterThumbnail }}"
