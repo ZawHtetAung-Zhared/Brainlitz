@@ -1335,6 +1335,7 @@ export class UserDetailComponent implements OnInit {
   public mkResult: any;
   getClaimCourses(id, skip) {
     //this.blockUI.start('Loading...');
+    this.claimCourses = [];
     this._service.getClaimPassCourses(id, 20, skip).subscribe(
       (res: any) => {
         //this.blockUI.stop();

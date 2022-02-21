@@ -393,24 +393,24 @@
                 makeup.created_at | date: 'd LLL yyyy'
               }}</span>
               <span class="little-dot"></span>
-              <span class="light-body-m text-c100"
-                >{{ makeup.course?.duration.startDate | date: 'h:mm a' }} -
-                {{ makeup.course?.duration.endDate | date: 'h:mm a' }}</span
-              >
+              <span class="light-body-m text-c100">
+                {{ makeup.course?.duration.startDate | date: 'h:mm a' }} -
+                {{ makeup.course?.duration.endDate | date: 'h:mm a' }}
+              </span>
             </div>
           </div>
           <!-- requested -->
           <div style="width: 30%; padding: 16px 20px 16px 0px;">
-            <div class="body-l text-b100">{{ makeup.course.name }}</div>
+            <div class="body-l text-b100">{{ makeup.makeupCourse?.name }}</div>
             <div>
               <span class="body-m text-c300">{{
                 makeup.created_at | date: 'd LLL yyyy'
               }}</span>
               <span class="little-dot"></span>
-              <span class="light-body-m text-c100"
-                >{{ makeup.course?.duration.startDate | date: 'h:mm a' }} -
-                {{ makeup.course?.duration.endDate | date: 'h:mm a' }}</span
-              >
+              <span class="light-body-m text-c100">
+                {{ makeup.makeupCourse?.duration.startDate | date: 'h:mm a' }} -
+                {{ makeup.makeupCourse?.duration.endDate | date: 'h:mm a' }}
+              </span>
             </div>
           </div>
           <div
