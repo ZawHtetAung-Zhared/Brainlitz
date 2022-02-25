@@ -207,8 +207,8 @@
               }}</span>
               <span class="little-dot"></span>
               <span class="light-body-m text-c100"
-                >{{ makeup.course?.duration.startDate | date: 'h:mm a' }} -
-                {{ makeup.course?.duration.endDate | date: 'h:mm a' }}</span
+                >{{ makeup.course?.duration.startDate | utcTime }} -
+                {{ makeup.course?.duration.endDate | utcTime }}</span
               >
             </div>
           </div>
@@ -394,8 +394,8 @@
               }}</span>
               <span class="little-dot"></span>
               <span class="light-body-m text-c100">
-                {{ makeup.course?.duration.startDate | date: 'h:mm a' }} -
-                {{ makeup.course?.duration.endDate | date: 'h:mm a' }}
+                {{ makeup.course?.duration.startDate | utcTime }} -
+                {{ makeup.course?.duration.endDate | utcTime }}
               </span>
             </div>
           </div>
@@ -404,12 +404,12 @@
             <div class="body-l text-b100">{{ makeup.makeupCourse?.name }}</div>
             <div>
               <span class="body-m text-c300">{{
-                makeup.created_at | date: 'd LLL yyyy'
+                makeup.filing_date | date: 'd LLL yyyy'
               }}</span>
               <span class="little-dot"></span>
               <span class="light-body-m text-c100">
-                {{ makeup.makeupCourse?.duration.startDate | date: 'h:mm a' }} -
-                {{ makeup.makeupCourse?.duration.endDate | date: 'h:mm a' }}
+                {{ makeup.makeupCourse?.duration.startDate | utcTime }} -
+                {{ makeup.makeupCourse?.duration.endDate | utcTime }}
               </span>
             </div>
           </div>
@@ -581,8 +581,8 @@
               }}</span>
               <span class="little-dot"></span>
               <span class="light-body-m text-c100"
-                >{{ makeup.course?.duration.startDate | date: 'h:mm a' }} -
-                {{ makeup.course?.duration.endDate | date: 'h:mm a' }}</span
+                >{{ makeup.course?.duration.startDate | utcTime }} -
+                {{ makeup.course?.duration.endDate | utcTime }}</span
               >
             </div>
           </div>
@@ -595,11 +595,9 @@
               }}</span>
               <span class="little-dot"></span>
               <span class="light-body-m text-c100"
-                >{{ makeup.makeupCourse?.duration.startDate | date: 'h:mm a' }}
+                >{{ makeup.makeupCourse?.duration.startDate | utcTime }}
                 -
-                {{
-                  makeup.makeupCourse?.duration.endDate | date: 'h:mm a'
-                }}</span
+                {{ makeup.makeupCourse?.duration.endDate | utcTime }}</span
               >
             </div>
           </div>
@@ -748,8 +746,8 @@
               }}</span>
               <span class="little-dot"></span>
               <span class="light-body-m text-c100"
-                >{{ makeup.course?.duration.startDate | date: 'h:mm a' }} -
-                {{ makeup.course?.duration.endDate | date: 'h:mm a' }}</span
+                >{{ makeup.course?.duration.startDate | utcTime }} -
+                {{ makeup.course?.duration.endDate | utcTime }}</span
               >
             </div>
           </div>
@@ -1176,8 +1174,8 @@
             {{ currentMakeup.course.name }}
           </div>
           <div class="small text-c100">
-            {{ currentMakeup.course?.duration.startDate | date: 'h:mm a' }} -
-            {{ currentMakeup.course?.duration.endDate | date: 'h:mm a' }}
+            {{ currentMakeup.course?.duration.startDate | utcTime }} -
+            {{ currentMakeup.course?.duration.endDate | utcTime }}
           </div>
         </div>
       </div>
@@ -1228,16 +1226,28 @@
         src="../../../assets/icons/crossClose.svg"
       />
     </div>
-    <div style="height: 344px; padding: 20px 16px;    margin-bottom: 30px;">
+    <div style="padding: 16px 20px;">
       <div class="h4-strong text-c300" style="margin-bottom: 8px;">
         {{ currentMakeup.name }}
       </div>
       <div
+        id="makeuppass-reason"
         class="light-body-m text-c100"
-        style="border-bottom: 1px solid #E8E9EB;    padding-bottom: 16px;"
+        [ngClass]="{
+          'reason-wrapper': showReadmoreBtn,
+          'show-more': isReadMore
+        }"
       >
         {{ currentMakeup.reason }}
       </div>
+      <button *ngIf="showReadmoreBtn" class="readmore-btn" (click)="readMore()">
+        <span class="light-body-m text-b100" *ngIf="isReadMore == false"
+          >Read More</span
+        >
+        <span class="light-body-m text-b100" *ngIf="isReadMore == true"
+          >Read Less</span
+        >
+      </button>
 
       <div class="avail-div" style="padding: 12px; margin-top: 16px;">
         <div
@@ -1251,8 +1261,8 @@
             {{ currentMakeup.course.name }}
           </div>
           <div class="small text-c100">
-            {{ currentMakeup.course?.duration.startDate | date: 'h:mm a' }} -
-            {{ currentMakeup.course?.duration.endDate | date: 'h:mm a' }}
+            {{ currentMakeup.course?.duration.startDate | utcTime }} -
+            {{ currentMakeup.course?.duration.endDate | utcTime }}
           </div>
         </div>
       </div>
@@ -1268,11 +1278,9 @@
             {{ currentMakeup.makeupCourse.name }}
           </div>
           <div class="small text-c100">
-            {{
-              currentMakeup.makeupCourse?.duration.startDate | date: 'h:mm a'
-            }}
+            {{ currentMakeup.makeupCourse?.duration.startDate | utcTime }}
             -
-            {{ currentMakeup.makeupCourse?.duration.endDate | date: 'h:mm a' }}
+            {{ currentMakeup.makeupCourse?.duration.endDate | utcTime }}
           </div>
         </div>
       </div>
@@ -1329,16 +1337,34 @@
         src="../../../assets/icons/crossClose.svg"
       />
     </div>
-    <div style="height: 297px; padding: 20px 16px;">
+    <div style="min-height: 310px; padding: 16px 20px;">
       <div class="h4-strong text-c300" style="margin-bottom: 8px;">
         {{ currentMakeup.name }}
       </div>
-      <div
+      <!-- <div
         class="light-body-m text-c100"
         style="border-bottom: 1px solid #E8E9EB;    padding-bottom: 16px;"
       >
         {{ currentMakeup.reason }}
+      </div> -->
+      <div
+        id="makeuppass-reason"
+        class="light-body-m text-c100"
+        [ngClass]="{
+          'reason-wrapper': showReadmoreBtn,
+          'show-more': isReadMore
+        }"
+      >
+        {{ currentMakeup.reason }}
       </div>
+      <button *ngIf="showReadmoreBtn" class="readmore-btn" (click)="readMore()">
+        <span class="light-body-m text-b100" *ngIf="isReadMore == false"
+          >Read More</span
+        >
+        <span class="light-body-m text-b100" *ngIf="isReadMore == true"
+          >Read Less</span
+        >
+      </button>
       <div style="margin-top: 16px;" class="d-flex justify-content-between">
         <div>
           <div class="caption-u text-b100" style="margin-bottom: 4px;">
@@ -1367,14 +1393,14 @@
             {{ currentMakeup.course.name }}
           </div>
           <div class="small text-c100">
-            {{ currentMakeup.course?.duration.startDate | date: 'h:mm a' }} -
-            {{ currentMakeup.course?.duration.endDate | date: 'h:mm a' }}
+            {{ currentMakeup.course?.duration.startDate | utcTime }} -
+            {{ currentMakeup.course?.duration.endDate | utcTime }}
           </div>
         </div>
       </div>
     </div>
     <div class="dashed"></div>
-    <div style="   padding: 0 20px;" class="d-flex justify-content-between">
+    <div style="padding: 20px;" class="d-flex justify-content-between">
       <div
         class="body-m text-s70 expired-div d-flex justify-content-center align-items-center"
       >
@@ -1480,8 +1506,8 @@
             {{ currentMakeup.course.name }}
           </div>
           <div class="small text-c100">
-            {{ currentMakeup.course?.duration.startDate | date: 'h:mm a' }} -
-            {{ currentMakeup.course?.duration.endDate | date: 'h:mm a' }}
+            {{ currentMakeup.course?.duration.startDate | utcTime }} -
+            {{ currentMakeup.course?.duration.endDate | utcTime }}
           </div>
         </div>
       </div>
@@ -1497,11 +1523,9 @@
             {{ currentMakeup.makeupCourse.name }}
           </div>
           <div class="small text-c100">
-            {{
-              currentMakeup.makeupCourse?.duration.startDate | date: 'h:mm a'
-            }}
+            {{ currentMakeup.makeupCourse?.duration.startDate | utcTime }}
             -
-            {{ currentMakeup.makeupCourse?.duration.endDate | date: 'h:mm a' }}
+            {{ currentMakeup.makeupCourse?.duration.endDate | utcTime }}
           </div>
         </div>
       </div>
