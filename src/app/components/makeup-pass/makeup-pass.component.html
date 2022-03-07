@@ -1177,6 +1177,16 @@
             {{ currentMakeup.course?.duration.startDate | utcTime }} -
             {{ currentMakeup.course?.duration.endDate | utcTime }}
           </div>
+          <div class="text-c100 caption">
+            {{
+              currentMakeup.cancelledLesson?.startDate == undefined ||
+              currentMakeup.cancelledLesson?.startDate == null ||
+              currentMakeup.cancelledLesson?.startDate == ''
+                ? '-'
+                : (currentMakeup.cancelledLesson?.startDate
+                  | date: 'd LLL yyyy')
+            }}
+          </div>
         </div>
       </div>
     </div>
@@ -1264,6 +1274,16 @@
             {{ currentMakeup.course?.duration.startDate | utcTime }} -
             {{ currentMakeup.course?.duration.endDate | utcTime }}
           </div>
+          <div class="text-c100 caption">
+            {{
+              currentMakeup.cancelledLesson?.startDate == undefined ||
+              currentMakeup.cancelledLesson?.startDate == null ||
+              currentMakeup.cancelledLesson?.startDate == ''
+                ? '-'
+                : (currentMakeup.cancelledLesson?.startDate
+                  | date: 'd LLL yyyy')
+            }}
+          </div>
         </div>
       </div>
       <div class="avail-div" style="padding: 12px; margin-top: 16px;">
@@ -1281,6 +1301,15 @@
             {{ currentMakeup.makeupCourse?.duration.startDate | utcTime }}
             -
             {{ currentMakeup.makeupCourse?.duration.endDate | utcTime }}
+          </div>
+          <div class="text-c100 caption">
+            {{
+              currentMakeup.claimedLesson?.startDate == undefined ||
+              currentMakeup.claimedLesson?.startDate == null ||
+              currentMakeup.claimedLesson?.startDate == ''
+                ? '-'
+                : (currentMakeup.claimedLesson?.startDate | date: 'd LLL yyyy')
+            }}
           </div>
         </div>
       </div>
@@ -1396,6 +1425,16 @@
             {{ currentMakeup.course?.duration.startDate | utcTime }} -
             {{ currentMakeup.course?.duration.endDate | utcTime }}
           </div>
+          <div class="text-c100 caption">
+            {{
+              currentMakeup.cancelledLesson?.startDate == undefined ||
+              currentMakeup.cancelledLesson?.startDate == null ||
+              currentMakeup.cancelledLesson?.startDate == ''
+                ? '-'
+                : (currentMakeup.cancelledLesson?.startDate
+                  | date: 'd LLL yyyy')
+            }}
+          </div>
         </div>
       </div>
     </div>
@@ -1509,6 +1548,16 @@
             {{ currentMakeup.course?.duration.startDate | utcTime }} -
             {{ currentMakeup.course?.duration.endDate | utcTime }}
           </div>
+          <div class="text-c100 caption">
+            {{
+              currentMakeup.cancelledLesson?.startDate == undefined ||
+              currentMakeup.cancelledLesson?.startDate == null ||
+              currentMakeup.cancelledLesson?.startDate == ''
+                ? '-'
+                : (currentMakeup.cancelledLesson?.startDate
+                  | date: 'd LLL yyyy')
+            }}
+          </div>
         </div>
       </div>
       <div class="avail-div" style="padding: 12px; margin-top: 16px;">
@@ -1526,6 +1575,15 @@
             {{ currentMakeup.makeupCourse?.duration.startDate | utcTime }}
             -
             {{ currentMakeup.makeupCourse?.duration.endDate | utcTime }}
+          </div>
+          <div class="text-c100 caption">
+            {{
+              currentMakeup.claimedLesson?.startDate == undefined ||
+              currentMakeup.claimedLesson?.startDate == null ||
+              currentMakeup.claimedLesson?.startDate == ''
+                ? '-'
+                : (currentMakeup.claimedLesson?.startDate | date: 'd LLL yyyy')
+            }}
           </div>
         </div>
       </div>
