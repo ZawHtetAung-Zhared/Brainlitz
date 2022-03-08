@@ -419,9 +419,6 @@ export class MakeupPassComponent implements OnInit {
   openRejectModal(rejectModal, makeupPass) {
     this.currentPassObj = makeupPass;
     this.currentMakeupPayload = makeupPass.meta.makeupPayLoad;
-    // if (this.currentMakeupPayload != undefined) {
-    //   this.currentMakeupPayload['passId'] = makeupPass._id;
-    // }
     this.modalReference = this.modalService.open(rejectModal, {
       backdrop: 'static',
       windowClass: 'w360-modal'
@@ -452,9 +449,6 @@ export class MakeupPassComponent implements OnInit {
     this.currentMakeup = makeup;
     this.currentPayload = makeup.meta.makeupPayLoad;
     this.isReadMore = false;
-    // if (this.currentPayload != undefined) {
-    //   this.currentPayload['passId'] = makeup._id;
-    // }
     this.approveModalReference = this.modalService.open(approveModal, {
       backdrop: 'static',
       windowClass: 'makeup-modal'

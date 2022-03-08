@@ -1002,7 +1002,10 @@
                     <div class="left-scoope"></div>
                     <div class="right-scoope"></div>
                     <div
-                      *ngIf="activePass == 'available'"
+                      *ngIf="
+                        activePass == 'available' &&
+                        list.passRequestStatus != 'requested'
+                      "
                       class="makeup-footer d-flex justify-content-center"
                     >
                       <p
@@ -1013,7 +1016,10 @@
                       </p>
                     </div>
                     <div
-                      *ngIf="list.passRequestStatus == 'requested'"
+                      *ngIf="
+                        activePass == 'available' &&
+                        list.passRequestStatus == 'requested'
+                      "
                       class="makeup-footer d-flex justify-content-center"
                     >
                       <p
@@ -3932,7 +3938,7 @@
       </div>
       <img
         class="cursor"
-        (click)="closeRequestedModal()"
+        (click)="closePopup('requested')"
         src="../../../assets/icons/crossClose.svg"
       />
     </div>
@@ -4048,7 +4054,7 @@
           class="popup-btn btn bg-s20"
           (click)="
             openRejectModal(rejectModal, currentMakeup, currentPayload);
-            approveModalReference.close()
+            closePopup('requested')
           "
         >
           Reject
@@ -4069,7 +4075,7 @@
       <button
         class="confirm-btn btn bg-s20"
         style="margin-right: 20px;"
-        (click)="closeModal('cancel')"
+        (click)="closePopup('reject')"
       >
         Cancel
       </button>
