@@ -1013,6 +1013,17 @@
                       </p>
                     </div>
                     <div
+                      *ngIf="list.passRequestStatus == 'requested'"
+                      class="makeup-footer d-flex justify-content-center"
+                    >
+                      <p
+                        (click)="openRequestedModal(requestedModal, list)"
+                        class="body-m text-b100 bg-s0 claim-text"
+                      >
+                        Requested
+                      </p>
+                    </div>
+                    <div
                       *ngIf="activePass == 'claimed'"
                       class="makeup-footer d-flex justify-content-center"
                     >
@@ -3907,5 +3918,167 @@
     >
       Reset
     </button>
+  </div>
+</ng-template>
+<ng-template #requestedModal let-c="close" let-d="dismiss">
+  <div class="avail-wrap">
+    <div
+      style="height: 56px; padding: 16px; border-radius: 16px;"
+      class="d-flex justify-content-between align-items-center bg-s10"
+    >
+      <div class="h5-strong text-c100 d-flex align-items-center">
+        <img class="profile" src="{{ custDetail.user.profilePic }}" />
+        {{ custDetail.user.preferredName }}
+      </div>
+      <img
+        class="cursor"
+        (click)="closeRequestedModal()"
+        src="../../../assets/icons/crossClose.svg"
+      />
+    </div>
+    <div style="padding: 16px 20px;">
+      <div class="h4-strong text-c300" style="margin-bottom: 8px;">
+        {{ currentMakeup.name }}
+      </div>
+      <div
+        id="makeuppass-reason"
+        class="light-body-m text-c100"
+        [ngClass]="{
+          'reason-wrapper': showReadmoreBtn,
+          'show-more': isReadMore
+        }"
+      >
+        {{ currentMakeup.reason }}
+      </div>
+      <button *ngIf="showReadmoreBtn" class="readmore-btn" (click)="readMore()">
+        <span class="light-body-m text-b100" *ngIf="isReadMore == false"
+          >Read More</span
+        >
+        <span class="light-body-m text-b100" *ngIf="isReadMore == true"
+          >Read Less</span
+        >
+      </button>
+      <div class="avail-div" style="padding: 12px; margin-top: 16px;">
+        <div
+          style="margin-left: 12px;margin-bottom: 8px;"
+          class="caption text-c100"
+        >
+          Issued on {{ currentMakeup.issueDate.day }}
+          {{ currentMakeup.issueDate.month - 1 | TTmonth }}
+          {{ currentMakeup.issueDate.year }}
+        </div>
+        <div class="avail-div2">
+          <div style="margin-bottom: 4px;" class="body-m text-b100">
+            {{ currentMakeup.course.name }}
+          </div>
+          <div class="small text-c100">
+            <span>
+              {{ currentMakeup.course.startTime.hr | timeFormat }} :
+              {{ currentMakeup.course.startTime.min | timeFormat }}
+              {{ currentMakeup.course.startTime.meridiem }}
+            </span>
+            -
+            <span>
+              {{ currentMakeup.course.endTime.hr | timeFormat }} :
+              {{ currentMakeup.course.endTime.min | timeFormat }}
+              {{ currentMakeup.course.endTime.meridiem }}
+            </span>
+          </div>
+          <div class="text-c100 caption">
+            {{
+              currentMakeup.cancelledLesson?.startDate == undefined ||
+              currentMakeup.cancelledLesson?.startDate == null ||
+              currentMakeup.cancelledLesson?.startDate == ''
+                ? '-'
+                : (currentMakeup.cancelledLesson?.startDate
+                  | date: 'd LLL yyyy')
+            }}
+          </div>
+        </div>
+      </div>
+      <div class="avail-div" style="padding: 12px; margin-top: 16px;">
+        <div
+          style="margin-left: 12px;margin-bottom: 8px;"
+          class="caption text-y200"
+        >
+          Requested on {{ currentMakeup.filingDate.day }}
+          {{ currentMakeup.filingDate.month - 1 | TTmonth }}
+          {{ currentMakeup.filingDate.year }}
+        </div>
+        <div class="avail-div2">
+          <div style="margin-bottom: 4px;" class="body-m text-b100">
+            {{ currentMakeup.makeupCourse.name }}
+          </div>
+          <div class="small text-c100">
+            <span>
+              {{ currentMakeup.makeupCourse.startTime.hr | timeFormat }} :
+              {{ currentMakeup.makeupCourse.startTime.min | timeFormat }}
+              {{ currentMakeup.makeupCourse.startTime.meridiem }}
+            </span>
+            -
+            <span>
+              {{ currentMakeup.makeupCourse.endTime.hr | timeFormat }} :
+              {{ currentMakeup.makeupCourse.endTime.min | timeFormat }}
+              {{ currentMakeup.makeupCourse.endTime.meridiem }}
+            </span>
+          </div>
+          <div class="text-c100 caption">
+            {{
+              currentMakeup.claimedLesson?.startDate == undefined ||
+              currentMakeup.claimedLesson?.startDate == null ||
+              currentMakeup.claimedLesson?.startDate == ''
+                ? '-'
+                : (currentMakeup.claimedLesson?.startDate | date: 'd LLL yyyy')
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="dashed-approve"></div>
+    <div style="padding: 20px;" class="d-flex justify-content-end">
+      <div>
+        <button
+          style="margin-right: 20px;"
+          class="popup-btn btn bg-b100 text-s0"
+          (click)="approveMakeupPass(currentMakeup, currentPayload)"
+        >
+          Approve
+        </button>
+        <button
+          class="popup-btn btn bg-s20"
+          (click)="
+            openRejectModal(rejectModal, currentMakeup, currentPayload);
+            approveModalReference.close()
+          "
+        >
+          Reject
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #rejectModal let-c="close" let-d="dismiss">
+  <div class="delete-wrap">
+    <div class="h3-strong text-c300" style="margin-bottom: 8px;">
+      Confirm reject
+    </div>
+    <div class="light-body-l text-c300">
+      Are you sure you want to reject the request?
+    </div>
+    <div style="margin-top: 24px;" class="d-flex justify-content-between">
+      <button
+        class="confirm-btn btn bg-s20"
+        style="margin-right: 20px;"
+        (click)="closeModal('cancel')"
+      >
+        Cancel
+      </button>
+      <button
+        class="confirm-btn btn bg-r100 text-s0"
+        (click)="rejectMakeupPass(currentPassObj, currentMakeupPayload)"
+      >
+        Ok
+      </button>
+    </div>
   </div>
 </ng-template>

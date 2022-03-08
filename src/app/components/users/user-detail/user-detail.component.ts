@@ -150,6 +150,14 @@ export class UserDetailComponent implements OnInit {
   public resetEvaluationClicked = false;
   public resetEvaluationIndex = null;
 
+  //for requested modal
+  public currentMakeup: any;
+  public currentMakeupPayload: any;
+  public currentPayload: any;
+  public requestedModalReference;
+  public isReadMore: boolean = false;
+  public showReadmoreBtn: boolean = false;
+
   constructor(
     private _service: appService,
     private _Activatedroute: ActivatedRoute,
@@ -1332,6 +1340,82 @@ export class UserDetailComponent implements OnInit {
     });
     this.getClaimCourses(this.currentPassObj.course.courseId, 0);
   }
+
+  openRequestedModal(requestedModal, passObj) {
+    this.currentMakeup = passObj;
+    this.currentPayload = passObj.meta.makeupPayLoad;
+    console.log('currentMakeup', this.currentMakeup);
+    this.requestedModalReference = this.modalService.open(requestedModal, {
+      backdrop: 'static',
+      windowClass: 'makeup-modal'
+    });
+    setTimeout(() => {
+      let reasonHeight = document.getElementById('makeuppass-reason')
+        .offsetHeight;
+      console.log('reasonHeight', reasonHeight);
+      if (reasonHeight > 48) this.showReadmoreBtn = true;
+      else this.showReadmoreBtn = false;
+    }, 200);
+  }
+
+  closeRequestedModal() {
+    this.requestedModalReference.close();
+  }
+
+  closeRejectModal() {
+    this.requestedModalReference.close();
+  }
+
+  approveMakeupPass(makeupPass, makeupPayLoad) {
+    console.log('approveMakeupPass', makeupPass);
+    this.requestedModalReference.close();
+    this._service
+      .approveMakeupPass(
+        makeupPass.course.courseId,
+        this.custDetail.user.userId,
+        makeupPayLoad
+      )
+      .subscribe(
+        (res: any) => {
+          console.log('res', res);
+        },
+        err => {
+          console.log('err', err);
+        }
+      );
+  }
+  openRejectModal(rejectModal, makeupPass) {
+    this.currentPassObj = makeupPass;
+    this.currentMakeupPayload = makeupPass.meta.makeupPayLoad;
+    // if (this.currentMakeupPayload != undefined) {
+    //   this.currentMakeupPayload['passId'] = makeupPass._id;
+    // }
+    this.modalReference = this.modalService.open(rejectModal, {
+      backdrop: 'static',
+      windowClass: 'w360-modal'
+    });
+  }
+
+  rejectMakeupPass(makeupPass, makeupPayLoad) {
+    console.log('rejectMakeupPass', makeupPass, makeupPayLoad);
+    this.makeupId = makeupPass.id;
+    this.closeModal('reject');
+    this._service
+      .rejectMakeupPass(
+        makeupPass.courseId,
+        makeupPass.studentId,
+        makeupPayLoad
+      )
+      .subscribe(
+        (res: any) => {
+          console.log('res', res);
+        },
+        err => {
+          console.log('err', err);
+        }
+      );
+  }
+
   public mkResult: any;
   getClaimCourses(id, skip) {
     //this.blockUI.start('Loading...');
