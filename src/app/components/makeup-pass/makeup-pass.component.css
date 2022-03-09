@@ -130,14 +130,14 @@
 }
 .avail-div {
   width: 520px;
-  height: 112px;
+  /* height: 112px; */
 
   background: #f2f3f5;
   border-radius: 12px;
 }
 .avail-div2 {
   width: 496px;
-  height: 64px;
+  /* height: 64px; */
 
   background: #ffffff;
   border-radius: 8px;
