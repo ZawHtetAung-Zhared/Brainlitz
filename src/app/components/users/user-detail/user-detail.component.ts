@@ -150,6 +150,15 @@ export class UserDetailComponent implements OnInit {
   public resetEvaluationClicked = false;
   public resetEvaluationIndex = null;
 
+  //for requested modal
+  public currentMakeup: any;
+  public currentMakeupPayload: any;
+  public currentPayload: any;
+  public requestedModalReference;
+  public isReadMore: boolean = false;
+  public showReadmoreBtn: boolean = false;
+  public rejectModalReference;
+
   constructor(
     private _service: appService,
     private _Activatedroute: ActivatedRoute,
@@ -1332,6 +1341,87 @@ export class UserDetailComponent implements OnInit {
     });
     this.getClaimCourses(this.currentPassObj.course.courseId, 0);
   }
+
+  openRequestedModal(requestedModal, passObj) {
+    this.currentMakeup = passObj;
+    this.currentPayload = passObj.meta.makeupPayLoad;
+    this.isReadMore = false;
+    console.log('currentMakeup', this.currentMakeup);
+    this.requestedModalReference = this.modalService.open(requestedModal, {
+      backdrop: 'static',
+      windowClass: 'makeup-modal'
+    });
+    setTimeout(() => {
+      let reasonHeight = document.getElementById('makeuppass-reason')
+        .offsetHeight;
+      console.log('reasonHeight', reasonHeight);
+      if (reasonHeight > 48) this.showReadmoreBtn = true;
+      else this.showReadmoreBtn = false;
+    }, 200);
+  }
+
+  closePopup(type) {
+    switch (type) {
+      case 'requested':
+        this.requestedModalReference.close();
+        break;
+      default:
+        this.rejectModalReference.close();
+    }
+  }
+
+  approveMakeupPass(makeupPass, makeupPayLoad) {
+    console.log('approveMakeupPass', makeupPass);
+    this.closePopup('requested');
+    this._service
+      .approveMakeupPass(
+        makeupPass.course.courseId,
+        this.custDetail.user.userId,
+        makeupPayLoad
+      )
+      .subscribe(
+        (res: any) => {
+          console.log('res', res);
+          this.toastr.success('Successfully approved.');
+          this.callMakeupLists();
+        },
+        err => {
+          console.log('err', err);
+        }
+      );
+  }
+  openRejectModal(rejectModal, makeupPass) {
+    this.currentPassObj = makeupPass;
+    this.currentMakeupPayload = makeupPass.meta.makeupPayLoad;
+    this.rejectModalReference = this.modalService.open(rejectModal, {
+      backdrop: 'static',
+      windowClass: 'w360-modal'
+    });
+  }
+
+  rejectMakeupPass(makeupPass, makeupPayLoad) {
+    console.log('rejectMakeupPass', makeupPass, makeupPayLoad);
+    this.makeupId = makeupPass.passId;
+    console.log('makeupId', this.makeupId);
+    this.closePopup('reject');
+    this._service
+      .rejectMakeupPass(
+        makeupPass.course.courseId,
+        this.custDetail.user.userId,
+        makeupPayLoad
+      )
+      .subscribe(
+        (res: any) => {
+          console.log('res', res);
+          this.toastr.success('Successfully rejectd.');
+          this.callMakeupLists();
+        },
+        err => {
+          console.log('err', err);
+        }
+      );
+  }
+
   public mkResult: any;
   getClaimCourses(id, skip) {
     //this.blockUI.start('Loading...');
