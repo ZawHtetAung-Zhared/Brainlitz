@@ -162,15 +162,17 @@
           <div style="width: 30%; padding: 16px 20px;">
             <div class="h4-strong text-c300 ellipsis">{{ makeup.name }}</div>
             <div class="light-body-m text-c100">
-              for
-              <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
-                makeup.studentDetails.preferredName
-              }}</span>
+              <div class="ellipsis">
+                for
+                <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
+                  makeup.studentDetails.preferredName
+                }}</span>
+              </div>
               <span class="text-b100" *ngIf="makeup.studentDetails == null">
                 -
               </span>
               <div
-                class="text-s70 ellipsis w200"
+                class="text-s70 ellipsis"
                 *ngIf="makeup.student != null && makeup.student.email != ''"
               >
                 ({{ makeup.student.email }})
