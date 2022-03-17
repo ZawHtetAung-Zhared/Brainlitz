@@ -3996,8 +3996,7 @@
               currentMakeup.cancelledLesson?.startDate == null ||
               currentMakeup.cancelledLesson?.startDate == ''
                 ? '-'
-                : (currentMakeup.cancelledLesson?.startDate
-                  | date: 'd LLL yyyy')
+                : (currentMakeup.cancelledLesson?.startDate | utcDateoverview)
             }}
           </div>
         </div>
@@ -4034,7 +4033,7 @@
               currentMakeup.claimedLesson?.startDate == null ||
               currentMakeup.claimedLesson?.startDate == ''
                 ? '-'
-                : (currentMakeup.claimedLesson?.startDate | date: 'd LLL yyyy')
+                : (currentMakeup.claimedLesson?.startDate | utcDateoverview)
             }}
           </div>
         </div>
