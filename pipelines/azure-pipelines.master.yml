@@ -21,7 +21,7 @@ steps:
     inputs:
       targetType: "inline"
       script: |
-        rm package-lock.json
+        # rm package-lock.json
         npm install
         npm run build:master
 
