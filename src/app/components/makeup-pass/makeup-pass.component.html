@@ -162,15 +162,17 @@
           <div style="width: 30%; padding: 16px 20px;">
             <div class="h4-strong text-c300 ellipsis">{{ makeup.name }}</div>
             <div class="light-body-m text-c100">
-              for
-              <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
-                makeup.studentDetails.preferredName
-              }}</span>
+              <div class="ellipsis">
+                for
+                <span class="text-b100" *ngIf="makeup.studentDetails != null">{{
+                  makeup.studentDetails.preferredName
+                }}</span>
+              </div>
               <span class="text-b100" *ngIf="makeup.studentDetails == null">
                 -
               </span>
               <div
-                class="text-s70 ellipsis w200"
+                class="text-s70 ellipsis"
                 *ngIf="makeup.student != null && makeup.student.email != ''"
               >
                 ({{ makeup.student.email }})
@@ -363,12 +365,12 @@
           <div style="width: 19%; padding: 16px 20px;">
             <div class="h4-strong text-c300 ellipsis">{{ makeup.name }}</div>
             <div class="light-body-m text-c100">
-              <span class="ellipsis" *ngIf="makeup.studentDetails != null">
+              <div class="ellipsis" *ngIf="makeup.studentDetails != null">
                 for
                 <span class="text-b100">
                   {{ makeup.studentDetails.preferredName }}
                 </span>
-              </span>
+              </div>
               <span class="text-b100" *ngIf="makeup.studentDetails == null">
                 -
               </span>
@@ -1183,8 +1185,7 @@
               currentMakeup.cancelledLesson?.startDate == null ||
               currentMakeup.cancelledLesson?.startDate == ''
                 ? '-'
-                : (currentMakeup.cancelledLesson?.startDate
-                  | date: 'd LLL yyyy')
+                : (currentMakeup.cancelledLesson?.startDate | utcDateoverview)
             }}
           </div>
         </div>
@@ -1280,8 +1281,7 @@
               currentMakeup.cancelledLesson?.startDate == null ||
               currentMakeup.cancelledLesson?.startDate == ''
                 ? '-'
-                : (currentMakeup.cancelledLesson?.startDate
-                  | date: 'd LLL yyyy')
+                : (currentMakeup.cancelledLesson?.startDate | utcDateoverview)
             }}
           </div>
         </div>
@@ -1308,7 +1308,7 @@
               currentMakeup.claimedLesson?.startDate == null ||
               currentMakeup.claimedLesson?.startDate == ''
                 ? '-'
-                : (currentMakeup.claimedLesson?.startDate | date: 'd LLL yyyy')
+                : (currentMakeup.claimedLesson?.startDate | utcDateoverview)
             }}
           </div>
         </div>
@@ -1431,8 +1431,7 @@
               currentMakeup.cancelledLesson?.startDate == null ||
               currentMakeup.cancelledLesson?.startDate == ''
                 ? '-'
-                : (currentMakeup.cancelledLesson?.startDate
-                  | date: 'd LLL yyyy')
+                : (currentMakeup.cancelledLesson?.startDate | utcDateoverview)
             }}
           </div>
         </div>
@@ -1554,8 +1553,7 @@
               currentMakeup.cancelledLesson?.startDate == null ||
               currentMakeup.cancelledLesson?.startDate == ''
                 ? '-'
-                : (currentMakeup.cancelledLesson?.startDate
-                  | date: 'd LLL yyyy')
+                : (currentMakeup.cancelledLesson?.startDate | utcDateoverview)
             }}
           </div>
         </div>
@@ -1582,7 +1580,7 @@
               currentMakeup.claimedLesson?.startDate == null ||
               currentMakeup.claimedLesson?.startDate == ''
                 ? '-'
-                : (currentMakeup.claimedLesson?.startDate | date: 'd LLL yyyy')
+                : (currentMakeup.claimedLesson?.startDate | utcDateoverview)
             }}
           </div>
         </div>
