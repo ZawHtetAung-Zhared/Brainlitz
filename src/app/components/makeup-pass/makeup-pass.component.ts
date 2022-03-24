@@ -95,6 +95,7 @@ export class MakeupPassComponent implements OnInit {
     // this.closeModal('close');
     console.log('current obj', passObj);
     this.currentPassObj = passObj;
+    this.modalReference.close();
     this.claimModalReference = this.modalService.open(claimModal, {
       backdrop: 'static',
       windowClass: 'modal-xl d-flex justify-content-center align-items-center'
