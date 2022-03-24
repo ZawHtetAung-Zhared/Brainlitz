@@ -982,14 +982,15 @@
                         </div>
                         <div *ngIf="activePass == 'claimed'">
                           <p class="caption text-c100">
-                            <strong
-                              class="text-c300 caption"
+                            <span
+                              class="text-c100 caption"
                               *ngIf="list.claimedDateFor?.day != null"
                             >
                               {{ list.claimedDateFor?.day }}
                               {{ list.claimedDateFor?.month - 1 | TTmonth }}
                               {{ list.claimedDateFor?.year }}
-                            </strong>
+                              <span>(Makeup Lesson)</span>
+                            </span>
                             <strong
                               class="text-c300 caption"
                               *ngIf="list.claimedDateFor?.day == null"
@@ -1067,6 +1068,7 @@
                                 : (list.claimedLesson?.startDate
                                   | utcDateoverview)
                             }}
+                            <span>(Makeup Lesson)</span>
                           </p>
                           <div
                             class="claimed-box bg-s0 d-flex flex-column"
@@ -4160,6 +4162,7 @@
               ? '-'
               : (currentMakeup.claimedLesson?.startDate | utcDateoverview)
           }}
+          <span>(Makeup Lesson)</span>
         </div>
         <div class="avail-div2">
           <div style="margin-bottom: 4px;" class="body-m text-b100">

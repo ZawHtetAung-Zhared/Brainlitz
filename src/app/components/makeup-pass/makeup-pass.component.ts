@@ -383,7 +383,8 @@ export class MakeupPassComponent implements OnInit {
     this.currentMakeup = makeup;
     this.modalReference = this.modalService.open(modal, {
       backdrop: 'static',
-      windowClass: 'makeup-modal'
+      windowClass:
+        'makeup-modal d-flex justify-content-center align-items-center'
     });
     setTimeout(() => {
       let reasonHeight = document.getElementById('makeuppass-reason')
@@ -452,7 +453,8 @@ export class MakeupPassComponent implements OnInit {
     this.isReadMore = false;
     this.approveModalReference = this.modalService.open(approveModal, {
       backdrop: 'static',
-      windowClass: 'makeup-modal'
+      windowClass:
+        'makeup-modal d-flex justify-content-center align-items-center'
     });
     setTimeout(() => {
       let reasonHeight = document.getElementById('makeuppass-reason')

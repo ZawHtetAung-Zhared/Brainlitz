@@ -1349,7 +1349,8 @@ export class UserDetailComponent implements OnInit {
     console.log('currentMakeup', this.currentMakeup);
     this.requestedModalReference = this.modalService.open(requestedModal, {
       backdrop: 'static',
-      windowClass: 'makeup-modal'
+      windowClass:
+        'makeup-modal d-flex justify-content-center align-items-center'
     });
     setTimeout(() => {
       let reasonHeight = document.getElementById('makeuppass-reason')
