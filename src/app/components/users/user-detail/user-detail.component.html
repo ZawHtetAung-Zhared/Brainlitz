@@ -897,7 +897,15 @@
                       </p>
                       <div class="makeup-box small bg-s20">
                         <p class="caption text-c100">
-                          <span
+                          {{
+                            list.cancelledLesson?.startDate == undefined ||
+                            list.cancelledLesson?.startDate == null ||
+                            list.cancelledLesson?.startDate == ''
+                              ? '-'
+                              : (list.cancelledLesson?.startDate
+                                | utcDateoverview)
+                          }}
+                          <!-- <span
                             *ngIf="list.cancelledLesson?.startDate != undefined"
                           >
                             <span
@@ -917,7 +925,7 @@
                             *ngIf="list.cancelledLesson?.startDate == undefined"
                           >
                             <span *ngIf="list.course.type !== 'ONLINE'">-</span>
-                          </strong>
+                          </strong> -->
                         </p>
                         <div class="issue-box bg-s0 d-flex flex-column">
                           <strong class="text-c300 caption">{{
@@ -986,9 +994,14 @@
                               class="text-c100 caption"
                               *ngIf="list.claimedDateFor?.day != null"
                             >
-                              {{ list.claimedDateFor?.day }}
-                              {{ list.claimedDateFor?.month - 1 | TTmonth }}
-                              {{ list.claimedDateFor?.year }}
+                              {{
+                                list.claimedLesson?.startDate == undefined ||
+                                list.claimedLesson?.startDate == null ||
+                                list.claimedLesson?.startDate == ''
+                                  ? '-'
+                                  : (list.claimedLesson?.startDate
+                                    | utcDateoverview)
+                              }}
                               <span>(Makeup Lesson)</span>
                             </span>
                             <strong
