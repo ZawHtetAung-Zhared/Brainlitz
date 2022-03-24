@@ -188,7 +188,7 @@
   margin: 0 auto;
 }
 .location-header {
-  /* width: 966px; */
+  max-width: 966px;
   height: 36px;
   padding: 8px 20px;
   box-shadow: 0px -1px 0px #e3e4e5;

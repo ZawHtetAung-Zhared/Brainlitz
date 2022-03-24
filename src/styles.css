@@ -1750,8 +1750,7 @@ button.toast-close-button {
   min-height: 449px;
   border-radius: 16px;
 }
-.w360-modal .modal-dialog,
-.makeup-modal .modal-dialog {
+.w360-modal .modal-dialog {
   margin: 0 auto !important;
   top: 30% !important;
 }

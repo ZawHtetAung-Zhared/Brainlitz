@@ -868,14 +868,64 @@
                       <h5 class="makeup-title body-l text-c300">
                         {{ list.name }}
                       </h5>
+                      <p class="small text-c100 font-italic">
+                        Issued on {{ list.issueDate.day }}
+                        {{ list.issueDate.month - 1 | TTmonth }}
+                        {{ list.issueDate.year }}
+                      </p>
+                      <p
+                        class="small text-c100 font-italic"
+                        *ngIf="activePass == 'claimed'"
+                      >
+                        Claimed on {{ list.filingDate.day }}
+                        {{ list.filingDate.month - 1 | TTmonth }}
+                        {{ list.filingDate.year }}
+                      </p>
+                      <p
+                        class="small text-c100 font-italic"
+                        *ngIf="
+                          activePass == 'available' &&
+                          list.passRequestStatus == 'requested'
+                        "
+                      >
+                        Requested on {{ list.filingDate.day }}
+                        {{ list.filingDate.month - 1 | TTmonth }}
+                        {{ list.filingDate.year }}
+                      </p>
                       <p class="makeup-desc body-m text-c100 mb-0">
                         {{ list.reason }}
                       </p>
                       <div class="makeup-box small bg-s20">
                         <p class="caption text-c100">
-                          Issued on {{ list.issueDate.day }}
-                          {{ list.issueDate.month - 1 | TTmonth }}
-                          {{ list.issueDate.year }}
+                          {{
+                            list.cancelledLesson?.startDate == undefined ||
+                            list.cancelledLesson?.startDate == null ||
+                            list.cancelledLesson?.startDate == ''
+                              ? '-'
+                              : (list.cancelledLesson?.startDate
+                                | utcDateoverview)
+                          }}
+                          <!-- <span
+                            *ngIf="list.cancelledLesson?.startDate != undefined"
+                          >
+                            <span
+                              >{{
+                                list.cancelledLesson?.startDate | timelineDate
+                              }}
+                            </span>
+                            <span
+                              >{{
+                                list.cancelledLesson?.startDate | yearFormat
+                              }}
+                            </span>
+                          </span>
+
+                          <strong
+                            class="text-c300 caption"
+                            *ngIf="list.cancelledLesson?.startDate == undefined"
+                          >
+                            <span *ngIf="list.course.type !== 'ONLINE'">-</span>
+                          </strong> -->
                         </p>
                         <div class="issue-box bg-s0 d-flex flex-column">
                           <strong class="text-c300 caption">{{
@@ -901,7 +951,7 @@
                             ></label
                           >
 
-                          <div *ngIf="list.cancelledLesson" class="text-c100">
+                          <!-- <div *ngIf="list.cancelledLesson" class="text-c100">
                             <span
                               *ngIf="
                                 list.cancelledLesson.startDate != undefined
@@ -929,7 +979,7 @@
                                 >-</span
                               >
                             </strong>
-                          </div>
+                          </div> -->
                           <strong
                             class="text-c300 caption"
                             *ngIf="!list.cancelledLesson"
@@ -940,9 +990,28 @@
                         </div>
                         <div *ngIf="activePass == 'claimed'">
                           <p class="caption text-c100">
-                            Claimed on {{ list.filingDate.day }}
-                            {{ list.filingDate.month - 1 | TTmonth }}
-                            {{ list.filingDate.year }}
+                            <span
+                              class="text-c100 caption"
+                              *ngIf="list.claimedDateFor?.day != null"
+                            >
+                              {{
+                                list.claimedLesson?.startDate == undefined ||
+                                list.claimedLesson?.startDate == null ||
+                                list.claimedLesson?.startDate == ''
+                                  ? '-'
+                                  : (list.claimedLesson?.startDate
+                                    | utcDateoverview)
+                              }}
+                              <span>(Makeup Lesson)</span>
+                            </span>
+                            <strong
+                              class="text-c300 caption"
+                              *ngIf="list.claimedDateFor?.day == null"
+                            >
+                              <span *ngIf="list.course.type !== 'ONLINE'"
+                                >-</span
+                              >
+                            </strong>
                           </p>
                           <div
                             class="claimed-box bg-s0 d-flex flex-column"
@@ -977,7 +1046,7 @@
                               </span>
                             </label>
 
-                            <div *ngIf="list.claimedDateFor">
+                            <!-- <div *ngIf="list.claimedDateFor">
                               <strong
                                 class="text-c300 caption"
                                 *ngIf="list.claimedDateFor.day != null"
@@ -994,7 +1063,86 @@
                                   >-</span
                                 >
                               </strong>
-                            </div>
+                            </div> -->
+                          </div>
+                        </div>
+                        <div
+                          *ngIf="
+                            activePass == 'available' &&
+                            list.passRequestStatus == 'requested'
+                          "
+                        >
+                          <p class="caption text-c100">
+                            {{
+                              list.claimedLesson?.startDate == undefined ||
+                              list.claimedLesson?.startDate == null ||
+                              list.claimedLesson?.startDate == ''
+                                ? '-'
+                                : (list.claimedLesson?.startDate
+                                  | utcDateoverview)
+                            }}
+                            <span>(Makeup Lesson)</span>
+                          </p>
+                          <div
+                            class="claimed-box bg-s0 d-flex flex-column"
+                            *ngIf="list.makeupCourse"
+                          >
+                            <strong class="text-c300 caption">{{
+                              list.makeupCourse.name
+                            }}</strong>
+                            <label
+                              class="text-c100 mb-0"
+                              *ngIf="
+                                list.course.type !== 'ONLINE' &&
+                                list.makeupCourse.startTime
+                              "
+                            >
+                              <span
+                                >{{
+                                  list.makeupCourse.startTime.hr | timeFormat
+                                }}
+                                :
+                                {{
+                                  list.makeupCourse.startTime.min | timeFormat
+                                }}
+                                {{ list.makeupCourse.startTime.meridiem }}</span
+                              >
+                              -
+                              <span>
+                                {{ list.makeupCourse.endTime.hr | timeFormat }}
+                                :
+                                {{ list.makeupCourse.endTime.min | timeFormat }}
+                                {{ list.makeupCourse.endTime.meridiem }}
+                              </span>
+                            </label>
+
+                            <!-- <div class="text-c100 caption">
+                              {{
+                                list.claimedLesson?.startDate == undefined ||
+                                list.claimedLesson?.startDate == null ||
+                                list.claimedLesson?.startDate == ''
+                                  ? '-'
+                                  : (list.claimedLesson?.startDate | utcDateoverview)
+                              }}
+                            </div> -->
+                            <!-- <div *ngIf="list.claimedDateFor">
+                              <strong
+                                class="text-c300 caption"
+                                *ngIf="list.claimedDateFor.day != null"
+                              >
+                                {{ list.claimedDateFor.day }}
+                                {{ list.claimedDateFor.month - 1 | TTmonth }}
+                                {{ list.claimedDateFor.year }}
+                              </strong>
+                              <strong
+                                class="text-c300 caption"
+                                *ngIf="list.claimedDateFor.day == null"
+                              >
+                                <span *ngIf="list.course.type !== 'ONLINE'"
+                                  >-</span
+                                >
+                              </strong>
+                            </div> -->
                           </div>
                         </div>
                       </div>
@@ -3946,6 +4094,16 @@
       <div class="h4-strong text-c300" style="margin-bottom: 8px;">
         {{ currentMakeup.name }}
       </div>
+      <div class="small text-c100 font-italic" style="margin-bottom: 8px;">
+        Issued on {{ currentMakeup.issueDate.day }}
+        {{ currentMakeup.issueDate.month - 1 | TTmonth }}
+        {{ currentMakeup.issueDate.year }}
+      </div>
+      <div class="small text-c100 font-italic" style="margin-bottom: 8px;">
+        Requested on {{ currentMakeup.filingDate.day }}
+        {{ currentMakeup.filingDate.month - 1 | TTmonth }}
+        {{ currentMakeup.filingDate.year }}
+      </div>
       <div
         id="makeuppass-reason"
         class="light-body-m text-c100"
@@ -3969,9 +4127,13 @@
           style="margin-left: 12px;margin-bottom: 8px;"
           class="caption text-c100"
         >
-          Issued on {{ currentMakeup.issueDate.day }}
-          {{ currentMakeup.issueDate.month - 1 | TTmonth }}
-          {{ currentMakeup.issueDate.year }}
+          {{
+            currentMakeup.cancelledLesson?.startDate == undefined ||
+            currentMakeup.cancelledLesson?.startDate == null ||
+            currentMakeup.cancelledLesson?.startDate == ''
+              ? '-'
+              : (currentMakeup.cancelledLesson?.startDate | utcDateoverview)
+          }}
         </div>
         <div class="avail-div2">
           <div style="margin-bottom: 4px;" class="body-m text-b100">
@@ -3990,7 +4152,7 @@
               {{ currentMakeup.course.endTime.meridiem }}
             </span>
           </div>
-          <div class="text-c100 caption">
+          <!-- <div class="text-c100 caption">
             {{
               currentMakeup.cancelledLesson?.startDate == undefined ||
               currentMakeup.cancelledLesson?.startDate == null ||
@@ -3998,17 +4160,22 @@
                 ? '-'
                 : (currentMakeup.cancelledLesson?.startDate | utcDateoverview)
             }}
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="avail-div" style="padding: 12px; margin-top: 16px;">
         <div
           style="margin-left: 12px;margin-bottom: 8px;"
-          class="caption text-y200"
+          class="caption text-c100"
         >
-          Requested on {{ currentMakeup.filingDate.day }}
-          {{ currentMakeup.filingDate.month - 1 | TTmonth }}
-          {{ currentMakeup.filingDate.year }}
+          {{
+            currentMakeup.claimedLesson?.startDate == undefined ||
+            currentMakeup.claimedLesson?.startDate == null ||
+            currentMakeup.claimedLesson?.startDate == ''
+              ? '-'
+              : (currentMakeup.claimedLesson?.startDate | utcDateoverview)
+          }}
+          <span>(Makeup Lesson)</span>
         </div>
         <div class="avail-div2">
           <div style="margin-bottom: 4px;" class="body-m text-b100">
@@ -4027,7 +4194,7 @@
               {{ currentMakeup.makeupCourse.endTime.meridiem }}
             </span>
           </div>
-          <div class="text-c100 caption">
+          <!-- <div class="text-c100 caption">
             {{
               currentMakeup.claimedLesson?.startDate == undefined ||
               currentMakeup.claimedLesson?.startDate == null ||
@@ -4035,7 +4202,7 @@
                 ? '-'
                 : (currentMakeup.claimedLesson?.startDate | utcDateoverview)
             }}
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
