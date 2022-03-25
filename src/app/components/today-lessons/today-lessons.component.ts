@@ -24,7 +24,7 @@ import {
 } from '@angular/router';
 import * as moment from 'moment';
 import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
-import t = require('../../../assets/images/Pure CSS range-slider, Grav style_files/index-09a667f67f4280f2b6b5f60c198566525ce9602a42ab8f5f10797ccde87af5a9');
+// import t = require('../../../assets/images/Pure CSS range-slider, Grav style_files/index-09a667f67f4280f2b6b5f60c198566525ce9602a42ab8f5f10797ccde87af5a9');
 
 @Component({
   selector: 'app-today-lessons',
@@ -139,7 +139,7 @@ export class TodayLessonsComponent implements OnInit {
   attan_type: any;
   lessonObj: any;
   currentTodayLesson: any;
-  onClickRadio(modal, type, student, index, course) {
+  onClickRadio(modal, type, student, index) {
     console.log('student', student);
     console.log('index', index);
     console.log('course', this.todayCourse.courses[index]._id);
