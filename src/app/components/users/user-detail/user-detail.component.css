@@ -866,7 +866,7 @@ h5 {
 .small-circular-image {
   display: inline-block;
   position: relative;
-  width: 30px;
+  min-width: 30px;
   height: 30px;
   overflow: hidden;
   border-radius: 50%;

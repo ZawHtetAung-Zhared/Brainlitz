@@ -574,28 +574,30 @@
               </div>
               <div class="makeup-body">
                 <h5 class="makeup-title body-l text-c300">{{ makeup.name }}</h5>
-                <p class="small text-c100 font-italic">
+                <div class="small text-c100 font-italic">
                   Issued on {{ makeup.issueDate.day }}
                   {{ makeup.issueDate.month - 1 | TTmonth }}
                   {{ makeup.issueDate.year }}
-                </p>
-                <p
+                </div>
+                <div
                   class="small text-c100 font-italic"
                   *ngIf="makeup.passType === 'claimed'"
                 >
                   Claimed on {{ makeup.claimedDateFor.day }}
                   {{ makeup.claimedDateFor.month - 1 | TTmonth }}
                   {{ makeup.claimedDateFor.year }}
-                </p>
-                <p
+                </div>
+                <div
                   class="small text-c100 font-italic"
                   *ngIf="makeup.passRequestStatus === 'requested'"
                 >
                   Requested on {{ makeup.filingDate.day }}
                   {{ makeup.filingDate.month - 1 | TTmonth }}
                   {{ makeup.filingDate.year }}
+                </div>
+                <p class="body-m text-c100" style="margin-top: 8px;">
+                  {{ makeup.reason }}
                 </p>
-                <p class="body-m text-c100">{{ makeup.reason }}</p>
                 <div class="makeup-box bg-s20">
                   <p class="caption text-c100">
                     {{
@@ -630,7 +632,7 @@
                       ></label
                     >
                   </div>
-                  <div *ngIf="makeup.passRequestStatus === 'requested'">
+                  <!-- <div *ngIf="makeup.passRequestStatus === 'requested'">
                     <p class="caption text-c100">
                       {{
                         makeup.claimedLesson?.startDate == undefined ||
@@ -642,8 +644,8 @@
                       (Makeup Lesson)
                     </p>
                     <div class="issue-box d-flex flex-column bg-s0">
-                      <span class="makeup-course-name small text-c300"
-                        >{{ makeup.course.name }}
+                      <span class="makeup-course-name small text-c300">
+                        {{ makeup.makeupCourse.name }}
                       </span>
                       <label
                         *ngIf="
@@ -665,8 +667,13 @@
                         ></label
                       >
                     </div>
-                  </div>
-                  <div *ngIf="makeup.passType === 'claimed'">
+                  </div> -->
+                  <div
+                    *ngIf="
+                      makeup.passType === 'claimed' ||
+                      makeup.passRequestStatus === 'requested'
+                    "
+                  >
                     <p class="caption text-c100">
                       {{
                         makeup.claimedLesson?.startDate == undefined ||
@@ -678,9 +685,9 @@
                       (Makeup Lesson)
                     </p>
                     <div class="issue-box d-flex flex-column bg-s0">
-                      <span class="makeup-course-name small text-c300">{{
-                        makeup.makeupCourse.name
-                      }}</span>
+                      <span class="makeup-course-name small text-c300">
+                        {{ makeup.makeupCourse.name }}
+                      </span>
                       <label
                         *ngIf="makeup.course.type !== 'ONLINE'"
                         class="small text-c100"
