@@ -803,7 +803,7 @@
                           ></label
                         >
                       </div>
-                      <div *ngIf="makeup.passRequestStatus === 'requested'">
+                      <!-- <div *ngIf="makeup.passRequestStatus === 'requested'">
                         <p class="caption text-c100">
                           {{
                             makeup.claimedLesson?.startDate == undefined ||
@@ -845,8 +845,13 @@
                             ></label
                           >
                         </div>
-                      </div>
-                      <div *ngIf="makeup.passType === 'claimed'">
+                      </div> -->
+                      <div
+                        *ngIf="
+                          makeup.passType === 'claimed' ||
+                          makeup.passRequestStatus === 'requested'
+                        "
+                      >
                         <p class="caption text-c100">
                           {{
                             makeup.claimedLesson?.startDate == undefined ||
@@ -859,9 +864,9 @@
                           (Makeup Lesson)
                         </p>
                         <div class="issue-box d-flex flex-column">
-                          <strong class="makeup-course-name">{{
-                            makeup.makeupCourse.name
-                          }}</strong>
+                          <span class="makeup-course-name small text-c300">
+                            {{ makeup.makeupCourse.name }}
+                          </span>
                           <label *ngIf="makeup.course.type !== 'ONLINE'">
                             <span
                               >{{
