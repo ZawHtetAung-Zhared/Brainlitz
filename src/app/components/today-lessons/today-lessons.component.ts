@@ -24,6 +24,7 @@ import {
 } from '@angular/router';
 import * as moment from 'moment';
 import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
+import t = require('../../../assets/images/Pure CSS range-slider, Grav style_files/index-09a667f67f4280f2b6b5f60c198566525ce9602a42ab8f5f10797ccde87af5a9');
 
 @Component({
   selector: 'app-today-lessons',
@@ -137,7 +138,8 @@ export class TodayLessonsComponent implements OnInit {
   index: any;
   attan_type: any;
   lessonObj: any;
-  onClickRadio(modal, type, student, index) {
+  currentTodayLesson: any;
+  onClickRadio(modal, type, student, index, course) {
     console.log('student', student);
     console.log('index', index);
     console.log('course', this.todayCourse.courses[index]._id);
@@ -146,6 +148,9 @@ export class TodayLessonsComponent implements OnInit {
     this.index = index;
     this.attan_type = type;
     this.lessonObj = student.todayLesson;
+    this.currentTodayLesson = this.todayCourse.courses[index];
+    console.log('lessonObj', this.lessonObj);
+
     //click same type again
     if (
       (type == 'absent' && student.todayLesson.attendance == false) ||
@@ -371,7 +376,8 @@ export class TodayLessonsComponent implements OnInit {
         resolve();
       }).then(() => {
         console.log(this.studentDetail);
-        obj.lessonId = this.lessonObj._id;
+        // obj.lessonId = this.lessonObj._id;
+        obj.lessonId = this.currentTodayLesson.todayLesson.lessonId;
         this._service
           .makeupPassIssue(obj, this.courseId, this.studentDetail._id)
           .subscribe(
