@@ -376,8 +376,8 @@ export class TodayLessonsComponent implements OnInit {
         resolve();
       }).then(() => {
         console.log(this.studentDetail);
-        // obj.lessonId = this.lessonObj._id;
-        obj.lessonId = this.currentTodayLesson.todayLesson.lessonId;
+        obj.lessonId = this.lessonObj.lessonId;
+        // obj.lessonId = this.currentTodayLesson.todayLesson.lessonId;
         this._service
           .makeupPassIssue(obj, this.courseId, this.studentDetail._id)
           .subscribe(
