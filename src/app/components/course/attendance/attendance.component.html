@@ -803,50 +803,12 @@
                           ></label
                         >
                       </div>
-                      <div *ngIf="makeup.passRequestStatus === 'requested'">
-                        <p class="caption text-c100">
-                          {{
-                            makeup.claimedLesson?.startDate == undefined ||
-                            makeup.claimedLesson?.startDate == null ||
-                            makeup.claimedLesson?.startDate == ''
-                              ? '-'
-                              : (makeup.claimedLesson?.startDate
-                                | utcDateoverview)
-                          }}
-                          (Makeup Lesson)
-                        </p>
-                        <div class="issue-box d-flex flex-column bg-s0">
-                          <span class="makeup-course-name small text-c300"
-                            >{{ makeup.course.name }}
-                          </span>
-                          <label
-                            *ngIf="
-                              makeup.course.type !== 'ONLINE' &&
-                              makeup.makeupCourse.startTime
-                            "
-                            class="small text-c100"
-                          >
-                            <span
-                              >{{
-                                makeup.makeupCourse.startTime.hr | timeFormat
-                              }}
-                              :
-                              {{
-                                makeup.makeupCourse.startTime.min | timeFormat
-                              }}
-                              {{ makeup.makeupCourse.startTime.meridiem }}</span
-                            >
-                            -
-                            <span
-                              >{{ makeup.makeupCourse.endTime.hr | timeFormat }}
-                              :
-                              {{ makeup.makeupCourse.endTime.min | timeFormat }}
-                              {{ makeup.makeupCourse.endTime.meridiem }}</span
-                            ></label
-                          >
-                        </div>
-                      </div>
-                      <div *ngIf="makeup.passType === 'claimed'">
+                      <div
+                        *ngIf="
+                          makeup.passType === 'claimed' ||
+                          makeup.passRequestStatus === 'requested'
+                        "
+                      >
                         <p class="caption text-c100">
                           {{
                             makeup.claimedLesson?.startDate == undefined ||
@@ -859,10 +821,16 @@
                           (Makeup Lesson)
                         </p>
                         <div class="issue-box d-flex flex-column">
-                          <strong class="makeup-course-name">{{
-                            makeup.makeupCourse.name
-                          }}</strong>
-                          <label *ngIf="makeup.course.type !== 'ONLINE'">
+                          <span class="makeup-course-name small text-c300">
+                            {{ makeup.makeupCourse.name }}
+                          </span>
+                          <label
+                            *ngIf="
+                              makeup.course.type !== 'ONLINE' &&
+                              makeup.makeupCourse.startTime
+                            "
+                            class="small text-c100"
+                          >
                             <span
                               >{{
                                 makeup.makeupCourse.startTime.hr | timeFormat

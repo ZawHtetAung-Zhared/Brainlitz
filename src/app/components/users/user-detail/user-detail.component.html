@@ -991,7 +991,13 @@
                             >
                           </strong>
                         </div>
-                        <div *ngIf="activePass == 'claimed'">
+                        <div
+                          *ngIf="
+                            activePass == 'claimed' ||
+                            (activePass == 'available' &&
+                              list.passRequestStatus == 'requested')
+                          "
+                        >
                           <p class="caption text-c100">
                             <span
                               class="text-c100 caption"
@@ -1049,85 +1055,6 @@
                               </span>
                             </label>
 
-                            <!-- <div *ngIf="list.claimedDateFor">
-                              <strong
-                                class="text-c300 caption"
-                                *ngIf="list.claimedDateFor.day != null"
-                              >
-                                {{ list.claimedDateFor.day }}
-                                {{ list.claimedDateFor.month - 1 | TTmonth }}
-                                {{ list.claimedDateFor.year }}
-                              </strong>
-                              <strong
-                                class="text-c300 caption"
-                                *ngIf="list.claimedDateFor.day == null"
-                              >
-                                <span *ngIf="list.course.type !== 'ONLINE'"
-                                  >-</span
-                                >
-                              </strong>
-                            </div> -->
-                          </div>
-                        </div>
-                        <div
-                          *ngIf="
-                            activePass == 'available' &&
-                            list.passRequestStatus == 'requested'
-                          "
-                        >
-                          <p class="caption text-c100">
-                            {{
-                              list.claimedLesson?.startDate == undefined ||
-                              list.claimedLesson?.startDate == null ||
-                              list.claimedLesson?.startDate == ''
-                                ? '-'
-                                : (list.claimedLesson?.startDate
-                                  | utcDateoverview)
-                            }}
-                            <span>(Makeup Lesson)</span>
-                          </p>
-                          <div
-                            class="claimed-box bg-s0 d-flex flex-column"
-                            *ngIf="list.makeupCourse"
-                          >
-                            <strong class="text-c300 caption">{{
-                              list.makeupCourse.name
-                            }}</strong>
-                            <label
-                              class="text-c100 mb-0"
-                              *ngIf="
-                                list.course.type !== 'ONLINE' &&
-                                list.makeupCourse.startTime
-                              "
-                            >
-                              <span
-                                >{{
-                                  list.makeupCourse.startTime.hr | timeFormat
-                                }}
-                                :
-                                {{
-                                  list.makeupCourse.startTime.min | timeFormat
-                                }}
-                                {{ list.makeupCourse.startTime.meridiem }}</span
-                              >
-                              -
-                              <span>
-                                {{ list.makeupCourse.endTime.hr | timeFormat }}
-                                :
-                                {{ list.makeupCourse.endTime.min | timeFormat }}
-                                {{ list.makeupCourse.endTime.meridiem }}
-                              </span>
-                            </label>
-
-                            <!-- <div class="text-c100 caption">
-                              {{
-                                list.claimedLesson?.startDate == undefined ||
-                                list.claimedLesson?.startDate == null ||
-                                list.claimedLesson?.startDate == ''
-                                  ? '-'
-                                  : (list.claimedLesson?.startDate | utcDateoverview)
-                              }}
-                            </div> -->
                             <!-- <div *ngIf="list.claimedDateFor">
                               <strong
                                 class="text-c300 caption"

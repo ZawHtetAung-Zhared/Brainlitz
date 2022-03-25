@@ -632,7 +632,7 @@
                       ></label
                     >
                   </div>
-                  <div *ngIf="makeup.passRequestStatus === 'requested'">
+                  <!-- <div *ngIf="makeup.passRequestStatus === 'requested'">
                     <p class="caption text-c100">
                       {{
                         makeup.claimedLesson?.startDate == undefined ||
@@ -644,8 +644,8 @@
                       (Makeup Lesson)
                     </p>
                     <div class="issue-box d-flex flex-column bg-s0">
-                      <span class="makeup-course-name small text-c300"
-                        >{{ makeup.course.name }}
+                      <span class="makeup-course-name small text-c300">
+                        {{ makeup.makeupCourse.name }}
                       </span>
                       <label
                         *ngIf="
@@ -667,8 +667,13 @@
                         ></label
                       >
                     </div>
-                  </div>
-                  <div *ngIf="makeup.passType === 'claimed'">
+                  </div> -->
+                  <div
+                    *ngIf="
+                      makeup.passType === 'claimed' ||
+                      makeup.passRequestStatus === 'requested'
+                    "
+                  >
                     <p class="caption text-c100">
                       {{
                         makeup.claimedLesson?.startDate == undefined ||
@@ -680,9 +685,9 @@
                       (Makeup Lesson)
                     </p>
                     <div class="issue-box d-flex flex-column bg-s0">
-                      <span class="makeup-course-name small text-c300">{{
-                        makeup.makeupCourse.name
-                      }}</span>
+                      <span class="makeup-course-name small text-c300">
+                        {{ makeup.makeupCourse.name }}
+                      </span>
                       <label
                         *ngIf="makeup.course.type !== 'ONLINE'"
                         class="small text-c100"
