@@ -868,20 +868,20 @@
                       <h5 class="makeup-title body-l text-c300">
                         {{ list.name }}
                       </h5>
-                      <p class="small text-c100 font-italic">
+                      <div class="small text-c100 font-italic">
                         Issued on {{ list.issueDate.day }}
                         {{ list.issueDate.month - 1 | TTmonth }}
                         {{ list.issueDate.year }}
-                      </p>
-                      <p
+                      </div>
+                      <div
                         class="small text-c100 font-italic"
                         *ngIf="activePass == 'claimed'"
                       >
                         Claimed on {{ list.filingDate.day }}
                         {{ list.filingDate.month - 1 | TTmonth }}
                         {{ list.filingDate.year }}
-                      </p>
-                      <p
+                      </div>
+                      <div
                         class="small text-c100 font-italic"
                         *ngIf="
                           activePass == 'available' &&
@@ -891,8 +891,11 @@
                         Requested on {{ list.filingDate.day }}
                         {{ list.filingDate.month - 1 | TTmonth }}
                         {{ list.filingDate.year }}
-                      </p>
-                      <p class="makeup-desc body-m text-c100 mb-0">
+                      </div>
+                      <p
+                        class="makeup-desc body-m text-c100 mb-0"
+                        style="margin-top: 8px;"
+                      >
                         {{ list.reason }}
                       </p>
                       <div class="makeup-box small bg-s20">
@@ -4102,7 +4105,7 @@
       <div class="h4-strong text-c300" style="margin-bottom: 8px;">
         {{ currentMakeup.name }}
       </div>
-      <div class="small text-c100 font-italic" style="margin-bottom: 8px;">
+      <div class="small text-c100 font-italic">
         Issued on {{ currentMakeup.issueDate.day }}
         {{ currentMakeup.issueDate.month - 1 | TTmonth }}
         {{ currentMakeup.issueDate.year }}

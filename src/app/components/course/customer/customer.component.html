@@ -574,28 +574,30 @@
               </div>
               <div class="makeup-body">
                 <h5 class="makeup-title body-l text-c300">{{ makeup.name }}</h5>
-                <p class="small text-c100 font-italic">
+                <div class="small text-c100 font-italic">
                   Issued on {{ makeup.issueDate.day }}
                   {{ makeup.issueDate.month - 1 | TTmonth }}
                   {{ makeup.issueDate.year }}
-                </p>
-                <p
+                </div>
+                <div
                   class="small text-c100 font-italic"
                   *ngIf="makeup.passType === 'claimed'"
                 >
                   Claimed on {{ makeup.claimedDateFor.day }}
                   {{ makeup.claimedDateFor.month - 1 | TTmonth }}
                   {{ makeup.claimedDateFor.year }}
-                </p>
-                <p
+                </div>
+                <div
                   class="small text-c100 font-italic"
                   *ngIf="makeup.passRequestStatus === 'requested'"
                 >
                   Requested on {{ makeup.filingDate.day }}
                   {{ makeup.filingDate.month - 1 | TTmonth }}
                   {{ makeup.filingDate.year }}
+                </div>
+                <p class="body-m text-c100" style="margin-top: 8px;">
+                  {{ makeup.reason }}
                 </p>
-                <p class="body-m text-c100">{{ makeup.reason }}</p>
                 <div class="makeup-box bg-s20">
                   <p class="caption text-c100">
                     {{
