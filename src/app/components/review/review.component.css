@@ -296,6 +296,9 @@ p.msg-body {
   background: #f2f3f5;
   margin-bottom: 200px;
 }
+.msg-img video {
+  max-height: 600px;
+}
 
 .msg-img img {
   max-width: 640px;
