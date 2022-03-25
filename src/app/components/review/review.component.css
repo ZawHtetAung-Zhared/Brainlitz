@@ -290,10 +290,14 @@ p.msg-body {
   word-break: break-all;
 }
 .msg-img {
-  width: 640px;
-  height: 360px;
+  width: auto;
+  height: auto;
   border-radius: 4px;
   background: #f2f3f5;
+  margin-bottom: 100px;
+}
+.msg-img video {
+  max-height: 600px;
 }
 
 .msg-img img {

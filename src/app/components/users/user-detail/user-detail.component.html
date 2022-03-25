@@ -868,20 +868,20 @@
                       <h5 class="makeup-title body-l text-c300">
                         {{ list.name }}
                       </h5>
-                      <p class="small text-c100 font-italic">
+                      <div class="small text-c100 font-italic">
                         Issued on {{ list.issueDate.day }}
                         {{ list.issueDate.month - 1 | TTmonth }}
                         {{ list.issueDate.year }}
-                      </p>
-                      <p
+                      </div>
+                      <div
                         class="small text-c100 font-italic"
                         *ngIf="activePass == 'claimed'"
                       >
                         Claimed on {{ list.filingDate.day }}
                         {{ list.filingDate.month - 1 | TTmonth }}
                         {{ list.filingDate.year }}
-                      </p>
-                      <p
+                      </div>
+                      <div
                         class="small text-c100 font-italic"
                         *ngIf="
                           activePass == 'available' &&
@@ -891,8 +891,11 @@
                         Requested on {{ list.filingDate.day }}
                         {{ list.filingDate.month - 1 | TTmonth }}
                         {{ list.filingDate.year }}
-                      </p>
-                      <p class="makeup-desc body-m text-c100 mb-0">
+                      </div>
+                      <p
+                        class="makeup-desc body-m text-c100 mb-0"
+                        style="margin-top: 8px;"
+                      >
                         {{ list.reason }}
                       </p>
                       <div class="makeup-box small bg-s20">
@@ -988,7 +991,13 @@
                             >
                           </strong>
                         </div>
-                        <div *ngIf="activePass == 'claimed'">
+                        <div
+                          *ngIf="
+                            activePass == 'claimed' ||
+                            (activePass == 'available' &&
+                              list.passRequestStatus == 'requested')
+                          "
+                        >
                           <p class="caption text-c100">
                             <span
                               class="text-c100 caption"
@@ -1046,85 +1055,6 @@
                               </span>
                             </label>
 
-                            <!-- <div *ngIf="list.claimedDateFor">
-                              <strong
-                                class="text-c300 caption"
-                                *ngIf="list.claimedDateFor.day != null"
-                              >
-                                {{ list.claimedDateFor.day }}
-                                {{ list.claimedDateFor.month - 1 | TTmonth }}
-                                {{ list.claimedDateFor.year }}
-                              </strong>
-                              <strong
-                                class="text-c300 caption"
-                                *ngIf="list.claimedDateFor.day == null"
-                              >
-                                <span *ngIf="list.course.type !== 'ONLINE'"
-                                  >-</span
-                                >
-                              </strong>
-                            </div> -->
-                          </div>
-                        </div>
-                        <div
-                          *ngIf="
-                            activePass == 'available' &&
-                            list.passRequestStatus == 'requested'
-                          "
-                        >
-                          <p class="caption text-c100">
-                            {{
-                              list.claimedLesson?.startDate == undefined ||
-                              list.claimedLesson?.startDate == null ||
-                              list.claimedLesson?.startDate == ''
-                                ? '-'
-                                : (list.claimedLesson?.startDate
-                                  | utcDateoverview)
-                            }}
-                            <span>(Makeup Lesson)</span>
-                          </p>
-                          <div
-                            class="claimed-box bg-s0 d-flex flex-column"
-                            *ngIf="list.makeupCourse"
-                          >
-                            <strong class="text-c300 caption">{{
-                              list.makeupCourse.name
-                            }}</strong>
-                            <label
-                              class="text-c100 mb-0"
-                              *ngIf="
-                                list.course.type !== 'ONLINE' &&
-                                list.makeupCourse.startTime
-                              "
-                            >
-                              <span
-                                >{{
-                                  list.makeupCourse.startTime.hr | timeFormat
-                                }}
-                                :
-                                {{
-                                  list.makeupCourse.startTime.min | timeFormat
-                                }}
-                                {{ list.makeupCourse.startTime.meridiem }}</span
-                              >
-                              -
-                              <span>
-                                {{ list.makeupCourse.endTime.hr | timeFormat }}
-                                :
-                                {{ list.makeupCourse.endTime.min | timeFormat }}
-                                {{ list.makeupCourse.endTime.meridiem }}
-                              </span>
-                            </label>
-
-                            <!-- <div class="text-c100 caption">
-                              {{
-                                list.claimedLesson?.startDate == undefined ||
-                                list.claimedLesson?.startDate == null ||
-                                list.claimedLesson?.startDate == ''
-                                  ? '-'
-                                  : (list.claimedLesson?.startDate | utcDateoverview)
-                              }}
-                            </div> -->
                             <!-- <div *ngIf="list.claimedDateFor">
                               <strong
                                 class="text-c300 caption"
@@ -1732,7 +1662,10 @@
                           ></read-more>
                         </p>
                         <div class="d-flex info-wrap">
-                          <div class="d-flex col-md-6 pl-0">
+                          <div
+                            class="d-flex col-md-6 pl-0"
+                            style="overflow: auto;"
+                          >
                             <div class="small-circular-image">
                               <img src="{{ rating.teacher_info.profilePic }}" />
                             </div>
@@ -2513,9 +2446,9 @@
                       >
                         <div *ngIf="course.paymentPolicy.courseFee != null">
                           <h5 class="light-body-m text-c100">Course fee</h5>
-                          <sup class="caption text-c300">{{
+                          <b class="body-l text-c300">{{
                             currency.invCurrencySign
-                          }}</sup
+                          }}</b
                           ><b class="body-l text-c300">{{
                             course.paymentPolicy.courseFee
                           }}</b>
@@ -2527,9 +2460,9 @@
                           <h5 class="light-body-m text-c100">
                             Prorate class fee
                           </h5>
-                          <sup class="caption text-c300">{{
+                          <b class="body-l text-c300">{{
                             currency.invCurrencySign
-                          }}</sup
+                          }}</b
                           ><b class="body-l text-c300">{{
                             course.paymentPolicy.proratedLessonFee
                           }}</b>
@@ -2541,9 +2474,9 @@
                         <div>
                           <div *ngIf="course.paymentPolicy.deposit">
                             <h5 class="light-body-m text-c100">Deposit</h5>
-                            <sup class="caption text-c300">{{
+                            <b class="body-l text-c300">{{
                               currency.invCurrencySign
-                            }}</sup
+                            }}</b
                             ><b class="body-l text-c300">{{
                               course.paymentPolicy.deposit.amount
                             }}</b>
@@ -2556,9 +2489,9 @@
                           <h5 class="light-body-m text-c100">
                             Miscellaneous fee
                           </h5>
-                          <sup class="caption text-c300">{{
+                          <b class="body-l text-c300">{{
                             currency.invCurrencySign
-                          }}</sup
+                          }}</b
                           ><b class="body-l text-c300">{{
                             course.paymentPolicy.miscFee
                           }}</b>
@@ -3022,7 +2955,12 @@
       </div>
       <div class="modal-body lessons_body">
         <div class="d-flex flex-column">
-          <h3 class="h1-strong text-c300">Remaining lesson</h3>
+          <h3 class="h1-strong text-c300">
+            Remaining lesson<span
+              *ngIf="lessonOfStudent.upComingLessonCountOfStudent > 1"
+              >s</span
+            >
+          </h3>
           <p class="pb-0 light-body-l text-c100">{{ lessonOfStudent.name }}</p>
         </div>
         <div *ngIf="!headerFixed" class="rm-header text-c100">
@@ -3765,9 +3703,9 @@
                     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                       <div *ngIf="course.paymentPolicy.courseFee != null">
                         <h5 class="light-body-m text-c100">Course fee</h5>
-                        <sup class="caption text-c300">{{
+                        <b class="body-l text-c300">{{
                           currency.invCurrencySign
-                        }}</sup
+                        }}</b
                         ><b class="body-l text-c300">{{
                           course.paymentPolicy.courseFee
                         }}</b>
@@ -3779,9 +3717,9 @@
                         <h5 class="light-body-m text-c100">
                           Prorate class fee
                         </h5>
-                        <sup class="caption text-c300">{{
+                        <b class="body-l text-c300">{{
                           currency.invCurrencySign
-                        }}</sup
+                        }}</b
                         ><b class="body-l text-c300">{{
                           course.paymentPolicy.proratedLessonFee
                         }}</b>
@@ -3793,9 +3731,9 @@
                       <div>
                         <div *ngIf="course.paymentPolicy.deposit">
                           <h5 class="light-body-m text-c100">Deposit</h5>
-                          <sup class="caption text-c300">{{
+                          <b class="body-l text-c300">{{
                             currency.invCurrencySign
-                          }}</sup
+                          }}</b
                           ><b class="body-l text-c300">{{
                             course.paymentPolicy.deposit.amount
                           }}</b>
@@ -3808,9 +3746,9 @@
                         <h5 class="light-body-m text-c100">
                           Miscellaneous fee
                         </h5>
-                        <sup class="caption text-c300">{{
+                        <b class="body-l text-c300">{{
                           currency.invCurrencySign
-                        }}</sup
+                        }}</b
                         ><b class="body-l text-c300">{{
                           course.paymentPolicy.miscFee
                         }}</b>
@@ -4094,7 +4032,7 @@
       <div class="h4-strong text-c300" style="margin-bottom: 8px;">
         {{ currentMakeup.name }}
       </div>
-      <div class="small text-c100 font-italic" style="margin-bottom: 8px;">
+      <div class="small text-c100 font-italic">
         Issued on {{ currentMakeup.issueDate.day }}
         {{ currentMakeup.issueDate.month - 1 | TTmonth }}
         {{ currentMakeup.issueDate.year }}
