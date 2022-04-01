@@ -1603,7 +1603,7 @@
               class="d-flex pb-20"
               *ngIf="activeTab == 'activity' && !tabLoading"
             >
-              <div class="firstCol">
+              <div class="activity-wrapper">
                 <div>
                   <h6 class="title-space body-xl">Ratings and reviews</h6>
                   <div>
@@ -1613,17 +1613,83 @@
                     >
                       There is no rating and review from this customer!
                     </div>
-                    <div class="card-columns pl-0 pr-0">
+                    <div class="activity-card-columns">
+                      <div
+                        *ngFor="let rating of custDetail.ratings"
+                        class="activity-card"
+                      >
+                        <div class="d-flex">
+                          <ngb-rating
+                            [(rate)]="rating.rating"
+                            readonly="true"
+                            max="5"
+                          >
+                            <ng-template let-fill="fill" let-index="index">
+                              <span
+                                *ngIf="fill === 100"
+                                class="star"
+                                [class.filled]="fill === 100"
+                                >&#9733;</span
+                              >
+                              <span
+                                *ngIf="fill !== 100"
+                                class="star"
+                                [class.notfilled]="fill !== 100"
+                                >&#9734;</span
+                              >
+                            </ng-template>
+                          </ngb-rating>
+                          <span class="ml-auto small text-c100">{{
+                            rating.updatedDate
+                          }}</span>
+                        </div>
+                        <p
+                          class="word-break body-m text-c100"
+                          style="color: #2e3d4d"
+                        >
+                          <read-more
+                            class="cust-readmore"
+                            [text]="rating.message"
+                          ></read-more>
+                        </p>
+                        <div class="d-flex info-wrap">
+                          <div
+                            class="d-flex col-md-6 pl-0"
+                            style="overflow: auto;"
+                          >
+                            <div class="small-circular-image">
+                              <img src="{{ rating.teacher_info.profilePic }}" />
+                            </div>
+                            <div class="padL-5">
+                              <label class="small text-c100 mb-0"
+                                >Teacher</label
+                              >
+                              <p
+                                *ngIf="rating.teacher_info.preferredName"
+                                class="caption text-c300 mb-0"
+                              >
+                                {{
+                                  rating.teacher_info.preferredName.length > 20
+                                    ? (rating.teacher_info.preferredName
+                                        | slice: 0:20) + '...'
+                                    : rating.teacher_info.preferredName
+                                }}
+                              </p>
+                            </div>
+                          </div>
+                          <div class="timetable-col course-wrap col-md-6 pr-0">
+                            <label class="small text-c100 mb-0">Course</label>
+                            <p class="caption text-c300 mb-0">
+                              {{ rating.course_info.name }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="card-columns pl-0 pr-0">
                       <div
                         *ngFor="
                           let rating of custDetail.ratings
-                            | slice
-                              : 0
-                              : [
-                                  selectedId.indexOf('rating') != -1
-                                    ? custDetail.ratings?.length
-                                    : 2
-                                ]
                         "
                         class="card card-wrap"
                       >
@@ -1694,7 +1760,7 @@
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="btn-wrap">
                     <div *ngIf="custDetail.ratings?.length > 2">

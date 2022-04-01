@@ -964,20 +964,6 @@ h5 {
   box-shadow: 0 1px 5px 1px rgba(221, 221, 221, 0.6);
 }
 
-.firstCol {
-  width: 70%;
-  padding-right: 15px;
-}
-
-.secondCol {
-  width: 30%;
-  padding-top: 15px;
-}
-
-.activity-wrapper {
-  padding: 10px 0px;
-}
-
 .icon-img {
   min-width: 20px;
   background: #d3d3d3;
@@ -3429,6 +3415,45 @@ p.grade-txt {
   border-radius: 8px;
 }
 /*====== requested modal ======*/
+
+/*====== activity tab ======*/
+.activity-wrapper {
+  width: 80%;
+  padding-right: 15px;
+}
+
+.activity-card-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.activity-card-columns > .activity-card {
+  flex: 0 0 48%;
+}
+
+.activity-card {
+  box-shadow: 0 2px 5px rgb(0 0 0 / 10%);
+  background: #f2f4f5;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+@media only screen and (min-width: 996px) and (max-width: 1299px) {
+  .activity-wrapper {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 996px) {
+  .activity-card-columns {
+    display: block;
+  }
+  .activity-card {
+    margin-bottom: 20px;
+  }
+}
+/*====== activity tab ======*/
 
 @media print {
   .no-print,
