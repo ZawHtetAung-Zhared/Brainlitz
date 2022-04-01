@@ -420,6 +420,7 @@ export class TodayLessonsComponent implements OnInit {
       }
       console.log(d, '/', m, '/', y);
       console.log('tempObj~~~', tempObj);
+      this.modalReference.close();
       this.getMakeupLists(
         this.studentDetail._id,
         'course',
