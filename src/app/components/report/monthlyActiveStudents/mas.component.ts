@@ -180,7 +180,6 @@ export class MonthlyActiveStudentsReport implements OnInit {
     let filter = this.filter;
     let _self = this;
     let res = [];
-    let users = [];
 
     _self.locationList = [];
     _self.categoryList = [];
@@ -189,6 +188,7 @@ export class MonthlyActiveStudentsReport implements OnInit {
 
     inputData.forEach(function(data, i) {
       Object.keys(data).forEach(function(k, i) {
+        let users = [];
         data = data[k];
         let obj = {
           groupTypeValue: k,
