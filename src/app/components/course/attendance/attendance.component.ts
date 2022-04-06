@@ -23,6 +23,7 @@ import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
 import * as $ from 'jquery';
 import { TodayDatePipe } from '../../../service/pipe/today-date.pipe';
+import { time } from 'console';
 
 @Component({
   selector: 'app-attendance',
@@ -1801,6 +1802,12 @@ export class AttendanceComponent implements OnInit {
       console.log(this.LASD);
       // this.lastSelectedObj = null;
 
+      setTimeout(() => {
+        let lessonsTimeline = document.getElementById('lessons_timeline');
+        console.log('currentLessonIdx---', this.currentLessonIdx);
+        lessonsTimeline.scrollLeft += 80 * (this.currentLessonIdx - 1);
+      }, 1200);
+
       let activeDateObj = this.getDateMonthYear(this.LASD);
       console.log('activeDateObj~~~', activeDateObj);
       console.log(
@@ -1840,7 +1847,7 @@ export class AttendanceComponent implements OnInit {
             if (this.LASD != null) {
               this.cancelButtonShowHide();
             }
-            $('.timeline').scrollLeft(80 * (lastActiveDate - 1));
+            // $('.timeline').scrollLeft(80 * (lastActiveDate - 1));
           },
           err => {
             //this.blockUI.stop();
