@@ -1046,7 +1046,10 @@ export class appService {
     let re = /original/gi;
 
     for (let i = 0; i < data.journalList.length; i++) {
-      if (
+      if (data.journalList[i].sender.profilePic == undefined) {
+        data.journalList[i].sender.profilePic =
+          'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png';
+      } else if (
         data.journalList[i].sender.profilePic !=
         'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png'
       )
@@ -1057,7 +1060,11 @@ export class appService {
         'modify data',
         data.journalList[i].sender.profilePic.replace(re, 'l')
       );
-      if (
+
+      if (data.journalList[i].student.profilePic == undefined) {
+        data.journalList[i].student.profilePic =
+          'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png';
+      } else if (
         data.journalList[i].student.profilePic !=
         'https://brainlitz.s3.amazonaws.com/default/default_profile_pic.png'
       )
