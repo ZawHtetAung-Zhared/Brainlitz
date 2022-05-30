@@ -1315,7 +1315,7 @@
           *ngIf="isEdit == true && flexiOn == false"
           class="btn btn-delete body-l"
           type="button"
-          (click)="courseDeleteModal(course_delete)"
+          (click)="courseDeleteModal(course_delete, model)"
         >
           Delete
         </button>
@@ -1415,9 +1415,15 @@
   <h3 class="modal-title enroll_title h3-strong text-c300">
     Confirm delete?
   </h3>
-  <div class="autoEnroll-body">
+  <!-- <div class="autoEnroll-body">
     <p class="light-body-l text-c300">
       Are you sure you want to delete? You won’t back it return.
+    </p>
+  </div> -->
+  <div class="autoEnroll-body">
+    <p class="light-body-l text-c300">
+      Are you sure you want to delete {{ deleteCourse.name }}? You won’t back it
+      return.
     </p>
   </div>
   <div class="modal-footer autoEnroll-footer">
@@ -1431,7 +1437,7 @@
     <button
       type="submit"
       class="btn modal-delete-btn bg-r100 text-s0 body-l"
-      (click)="confimDeleteCourse()"
+      (click)="confimDeleteCourse(deleteCourse)"
     >
       Delete
     </button>
