@@ -141,6 +141,7 @@ export class CoursecreateComponent implements OnInit {
   public courseType: any;
   public sparkWerkzCourse: boolean = false;
   public isCourse_delete = false;
+  public deleteCourse: any = {};
   public autoEnrollModal;
 
   @ViewChild('start') nameInputRef: ElementRef;
@@ -2444,8 +2445,10 @@ export class CoursecreateComponent implements OnInit {
   //      this.isValid = true;
   //    }
   //  }
-  courseDeleteModal(modal) {
+  courseDeleteModal(modal, course) {
+    console.log('delete course', course);
     this.isCourse_delete = true;
+    this.deleteCourse = course;
     this.autoEnrollModal = this.modalService.open(modal, {
       backdrop: 'static',
       windowClass:
@@ -2456,16 +2459,18 @@ export class CoursecreateComponent implements OnInit {
     console.error('object');
     this.autoEnrollModal.close();
     this.isCourse_delete = false;
+    this.deleteCourse = {};
   }
 
-  confimDeleteCourse() {
+  confimDeleteCourse(course) {
     this._service
-      .deleteCourseDetail(this.courseId, this.currentLocation)
+      .deleteCourseDetail(course._id, this.currentLocation)
       .subscribe(
         (res: any) => {
           console.log('Success', res);
           this.toastr.success('Successfully Deleted');
           this.autoEnrollModal.close();
+          this.deleteCourse = {};
           this.router.navigate(['/course']);
         },
         err => {

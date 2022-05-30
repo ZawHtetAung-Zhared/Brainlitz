@@ -1315,7 +1315,7 @@
           *ngIf="isEdit == true && flexiOn == false"
           class="btn btn-delete body-l"
           type="button"
-          (click)="courseDeleteModal(course_delete)"
+          (click)="courseDeleteModal(course_delete, model)"
         >
           Delete
         </button>
@@ -1431,7 +1431,7 @@
     <button
       type="submit"
       class="btn modal-delete-btn bg-r100 text-s0 body-l"
-      (click)="confimDeleteCourse()"
+      (click)="confimDeleteCourse(deleteCourse)"
     >
       Delete
     </button>
